@@ -1,3 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>🛠️ My Local Tools</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #020617, #0f172a);
+      margin: 0;
+      padding: 0;
+      color: #e2e8f0;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #38bdf8;
+    }
+
+    header h3 {
+      margin: 0;
+      color: #cbd5f5;
+    }
+
+    .search-bar {
+      margin: 30px auto 20px auto;
+      width: 80%;
+      max-width: 600px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      font-size: 16px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input[type="text"]:focus {
+      box-shadow: 0 0 15px #38bdf8;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      padding: 20px;
+    }
+
+    .category {
+      background: rgba(255,255,255,0.05);
+      padding: 24px;
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08);
+      flex: 1 1 320px;
+      max-width: 360px;
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ✅ FIX CLICK */
+    .category::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(56,189,248,0.2), transparent);
+      opacity: 0;
+      transition: 0.4s;
+      pointer-events: none; /* 🔥 هذا هو الحل */
+    }
+
+    .category:hover::before {
+      opacity: 1;
+    }
+
+    .category:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 0 30px rgba(56,189,248,0.25);
+    }
+
+    .category h2 {
+      font-size: 20px;
+      color: #38bdf8;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 8px;
+      margin-top: 0;
+      margin-bottom: 18px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .tool-item {
+      margin-bottom: 14px;
+    }
+
+    .tool-button {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      text-align: center;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      color: white;
+      font-weight: 500;
+      font-size: 16px;
+      border-radius: 12px;
+      text-decoration: none;
+      border: none;
+      transition: 0.25s;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 0 10px rgba(56,189,248,0.4);
+    }
+
+    .tool-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #38bdf8;
+    }
+
+    .tool-button:active {
+      transform: scale(0.96);
+    }
+
+    .copied-msg {
+      display: none;
+      margin-top: 5px;
+      color: #22c55e;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>⚜</h1>
+     <h3> 𝐏🕴💤💤🏋</h3>
+  </header>
+<br> <div class="search-bar" style="font-size:25px">
+
+      <center>𝐏📍️𝐳𝐳𝐲_Tools®࿐</center>
+              </div>                                                
+  
+  
+  <div class="search-bar">
+ <input type="text" id="searchInput" placeholder="🔍 Search tools...">
+	
+	
+	
+  </div>
+
+  <div class="container">
+    <div class="category">
+      <h2>📧 Email Tools</h2>
+      <ul>
+        <li class="tool-item"><a class="tool-button" href="C:\\Users\\a.lagnaoui\\Desktop\\sssss\\return-paths_Maker.html" target="_blank">📨 Return Paths Maker</a></li>
+       <!-- <li class="tool-item"><a class="tool-button" href="C:\\Users\\a.lagnaoui\\Desktop\\sssss\\Bounce_Rate_calculator.html" target="_blank">📊 Bounce Rate Calculator</a></li>-->
+        <li class="tool-item"><a class="tool-button" href="C:\\Users\\a.lagnaoui\\Desktop\\sssss\\Total_Send_Calculator.html" target="_blank">📬 Total Send Calculator</a></li>
+        <li class="tool-item"><a class="tool-button" href="C:\\Users\\\a.lagnaoui.CENTMARKET\\Desktop\\sssss\\remove_RPS_BOUNCE.html" target="_blank">📂 Remove Rps Bounce</a></li>
+      </ul>
+    </div>
+
+    <div class="category">
+      <h2>💻 Server Tools</h2>
+      <ul>
+        <li class="tool-item"><a class="tool-button" href="C:\\Users\\a.lagnaoui\\Desktop\\sssss\\Server_Manager.html" target="_blank">🛡 Server Manager</a></li>
+        <li class="tool-item"><a class="tool-button" href="C:\\Users\\a.lagnaoui\\Desktop\\sssss\\Server_Splitter.html" target="_blank">🔗 Server Splitter</a></li>
+		<!--	 <li class="tool-item"><a class="tool-button" href="C:\\Users\\a.lagnaoui\\Desktop\\sssss\\edit_link.html" target="_blank">Edit Links</a></li>-->
+      </ul>
+    </div>
+
+    <div class="category">
+      <h2>👾 Utilities</h2>
+      <ul>
+        <li class="tool-item"><a class="tool-button" href="C:\\Users\\a.lagnaoui\\Desktop\\sssss\\List_Spliter.html" target="_blank">🔍 List Splitter</a></li>
+        <li class="tool-item"><a class="tool-button" href="C:\\Users\\a.lagnaoui\\Desktop\\sssss\\Link_Opener.html" target="_blank">🌐 Link Opener</a></li>
+        <li class="tool-item"><a class="tool-button" href="C:\\Users\\a.lagnaoui\\Desktop\\sssss\\offers_.html" target="_blank">🎯 Offer Manager</a></li>
+      </ul>
+    </div>
+
+    <div class="category">
+      <h2>📟 Console Scripts</h2>
+      <ul>
+        <li class="tool-item">
+          <button class="tool-button" data-script="autoCleanScript">🧹 Auto Clean</button>
+          <div class="copied-msg">NaaaDii✔️</div>
+        </li>
+        <li class="tool-item">
+          <button class="tool-button" data-script="autoScheduleScript">🕜 Auto Schedule</button>
+          <div class="copied-msg">NaaaDii✔️</div>
+        </li>
+        <li class="tool-item">
+          <button class="tool-button" data-script="autoClickScript">🚀 Auto Send</button>
+          <div class="copied-msg">NaaaDii✔️</div>
+        </li>
+        <li class="tool-item">
+          <button class="tool-button" data-script="TesTAuto_Mail">✉️ Test Auto/Mail</button>
+          <div class="copied-msg">NaaaDii✔️</div>
+        </li>
+		        <li class="tool-item">
+          <button class="tool-button" data-script="AutoPauseRPS">⏸️ Auto Pause RPS</button>
+          <div class="copied-msg">NaaaDii✔️</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Hidden scripts for copy -->
+  <pre id="autoCleanScript" style="display:none;">
+// === UI Elements ===
+const wrapper = document.createElement("div");
+wrapper.style.position = "fixed";
+wrapper.style.bottom = "20px";
+wrapper.style.right = "20px";
+wrapper.style.background = "#001f3f";
+wrapper.style.color = "#00bfff";
+wrapper.style.padding = "12px";
+wrapper.style.fontFamily = "monospace";
+wrapper.style.borderRadius = "10px";
+wrapper.style.zIndex = "9999";
+wrapper.style.boxShadow = "0 0 15px rgba(0, 191, 255, 0.6)";
+wrapper.style.display = "flex";
+wrapper.style.flexDirection = "column";
+wrapper.style.gap = "8px";
+
+// === Controls ===
+const controls = document.createElement("div");
+controls.style.display = "flex";
+controls.style.alignItems = "center";
+controls.style.gap = "8px";
+
+// Interval input
+const intervalInput = document.createElement("input");
+intervalInput.type = "number";
+intervalInput.min = "1";
+intervalInput.value = "10";
+intervalInput.style.width = "60px";
+intervalInput.style.padding = "5px";
+intervalInput.style.border = "1px solid #00bfff";
+intervalInput.style.borderRadius = "5px";
+intervalInput.style.background = "#002b5c";
+intervalInput.style.color = "#00bfff";
+
+// Duration input
+const durationInput = intervalInput.cloneNode();
+durationInput.value = "60";
+
+// Labels
+const intervalLabel = document.createElement("label");
+intervalLabel.textContent = "Interval (sec):";
+
+const durationLabel = document.createElement("label");
+durationLabel.textContent = "Duration (sec):";
+
+// Button
+const toggleButton = document.createElement("button");
+toggleButton.textContent = "▶ Start";
+toggleButton.style.padding = "6px 10px";
+toggleButton.style.background = "#005eff";
+toggleButton.style.color = "#fff";
+toggleButton.style.border = "none";
+toggleButton.style.borderRadius = "5px";
+toggleButton.style.cursor = "pointer";
+
+// Timer displays
+const clickTimerDisplay = document.createElement("div");
+clickTimerDisplay.textContent = "Next click in: --:--";
+const stopTimerDisplay = document.createElement("div");
+stopTimerDisplay.textContent = "Stopping in: --:--";
+clickTimerDisplay.style.fontSize = stopTimerDisplay.style.fontSize = "14px";
+
+// Assemble UI
+controls.appendChild(intervalLabel);
+controls.appendChild(intervalInput);
+controls.appendChild(durationLabel);
+controls.appendChild(durationInput);
+controls.appendChild(toggleButton);
+wrapper.appendChild(controls);
+wrapper.appendChild(clickTimerDisplay);
+wrapper.appendChild(stopTimerDisplay);
+document.body.appendChild(wrapper);
+
+// === Timer Logic ===
+let clickIntervalId, countdownIntervalId, stopTimeout;
+let intervalMs = parseInt(intervalInput.value) * 1000;
+let remainingClickTime = intervalMs;
+let remainingStopTime = parseInt(durationInput.value) * 1000;
+let running = false;
+
+const elements = document.querySelectorAll("input");
+
+// Format helper
+function format(ms) {
+  const totalSeconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(minutes).padStart(1, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+// Update countdowns
+function updateCountdowns() {
+  remainingClickTime -= 1000;
+  remainingStopTime -= 1000;
+
+  if (remainingClickTime < 0) remainingClickTime = 0;
+  if (remainingStopTime < 0) remainingStopTime = 0;
+
+  clickTimerDisplay.textContent = `Next click in: ${format(remainingClickTime)}`;
+  stopTimerDisplay.textContent = `Stopping in: ${format(remainingStopTime)}`;
+}
+
+// Start
+function startScript() {
+  clearAll();
+
+  intervalMs = parseInt(intervalInput.value) * 1000;
+  remainingClickTime = intervalMs;
+  remainingStopTime = parseInt(durationInput.value) * 1000;
+
+  clickIntervalId = setInterval(() => {
+    if (elements[7]) elements[7].click();
+    remainingClickTime = intervalMs;
+  }, intervalMs);
+
+  countdownIntervalId = setInterval(updateCountdowns, 1000);
+
+  stopTimeout = setTimeout(() => {
+    stopScript();
+    clickTimerDisplay.textContent = "⏹ Clicks stopped";
+    stopTimerDisplay.textContent = "✅ Done!";
+  }, remainingStopTime);
+
+  toggleButton.textContent = "⏹ Stop";
+  running = true;
+}
+
+// Stop
+function stopScript() {
+  clearAll();
+  toggleButton.textContent = "▶ Start";
+  running = false;
+}
+
+// Clear all timers
+function clearAll() {
+  clearInterval(clickIntervalId);
+  clearInterval(countdownIntervalId);
+  clearTimeout(stopTimeout);
+}
+
+// Toggle on button click
+toggleButton.addEventListener("click", () => {
+  if (!running) {
+    startScript();
+  } else {
+    stopScript();
+    clickTimerDisplay.textContent = "⏹ Stopped manually";
+    stopTimerDisplay.textContent = "⌛ Waiting...";
+  }
+});
+  </pre>
+
+  <pre id="autoScheduleScript" style="display:none;">
+// === UI Elements ===
+const wrapper = document.createElement("div");
+wrapper.style.position = "fixed";
+wrapper.style.bottom = "20px";
+wrapper.style.right = "20px";
+wrapper.style.background = "#001f3f"; // dark blue background
+wrapper.style.color = "#00bfff"; // bright blue text
+wrapper.style.padding = "12px";
+wrapper.style.fontFamily = "monospace";
+wrapper.style.borderRadius = "10px";
+wrapper.style.zIndex = "9999";
+wrapper.style.boxShadow = "0 0 15px rgba(0, 191, 255, 0.6)";
+wrapper.style.display = "flex";
+wrapper.style.alignItems = "center";
+wrapper.style.gap = "10px";
+
+// Input for seconds
+const input = document.createElement("input");
+input.type = "number";
+input.min = "1";
+input.value = "10"; // default 10 seconds
+input.style.width = "60px";
+input.style.padding = "5px";
+input.style.border = "1px solid #00bfff";
+input.style.borderRadius = "5px";
+input.style.background = "#002b5c";
+input.style.color = "#00bfff";
+
+// Label
+const label = document.createElement("label");
+label.textContent = "Interval (sec): ";
+label.style.marginRight = "5px";
+
+// Timer display
+const timerDisplay = document.createElement("span");
+timerDisplay.textContent = "Next click in: --:--:--";
+
+// Assemble UI
+wrapper.appendChild(label);
+wrapper.appendChild(input);
+wrapper.appendChild(timerDisplay);
+document.body.appendChild(wrapper);
+
+// === Timer Logic ===
+let intervalMs = parseInt(input.value) * 1000;
+let remainingTime = intervalMs;
+let clickIntervalId, countdownIntervalId;
+
+// Select input elements
+const elements = document.querySelectorAll("input");
+
+// Update timer display
+function updateTimer() {
+  remainingTime -= 1000;
+  if (remainingTime < 0) remainingTime = 0;
+
+  const hours = Math.floor(remainingTime / 3600000);
+  const minutes = Math.floor((remainingTime % 3600000) / 60000);
+  const seconds = Math.floor((remainingTime % 60000) / 1000);
+
+  timerDisplay.textContent = `Next click in: ${String(hours).padStart(1, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+// Auto-click function
+function startClicker() {
+  clearInterval(clickIntervalId);
+  clearInterval(countdownIntervalId);
+  
+  intervalMs = parseInt(input.value) * 1000;
+  remainingTime = intervalMs;
+
+  clickIntervalId = setInterval(() => {
+    if (elements[8]) elements[8].click();
+    remainingTime = intervalMs;
+  }, intervalMs);
+
+  countdownIntervalId = setInterval(updateTimer, 1000);
+}
+
+// Start initially
+startClicker();
+
+// Restart when input changes
+input.addEventListener("change", startClicker);
+  </pre>
+
+  <pre id="autoClickScript" style="display:none;">
+(function () {
+  // Create container
+  const container = document.createElement('div');
+  container.style.position = 'fixed';
+  container.style.bottom = '20px';
+  container.style.right = '20px';
+  container.style.background = '#e0f0ff';
+  container.style.border = '2px solid #007BFF';
+  container.style.padding = '12px';
+  container.style.zIndex = 9999;
+  container.style.fontFamily = 'Arial, sans-serif';
+  container.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
+  container.style.borderRadius = '10px';
+  container.style.color = '#003366';
+  container.style.minWidth = '250px';
+
+  // Create time input fields
+  const hourInput = document.createElement('input');
+  hourInput.type = 'number';
+  hourInput.placeholder = 'HH';
+  hourInput.style.width = '50px';
+  hourInput.style.marginRight = '5px';
+
+  const minInput = document.createElement('input');
+  minInput.type = 'number';
+  minInput.placeholder = 'MM';
+  minInput.style.width = '50px';
+  minInput.style.marginRight = '5px';
+
+  const secInput = document.createElement('input');
+  secInput.type = 'number';
+  secInput.placeholder = 'SS';
+  secInput.style.width = '50px';
+
+  [hourInput, minInput, secInput].forEach(input => {
+    input.style.padding = '4px';
+    input.style.border = '1px solid #007BFF';
+    input.style.borderRadius = '4px';
+    input.style.outline = 'none';
+  });
+
+  // Buttons
+  const startBtn = document.createElement('button');
+  startBtn.textContent = 'Start';
+  startBtn.style.marginTop = '10px';
+  startBtn.style.marginRight = '10px';
+  startBtn.style.background = '#007BFF';
+  startBtn.style.color = 'white';
+  startBtn.style.border = 'none';
+  startBtn.style.padding = '5px 10px';
+  startBtn.style.borderRadius = '4px';
+  startBtn.style.cursor = 'pointer';
+
+  const stopBtn = document.createElement('button');
+  stopBtn.textContent = 'Stop';
+  stopBtn.style.marginTop = '10px';
+  stopBtn.style.background = '#6c757d';
+  stopBtn.style.color = 'white';
+  stopBtn.style.border = 'none';
+  stopBtn.style.padding = '5px 10px';
+  stopBtn.style.borderRadius = '4px';
+  stopBtn.style.cursor = 'pointer';
+
+  // Countdown display
+  const countdown = document.createElement('div');
+  countdown.style.marginTop = '10px';
+  countdown.style.fontWeight = 'bold';
+  countdown.style.color = '#0056b3';
+
+  // Add to container
+  container.appendChild(hourInput);
+  container.appendChild(minInput);
+  container.appendChild(secInput);
+  container.appendChild(startBtn);
+  container.appendChild(stopBtn);
+  container.appendChild(countdown);
+  document.body.appendChild(container);
+
+  // Timer logic
+  let interval = null;
+  function formatTime(h, m, s) {
+    return [h, m, s].map(unit => String(unit).padStart(2, '0')).join(':');
+  }
+
+  startBtn.onclick = () => {
+    let hours = parseInt(hourInput.value)  0;
+    let minutes = parseInt(minInput.value)  0;
+    let seconds = parseInt(secInput.value) || 0;
+
+    let totalSeconds = hours * 3600 + minutes * 60 + seconds;
+    if (totalSeconds <= 0) {
+      countdown.textContent = 'Enter valid time!';
+      countdown.style.color = 'red';
+      return;
+    }
+
+    countdown.style.color = '#0056b3';
+    clearInterval(interval);
+    interval = setInterval(() => {
+      if (totalSeconds <= 0) {
+        clearInterval(interval);
+        const button = document.querySelector('input.send');
+        if (button) {
+          button.click();
+          countdown.textContent = '✅ Button clicked!';
+          countdown.style.color = 'green';
+        } else {
+          countdown.textContent = '❌ Button not found!';
+          countdown.style.color = 'red';
+        }
+        return;
+      }
+
+      const h = Math.floor(totalSeconds / 3600);
+      const m = Math.floor((totalSeconds % 3600) / 60);
+      const s = totalSeconds % 60;
+      countdown.textContent = ⏳ Time left: ${formatTime(h, m, s)};
+      totalSeconds--;
+    }, 1000);
+  };
+
+  stopBtn.onclick = () => {
+    clearInterval(interval);
+    countdown.textContent = '⏹️ Timer stopped';
+    countdown.style.color = '#888';
+  };
+})();
+  </pre>
+
+  <pre id="TesTAuto_Mail" style="display:none;">
+
+
+
 // Create a select element (dropdown)
 var select = document.createElement('select');
 select.setAttribute('id', 'dropdown');
@@ -187,3 +805,53 @@ select.addEventListener('change', function() {
     textarea.value = selectedEmail;
   }
 });
+
+  </pre>
+
+  <script>
+    // Search filter
+    document.getElementById('searchInput').addEventListener('input', function () {
+      const filter = this.value.toLowerCase();
+      document.querySelectorAll('.tool-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(filter) ? '' : 'none';
+      });
+    });
+
+    // Copy & color change + message show logic
+    document.querySelectorAll('.tool-button[data-script]').forEach(button => {
+      button.addEventListener('click', () => {
+        const scriptId = button.getAttribute('data-script');
+        const scriptText = document.getElementById(scriptId)?.textContent.trim();
+        if (!scriptText) return;
+
+        navigator.clipboard.writeText(scriptText).then(() => {
+          // Change color for all buttons:
+          document.querySelectorAll('.tool-button[data-script]').forEach(btn => {
+            btn.style.backgroundColor = '#2b2e83'; // reset to original
+          });
+          // Change clicked button background color:
+          button.style.backgroundColor = 'green';
+
+          // Show the copied message only for clicked button
+          document.querySelectorAll('.copied-msg').forEach(msg => {
+            msg.style.display = 'none';
+          });
+          const msg = button.nextElementSibling;
+          if (msg && msg.classList.contains('copied-msg')) {
+            msg.style.display = 'inline-block';
+            msg.textContent = 'NaaaDii✔️';
+            setTimeout(() => {
+              msg.style.display = 'none';
+              button.style.backgroundColor = '#2b2e83'; // reset after timeout
+            }, 2000);
+          }
+        }).catch(() => {
+          alert('❌ Failed to copy!');
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
