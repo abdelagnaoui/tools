@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Text Comparison - Soft Dark Blue</title>
+<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/6/6d/Windows_Settings_app_icon.png" type="image/png" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+
+  /* Reset */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Roboto Mono', monospace;
+    background-color: #2c3e50; /* softer dark blue-gray */
+    color: #e0e0e0;
+    margin: 0;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  h2 {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #90caf9;
+    letter-spacing: 0.05em;
+  }
+
+  textarea {
+    width: 320px;
+    max-width: 100%;
+    height: 220px;
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 2px solid #333;
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    resize: vertical;
+    box-shadow: inset 0 0 8px #000000aa;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 1.5rem;
+    font-family: 'Roboto Mono', monospace;
+  }
+  textarea:focus {
+    border-color: #64b5f6;
+    box-shadow: 0 0 12px #64b5f6cc;
+    outline: none;
+  }
+
+  #lineCount {
+    font-weight: 600;
+    color: #81d4fa;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  button {
+    background: #64b5f6;
+    border: none;
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    color: #121212;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 5px 15px #64b5f6aa;
+    transition: background-color 0.25s ease, transform 0.15s ease;
+    user-select: none;
+  }
+  button:hover {
+    background: #42a5f5;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px #42a5f5bb;
+  }
+  button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px #42a5f5aa;
+  }
+
+  #copyMessage {
+    font-weight: 600;
+    color: #64b5f6;
+    min-height: 24px;
+    text-align: center;
+  }
+
+  @media (max-width: 680px) {
+    textarea {
+      width: 100%;
+      height: 180px;
+    }
+    .button-group {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <h2>Text Comparison Tool</h2>
+
+  <textarea id="textarea1" placeholder="Enter texts line by line to compare..."></textarea>
+  <textarea id="textarea2" placeholder="Texts to be compared" oninput="updateLineCount()"></textarea>
+
+  <p id="lineCount">Number of lines: 0</p>
+
+  <div class="button-group">
+    <button onclick="compareAndRemove()">Compare and Remove</button>
+    <button onclick="copyTextarea2()">Copy Text</button>
+  </div>
+
+  <p id="copyMessage"></p>
+
+<script>
+  function updateLineCount() {
+    const textarea2 = document.getElementById('textarea2').value;
+    const lines = textarea2.split('\n').filter(line => line.trim() !== '').length;
+    document.getElementById('lineCount').textContent = 'Number of lines: ' + lines;
+  }
+
+  function compareAndRemove() {
+    const textarea1 = document.getElementById('textarea1').value.split('\n').map(line => line.trim());
+    let textarea2 = document.getElementById('textarea2').value.split('\n');
+
+    textarea2 = textarea2.filter(line => line.trim() !== '' && !textarea1.includes(line.trim()));
+
+    document.getElementById('textarea2').value = textarea2.join('\n');
+    updateLineCount(); // Update line count after modification
+    document.getElementById('copyMessage').textContent = '';
+  }
+
+  function copyTextarea2() {
+    const textarea2Content = document.getElementById('textarea2').value;
+    const lineCount = textarea2Content.split('\n').filter(line => line.trim() !== '').length;
+    navigator.clipboard.writeText(textarea2Content).then(() => {
+      document.getElementById('copyMessage').textContent = lineCount + ' lines copied to clipboard!';
+    }).catch(() => {
+      document.getElementById('copyMessage').textContent = 'Error copying text.';
+    });
+  }
+</script>
+
+</body>
+</html>

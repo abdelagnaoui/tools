@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Offer Manager</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #eef2f7;
+      padding: 30px;
+      margin: 0;
+    }
+    h1 { text-align: center; color: #1e3a5f; margin-bottom: 30px; }
+    #searchBar {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+    button {
+      background-color: #007acc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin: 8px 6px 0 0;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+    }
+    button:hover { background-color: #005fa3; }
+    #toggleAddOffer {
+      font-size: 18px;
+      font-weight: bold;
+      color: #007acc;
+      cursor: pointer;
+      margin: 20px 0 10px;
+      display: inline-block;
+    }
+    #addOfferForm {
+      display: none;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: 600;
+      color: #333;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    textarea {
+      resize: vertical;
+      font-family: monospace;
+    }
+    .offer {
+      background: white;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .offer table { width: 100%; }
+    .offer td { padding: 6px 4px; vertical-align: top; }
+    .offer strong { color: #1e3a5f; }
+    .copyText {
+      cursor: pointer;
+      color: #007acc;
+      text-decoration: underline;
+    }
+    #creativeModal, #linkModal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1000;
+    }
+    #toast {
+      visibility: hidden;
+      min-width: 200px;
+      background-color: #333;
+      color: white;
+      text-align: center;
+      border-radius: 4px;
+      padding: 12px;
+      position: fixed;
+      z-index: 1100;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+    }
+    #toast.show {
+      visibility: visible;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+    @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+    #linkForm label {
+      margin-top: 12px;
+      font-weight: 500;
+      color: #444;
+    }
+    #linkForm input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .btn-danger { background-color: #cc3300; }
+    .btn-danger:hover { background-color: #aa2200; }
+  </style>
+</head>
+<body>
+  <h1>Offer Manager</h1>
+  <input id="searchBar" type="text" placeholder="Search offers...">
+  <div style="margin-bottom: 20px;">
+    <button onclick="exportOffers()">Export JSON</button>
+    <button onclick="document.getElementById('importFile').click()">Import JSON</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" />
+  </div>
+  <div id="toggleAddOffer">+ Add Offer</div>
+  <div id="addOfferForm">
+    <label>Offer Name:</label><input id="offerNameInput" type="text">
+    <label>Sponsor:</label><input id="sponsorInput" type="text">
+    <label>From:</label><input id="fromInput" type="text">
+    <label>Subject:</label><input id="subjectInput" type="text">
+    <label>Creative HTML:</label><textarea id="creativeInput" rows="6"></textarea>
+    <button id="addOfferBtn">Add Offer</button>
+  </div>
+  <div id="offersContainer"></div>
+  <div id="creativeModal"><div id="creativeModalContent"></div><button onclick="document.getElementById('creativeModal').style.display='none'; overlay.style.display='none';">Close</button></div>
+  <div id="linkModal"><form id="linkForm"></form><button id="copyLinksBtn">Copy with Replaced Links</button><button id="cancelLinksBtn">Cancel</button></div>
+  <div id="overlay"></div>
+  <div id="toast"></div>
+
+  <script>
+    const offersContainer = document.getElementById('offersContainer');
+    const overlay = document.getElementById('overlay');
+    const toast = document.getElementById('toast');
+    const linkModal = document.getElementById('linkModal');
+    const linkForm = document.getElementById('linkForm');
+    const copyLinksBtn = document.getElementById('copyLinksBtn');
+    const cancelLinksBtn = document.getElementById('cancelLinksBtn');
+
+    let offers = JSON.parse(localStorage.getItem('offers') || '[]');
+    let detectedLinks = [], currentCreativeHTML = '', currentOfferIndex = null;
+
+    function saveOffers() {
+      localStorage.setItem('offers', JSON.stringify(offers));
+    }
+
+    function renderOffers(filter = '') {
+      offersContainer.innerHTML = '';
+      const f = filter.toLowerCase();
+      offers.forEach((offer, index) => {
+        if (offer.name.toLowerCase().includes(f)) {
+          const div = document.createElement('div');
+          div.className = 'offer';
+          const table = document.createElement('table');
+          [['Offer Name:', offer.name], ['Sponsor:', offer.sponsor || ''], ['From:', `<span class='copyText'>${offer.from}</span>`], ['Subject:', `<span class='copyText'>${offer.subject}</span>`]].forEach(([k, v]) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td><strong>${k}</strong></td><td>${v}</td>`;
+            table.appendChild(tr);
+          });
+          div.appendChild(table);
+          ['Copy From','Copy Subject','Show Creative','Copy Creative','Edit Links & Copy','Delete'].forEach((text, btnIndex) => {
+            const btn = document.createElement('button');
+            btn.textContent = text;
+            if (btnIndex === 0) btn.onclick = () => { copyToClipboard(offer.from); showToast('Copied!'); };
+            else if (btnIndex === 1) btn.onclick = () => { copyToClipboard(offer.subject); showToast('Copied!'); };
+            else if (btnIndex === 2) btn.onclick = () => { document.getElementById('creativeModalContent').innerHTML = offer.creative; document.getElementById('creativeModal').style.display = 'block'; overlay.style.display = 'block'; };
+            else if (btnIndex === 3) btn.onclick = () => { copyToClipboard(offer.creative); showToast('Copied!'); };
+            else if (btnIndex === 4) btn.onclick = () => showLinkModal(index);
+            else if (btnIndex === 5) { btn.className = 'btn-danger'; btn.onclick = () => { if (confirm('Delete?')) { offers.splice(index, 1); saveOffers(); renderOffers(); } } }
+            div.appendChild(btn);
+          });
+          offersContainer.appendChild(div);
+        }
+      });
+    }
+
+    function showLinkModal(i) {
+      currentOfferIndex = i;
+      const offer = offers[i];
+      currentCreativeHTML = offer.creative;
+      const doc = new DOMParser().parseFromString(offer.creative, 'text/html');
+      const links = doc.querySelectorAll('a[href]');
+      const map = new Map();
+      links.forEach(a => {
+        const href = a.getAttribute('href');
+        if (href && !map.has(href)) map.set(href, { original: href, replacement: '' });
+      });
+      detectedLinks = Array.from(map.values());
+      if (!detectedLinks.length) return alert('No links.');
+      linkForm.innerHTML = '';
+      detectedLinks.forEach((l, i) => {
+        const label = document.createElement('label');
+        label.textContent = `Replace link: ${l.original}`;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = 'New URL';
+        input.oninput = e => detectedLinks[i].replacement = e.target.value;
+        linkForm.appendChild(label);
+        linkForm.appendChild(input);
+      });
+      linkModal.style.display = 'block';
+      overlay.style.display = 'block';
+    }
+
+    copyLinksBtn.onclick = () => {
+      if (currentOfferIndex === null) return;
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(currentCreativeHTML, 'text/html');
+      const links = doc.querySelectorAll('a[href]');
+      links.forEach(link => {
+        const originalHref = link.getAttribute('href');
+        const replacement = detectedLinks.find(l => l.original === originalHref)?.replacement;
+        if (replacement) {
+          link.setAttribute('href', replacement);
+        }
+      });
+      const updatedHTML = doc.body.innerHTML;
+      copyToClipboard(updatedHTML);
+      showToast('Copied with links!');
+      linkModal.style.display = 'none';
+      overlay.style.display = 'none';
+    };
+
+    cancelLinksBtn.onclick = () => {
+      linkModal.style.display = 'none';
+      overlay.style.display = 'none';
+    };
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).catch(() => {
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+      });
+    }
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.className = 'show';
+      setTimeout(() => toast.className = toast.className.replace('show', ''), 3000);
+    }
+
+    document.getElementById('toggleAddOffer').onclick = () => {
+      const form = document.getElementById('addOfferForm');
+      form.style.display = form.style.display === 'block' ? 'none' : 'block';
+    };
+
+    document.getElementById('addOfferBtn').onclick = () => {
+      const offer = {
+        name: document.getElementById('offerNameInput').value.trim(),
+        sponsor: document.getElementById('sponsorInput').value.trim(),
+        from: document.getElementById('fromInput').value.trim(),
+        subject: document.getElementById('subjectInput').value.trim(),
+        creative: document.getElementById('creativeInput').value.trim()
+      };
+      if (!offer.name || !offer.from || !offer.subject || !offer.creative) return alert('Fill all fields.');
+      offers.push(offer);
+      saveOffers();
+      renderOffers();
+      document.getElementById('addOfferForm').style.display = 'none';
+    };
+
+    document.getElementById('searchBar').addEventListener('input', e => renderOffers(e.target.value));
+
+    document.addEventListener('click', e => {
+      if (e.target.classList.contains('copyText')) {
+        copyToClipboard(e.target.textContent);
+        showToast('Copied!');
+      }
+    });
+
+    function exportOffers() {
+      const blob = new Blob([JSON.stringify(offers, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'offers.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    document.getElementById('importFile').addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        try {
+          const importedData = JSON.parse(event.target.result);
+          if (!Array.isArray(importedData)) return alert('Invalid JSON format.');
+          offers = importedData;
+          saveOffers();
+          renderOffers();
+          showToast('Offers imported!');
+        } catch (err) {
+          alert('Failed to parse JSON file.');
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    renderOffers();
+  </script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Server Splitter Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      color: #333;
+      margin: 20px auto;
+      max-width: 900px;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+      color: #555;
+    }
+    textarea, select {
+      width: 100%;
+      background-color: #fff;
+      color: #333;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 14px;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+      min-height: 120px;
+    }
+    select {
+      height: 38px;
+      padding: 5px 10px;
+      min-height: unset;
+      cursor: pointer;
+    }
+    textarea:focus, select:focus {
+      border-color: #007acc;
+      outline: none;
+      background-color: #e8f0fe;
+    }
+    button {
+      padding: 12px 20px;
+      background-color: #007acc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+    button:hover {
+      background-color: #005fa3;
+      transform: translateY(-1px);
+    }
+    .groups-inputs, .groups-textareas, .container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .group-input, .group-textarea, .group-box {
+      flex: 1;
+      min-width: 280px;
+    }
+    .group-box {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 15px;
+    }
+    .group-box h3 {
+      margin: 0 0 10px;
+      color: #555;
+      font-weight: 700;
+    }
+    .group-box button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    pre {
+      background: #fff;
+      border-radius: 8px;
+      padding: 12px;
+      white-space: pre-wrap;
+      color: #333;
+      height: 250px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Server Splitter Tool</h1>
+
+  <label for="allServers">All Servers (one per line):</label>
+  <textarea id="allServers" placeholder="e.g. srv001"></textarea>
+
+  <div class="groups-inputs">
+    <div class="group-input">
+      <label for="groupAName">Group A Name:</label>
+      <select id="groupAName">
+        <option value="" disabled selected>Select Name</option>
+		<option>AbdeLagnaoui</option>
+        <option>Kaoutar</option>
+        <option>Imad</option>
+        <option>Mohamed</option>
+      </select>
+    </div>
+    <div class="group-input">
+      <label for="groupBName">Group B Name:</label>
+      <select id="groupBName">
+        <option value="" disabled selected>Select Name</option>
+		<option>AbdeLagnaoui</option>
+        <option>Kaoutar</option>
+        <option>Imad</option>
+        <option>Mohamed</option>
+      </select>
+    </div>
+    <div class="group-input">
+      <label for="groupCName">Group C Name (Optional):</label>
+      <select id="groupCName">
+        <option value="" selected>-- None --</option>
+		<option>AbdeLagnaoui</option>
+        <option>Kaoutar</option>
+        <option>Imad</option>
+        <option>Mohamed</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="groups-textareas">
+    <div class="group-textarea">
+      <label for="groupA">Group A Specific Servers:</label>
+      <textarea id="groupA" placeholder="e.g. srv001"></textarea>
+    </div>
+    <div class="group-textarea">
+      <label for="groupB">Group B Specific Servers:</label>
+      <textarea id="groupB" placeholder="e.g. srv002"></textarea>
+    </div>
+    <div class="group-textarea">
+      <label for="groupC">Group C Specific Servers:</label>
+      <textarea id="groupC" placeholder="e.g. srv003"></textarea>
+    </div>
+  </div>
+
+  <button onclick="splitServers()">Split Servers</button>
+
+  <div class="container">
+    <div class="group-box">
+      <h3 id="titleA">Group A</h3>
+      <button onclick="copyToClipboard('outputA')">📋 Copy Group A</button>
+      <pre id="outputA"></pre>
+    </div>
+    <div class="group-box">
+      <h3 id="titleB">Group B</h3>
+      <button onclick="copyToClipboard('outputB')">📋 Copy Group B</button>
+      <pre id="outputB"></pre>
+    </div>
+    <div class="group-box" id="groupCBox">
+      <h3 id="titleC">Group C</h3>
+      <button onclick="copyToClipboard('outputC')">📋 Copy Group C</button>
+      <pre id="outputC"></pre>
+    </div>
+  </div>
+
+  <script>
+    function splitServers() {
+      const groupAName = document.getElementById("groupAName").value.trim();
+      const groupBName = document.getElementById("groupBName").value.trim();
+      const groupCName = document.getElementById("groupCName").value.trim();
+
+      if (!groupAName || !groupBName) {
+        alert("Please select names for both Group A and Group B.");
+        return;
+      }
+
+      const aList = document.getElementById("groupA").value.trim().split("\n").map(s => s.trim()).filter(Boolean);
+      const bList = document.getElementById("groupB").value.trim().split("\n").map(s => s.trim()).filter(Boolean);
+      const cList = document.getElementById("groupC").value.trim().split("\n").map(s => s.trim()).filter(Boolean);
+
+      const allServers = document.getElementById("allServers").value.trim().split("\n").map(s => s.trim()).filter(Boolean);
+
+      const assigned = new Set([...aList, ...bList, ...cList]);
+      const pool = allServers.filter(s => !assigned.has(s));
+
+      const groupA = [...aList];
+      const groupB = [...bList];
+      const groupC = [...cList];
+
+      const numGroups = groupCName ? 3 : 2;
+
+      // Round-robin assign from pool
+      for (let i = 0; i < pool.length; i++) {
+        const target = i % numGroups;
+        if (target === 0) groupA.push(pool[i]);
+        else if (target === 1) groupB.push(pool[i]);
+        else groupC.push(pool[i]);
+      }
+
+      // Update group titles and output
+      document.getElementById("titleA").textContent = groupAName;
+      document.getElementById("titleB").textContent = groupBName;
+      document.getElementById("outputA").textContent = `${groupAName}\n` + groupA.join("\n");
+      document.getElementById("outputB").textContent = `${groupBName}\n` + groupB.join("\n");
+
+      const groupCBox = document.getElementById("groupCBox");
+      if (!groupCName) {
+        groupCBox.style.display = "none";
+        document.getElementById("outputC").textContent = "";
+      } else {
+        groupCBox.style.display = "block";
+        document.getElementById("titleC").textContent = groupCName;
+        document.getElementById("outputC").textContent = `${groupCName}\n` + groupC.join("\n");
+      }
+    }
+
+    function copyToClipboard(id) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text)
+        .then(() => alert('Copied to clipboard!'))
+        .catch(() => alert('Failed to copy.'));
+    }
+  </script>
+
+</body>
+</html>

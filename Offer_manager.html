@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Offer Manager</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background: #f8f8f8;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .form-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .left-col, .right-col {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input {
+      padding: 10px;
+      width: 100%;
+      margin-top: 5px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .offers {
+      margin-top: 20px;
+    }
+
+    .offer-card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .offer-left {
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .offer-right {
+      flex: 1;
+      min-width: 260px;
+    }
+
+    .offer-card img {
+      max-width: 100%;
+      max-height: 150px;
+      margin-top: 10px;
+      border-radius: 6px;
+    }
+
+    #searchInput {
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      width: 100%;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    .creative-code {
+      background: #f1f1f1;
+      font-family: monospace;
+      padding: 10px;
+      border-radius: 6px;
+      white-space: pre-wrap;
+      margin-top: 10px;
+      max-height: 150px;
+      overflow: auto;
+    }
+
+    .button-group {
+      margin-top: 10px;
+    }
+
+    .action-buttons {
+      margin-top: 10px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .clear-button {
+      background-color: #e53935;
+    }
+
+    .clear-button:hover {
+      background-color: #c62828;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Offer Manager</h1>
+
+<div class="form-wrapper">
+  <div class="left-col">
+    <div class="form-group">
+      <label>Subject:</label>
+      <input type="text" id="subjectInput" placeholder="Enter subject line">
+    </div>
+
+    <div class="form-group">
+      <label>From Name:</label>
+      <input type="text" id="fromInput" placeholder="Enter sender name">
+    </div>
+
+    <div class="form-group">
+      <label>Creative Image URL:</label>
+      <input type="text" id="imageInput" placeholder="Enter image URL">
+    </div>
+
+    <div class="action-buttons">
+      <button onclick="addOffer()">➕ Add Offer</button>
+    </div>
+  </div>
+
+  <div class="right-col">
+    <div class="form-group">
+      <label>HTML Creative (optional):</label>
+      <input type="text" id="htmlInput" placeholder="Paste HTML snippet here">
+    </div>
+  </div>
+</div>
+
+<div class="form-group">
+  <label>🔎 Search Offers:</label>
+  <input type="text" id="searchInput" placeholder="Search by subject or from" oninput="searchOffers()">
+</div>
+
+<!-- 🧹 Clear All Button -->
+<div class="top-bar">
+  <button class="clear-button" onclick="clearAllOffers()">🗑️ Clean All Offers</button>
+</div>
+
+<!-- Offers -->
+<div class="offers" id="offersContainer"></div>
+
+<script>
+  let offers = JSON.parse(localStorage.getItem('offers')) || [];
+
+  function addOffer() {
+    const subject = document.getElementById('subjectInput').value.trim();
+    const from = document.getElementById('fromInput').value.trim();
+    const image = document.getElementById('imageInput').value.trim();
+    const html = document.getElementById('htmlInput').value.trim();
+
+    if (!subject || !from || !image) {
+      alert("Please fill all required fields.");
+      return;
+    }
+
+    const newOffer = { subject, from, image, html };
+    offers.push(newOffer);
+    localStorage.setItem('offers', JSON.stringify(offers));
+    displayOffers(offers);
+
+    document.getElementById('subjectInput').value = '';
+    document.getElementById('fromInput').value = '';
+    document.getElementById('imageInput').value = '';
+    document.getElementById('htmlInput').value = '';
+  }
+
+  function searchOffers() {
+    const keyword = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = offers.filter(offer =>
+      offer.subject.toLowerCase().includes(keyword) ||
+      offer.from.toLowerCase().includes(keyword)
+    );
+    displayOffers(filtered);
+  }
+
+  function displayOffers(list) {
+    const container = document.getElementById('offersContainer');
+    container.innerHTML = '';
+
+    if (list.length === 0) {
+      container.innerHTML = '<p>No offers found.</p>';
+      return;
+    }
+
+    list.forEach((offer, index) => {
+      const card = document.createElement('div');
+      card.className = 'offer-card';
+
+      const left = document.createElement('div');
+      left.className = 'offer-left';
+      left.innerHTML = `
+        <strong>Subject:</strong> ${offer.subject}<br>
+        <strong>From:</strong> ${offer.from}<br>
+        <img src="${offer.image}" alt="Creative Image">
+      `;
+
+      const right = document.createElement('div');
+      right.className = 'offer-right';
+
+      if (offer.html) {
+        right.innerHTML = `
+          <label><strong>HTML Creative:</strong></label>
+          <div class="creative-code" id="html-${index}">${escapeHtml(offer.html)}</div>
+          <div class="button-group">
+            <button onclick="copyHtml(${index})">📋 Copy HTML</button>
+          </div>
+        `;
+      } else {
+        right.innerHTML = '<em>No HTML creative added.</em>';
+      }
+
+      card.appendChild(left);
+      card.appendChild(right);
+      container.appendChild(card);
+    });
+  }
+
+  function copyHtml(index) {
+    const offer = offers[index];
+    if (offer && offer.html) {
+      navigator.clipboard.writeText(offer.html)
+        .then(() => alert("HTML creative copied to clipboard!"))
+        .catch(() => alert("Failed to copy."));
+    }
+  }
+
+  function clearAllOffers() {
+    if (confirm("Are you sure you want to delete ALL offers? This cannot be undone.")) {
+      localStorage.removeItem('offers');
+      offers = [];
+      displayOffers([]);
+    }
+  }
+
+  function escapeHtml(html) {
+    const div = document.createElement('div');
+    div.innerText = html;
+    return div.innerHTML;
+  }
+
+  window.onload = function () {
+    displayOffers(offers);
+  };
+</script>
+
+</body>
+</html>

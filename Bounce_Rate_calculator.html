@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rate Calculator</title>
+<link rel="icon" href="https://via.placeholder.com/16/00E676/000000?text=R" type="image/png" />
+<style>
+  /* Reset */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background-color: #121212;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 16px;
+    min-height: 100vh;
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 0.2em;
+    font-weight: 900;
+    color: #00e676;
+    text-shadow: 0 0 8px #00e676aa;
+  }
+
+  p.description {
+    max-width: 600px;
+    font-size: 1.15rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    color: #bbb;
+    text-align: center;
+  }
+
+  p.description strong {
+    color: #00e676;
+  }
+
+  input[type="text"] {
+    width: 90%;
+    max-width: 480px;
+    padding: 14px 20px;
+    font-size: 1.15rem;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    background-color: #1e1e1e;
+    color: #eee;
+    box-shadow: inset 0 0 6px #00e676aa;
+    margin-bottom: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    transition: box-shadow 0.3s ease;
+  }
+  input[type="text"]:focus {
+    box-shadow: 0 0 14px 2px #00e676cc;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    max-width: 500px;
+    width: 90%;
+    margin-bottom: 3rem;
+  }
+
+  button {
+    flex: 1 1 160px;
+    padding: 14px 0;
+    font-size: 1.2rem;
+    font-weight: 900;
+    border-radius: 40px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(45deg, #00e676, #00b33f);
+    color: #121212;
+    box-shadow: 0 6px 18px #00e676aa;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+  }
+  button:hover {
+    background: linear-gradient(45deg, #00b33f, #008826);
+    box-shadow: 0 8px 24px #00e676dd;
+  }
+  button:active {
+    background: #008826;
+    box-shadow: 0 4px 12px #00701f;
+    transform: translateY(2px);
+  }
+
+  .output {
+    width: 90%;
+    max-width: 480px;
+    background: #1f1f1f;
+    padding: 28px 30px;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px #00e67655;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #00e676;
+    text-align: center;
+    letter-spacing: 0.02em;
+    user-select: none;
+    min-height: 90px;
+  }
+
+  .history {
+    width: 90%;
+    max-width: 600px;
+    background: #1f1f1f;
+    border-radius: 18px;
+    padding: 24px 28px;
+    box-shadow: 0 12px 35px #00e67655;
+    color: #ccc;
+    user-select: none;
+  }
+
+  .history h2 {
+    font-weight: 900;
+    font-size: 1.8rem;
+    margin-bottom: 18px;
+    color: #00e676;
+    border-bottom: 3px solid #00e676;
+    padding-bottom: 6px;
+    letter-spacing: 0.03em;
+    text-align: center;
+  }
+
+  ul {
+    max-height: 320px;
+    overflow-y: auto;
+    padding-left: 20px;
+    margin: 0;
+    list-style: none;
+  }
+
+  ul::-webkit-scrollbar {
+    width: 8px;
+  }
+  ul::-webkit-scrollbar-track {
+    background: #111;
+    border-radius: 4px;
+  }
+  ul::-webkit-scrollbar-thumb {
+    background: #00e676;
+    border-radius: 4px;
+  }
+
+  li {
+    background: #121212;
+    margin-bottom: 14px;
+    padding: 14px 20px;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px #00e67644;
+    font-weight: 600;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    transition: background-color 0.25s ease;
+    word-break: break-word;
+    color: #ddd;
+  }
+  li:hover {
+    background-color: #003311;
+  }
+
+  .error-message {
+    color: #ff4d4d;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <h1>Rate Calculator</h1>
+  <p class="description">Enter the values in the format: <strong>TotalEmails   BouncedEmails</strong></p>
+  <input type="text" id="inputValues" placeholder="e.g., 170,704   9,577" />
+
+  <div class="button-container">
+    <button onclick="calculateRates()">Calculate</button>
+    <button onclick="clearHistory()">Clear History</button>
+  </div>
+
+  <div class="output" id="output"></div>
+
+  <div class="history" id="history">
+    <h2>Calculation History (Last 10)</h2>
+    <ul id="historyList"></ul>
+  </div>
+
+  <script>
+    const history = [];
+
+    function calculateRates() {
+      const input = document.getElementById('inputValues').value;
+      const numbers = input.trim().split(/\s+/);
+      const outputDiv = document.getElementById('output');
+      outputDiv.classList.remove('error-message');
+      if (numbers.length === 2) {
+        const totalEmails = parseInt(numbers[0].replace(/,/g, ''), 10);
+        const bouncedEmails = parseInt(numbers[1].replace(/,/g, ''), 10);
+
+        if (!isNaN(totalEmails) && !isNaN(bouncedEmails) && totalEmails > 0 && bouncedEmails >= 0 && bouncedEmails <= totalEmails) {
+          const deliveryRate = ((totalEmails - bouncedEmails) / totalEmails * 100).toFixed(2);
+          const bounceRate = (bouncedEmails / totalEmails * 100).toFixed(2);
+
+          outputDiv.innerHTML = `
+            <p><strong>Delivery Rate:</strong> ${deliveryRate}%</p>
+            <p><strong>Bounce Rate:</strong> ${bounceRate}%</p>
+          `;
+
+          addToHistory(input, deliveryRate, bounceRate);
+        } else {
+          outputDiv.textContent = "Please enter valid numbers. Bounced emails must be between 0 and total emails.";
+          outputDiv.classList.add('error-message');
+        }
+      } else {
+        outputDiv.textContent = "Please enter exactly two numbers separated by spaces.";
+        outputDiv.classList.add('error-message');
+      }
+    }
+
+    function addToHistory(input, deliveryRate, bounceRate) {
+      const timestamp = new Date().toLocaleString();
+
+      if (history.length >= 10) {
+        history.shift();
+      }
+      history.unshift({
+        input,
+        deliveryRate,
+        bounceRate,
+        timestamp
+      });
+
+      updateHistoryDisplay();
+    }
+
+    function updateHistoryDisplay() {
+      const historyList = document.getElementById('historyList');
+      historyList.innerHTML = '';
+
+      history.forEach(entry => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <strong>Time:</strong> ${entry.timestamp} <br />
+          <strong>Input:</strong> ${entry.input} <br />
+          <strong>Delivery Rate:</strong> ${entry.deliveryRate}% <br />
+          <strong>Bounce Rate:</strong> ${entry.bounceRate}%
+        `;
+        historyList.appendChild(li);
+      });
+    }
+
+    function clearHistory() {
+      history.length = 0;
+      updateHistoryDisplay();
+      const outputDiv = document.getElementById('output');
+      outputDiv.innerHTML = '';
+      outputDiv.classList.remove('error-message');
+    }
+  </script>
+</body>
+</html>

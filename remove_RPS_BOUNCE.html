@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Comparison</title>
+<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/6/6d/Windows_Settings_app_icon.png" type="image/png">
+
+<style>
+    * {
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+  body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: white;
+        background-color: #212121;
+    }
+    textarea, input {
+        width: 30%;
+        padding: 8px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        border: 1px solid #444;
+        background-color: #333;
+        color: white;
+    }
+    button {
+        padding: 10px;
+        background-color: #2196F3;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+    button:hover {
+        background-color: #1976D2;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
+        color: white;
+    }
+    th, td {
+        border: 1px solid #444;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #555;
+    }
+    tr:nth-child(even) {
+        background-color: #444;
+    }
+    tr:nth-child(odd) {
+        background-color: #333;
+    }
+    #copyMessage {
+        margin-top: 10px;
+        color: #2196F3;
+    }
+</style>
+</head>
+<body>
+    <h2>CHECKER</h2>
+
+    <textarea id="textarea1" placeholder="Enter texts line by line"></textarea>
+    <textarea id="textarea2" placeholder="Texts to be compared" oninput="updateLineCount()"></textarea><br>
+<br><br>
+    <p id="lineCount" style="color: white;">Number of lines: 0</p>
+<br>
+    <div>
+        <button onclick="compareAndRemove()">Compare and Remove</button>
+        <button onclick="copyTextarea2()">Copy Text</button>
+    </div>
+
+    <p id="copyMessage"></p>
+
+<script>
+    function updateLineCount() {
+        var textarea2 = document.getElementById('textarea2').value;
+        var lines = textarea2.split('\n').filter(line => line.trim() !== '').length;
+        document.getElementById('lineCount').textContent = 'Number of lines: ' + lines;
+    }
+
+    function compareAndRemove() {
+        var textarea1 = document.getElementById('textarea1').value.split('\n').map(line => line.trim());
+        var textarea2 = document.getElementById('textarea2').value.split('\n');
+
+        textarea2 = textarea2.filter(line => line.trim() !== '' && !textarea1.includes(line.trim()));
+
+        document.getElementById('textarea2').value = textarea2.join('\n');
+        updateLineCount(); // Update line count after modification
+    }
+
+    function copyTextarea2() {
+        var textarea2Content = document.getElementById('textarea2').value;
+        var lineCount = textarea2Content.split('\n').filter(line => line.trim() !== '').length;
+        navigator.clipboard.writeText(textarea2Content).then(function() {
+            document.getElementById('copyMessage').textContent = lineCount + ' lines copied to clipboard!';
+        }, function(err) {
+            document.getElementById('copyMessage').textContent = 'Error in copying text.';
+        });
+    }
+</script><br><br><br><br><br><br><br><br>
+<b><sub>...Pizzy_48....</sub>	</b>
+</body>
+</html>

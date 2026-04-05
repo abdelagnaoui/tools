@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split List into Custom Chunks</title>
+    <link rel="icon" href="https://via.placeholder.com/16/007BFF/FFFFFF?text=S" type="image/png">
+    <style>
+        body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5; /* light blue-gray background */
+  color: #333333; /* dark text for better contrast */
+  margin: 20px;
+  text-align: center;
+}
+
+textarea, input {
+  width: 50%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 16px;
+  background-color: #ffffff; /* white inputs for clean look */
+  border: 1px solid #ccc; /* light gray border */
+  color: #333333;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
+}
+
+textarea:focus, input:focus {
+  border-color: #007acc; /* blue highlight on focus */
+  outline: none;
+}
+
+button {
+  margin: 10px;
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #007acc;  /* blue theme button */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s, transform 0.1s;
+  box-shadow: 0 2px 6px rgba(0, 122, 204, 0.5);
+}
+
+button:hover {
+  background-color: #005fa3;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 95, 163, 0.6);
+}
+
+.chunks-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.chunk-container {
+  width: 15%;
+  text-align: left;
+  background-color: #ffffff; /* white containers */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.chunk-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #007acc; /* blue headings */
+}
+
+.copy-status {
+  font-size: 14px;
+  color: #4CAF50; /* keep green success */
+  margin-top: 5px;
+}
+
+#copyMessage {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #4CAF50;
+  height: 24px;
+  transition: opacity 0.5s ease;
+}
+
+#copyCounter {
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #00BCD4;
+}
+
+
+    </style>
+</head>
+<body>
+    <h1>Split List into Custom Chunks</h1>
+
+    <!-- Success Message Area -->
+    <div id="copyMessage"></div>
+
+    <!-- Counter for copied chunks -->
+    <div id="copyCounter">Copied 0 of 0 chunks</div>
+
+    <textarea id="input" placeholder="Paste your long list here..."></textarea>
+    <input type="number" id="chunkSize" placeholder="Enter number of lines per chunk" value="100">
+    <div>
+        <button onclick="splitList()">Split List</button>
+        <button onclick="startOver()">Start Over</button>
+    </div>
+    <div id="output" class="chunks-wrapper"></div>
+
+    <script>
+        let copiedChunks = new Set();
+        let totalChunks = 0;
+
+        function splitList() {
+            const input = document.getElementById('input').value;
+            const lines = input.split('\n');
+            const chunkSize = parseInt(document.getElementById('chunkSize').value, 10) || 100;
+            const output = document.getElementById('output');
+            output.innerHTML = '';
+            copiedChunks.clear();
+
+            let chunkCount = 1;
+            totalChunks = Math.ceil(lines.length / chunkSize);
+            updateCopyCounter();
+
+            for (let i = 0; i < lines.length; i += chunkSize) {
+                const chunk = lines.slice(i, i + chunkSize).join('\n');
+                const chunkContainer = document.createElement('div');
+                chunkContainer.className = 'chunk-container';
+
+                const chunkTitle = document.createElement('div');
+                chunkTitle.className = 'chunk-title';
+                chunkTitle.textContent = `Sublist ${chunkCount} (${Math.min(chunkSize, lines.length - i)} lines)`;
+
+                const textarea = document.createElement('textarea');
+                textarea.value = chunk;
+                textarea.readOnly = true;
+
+                const copyButton = document.createElement('button');
+                copyButton.textContent = 'Copy';
+
+                const copyStatus = document.createElement('div');
+                copyStatus.className = 'copy-status';
+
+                const currentChunk = chunkCount;
+
+                copyButton.onclick = () => {
+                    textarea.select();
+                    document.execCommand('copy');
+                    copyStatus.textContent = 'Copied!';
+                    copiedChunks.add(currentChunk);
+                    updateCopyCounter();
+
+                    // Move to bottom
+                    output.removeChild(chunkContainer);
+                    output.appendChild(chunkContainer);
+
+                    // Show success message at top
+                    showCopyMessage("✅ Sublist copied successfully!");
+                };
+
+                chunkContainer.appendChild(chunkTitle);
+                chunkContainer.appendChild(textarea);
+                chunkContainer.appendChild(copyButton);
+                chunkContainer.appendChild(copyStatus);
+                output.appendChild(chunkContainer);
+                chunkCount++;
+            }
+        }
+
+        function startOver() {
+            document.getElementById('input').value = '';
+            document.getElementById('chunkSize').value = 100;
+            document.getElementById('output').innerHTML = '';
+            document.getElementById('copyMessage').textContent = '';
+            document.getElementById('copyCounter').textContent = 'Copied 0 of 0 chunks';
+            copiedChunks.clear();
+            totalChunks = 0;
+        }
+
+        function updateCopyCounter() {
+            document.getElementById('copyCounter').textContent =
+                `Copied ${copiedChunks.size} of ${totalChunks} chunks`;
+        }
+
+        function showCopyMessage(message) {
+            const msgDiv = document.getElementById('copyMessage');
+            msgDiv.textContent = message;
+            msgDiv.style.opacity = '1';
+            setTimeout(() => {
+                msgDiv.style.opacity = '0';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

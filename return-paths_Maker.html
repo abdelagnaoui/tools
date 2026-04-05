@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Subdomain Extractor</title>
+<style>
+  /* Reset & base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #e8eef4;
+    margin: 0;
+    padding: 40px 20px;
+    color: #2c3e50;
+  }
+  h1 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 2.8rem;
+    margin-bottom: 0.3em;
+    color: #34495e;
+  }
+  p {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    font-size: 1.1rem;
+    color: #5d6d7e;
+  }
+
+  /* Layout */
+  .text-box-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  .text-box-wrapper {
+    background: white;
+    border-radius: 12px;
+    padding: 18px 20px 24px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  .text-box-wrapper h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+  textarea {
+    flex-grow: 1;
+    resize: vertical;
+    min-height: 160px;
+    border-radius: 10px;
+    border: 1.5px solid #b0bec5;
+    padding: 12px 16px;
+    font-size: 1rem;
+    color: #2c3e50;
+    background-color: #f9fbfc;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: 'Consolas', 'Courier New', monospace;
+  }
+  textarea:focus {
+    border-color: #1abc9c;
+    box-shadow: 0 0 8px #1abc9caa;
+    outline: none;
+    background-color: #ffffff;
+  }
+
+  /* Button */
+  button {
+    display: block;
+    margin: 0 auto;
+    padding: 14px 28px;
+    background: #1abc9c;
+    color: white;
+    font-weight: 700;
+    font-size: 1.15rem;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 5px 14px rgba(26, 188, 156, 0.5);
+    transition: background-color 0.25s ease, box-shadow 0.25s ease;
+    user-select: none;
+  }
+  button:hover {
+    background-color: #16a085;
+    box-shadow: 0 7px 20px rgba(22, 160, 133, 0.6);
+  }
+  button:active {
+    background-color: #149174;
+    box-shadow: 0 3px 8px rgba(20, 145, 116, 0.7);
+    transform: translateY(1px);
+  }
+
+  /* Output sections */
+  .output-container {
+    margin-top: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 28px;
+    justify-content: center;
+  }
+  .output-section {
+    background: white;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+    border-radius: 16px;
+    padding: 20px 24px;
+    width: 350px;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+  }
+  .output-section h3 {
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: #34495e;
+    margin-top: 0;
+    margin-bottom: 16px;
+    border-bottom: 3px solid #1abc9c;
+    padding-bottom: 6px;
+  }
+  #existingList, #newList {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 6px;
+  }
+
+  /* Subdomain items */
+  .subdomain {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    font-family: 'Consolas', monospace;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #34495e;
+    background: linear-gradient(90deg, #ecf9f6 0%, #d2f0e2 100%);
+    box-shadow: 0 2px 6px rgba(26, 188, 156, 0.15);
+    transition: background-color 0.3s ease;
+  }
+  .subdomain:nth-child(odd) {
+    background: linear-gradient(90deg, #f9fcfb 0%, #d8eee6 100%);
+  }
+
+  /* Copy button */
+  .copy-btn {
+    padding: 6px 14px;
+    background-color: #16a085;
+    border: none;
+    border-radius: 24px;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(22, 160, 133, 0.5);
+    transition: background-color 0.25s ease, box-shadow 0.25s ease;
+    user-select: none;
+  }
+  .copy-btn:hover {
+    background-color: #138d75;
+    box-shadow: 0 6px 18px rgba(19, 141, 117, 0.7);
+  }
+  .copy-btn.success {
+    background-color: #27ae60 !important;
+    box-shadow: 0 6px 18px rgba(39, 174, 96, 0.8) !important;
+  }
+  .copy-btn.error {
+    background-color: #e74c3c !important;
+    box-shadow: 0 6px 18px rgba(231, 76, 60, 0.8) !important;
+  }
+
+  /* Success & error messages */
+  .success-message,
+  .error-message {
+    text-align: center;
+    font-weight: 600;
+    margin-top: 16px;
+    font-size: 1.05rem;
+    min-height: 26px;
+  }
+  .success-message {
+    color: #27ae60;
+  }
+  .error-message {
+    color: #e74c3c;
+  }
+
+  /* Scrollbar style for outputs */
+  #existingList::-webkit-scrollbar,
+  #newList::-webkit-scrollbar {
+    width: 6px;
+  }
+  #existingList::-webkit-scrollbar-thumb,
+  #newList::-webkit-scrollbar-thumb {
+    background-color: #1abc9c88;
+    border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+  <h1>Subdomain Extractor</h1>
+  <p>Paste your text below to find all subdomains repeated at least twice:</p>
+
+  <div class="text-box-container">
+    <div class="text-box-wrapper">
+      <h3>Input Text</h3>
+      <textarea id="inputText" placeholder="Paste your text here..."></textarea>
+    </div>
+    <div class="text-box-wrapper">
+      <h3>Domains to Append</h3>
+      <textarea id="domainTextBox" placeholder="Paste your domains here..."></textarea>
+    </div>
+    <div class="text-box-wrapper">
+      <h3>Already Done Subdomains/Domains</h3>
+      <textarea id="alreadyDoneTextBox" placeholder="Already done subdomains/domains..."></textarea>
+    </div>
+  </div>
+
+  <button onclick="extractSubdomains()">Extract Subdomains</button>
+
+  <div class="success-message" id="successMessage"></div>
+  <div class="error-message" id="errorMessage"></div>
+
+  <div class="output-container">
+    <section class="output-section" id="existingSubdomains">
+      <h3>Existing Subdomains</h3>
+      <div id="existingList"></div>
+    </section>
+    <section class="output-section" id="newSubdomains">
+      <h3>New Subdomains</h3>
+      <div id="newList"></div>
+    </section>
+  </div>
+
+<script>
+  function extractSubdomains() {
+    const input = document.getElementById("inputText").value.trim();
+    const alreadyDoneRaw = document.getElementById("alreadyDoneTextBox").value.trim();
+    const alreadyDone = alreadyDoneRaw ? alreadyDoneRaw.split("\n").map(s => s.trim()) : [];
+    const lines = input.split("\n");
+    const subdomainCounts = {};
+
+    // Clear previous messages and outputs
+    document.getElementById("successMessage").textContent = "";
+    document.getElementById("errorMessage").textContent = "";
+    document.getElementById("existingList").innerHTML = "";
+    document.getElementById("newList").innerHTML = "";
+
+    // Count subdomains
+    lines.forEach(line => {
+      const parts = line.trim().split(".");
+      if(parts.length > 2) {
+        // Take first 3 parts as subdomain (e.g. sub.sub.domain)
+        const potentialSubdomain = parts.slice(0, 3).join(".");
+        subdomainCounts[potentialSubdomain] = (subdomainCounts[potentialSubdomain] || 0) + 1;
+      }
+    });
+
+    // Filter repeated subdomains (2 or more)
+    const repeatedSubdomains = Object.entries(subdomainCounts)
+      .filter(([subdomain, count]) => count >= 2)
+      .sort((a,b) => b[1] - a[1]);
+
+    if (repeatedSubdomains.length === 0) {
+      document.getElementById("newList").innerHTML = `<strong>No repeated subdomains found in the input.</strong>`;
+      return;
+    }
+
+    repeatedSubdomains.forEach(([subdomain]) => {
+      const alreadyExists = alreadyDone.some(domain => domain.includes(subdomain));
+      const targetList = alreadyExists ? "existingList" : "newList";
+
+      const subdomainDiv = document.createElement("div");
+      subdomainDiv.className = "subdomain";
+
+      const subdomainSpan = document.createElement("span");
+      subdomainSpan.textContent = subdomain;
+
+      const copyButton = document.createElement("button");
+      copyButton.className = "copy-btn";
+      copyButton.textContent = "Copy to All Domains";
+
+      copyButton.onclick = () => {
+        const domainsInput = document.getElementById("domainTextBox").value.trim();
+        if (!domainsInput) {
+          alert("Please enter domains to append.");
+          return;
+        }
+        const domains = domainsInput.split("\n").map(d => d.trim()).filter(Boolean);
+        const modifiedDomains = domains.map(domain => `${subdomain}.${domain}`);
+
+        if (alreadyExists) {
+          copyButton.classList.remove("success");
+          copyButton.classList.add("error");
+          document.getElementById("errorMessage").textContent = `Error: Subdomain "${subdomain}" already exists in the list.`;
+          document.getElementById("successMessage").textContent = "";
+        } else {
+          navigator.clipboard.writeText(modifiedDomains.join("\n")).then(() => {
+            copyButton.classList.remove("error");
+            copyButton.classList.add("success");
+            document.getElementById("successMessage").textContent = `Copied modified domains with subdomain: ${subdomain}`;
+            document.getElementById("errorMessage").textContent = "";
+          }).catch(() => {
+            alert("Failed to copy to clipboard.");
+          });
+        }
+      };
+
+      subdomainDiv.appendChild(subdomainSpan);
+      subdomainDiv.appendChild(copyButton);
+      document.getElementById(targetList).appendChild(subdomainDiv);
+    });
+  }
+</script>
+
+</body>
+</html>

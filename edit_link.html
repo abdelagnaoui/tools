@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>HTML Link Swapper Tool - Improved</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  textarea { width: 100%; height: 180px; margin-bottom: 10px; font-family: monospace; }
+  button { padding: 10px 20px; font-size: 16px; }
+  .container { max-width: 900px; margin: auto; }
+  label { font-weight: bold; }
+  .output { white-space: pre-wrap; background: #f9f9f9; padding: 10px; border: 1px solid #ddd; height: 180px; overflow: auto; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <label for="html1">HTML Input 1:</label>
+    <textarea id="html1" placeholder="Paste first HTML here..."></textarea>
+
+    <label for="html2">HTML Input 2:</label>
+    <textarea id="html2" placeholder="Paste second HTML here..."></textarea>
+
+    <button id="swapBtn">Swap Links</button>
+
+    <h3>Output HTML 1:</h3>
+    <div id="out1" class="output"></div>
+
+    <h3>Output HTML 2:</h3>
+    <div id="out2" class="output"></div>
+  </div>
+
+<script>
+  // Define the hab keys you want to detect exactly (based on your examples)
+  const habKeys = [
+    '4[trk]',
+    '1[trk]',
+    '1[trk]Uns',
+    '1[trk]Out',
+    '8[trk]'
+  ];
+
+  // Extract the hab key from the href if it matches one of the known keys
+  function getHabKey(href) {
+    if (!href) return null;
+    // Look for ?hab= followed by one of the keys
+    const match = href.match(/\?hab=([^&"']+)/);
+    if (!match) return null;
+    const habValue = match[1];
+    // Check if habValue starts with any habKey
+    for (const key of habKeys) {
+      if (habValue.startsWith(key)) return key;
+    }
+    return null;
+  }
+
+  function extractLinks(html) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    // Extract all <a> tags with href
+    const anchors = Array.from(doc.querySelectorAll('a[href]'));
+    // Map: habKey -> array of anchor elements with that key
+    const linksMap = {};
+
+    anchors.forEach(a => {
+      const href = a.getAttribute('href');
+      const habKey = getHabKey(href);
+      if (habKey) {
+        if (!linksMap[habKey]) linksMap[habKey] = [];
+        linksMap[habKey].push(a);
+      }
+    });
+
+    return { doc, linksMap };
+  }
+
+  function swapLinks(html1, html2) {
+    const parsed1 = extractLinks(html1);
+    const parsed2 = extractLinks(html2);
+
+    const links1 = parsed1.linksMap;
+    const links2 = parsed2.linksMap;
+
+    // For each habKey, swap hrefs between the first matching link in html1 and html2
+    habKeys.forEach(key => {
+      const linksArr1 = links1[key] || [];
+      const linksArr2 = links2[key] || [];
+      const len = Math.min(linksArr1.length, linksArr2.length);
+
+      for (let i = 0; i < len; i++) {
+        const a1 = linksArr1[i];
+        const a2 = linksArr2[i];
+        const href1 = a1.getAttribute('href');
+        const href2 = a2.getAttribute('href');
+
+        a1.setAttribute('href', href2);
+        a2.setAttribute('href', href1);
+      }
+    });
+
+    return {
+      html1: parsed1.doc.documentElement.outerHTML,
+      html2: parsed2.doc.documentElement.outerHTML
+    };
+  }
+
+  document.getElementById('swapBtn').addEventListener('click', () => {
+    const html1 = document.getElementById('html1').value;
+    const html2 = document.getElementById('html2').value;
+
+    if (!html1.trim() || !html2.trim()) {
+      alert('Please paste both HTML inputs.');
+      return;
+    }
+
+    try {
+      const swapped = swapLinks(html1, html2);
+      document.getElementById('out1').textContent = swapped.html1;
+      document.getElementById('out2').textContent = swapped.html2;
+    } catch (e) {
+      alert('Error parsing HTML or swapping links: ' + e.message);
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Total Send & X-Delay Calculator</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #4a90e2, #50e3c2);
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      color: #2c3e50;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      max-width: 520px;
+      width: 100%;
+      padding: 2.5rem 3rem;
+      transition: box-shadow 0.3s ease;
+    }
+    .container:hover {
+      box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+    }
+
+    h1 {
+      font-weight: 700;
+      font-size: 1.9rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: #34495e;
+    }
+
+    h2 {
+      font-weight: 600;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #34495e;
+      border-bottom: 2px solid #50e3c2;
+      padding-bottom: 0.4rem;
+    }
+
+    .section {
+      margin-bottom: 3rem;
+    }
+
+    .row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .input-group {
+      flex: 1;
+      min-width: 140px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 0.35rem;
+      color: #7f8c8d;
+      user-select: none;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 0.65rem 1rem;
+      font-size: 1rem;
+      border-radius: 12px;
+      border: 1.8px solid #bdc3c7;
+      transition: border-color 0.3s ease;
+      outline-offset: 2px;
+      color: #2c3e50;
+    }
+
+    input[type="number"]:focus {
+      border-color: #50e3c2;
+      box-shadow: 0 0 8px #50e3c2aa;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px 0;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: white;
+      background: linear-gradient(90deg, #50e3c2, #4a90e2);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(80, 227, 194, 0.5);
+      transition: background 0.3s ease, transform 0.15s ease;
+      user-select: none;
+    }
+    button:hover {
+      background: linear-gradient(90deg, #4a90e2, #50e3c2);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(74, 144, 226, 0.7);
+    }
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 15px rgba(74, 144, 226, 0.5);
+    }
+
+    .result {
+      margin-top: 1.5rem;
+      background: #ecf9f8;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #2c3e50;
+      box-shadow: inset 0 0 8px #50e3c2aa;
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: text;
+    }
+
+    .alert {
+      color: #e74c3c;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .row {
+        flex-direction: column;
+      }
+      .input-group {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Total Send & X-Delay Calculator</h1>
+
+    <div class="section">
+      <h2>Calculate Total Send</h2>
+      <div class="row">
+        <div class="input-group">
+          <label for="servers">Servers</label>
+          <input type="number" id="servers" min="1" placeholder="e.g. 3" />
+        </div>
+        <div class="input-group">
+          <label for="hours">Hours</label>
+          <input type="number" id="hours" min="1" placeholder="e.g. 5" />
+        </div>
+        <div class="input-group">
+          <label for="xDelay">X-Delay</label>
+          <input type="number" id="xDelay" min="1" placeholder="e.g. 1000" />
+        </div>
+      </div><br><br>
+      <button onclick="calculateTotalSend()">Calculate Total Send</button>
+      <div id="result" class="result"></div>
+    </div>
+
+    <div class="section">
+      <h2>Calculate Required X-Delay</h2>
+      <div class="row">
+        <div class="input-group">
+          <label for="dataAmount2">Data Amount</label>
+          <input type="number" id="dataAmount2" min="1" placeholder="e.g. 1000000" />
+        </div>
+        <div class="input-group">
+          <label for="servers2">Servers</label>
+          <input type="number" id="servers2" min="1" placeholder="e.g. 3" />
+        </div>
+        <div class="input-group">
+          <label for="hours2">Hours</label>
+          <input type="number" id="hours2" min="1" placeholder="e.g. 5" />
+        </div>
+      </div><br><br>
+      <button onclick="calculateXDelay()">Calculate Required X-Delay</button>
+      <div id="xDelayResult" class="result"></div>
+    </div>
+  </div>
+
+  <script>
+    function getRatePerMinute(xDelay) {
+      return Math.round((50000 / xDelay) * 1000);
+    }
+
+    function calculateTotalSend() {
+      const servers = parseInt(document.getElementById('servers').value);
+      const hours = parseInt(document.getElementById('hours').value);
+      const xDelay = parseInt(document.getElementById('xDelay').value);
+
+      if (isNaN(servers) || isNaN(hours) || isNaN(xDelay) || servers <= 0 || hours <= 0 || xDelay <= 0) {
+        document.getElementById('result').innerHTML = '<span class="alert">Please enter valid positive numbers.</span>';
+        return;
+      }
+
+      const ratePerMinute = getRatePerMinute(xDelay);
+      const totalSend = ratePerMinute * 60 * hours * servers;
+
+      document.getElementById('result').textContent =
+        `Total send: ${totalSend.toLocaleString()} units over ${hours} hour(s) with x-delay ${xDelay} ms on ${servers} server(s).`;
+    }
+
+    function calculateXDelay() {
+      const dataAmount = parseInt(document.getElementById('dataAmount2').value);
+      const servers = parseInt(document.getElementById('servers2').value);
+      const hours = parseInt(document.getElementById('hours2').value);
+
+      if (isNaN(dataAmount) || isNaN(servers) || isNaN(hours) || dataAmount <= 0 || servers <= 0 || hours <= 0) {
+        document.getElementById('xDelayResult').innerHTML = '<span class="alert">Please enter valid positive numbers.</span>';
+        return;
+      }
+
+      const totalMinutes = servers * hours * 60;
+      const ratePerMinute = dataAmount / totalMinutes;
+      const xDelay = Math.round((50000 * 1000) / ratePerMinute);
+
+      document.getElementById('xDelayResult').textContent =
+        `To send ${dataAmount.toLocaleString()} units in ${hours} hour(s) using ${servers} server(s), required x-delay is approx: ${xDelay.toLocaleString()} ms.`;
+    }
+  </script>
+</body>
+</html>
