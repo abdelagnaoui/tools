@@ -59,7 +59,7 @@
     }
     .groups-inputs, .groups-textareas, .container {
       display: flex;
-      gap: 20px;
+      gap: 30px;
       flex-wrap: wrap;
     }
     .group-input, .group-textarea, .group-box {
@@ -92,6 +92,40 @@
       font-family: 'Courier New', monospace;
       font-size: 14px;
     }
+/* 🔥 NEW INPUT STYLE (modern) */
+input[type="text"] {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background: #f9fafb;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+/* focus */
+input[type="text"]:focus {
+  border-color: #59c3a6;
+  box-shadow: 0 0 12px rgba(89,195,166,0.4);
+  background: #ffffff;
+}
+
+/* hover */
+input[type="text"]:hover {
+  border-color: #4f8cc9;
+}
+
+/* placeholder */
+input[type="text"]::placeholder {
+  color: #999;
+}
+
+/* spacing fix */
+.group-input input {
+  margin-top: 5px;
+}
   </style>
 </head>
 <body>
@@ -103,34 +137,16 @@
 
   <div class="groups-inputs">
     <div class="group-input">
-      <label for="groupAName">Group A Name:</label>
-      <select id="groupAName">
-        <option value="" disabled selected>Select Name</option>
-		<option>AbdeLagnaoui</option>
-        <option>Kaoutar</option>
-        <option>Imad</option>
-        <option>Mohamed</option>
-      </select>
+     <label for="groupAName">Name A:</label>
+<input type="text" id="groupAName" placeholder="Enter name">
     </div>
     <div class="group-input">
-      <label for="groupBName">Group B Name:</label>
-      <select id="groupBName">
-        <option value="" disabled selected>Select Name</option>
-		<option>AbdeLagnaoui</option>
-        <option>Kaoutar</option>
-        <option>Imad</option>
-        <option>Mohamed</option>
-      </select>
+      <label for="groupBName">Name B:</label>
+<input type="text" id="groupBName" placeholder="Enter name">
     </div>
     <div class="group-input">
-      <label for="groupCName">Group C Name (Optional):</label>
-      <select id="groupCName">
-        <option value="" selected>-- None --</option>
-		<option>AbdeLagnaoui</option>
-        <option>Kaoutar</option>
-        <option>Imad</option>
-        <option>Mohamed</option>
-      </select>
+      <label for="groupCName">Name C:</label>
+<input type="text" id="groupCName" placeholder="Enter name (optional)">
     </div>
   </div>
 
@@ -195,13 +211,36 @@
 
       const numGroups = groupCName ? 3 : 2;
 
-      // Round-robin assign from pool
-      for (let i = 0; i < pool.length; i++) {
-        const target = i % numGroups;
-        if (target === 0) groupA.push(pool[i]);
-        else if (target === 1) groupB.push(pool[i]);
-        else groupC.push(pool[i]);
-      }
+ 
+// 🔥 SMART FAIR SPLIT
+const groups = [
+  { name: "A", list: groupA },
+  { name: "B", list: groupB }
+];
+
+if (groupCName) {
+  groups.push({ name: "C", list: groupC });
+}
+
+ 
+let minSize = Math.min(...groups.map(g => g.list.length));
+
+ 
+let activeGroups = groups.filter(g => g.list.length === minSize);
+
+let index = 0;
+
+while (index < pool.length) {
+  for (let g of activeGroups) {
+    if (index < pool.length) {
+      g.list.push(pool[index]);
+      index++;
+    }
+  }
+ 
+  minSize = Math.min(...groups.map(g => g.list.length));
+  activeGroups = groups.filter(g => g.list.length === minSize);
+}
 
       // Update group titles and output
       document.getElementById("titleA").textContent = groupAName;
