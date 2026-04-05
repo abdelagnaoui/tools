@@ -809,6 +809,117 @@ select.addEventListener('change', function() {
 });
 
   </pre>
+  
+ <pre id="AutoPauseRPS" style="display:none;">
+
+(() => {
+  let stopFlag = false;
+
+  // 1. Create input textarea
+  const inputArea = document.createElement('textarea');
+  inputArea.id = 'tempDomList';
+  inputArea.style.position = 'fixed';
+  inputArea.style.top = '10px';
+  inputArea.style.left = '10px';
+  inputArea.style.width = '400px';
+  inputArea.style.height = '300px';
+  inputArea.placeholder = 'Paste your lines here...';
+  inputArea.style.zIndex = 9999;
+  document.body.appendChild(inputArea);
+
+  // 2. Start Button
+  const startButton = document.createElement('button');
+  startButton.textContent = 'Start Processing';
+  startButton.style.position = 'fixed';
+  startButton.style.top = '320px';
+  startButton.style.left = '10px';
+  startButton.style.zIndex = 9999;
+  startButton.style.padding = '10px';
+  startButton.style.backgroundColor = '#28a745';
+  startButton.style.color = '#fff';
+  startButton.style.border = 'none';
+  startButton.style.cursor = 'pointer';
+  startButton.style.fontSize = '14px';
+  document.body.appendChild(startButton);
+
+  // 3. Stop Button
+  const stopButton = document.createElement('button');
+  stopButton.textContent = 'Stop Processing';
+  stopButton.style.position = 'fixed';
+  stopButton.style.top = '360px';
+  stopButton.style.left = '10px';
+  stopButton.style.zIndex = 9999;
+  stopButton.style.padding = '10px';
+  stopButton.style.backgroundColor = '#dc3545';
+  stopButton.style.color = '#fff';
+  stopButton.style.border = 'none';
+  stopButton.style.cursor = 'pointer';
+  stopButton.style.fontSize = '14px';
+  document.body.appendChild(stopButton);
+
+  // 4. Stop flag control
+  stopButton.onclick = () => {
+    stopFlag = true;
+    console.log('Processing stopped by user.');
+  };
+
+  // 5. Wait for the button to be enabled again (120s timeout)
+  const waitForButtonReenable = async (button, timeout = 120000) => {
+    const start = Date.now();
+    while (button.disabled || button.classList.contains('ui-state-disabled')) {
+      if (stopFlag) throw new Error('Stopped manually.');
+      if (Date.now() - start > timeout) throw new Error('Timeout waiting for button to re-enable.');
+      await new Promise(r => setTimeout(r, 200));
+    }
+  };
+
+  // 6. Start processing
+  startButton.onclick = async () => {
+    stopFlag = false;
+
+    const lines = inputArea.value.split('\n').filter(l => l.trim() !== '');
+    if (!lines.length) return alert('Please paste some lines first.');
+
+    const chunks = [];
+    for (let i = 0; i < lines.length; i += 100) {
+      chunks.push(lines.slice(i, i + 100).join('\n'));
+    }
+
+    const targetArea = document.getElementById('otherdoms');
+    if (!targetArea) return alert('#otherdoms textarea not found!');
+
+    // Correct selector for input[type=submit] with name="Pause"
+    const button = document.querySelector('input[name="Pause"]');
+    if (!button) return alert('Target button with name="Pause" not found!');
+
+    for (let i = 0; i < chunks.length; i++) {
+      if (stopFlag) {
+        alert('Processing stopped.');
+        return;
+      }
+
+      console.log(`Processing chunk ${i + 1}/${chunks.length}...`);
+
+      // Paste lines into #otherdoms
+      targetArea.value = chunks[i];
+      targetArea.dispatchEvent(new Event('input', { bubbles: true }));
+
+      // Click the button
+      button.click();
+
+      // Wait for button to become available again
+      try {
+        await waitForButtonReenable(button);
+      } catch (err) {
+        alert(err.message);
+        return;
+      }
+    }
+
+    if (!stopFlag) alert('All chunks processed!');
+  };
+})();
+  </pre>
 
   <script>
     // Search filter
