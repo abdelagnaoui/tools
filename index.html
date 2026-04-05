@@ -11,14 +11,15 @@
       box-sizing: border-box;
     }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle at top, #020617, #0f172a);
-      margin: 0;
-      padding: 0;
-      color: #e2e8f0;
-    }
-
+  body::before {
+  content: "";
+  position: fixed;
+  background: url("https://wallpapercave.com/wp/wp3284848.gif") no-repeat center center fixed;
+background-size: cover;
+  inset: 0;
+   
+  z-index: -1;
+}
     header {
       display: flex;
       align-items: center;
