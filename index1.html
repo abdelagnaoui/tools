@@ -568,8 +568,8 @@ input.addEventListener("change", startClicker);
   }
 
   startBtn.onclick = () => {
-    let hours = parseInt(hourInput.value)  0;
-    let minutes = parseInt(minInput.value)  0;
+    let hours = parseInt(hourInput.value) || 0;
+    let minutes = parseInt(minInput.value) || 0;
     let seconds = parseInt(secInput.value) || 0;
 
     let totalSeconds = hours * 3600 + minutes * 60 + seconds;
@@ -599,7 +599,7 @@ input.addEventListener("change", startClicker);
       const h = Math.floor(totalSeconds / 3600);
       const m = Math.floor((totalSeconds % 3600) / 60);
       const s = totalSeconds % 60;
-      countdown.textContent = ⏳ Time left: ${formatTime(h, m, s)};
+      countdown.textContent = '⏳ Time left: ${formatTime(h, m, s)}';
       totalSeconds--;
     }, 1000);
   };
@@ -1112,54 +1112,93 @@ select.addEventListener('change', function() {
 
     alert('Done ✅');
   };
-})();panel.style
+})();
 
   </pre>
 
   <script>
-    // Search filter
-    document.getElementById('searchInput').addEventListener('input', function () {
-      const filter = this.value.toLowerCase();
-      document.querySelectorAll('.tool-item').forEach(item => {
-        const text = item.textContent.toLowerCase();
-        item.style.display = text.includes(filter) ? '' : 'none';
-      });
+  // ===== SEARCH FILTER =====
+  document.getElementById('searchInput').addEventListener('input', function () {
+    const filter = this.value.toLowerCase();
+    document.querySelectorAll('.tool-item').forEach(item => {
+      const text = item.textContent.toLowerCase();
+      item.style.display = text.includes(filter) ? '' : 'none';
     });
+  });
 
-    // Copy & color change + message show logic
-    document.querySelectorAll('.tool-button[data-script]').forEach(button => {
-      button.addEventListener('click', () => {
-        const scriptId = button.getAttribute('data-script');
-        const scriptText = document.getElementById(scriptId)?.textContent.trim();
-        if (!scriptText) return;
 
-        navigator.clipboard.writeText(scriptText).then(() => {
-          // Change color for all buttons:
-          document.querySelectorAll('.tool-button[data-script]').forEach(btn => {
-            btn.style.backgroundColor = '#2b2e83'; // reset to original
-          });
-          // Change clicked button background color:
-          button.style.backgroundColor = 'green';
+  // ===== COPY FUNCTION (FIX COMPATIBILITY) =====
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    } else {
+      return new Promise((resolve) => {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-999999px";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
 
-          // Show the copied message only for clicked button
-          document.querySelectorAll('.copied-msg').forEach(msg => {
-            msg.style.display = 'none';
-          });
-          const msg = button.nextElementSibling;
-          if (msg && msg.classList.contains('copied-msg')) {
-            msg.style.display = 'inline-block';
-            msg.textContent = 'Has Been Copied✔️';
-            setTimeout(() => {
-              msg.style.display = 'none';
-              button.style.backgroundColor = '#2b2e83'; // reset after timeout
-            }, 2000);
-          }
-        }).catch(() => {
-          alert('❌ Failed to copy!');
+        try {
+          document.execCommand("copy");
+        } catch (err) {
+          alert("❌ Copy failed");
+        }
+
+        textarea.remove();
+        resolve();
+      });
+    }
+  }
+
+
+  // ===== COPY + UI LOGIC =====
+  document.querySelectorAll('.tool-button[data-script]').forEach(button => {
+    button.addEventListener('click', () => {
+
+      const scriptId = button.getAttribute('data-script');
+
+      const el = document.getElementById(scriptId);
+      const scriptText = el ? el.innerText.trim() : "";
+
+      if (!scriptText) return;
+
+      copyText(scriptText).then(() => {
+
+        // reset colors
+        document.querySelectorAll('.tool-button[data-script]').forEach(btn => {
+          btn.style.backgroundColor = '#2b2e83';
         });
+
+        // active button
+        button.style.backgroundColor = 'green';
+
+        // hide all messages
+        document.querySelectorAll('.copied-msg').forEach(msg => {
+          msg.style.display = 'none';
+        });
+
+        // show message
+        const msg = button.nextElementSibling;
+        if (msg && msg.classList.contains('copied-msg')) {
+          msg.style.display = 'inline-block';
+          msg.textContent = 'Has Been Copied✔️';
+
+          setTimeout(() => {
+            msg.style.display = 'none';
+            button.style.backgroundColor = '#2b2e83';
+          }, 2000);
+        }
+
+      }).catch(() => {
+        alert('❌ Failed to copy!');
       });
+
     });
-  </script>
+  });
+</script>
 
 </body>
 </html>
