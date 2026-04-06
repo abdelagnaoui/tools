@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ultimate Subdomain Generator</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(135deg,#0f172a,#020617);
+    color: white;
+    text-align: center;
+    padding: 40px;
+}
+
+.container {
+    max-width: 500px;
+    margin: auto;
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+input {
+    padding: 10px;
+    width: 80%;
+    border-radius: 8px;
+    border: none;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: #22c55e;
+    color: white;
+}
+
+.item {
+    background: #020617;
+    margin: 5px;
+    padding: 8px;
+    border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Subdomains Generator</h2>
+
+<input type="number" id="count" value="10"><br>
+
+<button onclick="generate()">Generate</button>
+
+<div id="results"></div>
+
+</div>
+
+<script>
+ 
+let used = JSON.parse(localStorage.getItem("ALL_SUBS")) || [];
+
+// words--
+const base = [
+"progress","secure","fast","quantum","vertex","matrix","fusion","orbit","pulse","vector","nexus",
+"infra","logic","binary","signal","crypto","flux","engine","vision",
+"scale","stack","sync","drive","spark","byte","node","frame",
+"layer","link","bridge","radar","scope","pilot","shift",
+"boost","stream","forge","craft","axis","phase","loop","mesh",
+"edge","root","shell","track","path","wave","field",
+"kernel","delta","omega","sigma","gamma","theta",
+"neon","pixel","render","compute","cluster","array",
+"protocol","gateway","backend","frontend","pipeline","cache",
+"runtime","instance","virtual","storage","server","client",
+"dashboard","monitor","optimizer","builder","manager",
+"smart","global","dynamic","elite","prime",
+"nova","alpha","core","system","portal","hub","cloud","data",
+"network","flow","grid","zone","lab","base","control","center"
+];
+
+//  doms
+const domainNames = [
+"cloudcore","techflow","baracademy","webstack","datapulse",
+"nextgrid","hostzone","netcraft","skyhub","devpoint","barnews",
+ "barreview","classroom","examoffice","virtualcourt"
+];
+
+// extensions
+const tlds = [
+".com",".net",".org",".xyz",".io",".co",".us",".app",".dev",".site"
+];
+
+function rand(arr){
+    return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function generate(){
+
+    let count = parseInt(document.getElementById("count").value);
+    let results = document.getElementById("results");
+
+    results.innerHTML = "";
+
+    let newList = [];
+    let tries = 0;
+
+    while(newList.length < count && tries < 10000){
+
+        let name = rand(base) + "-" + rand(base);
+
+        if(Math.random() > 0.5){
+            name += "-" + rand(base);
+        }
+
+        let domain = rand(domainNames) + rand(tlds);
+        let full = name + "." + domain;
+
+        //  duplicate
+        if(!used.includes(full)){
+            used.push(full);
+            newList.push(full);
+        }
+
+        tries++;
+    }
+
+    localStorage.setItem("ALL_SUBS", JSON.stringify(used));
+
+    newList.forEach(d=>{
+        let div = document.createElement("div");
+        div.className = "item";
+        div.textContent = d;
+        results.appendChild(div);
+    });
+}
+
+ 
+
+</script>
+
+</body>
+</html>
