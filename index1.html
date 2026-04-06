@@ -11,8 +11,16 @@
     *, *::before, *::after {
       box-sizing: border-box;
     }
-
-  body::before {
+body::before {
+  content: "";
+  position: fixed;
+  background: url("https://wallpapercave.com/wp/wp3284848.gif") no-repeat center center fixed;
+  background-size: cover;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none; /* ✅ زيد هادي */
+}
+//*  body::before {
   content: "";
   position: fixed;
   background: url("https://wallpapercave.com/wp/wp3284848.gif") no-repeat center center fixed;
@@ -20,7 +28,8 @@ background-size: cover;
   inset: 0;
    
   z-index: -1;
-}
+}*//
+ 
     header {
       display: flex;
       align-items: center;
@@ -29,6 +38,8 @@ background-size: cover;
       background: rgba(255,255,255,0.05);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255,255,255,0.08);
+       backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
     }
 
     header h1 {
@@ -71,8 +82,20 @@ background-size: cover;
       gap: 24px;
       padding: 20px;
     }
-
-    .category {
+    
+    
+.category {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 24px;
+  border-radius: 20px;
+  flex: 1 1 320px;
+  max-width: 360px;
+  position: relative;
+  z-index: 10; /* ✅ زيد هادي */
+}
+ //*   .category {
       background: rgba(255,255,255,0.05);
       padding: 24px;
       border-radius: 20px;
@@ -83,9 +106,10 @@ background-size: cover;
       transition: 0.3s;
       position: relative;
       overflow: hidden;
-    }
+    }*//
 
     /* ✅ FIX CLICK */
+  
     .category::before {
       content: "";
       position: absolute;
@@ -165,6 +189,12 @@ background-size: cover;
         align-items: center;
       }
     }
+    
+    @supports not (backdrop-filter: blur(10px)) {
+  .category, header {
+    background: rgba(0,0,0,0.5);
+  }
+}
   </style>
 </head>
 <body>
