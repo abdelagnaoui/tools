@@ -11,25 +11,16 @@
     *, *::before, *::after {
       box-sizing: border-box;
     }
-body::before {
+
+  body {
   content: "";
   position: fixed;
   background: url("https://wallpapercave.com/wp/wp3284848.gif") no-repeat center center fixed;
   background-size: cover;
   inset: 0;
-  z-index: -1;
-  pointer-events: none; /* ✅ زيد هادي */
-}
-//*  body::before {
-  content: "";
-  position: fixed;
-  background: url("https://wallpapercave.com/wp/wp3284848.gif") no-repeat center center fixed;
-background-size: cover;
-  inset: 0;
    
   z-index: -1;
-}*//
- 
+}
     header {
       display: flex;
       align-items: center;
@@ -38,8 +29,6 @@ background-size: cover;
       background: rgba(255,255,255,0.05);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255,255,255,0.08);
-       backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
     }
 
     header h1 {
@@ -82,20 +71,8 @@ background-size: cover;
       gap: 24px;
       padding: 20px;
     }
-    
-    
-.category {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: 24px;
-  border-radius: 20px;
-  flex: 1 1 320px;
-  max-width: 360px;
-  position: relative;
-  z-index: 10; /* ✅ زيد هادي */
-}
- //*   .category {
+
+    .category {
       background: rgba(255,255,255,0.05);
       padding: 24px;
       border-radius: 20px;
@@ -106,10 +83,9 @@ background-size: cover;
       transition: 0.3s;
       position: relative;
       overflow: hidden;
-    }*//
+    }
 
     /* ✅ FIX CLICK */
-  
     .category::before {
       content: "";
       position: absolute;
@@ -189,12 +165,6 @@ background-size: cover;
         align-items: center;
       }
     }
-    
-    @supports not (backdrop-filter: blur(10px)) {
-  .category, header {
-    background: rgba(0,0,0,0.5);
-  }
-}
   </style>
 </head>
 <body>
@@ -1008,88 +978,51 @@ select.addEventListener('change', function() {
 })();panel.style
 
   </pre>
-<script>
-// Search filter
-document.getElementById('searchInput').addEventListener('input', function () {
-  const filter = this.value.toLowerCase();
-  document.querySelectorAll('.tool-item').forEach(item => {
-    const text = item.textContent.toLowerCase();
-    item.style.display = text.includes(filter) ? '' : 'none';
-  });
-});
 
-// ✅ COPY FUNCTION (SUPER FIX FOR ALL BROWSERS)
-function copyText(text) {
-  try {
-    // الطريقة الأولى (حديثة)
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text);
-      return;
-    }
-  } catch (e) {}
-
-  // الطريقة الثانية (fallback قوي)
-  try {
-    const textarea = document.createElement("textarea");
-    textarea.value = text;
-    textarea.style.position = "fixed";
-    textarea.style.top = "0";
-    textarea.style.left = "0";
-    textarea.style.width = "1px";
-    textarea.style.height = "1px";
-    textarea.style.opacity = "0";
-
-    document.body.appendChild(textarea);
-    textarea.focus();
-    textarea.select();
-
-    document.execCommand("copy");
-    document.body.removeChild(textarea);
-    return;
-  } catch (err) {}
-
-  // الطريقة الأخيرة (manual)
-  prompt("Copy this code manually:", text);
-}
-
-// Buttons
-document.querySelectorAll('.tool-button[data-script]').forEach(button => {
-  button.addEventListener('click', () => {
-    const scriptId = button.getAttribute('data-script');
-
-    // 🔥 FIX مهم: innerText بدل textContent
-    const scriptText = document.getElementById(scriptId)?.innerText;
-    if (!scriptText) return;
-
-    copyText(scriptText);
-
-    // Change color
-    document.querySelectorAll('.tool-button[data-script]').forEach(btn => {
-      btn.style.backgroundColor = '#2b2e83';
+  <script>
+    // Search filter
+    document.getElementById('searchInput').addEventListener('input', function () {
+      const filter = this.value.toLowerCase();
+      document.querySelectorAll('.tool-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(filter) ? '' : 'none';
+      });
     });
 
-    button.style.backgroundColor = 'green';
+    // Copy & color change + message show logic
+    document.querySelectorAll('.tool-button[data-script]').forEach(button => {
+      button.addEventListener('click', () => {
+        const scriptId = button.getAttribute('data-script');
+        const scriptText = document.getElementById(scriptId)?.textContent.trim();
+        if (!scriptText) return;
 
-    // Show message
-    document.querySelectorAll('.copied-msg').forEach(msg => {
-      msg.style.display = 'none';
+        navigator.clipboard.writeText(scriptText).then(() => {
+          // Change color for all buttons:
+          document.querySelectorAll('.tool-button[data-script]').forEach(btn => {
+            btn.style.backgroundColor = '#2b2e83'; // reset to original
+          });
+          // Change clicked button background color:
+          button.style.backgroundColor = 'green';
+
+          // Show the copied message only for clicked button
+          document.querySelectorAll('.copied-msg').forEach(msg => {
+            msg.style.display = 'none';
+          });
+          const msg = button.nextElementSibling;
+          if (msg && msg.classList.contains('copied-msg')) {
+            msg.style.display = 'inline-block';
+            msg.textContent = 'NaaaDii✔️';
+            setTimeout(() => {
+              msg.style.display = 'none';
+              button.style.backgroundColor = '#2b2e83'; // reset after timeout
+            }, 2000);
+          }
+        }).catch(() => {
+          alert('❌ Failed to copy!');
+        });
+      });
     });
-
-    const msg = button.nextElementSibling;
-    if (msg && msg.classList.contains('copied-msg')) {
-      msg.style.display = 'inline-block';
-      msg.textContent = 'NaaaDii✔️';
-
-      setTimeout(() => {
-        msg.style.display = 'none';
-        button.style.backgroundColor = '#2b2e83';
-      }, 2000);
-    }
-  });
-});
-</script>
-
-
+  </script>
 
 </body>
 </html>
