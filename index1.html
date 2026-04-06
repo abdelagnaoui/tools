@@ -217,23 +217,27 @@
       <h2>📟 Console Scripts</h2>
       <ul>
         <li class="tool-item">
-          <button class="tool-button" data-script="autoCleanScript">🧹 Auto Clean</button>
+          <button class="tool-button" data-script="autoCleanScript">🧹 Auto Clean (Pmta Manager)</button>
           <div class="copied-msg">NaaaDii✔️</div>
         </li>
         <li class="tool-item">
-          <button class="tool-button" data-script="autoScheduleScript">🕜 Auto Schedule</button>
+          <button class="tool-button" data-script="autoScheduleScript">🕜 Auto Schedule (Pmta Manager)</button>
           <div class="copied-msg">NaaaDii✔️</div>
         </li>
         <li class="tool-item">
-          <button class="tool-button" data-script="autoClickScript">🚀 Auto Send</button>
+          <button class="tool-button" data-script="autoClickScript">🚀 Auto Send Drop</button>
           <div class="copied-msg">NaaaDii✔️</div>
         </li>
         <li class="tool-item">
-          <button class="tool-button" data-script="TesTAuto_Mail">✉️ Test Auto/Mail</button>
+          <button class="tool-button" data-script="TesTAuto_Mail">✉️ Test Auto/Mail </button>
           <div class="copied-msg">NaaaDii✔️</div>
         </li>
 		        <li class="tool-item">
-          <button class="tool-button" data-script="AutoPauseRPS">⏸️ Auto Pause RPS</button>
+          <button class="tool-button" data-script="AutoPauseRPS">⏸️ Auto Pause RPS (Pmta Manager)</button>
+          <div class="copied-msg">NaaaDii✔️</div>
+        </li>
+         <li class="tool-item">
+          <button class="tool-button" data-script="CopyScript">📋 Copy Subj & Ips from mail</button>
           <div class="copied-msg">NaaaDii✔️</div>
         </li>
       </ul>
@@ -483,133 +487,155 @@ input.addEventListener("change", startClicker);
   </pre>
 
   <pre id="autoClickScript" style="display:none;">
-(function () {
-  // Create container
-  const container = document.createElement('div');
-  container.style.position = 'fixed';
-  container.style.bottom = '20px';
-  container.style.right = '20px';
-  container.style.background = '#e0f0ff';
-  container.style.border = '2px solid #007BFF';
-  container.style.padding = '12px';
-  container.style.zIndex = 9999;
-  container.style.fontFamily = 'Arial, sans-serif';
-  container.style.boxShadow = '0 4px 12px rgba(0,0,0,0.2)';
-  container.style.borderRadius = '10px';
-  container.style.color = '#003366';
-  container.style.minWidth = '250px';
+  
+  (function () {
+  const box = document.createElement("div");
+  box.style.position = "fixed";
+  box.style.bottom = "20px";
+  box.style.right = "20px";
+  box.style.background = "#0f172a";
+  box.style.color = "#fff";
+  box.style.padding = "15px";
+  box.style.borderRadius = "12px";
+  box.style.zIndex = "9999";
+  box.style.fontFamily = "Arial";
+  box.style.boxShadow = "0 8px 25px rgba(0,0,0,0.4)";
+  box.style.display = "flex";
+  box.style.flexDirection = "column";
+  box.style.gap = "10px";
 
-  // Create time input fields
-  const hourInput = document.createElement('input');
-  hourInput.type = 'number';
-  hourInput.placeholder = 'HH';
-  hourInput.style.width = '50px';
-  hourInput.style.marginRight = '5px';
 
-  const minInput = document.createElement('input');
-  minInput.type = 'number';
-  minInput.placeholder = 'MM';
-  minInput.style.width = '50px';
-  minInput.style.marginRight = '5px';
+  const inputsRow = document.createElement("div");
+  inputsRow.style.display = "flex";
+  inputsRow.style.gap = "6px";
 
-  const secInput = document.createElement('input');
-  secInput.type = 'number';
-  secInput.placeholder = 'SS';
-  secInput.style.width = '50px';
-
-  [hourInput, minInput, secInput].forEach(input => {
-    input.style.padding = '4px';
-    input.style.border = '1px solid #007BFF';
-    input.style.borderRadius = '4px';
-    input.style.outline = 'none';
-  });
-
-  // Buttons
-  const startBtn = document.createElement('button');
-  startBtn.textContent = 'Start';
-  startBtn.style.marginTop = '10px';
-  startBtn.style.marginRight = '10px';
-  startBtn.style.background = '#007BFF';
-  startBtn.style.color = 'white';
-  startBtn.style.border = 'none';
-  startBtn.style.padding = '5px 10px';
-  startBtn.style.borderRadius = '4px';
-  startBtn.style.cursor = 'pointer';
-
-  const stopBtn = document.createElement('button');
-  stopBtn.textContent = 'Stop';
-  stopBtn.style.marginTop = '10px';
-  stopBtn.style.background = '#6c757d';
-  stopBtn.style.color = 'white';
-  stopBtn.style.border = 'none';
-  stopBtn.style.padding = '5px 10px';
-  stopBtn.style.borderRadius = '4px';
-  stopBtn.style.cursor = 'pointer';
-
-  // Countdown display
-  const countdown = document.createElement('div');
-  countdown.style.marginTop = '10px';
-  countdown.style.fontWeight = 'bold';
-  countdown.style.color = '#0056b3';
-
-  // Add to container
-  container.appendChild(hourInput);
-  container.appendChild(minInput);
-  container.appendChild(secInput);
-  container.appendChild(startBtn);
-  container.appendChild(stopBtn);
-  container.appendChild(countdown);
-  document.body.appendChild(container);
-
-  // Timer logic
-  let interval = null;
-  function formatTime(h, m, s) {
-    return [h, m, s].map(unit => String(unit).padStart(2, '0')).join(':');
+  function createInput(ph) {
+    const inp = document.createElement("input");
+    inp.type = "number";
+    inp.placeholder = ph;
+    inp.style.width = "50px";
+    inp.style.padding = "6px";
+    inp.style.borderRadius = "6px";
+    inp.style.border = "1px solid #334155";
+    inp.style.background = "#020617";
+    inp.style.color = "#fff";
+    inp.style.textAlign = "center";
+    return inp;
   }
 
-  startBtn.onclick = () => {
-    let hours = parseInt(hourInput.value) || 0;
-    let minutes = parseInt(minInput.value) || 0;
-    let seconds = parseInt(secInput.value) || 0;
+  const h = createInput("HH");
+  const m = createInput("MM");
+  const s = createInput("SS");
 
-    let totalSeconds = hours * 3600 + minutes * 60 + seconds;
-    if (totalSeconds <= 0) {
-      countdown.textContent = 'Enter valid time!';
-      countdown.style.color = 'red';
+  inputsRow.append(h, m, s);
+
+  const btnRow = document.createElement("div");
+  btnRow.style.display = "flex";
+  btnRow.style.gap = "8px";
+
+  function createBtn(text, color) {
+    const btn = document.createElement("button");
+    btn.textContent = text;
+
+    btn.style.flex = "1";
+    btn.style.padding = "8px";
+    btn.style.border = "none";
+    btn.style.borderRadius = "8px";
+    btn.style.cursor = "pointer";
+    btn.style.fontWeight = "bold";
+    btn.style.background = color;
+    btn.style.color = "#fff";
+    btn.style.transition = "0.2s";
+
+    btn.onmouseenter = () => {
+      btn.style.opacity = "0.85";
+      btn.style.transform = "translateY(-1px)";
+    };
+    btn.onmouseleave = () => {
+      btn.style.opacity = "1";
+      btn.style.transform = "none";
+    };
+
+    return btn;
+  }
+
+  const start = createBtn("▶ Start", "#22c55e");
+  const stop = createBtn("⏹ Stop", "#ef4444");
+
+  // text
+  const txt = document.createElement("div");
+  txt.style.fontSize = "13px";
+  txt.style.textAlign = "center";
+  txt.style.color = "#94a3b8";
+
+  // assemble UI
+  btnRow.append(start, stop);
+  box.append(inputsRow, btnRow, txt);
+  document.body.appendChild(box);
+
+  // ===== TIMER =====
+  let timer = null;
+
+  function format(t) {
+    const hh = Math.floor(t / 3600);
+    const mm = Math.floor((t % 3600) / 60);
+    const ss = t % 60;
+    return [hh, mm, ss].map(x => String(x).padStart(2, '0')).join(':');
+  }
+
+  function clickSend() {
+    const btn = document.querySelector('input.send');
+
+    if (btn) {
+      btn.click();
+      return true;
+    }
+    return false;
+  }
+
+  start.onclick = () => {
+    let total =
+      (parseInt(h.value) || 0) * 3600 +
+      (parseInt(m.value) || 0) * 60 +
+      (parseInt(s.value) || 0);
+
+    if (total <= 0) {
+      txt.textContent = "❌ invalid time";
+      txt.style.color = "#ef4444";
       return;
     }
 
-    countdown.style.color = '#0056b3';
-    clearInterval(interval);
-    interval = setInterval(() => {
-      if (totalSeconds <= 0) {
-        clearInterval(interval);
-        const button = document.querySelector('input.send');
-        if (button) {
-          button.click();
-          countdown.textContent = '✅ Button clicked!';
-          countdown.style.color = 'green';
-        } else {
-          countdown.textContent = '❌ Button not found!';
-          countdown.style.color = 'red';
-        }
+    txt.style.color = "#94a3b8";
+    clearInterval(timer);
+
+    timer = setInterval(() => {
+      if (total <= 0) {
+        clearInterval(timer);
+
+        const ok = clickSend();
+
+        txt.textContent = ok
+          ? "✅ Clicked Send"
+          : "❌ Button not found";
+
+        txt.style.color = ok ? "#22c55e" : "#ef4444";
         return;
       }
 
-      const h = Math.floor(totalSeconds / 3600);
-      const m = Math.floor((totalSeconds % 3600) / 60);
-      const s = totalSeconds % 60;
-      countdown.textContent = '⏳ Time left: ${formatTime(h, m, s)}';
-      totalSeconds--;
+      txt.textContent = "⏳ " + format(total);
+      total--;
+
     }, 1000);
   };
 
-  stopBtn.onclick = () => {
-    clearInterval(interval);
-    countdown.textContent = '⏹️ Timer stopped';
-    countdown.style.color = '#888';
+  stop.onclick = () => {
+    clearInterval(timer);
+    txt.textContent = "⏹ stopped";
+    txt.style.color = "#94a3b8";
   };
+
 })();
+
   </pre>
 
   <pre id="TesTAuto_Mail" style="display:none;">
@@ -872,7 +898,7 @@ closeBtn.onclick = () => {
   closeBtn.remove();
 };
 
-// inject فالبلاصة
+// inject 
 var div = document.querySelector('div[style="padding: 0px 3px 3px 5px;"]');
 
 if(div){
@@ -1116,6 +1142,311 @@ select.addEventListener('change', function() {
 
   </pre>
 
+<pre id="AutoPauseRPS" style="display:none;">
+(() => {
+  let stopFlag = false;
+  let pauseFlag = false;
+  let delay = 2000;
+
+  // ===== PANEL =====
+  const panel = document.createElement('div');
+  panel.style.position = 'fixed';
+  panel.style.top = '20px';
+  panel.style.left = '20px';
+  panel.style.zIndex = 9999;
+  panel.style.width = '420px';
+  panel.style.background = 'rgba(0,0,0,0.2)';
+  panel.style.backdropFilter = 'blur(10px)'; // glass effect زوين 😎
+  panel.style.padding = '15px';
+  panel.style.borderRadius = '14px';
+  panel.style.boxShadow = '0 10px 30px rgba(0,0,0,0.6)';
+  panel.style.color = '#fff';
+  panel.style.fontFamily = 'system-ui';
+  document.body.appendChild(panel);
+
+  // ===== TITLE =====
+  const title = document.createElement('div');
+  title.textContent = '⚡ Control Panel';
+  title.style.fontSize = '16px';
+  title.style.marginBottom = '10px';
+  title.style.fontWeight = 'bold';
+  panel.appendChild(title);
+
+  // ===== TEXTAREA =====
+  const inputArea = document.createElement('textarea');
+  inputArea.placeholder = 'Paste your lines here...';
+  inputArea.style.width = '100%';
+  inputArea.style.height = '140px';
+  inputArea.style.borderRadius = '10px';
+  inputArea.style.padding = '10px';
+  inputArea.style.marginBottom = '10px';
+  inputArea.style.border = 'none';
+  inputArea.style.outline = 'none';
+  panel.appendChild(inputArea);
+
+  // ===== DELAY ROW =====
+  const delayRow = document.createElement('div');
+  delayRow.style.display = 'flex';
+  delayRow.style.alignItems = 'center';
+  delayRow.style.gap = '10px';
+  delayRow.style.marginBottom = '12px';
+
+  const delayLabel = document.createElement('span');
+  delayLabel.textContent = 'Lines:';
+  delayLabel.style.fontSize = '13px';
+
+  const delayInput = document.createElement('input');
+  delayInput.type = 'number';
+  delayInput.value = 2000;
+  delayInput.style.flex = '1';
+  delayInput.style.padding = '6px';
+  delayInput.style.borderRadius = '8px';
+  delayInput.style.border = 'none';
+
+  delayInput.oninput = () => {
+    delay = parseInt(delayInput.value) || 0;
+  };
+
+  delayRow.appendChild(delayLabel);
+  delayRow.appendChild(delayInput);
+  panel.appendChild(delayRow);
+
+  // ===== BUTTON ROW =====
+  const btnRow = document.createElement('div');
+  btnRow.style.display = 'grid';
+  btnRow.style.gridTemplateColumns = '1fr 1fr';
+  btnRow.style.gap = '8px';
+
+  const styleBtn = (btn, color) => {
+    btn.style.padding = '10px';
+    btn.style.border = 'none';
+    btn.style.borderRadius = '10px';
+    btn.style.cursor = 'pointer';
+    btn.style.color = '#fff';
+    btn.style.background = color;
+    btn.style.fontWeight = 'bold';
+  };
+
+  const startButton = document.createElement('button');
+  startButton.textContent = '▶ Start';
+  styleBtn(startButton, '#22c55e');
+
+  const pauseButton = document.createElement('button');
+  pauseButton.textContent = '⏸ Pause';
+  styleBtn(pauseButton, '#facc15');
+
+  const resumeButton = document.createElement('button');
+  resumeButton.textContent = '⏵ Resume';
+  styleBtn(resumeButton, '#38bdf8');
+
+  const stopButton = document.createElement('button');
+  stopButton.textContent = '⛔ Stop';
+  styleBtn(stopButton, '#ef4444');
+
+  btnRow.appendChild(startButton);
+  btnRow.appendChild(pauseButton);
+  btnRow.appendChild(resumeButton);
+  btnRow.appendChild(stopButton);
+
+  panel.appendChild(btnRow);
+
+  // ===== CONTROLS =====
+  stopButton.onclick = () => stopFlag = true;
+  pauseButton.onclick = () => pauseFlag = true;
+  resumeButton.onclick = () => pauseFlag = false;
+
+  const wait = (ms) => new Promise(r => setTimeout(r, ms));
+
+  const waitForButtonReenable = async (button, timeout = 120000) => {
+    const start = Date.now();
+    while (button.disabled || button.classList.contains('ui-state-disabled')) {
+      if (stopFlag) throw new Error('Stopped manually.');
+      while (pauseFlag) await wait(300);
+      if (Date.now() - start > timeout) throw new Error('Timeout.');
+      await wait(200);
+    }
+  };
+
+  startButton.onclick = async () => {
+    stopFlag = false;
+    pauseFlag = false;
+
+    const lines = inputArea.value.split('\n').filter(l => l.trim());
+    if (!lines.length) return alert('Paste lines first');
+
+    const chunks = [];
+    for (let i = 0; i < lines.length; i += 100) {
+      chunks.push(lines.slice(i, i + 100).join('\n'));
+    }
+
+    const targetArea = document.getElementById('otherdoms');
+    const button = document.querySelector('input[name="Pause"]');
+
+    if (!targetArea || !button) return alert('Elements not found');
+
+    for (let i = 0; i < chunks.length; i++) {
+      if (stopFlag) return alert('Stopped');
+
+      while (pauseFlag) await wait(300);
+
+      targetArea.value = chunks[i];
+      targetArea.dispatchEvent(new Event('input', { bubbles: true }));
+
+      button.click();
+
+      try {
+        await waitForButtonReenable(button);
+      } catch (err) {
+        alert(err.message);
+        return;
+      }
+
+      await wait(delay);
+    }
+
+    alert('Done ✅');
+  };
+})();
+
+  </pre>
+  
+  <pre id="CopyScript" style="display:none;">
+// ===== FUNCTIONS =====
+function extractEmailsAndSubjects() {
+    const emails = document.querySelectorAll('.bog span');
+    const subjects = [];
+
+    emails.forEach(email => {
+        let subject = email.textContent
+            .trim()
+            .replace(/return@|\[|\]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .replace(/ /g, '\t')
+            .trim();
+
+        subjects.push(subject);
+    });
+
+    subjects.sort();
+    const sortedSubjects = subjects.join('\n');
+    copyToClipboard(sortedSubjects);
+}
+
+function copyToClipboard(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+}
+
+function extractUniqueIPsAndCopyToClipboard() {
+    const elements = document.querySelectorAll('.zA');
+    const uniqueIPs = new Set();
+    const ipRegex = /\b(?:\d{1,3}\.){3}\d{1,3}\b/g;
+
+    elements.forEach(element => {
+        const text = element.textContent.trim();
+        const ips = text.match(ipRegex);
+
+        if (ips) {
+            ips.forEach(ip => uniqueIPs.add(ip));
+        }
+    });
+
+    const sortedIPs = Array.from(uniqueIPs)
+        .filter(ip => ip.trim() !== '')
+        .sort()
+        .join('\n');
+
+    const textarea = document.createElement('textarea');
+    textarea.value = sortedIPs;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+}
+
+// ===== UI =====
+(function () {
+
+    function injectButtons() {
+        const container = document.querySelector('.aeH');
+        if (!container) return;
+
+        // ما يتكرروش
+        if (document.getElementById("custom-btns")) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.id = "custom-btns";
+        wrapper.style.display = "flex";
+        wrapper.style.gap = "10px";
+        wrapper.style.margin = "10px 0";
+        wrapper.style.zIndex = "9999";
+        wrapper.style.position = "relative";
+
+        function createButton(text, color) {
+            const btn = document.createElement('button');
+            btn.innerText = text;
+
+            btn.style.padding = "7px 14px";
+            btn.style.borderRadius = "20px";
+            btn.style.border = "1px solid #dadce0";
+            btn.style.background = "#fff";
+            btn.style.cursor = "pointer";
+            btn.style.fontSize = "13px";
+            btn.style.fontWeight = "500";
+            btn.style.transition = "all 0.2s ease";
+            btn.style.boxShadow = "0 1px 3px rgba(0,0,0,0.1)";
+            btn.style.pointerEvents = "auto";
+
+            btn.onmouseenter = () => {
+                btn.style.background = color;
+                btn.style.color = "#fff";
+                btn.style.borderColor = color;
+                btn.style.transform = "translateY(-1px)";
+            };
+
+            btn.onmouseleave = () => {
+                btn.style.background = "#fff";
+                btn.style.color = "#000";
+                btn.style.borderColor = "#dadce0";
+                btn.style.transform = "none";
+            };
+
+            return btn;
+        }
+
+        const btn1 = createButton("📋 Subjects", "#34a853");
+        btn1.onclick = (e) => {
+            e.stopPropagation();
+            extractEmailsAndSubjects();
+        };
+
+        const btn2 = createButton("🌐 IPs", "#1a73e8");
+        btn2.onclick = (e) => {
+            e.stopPropagation();
+            extractUniqueIPsAndCopyToClipboard();
+        };
+
+        wrapper.appendChild(btn1);
+        wrapper.appendChild(btn2);
+
+        container.appendChild(wrapper);
+    }
+
+    // Gmail dynamic fix
+    const observer = new MutationObserver(() => {
+        injectButtons();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+})();
+
+  </pre>
+  
   <script>
   // ===== SEARCH FILTER =====
   document.getElementById('searchInput').addEventListener('input', function () {
