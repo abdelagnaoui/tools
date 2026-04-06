@@ -104,7 +104,7 @@
 
     .category h2 {
       font-size: 20px;
-      color: #38bdf8;
+      color: white;
       border-bottom: 1px solid rgba(255,255,255,0.1);
       padding-bottom: 8px;
       margin-top: 0;
@@ -151,7 +151,7 @@
     .copied-msg {
       display: none;
       margin-top: 5px;
-      color: #00b300;
+      color: white;
       font-weight: 500;
       font-size: 14px;
     }
@@ -1008,7 +1008,7 @@ select.addEventListener('change', function() {
           const msg = button.nextElementSibling;
           if (msg && msg.classList.contains('copied-msg')) {
             msg.style.display = 'inline-block';
-            msg.textContent = 'NaaaDii✔️';
+            msg.textContent = 'Has been copied✔️';
             setTimeout(() => {
               msg.style.display = 'none';
               button.style.backgroundColor = '#2b2e83'; // reset after timeout
