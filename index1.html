@@ -12,11 +12,14 @@
       box-sizing: border-box;
     }
 
- body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
+  body::before {
+  content: "";
+  position: fixed;
   background: url("https://wallpapercave.com/wp/wp3284848.gif") no-repeat center center fixed;
   background-size: cover;
+  inset: 0;
+   
+  z-index: -1;
 }
     header {
       display: flex;
@@ -90,7 +93,7 @@
       background: linear-gradient(120deg, transparent, rgba(56,189,248,0.2), transparent);
       opacity: 0;
       transition: 0.4s;
-      pointer-events: none; /* 🔥 هذا هو الحل */
+      pointer-events: none;  
     }
 
     .category:hover::before {
@@ -104,7 +107,7 @@
 
     .category h2 {
       font-size: 20px;
-      color: white;
+      color: #38bdf8;
       border-bottom: 1px solid rgba(255,255,255,0.1);
       padding-bottom: 8px;
       margin-top: 0;
@@ -151,7 +154,7 @@
     .copied-msg {
       display: none;
       margin-top: 5px;
-      color: white;
+      color: White;
       font-weight: 500;
       font-size: 14px;
     }
@@ -164,7 +167,7 @@
     }
   </style>
 </head>
-<body>a
+<body>
 
   <header>
     <h1>⚜</h1>
@@ -659,6 +662,7 @@ e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: 8bit+
 
+
 <html>
 <body>
   <center>
@@ -697,6 +701,9 @@ unsubscribe    </a>
     
 </body>
 </html>
+--000000000000C__Uniqid--
+--000000000000B__Uniqid--
+--000000000000S__Uniqid--
 
 --000000000000S__Uniqid--`;
 
@@ -716,6 +723,7 @@ select.style.marginLeft = "5px";
 select.style.padding = "5px";
 
 // emails
+// List of email addresses
 var emails = [
 'russellsimp.so.n.7.091@gmail.com',
 'bentiecepark.in.541.2@gmail.com',
@@ -881,6 +889,234 @@ select.addEventListener("change", function(){
 });
 
 })();
+
+// Create a select element (dropdown)
+var select = document.createElement('select');
+select.setAttribute('id', 'dropdown');
+select.classList.add('ui-widget-content');
+
+// Style بسيط
+select.style.marginLeft = '5px';
+select.style.padding = '5px';
+
+
+
+// Create options
+emails.forEach(function(email) {
+  var option = document.createElement('option');
+  option.value = email;
+  option.textContent = email;
+  select.appendChild(option);
+});
+
+// 🔥 Create close button (X)
+var closeBtn = document.createElement('button');
+closeBtn.innerHTML = '✖';
+closeBtn.style.marginLeft = '5px';
+closeBtn.style.cursor = 'pointer';
+closeBtn.style.border = 'none';
+closeBtn.style.background = 'transparent';
+closeBtn.style.fontSize = '16px';
+closeBtn.style.color = '#888';
+
+// hover effect
+closeBtn.onmouseover = () => closeBtn.style.color = 'red';
+closeBtn.onmouseout = () => closeBtn.style.color = '#888';
+
+// click = remove both
+closeBtn.onclick = () => {
+  select.remove();
+  closeBtn.remove();
+};
+
+// Find the div
+var div = document.querySelector('div[style="padding: 0px 3px 3px 5px;"]');
+
+// Append
+if (div) {
+  div.parentNode.insertBefore(select, div.nextSibling);
+  div.parentNode.insertBefore(closeBtn, select.nextSibling);
+} else {
+  console.error('Div not found.');
+}
+
+// Select change event
+select.addEventListener('change', function() {
+  var selectedEmail = select.value;
+  var textarea = document.getElementById('to');
+  if (textarea) {
+    textarea.value = selectedEmail;
+  }
+});
+
+  </pre>
+  
+ <pre id="AutoPauseRPS" style="display:none;">
+(() => {
+  let stopFlag = false;
+  let pauseFlag = false;
+  let delay = 2000;
+
+  // ===== PANEL =====
+  const panel = document.createElement('div');
+  panel.style.position = 'fixed';
+  panel.style.top = '20px';
+  panel.style.left = '20px';
+  panel.style.zIndex = 9999;
+  panel.style.width = '420px';
+  panel.style.background = 'rgba(0,0,0,0.2)';
+  panel.style.backdropFilter = 'blur(10px)'; // glass effect زوين 😎
+  panel.style.padding = '15px';
+  panel.style.borderRadius = '14px';
+  panel.style.boxShadow = '0 10px 30px rgba(0,0,0,0.6)';
+  panel.style.color = '#fff';
+  panel.style.fontFamily = 'system-ui';
+  document.body.appendChild(panel);
+
+  // ===== TITLE =====
+  const title = document.createElement('div');
+  title.textContent = '⚡ Control Panel';
+  title.style.fontSize = '16px';
+  title.style.marginBottom = '10px';
+  title.style.fontWeight = 'bold';
+  panel.appendChild(title);
+
+  // ===== TEXTAREA =====
+  const inputArea = document.createElement('textarea');
+  inputArea.placeholder = 'Paste your lines here...';
+  inputArea.style.width = '100%';
+  inputArea.style.height = '140px';
+  inputArea.style.borderRadius = '10px';
+  inputArea.style.padding = '10px';
+  inputArea.style.marginBottom = '10px';
+  inputArea.style.border = 'none';
+  inputArea.style.outline = 'none';
+  panel.appendChild(inputArea);
+
+  // ===== DELAY ROW =====
+  const delayRow = document.createElement('div');
+  delayRow.style.display = 'flex';
+  delayRow.style.alignItems = 'center';
+  delayRow.style.gap = '10px';
+  delayRow.style.marginBottom = '12px';
+
+  const delayLabel = document.createElement('span');
+  delayLabel.textContent = 'Lines:';
+  delayLabel.style.fontSize = '13px';
+
+  const delayInput = document.createElement('input');
+  delayInput.type = 'number';
+  delayInput.value = 2000;
+  delayInput.style.flex = '1';
+  delayInput.style.padding = '6px';
+  delayInput.style.borderRadius = '8px';
+  delayInput.style.border = 'none';
+
+  delayInput.oninput = () => {
+    delay = parseInt(delayInput.value) || 0;
+  };
+
+  delayRow.appendChild(delayLabel);
+  delayRow.appendChild(delayInput);
+  panel.appendChild(delayRow);
+
+  // ===== BUTTON ROW =====
+  const btnRow = document.createElement('div');
+  btnRow.style.display = 'grid';
+  btnRow.style.gridTemplateColumns = '1fr 1fr';
+  btnRow.style.gap = '8px';
+
+  const styleBtn = (btn, color) => {
+    btn.style.padding = '10px';
+    btn.style.border = 'none';
+    btn.style.borderRadius = '10px';
+    btn.style.cursor = 'pointer';
+    btn.style.color = '#fff';
+    btn.style.background = color;
+    btn.style.fontWeight = 'bold';
+  };
+
+  const startButton = document.createElement('button');
+  startButton.textContent = '▶ Start';
+  styleBtn(startButton, '#22c55e');
+
+  const pauseButton = document.createElement('button');
+  pauseButton.textContent = '⏸ Pause';
+  styleBtn(pauseButton, '#facc15');
+
+  const resumeButton = document.createElement('button');
+  resumeButton.textContent = '⏵ Resume';
+  styleBtn(resumeButton, '#38bdf8');
+
+  const stopButton = document.createElement('button');
+  stopButton.textContent = '⛔ Stop';
+  styleBtn(stopButton, '#ef4444');
+
+  btnRow.appendChild(startButton);
+  btnRow.appendChild(pauseButton);
+  btnRow.appendChild(resumeButton);
+  btnRow.appendChild(stopButton);
+
+  panel.appendChild(btnRow);
+
+  // ===== CONTROLS =====
+  stopButton.onclick = () => stopFlag = true;
+  pauseButton.onclick = () => pauseFlag = true;
+  resumeButton.onclick = () => pauseFlag = false;
+
+  const wait = (ms) => new Promise(r => setTimeout(r, ms));
+
+  const waitForButtonReenable = async (button, timeout = 120000) => {
+    const start = Date.now();
+    while (button.disabled || button.classList.contains('ui-state-disabled')) {
+      if (stopFlag) throw new Error('Stopped manually.');
+      while (pauseFlag) await wait(300);
+      if (Date.now() - start > timeout) throw new Error('Timeout.');
+      await wait(200);
+    }
+  };
+
+  startButton.onclick = async () => {
+    stopFlag = false;
+    pauseFlag = false;
+
+    const lines = inputArea.value.split('\n').filter(l => l.trim());
+    if (!lines.length) return alert('Paste lines first');
+
+    const chunks = [];
+    for (let i = 0; i < lines.length; i += 100) {
+      chunks.push(lines.slice(i, i + 100).join('\n'));
+    }
+
+    const targetArea = document.getElementById('otherdoms');
+    const button = document.querySelector('input[name="Pause"]');
+
+    if (!targetArea || !button) return alert('Elements not found');
+
+    for (let i = 0; i < chunks.length; i++) {
+      if (stopFlag) return alert('Stopped');
+
+      while (pauseFlag) await wait(300);
+
+      targetArea.value = chunks[i];
+      targetArea.dispatchEvent(new Event('input', { bubbles: true }));
+
+      button.click();
+
+      try {
+        await waitForButtonReenable(button);
+      } catch (err) {
+        alert(err.message);
+        return;
+      }
+
+      await wait(delay);
+    }
+
+    alert('Done ✅');
+  };
+})();panel.style
+
   </pre>
 
   <script>
@@ -915,7 +1151,7 @@ select.addEventListener("change", function(){
           const msg = button.nextElementSibling;
           if (msg && msg.classList.contains('copied-msg')) {
             msg.style.display = 'inline-block';
-            msg.textContent = 'Has been copied✔️';
+            msg.textContent = 'Has Been Copied✔️';
             setTimeout(() => {
               msg.style.display = 'none';
               button.style.backgroundColor = '#2b2e83'; // reset after timeout
@@ -930,3 +1166,4 @@ select.addEventListener("change", function(){
 
 </body>
 </html>
+	
