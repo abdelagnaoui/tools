@@ -12,11 +12,28 @@
       box-sizing: border-box;
     }
 
-  body {
-   
-  background: url("https://wallpapercave.com/wp/wp3284848.gif") no-repeat center center fixed !important;
-  background-size: cover !important;
+/* DEFAULT */
+body{
+  background-image: url("https://wallpapercave.com/wp/wp3284848.gif") !important;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
 
+/* OVERLAY */
+body::before{
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  pointer-events: none;
+  transition: 0.1s;
+  z-index: -1;  
+}
+
+/* PINK MODE */
+body.pink-mode::before{
+background-image: url("https://i.imgur.com/rtKejim.gif") !important;
 }
     header {
       display: flex;
@@ -26,13 +43,54 @@
       background: rgba(255,255,255,0.05);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255,255,255,0.08);
+       display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem 2rem;
+  backdrop-filter: blur(12px);
     }
-
+.theme-switch{
+  position:relative;
+  width:60px;
+  height:30px;
+}
+  .theme-switch input{display:none}
     header h1 {
       margin: 0;
       font-size: 1.8rem;
       color: #38bdf8;
     }
+    
+    .slider{
+  position:absolute;
+  cursor:pointer;
+  inset:0;
+  background:#0ea5e9;
+  border-radius:50px;
+  transition:0.4s;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
+}
+
+.slider:before{
+  content:"";
+  position:absolute;
+  height:22px;
+  width:22px;
+  left:4px;
+  bottom:4px;
+  background:white;
+  border-radius:50%;
+  transition:0.4s;
+}
+
+input:checked + .slider{
+  background:#ff4da6;
+}
+
+input:checked + .slider:before{
+  transform:translateX(28px);
+}
+
 
     header h3 {
       margin: 0;
@@ -101,6 +159,40 @@
       transform: translateY(-6px) scale(1.02);
       box-shadow: 0 0 30px rgba(56,189,248,0.25);
     }
+    
+    /* ===== BUTTON ===== */
+.tool-button{
+  display:block;
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+  color:white;
+  background: linear-gradient(135deg,#0ea5e9,#6366f1);
+  transition:0.3s;
+  box-shadow:0 6px 0 #1e40af;
+}
+
+.tool-button:hover{
+  transform: translateY(-3px);
+  box-shadow:0 10px 20px rgba(0,0,0,0.4);
+}
+
+/* ===== PINK BUTTON ===== */
+body.pink-mode .tool-button{
+  background: linear-gradient(135deg,#ff4da6,#ff66cc);
+  box-shadow:0 6px 0 #cc0066;
+}
+
+.container{
+  display:flex;
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
+  padding:20px;
+}
 
     .category h2 {
       font-size: 20px;
@@ -163,13 +255,21 @@
       }
     }
   </style>
+   
 </head>
 <body>
 
-  <header>
-    <h1>⚜</h1>
-     <h3> 𝐏🕴💤💤🏋</h3>
-  </header>
+<header>
+
+  <h1>⚜</h1>
+  <h3>𝐏🕴💤💤🏋</h3>
+
+  <!-- SWITCH -->
+  <label class="theme-switch">
+    <input type="checkbox" id="toggleTheme">
+    <span class="slider"></span>
+  </label>
+</header>
 <br> <div class="search-bar" style="font-size:25px">
 	<b>
       <center style="color:White" >𝐏📍️𝐳𝐳𝐲_Tools®࿐</center>
@@ -1449,6 +1549,8 @@ function extractUniqueIPsAndCopyToClipboard() {
   </pre>
   
   <script>
+
+
   // ===== SEARCH FILTER =====
   document.getElementById('searchInput').addEventListener('input', function () {
     const filter = this.value.toLowerCase();
@@ -1531,7 +1633,13 @@ function extractUniqueIPsAndCopyToClipboard() {
     });
   });
 </script>
+<script>
+const toggle = document.getElementById("toggleTheme");
 
+toggle.addEventListener("change", () => {
+  document.body.classList.toggle("pink-mode");
+});
+</script>
 </body>
 </html>
 	
