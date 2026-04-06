@@ -164,7 +164,7 @@
     }
   </style>
 </head>
-<body>
+<body>a
 
   <header>
     <h1>⚜</h1>
@@ -614,18 +614,108 @@ input.addEventListener("change", startClicker);
 
   <pre id="TesTAuto_Mail" style="display:none;">
 
+(function(){
+
+// ===== SUBJECT =====
+document.getElementById("subject").value = "__Returnpath";
 
 
-// Create a select element (dropdown)
+// ===== HEADER =====
+document.getElementById("brut_h").value = `Received: from njmta-53.sailthru.com (173.228.155.53) by dailybeast-a.sailthru.com id h1t86m1qqbs3 for __Link@gmail.com; __smtpDate
+Received: from nj1-madbrick.flt (172.18.20.7) by njmta-53.sailthru.com id h1t7vc1qqbsf for __Link@gmail.com; __smtpDate
+Date: __smtpDate
+From: "__From_nm" <__Random_com[14,14,l].__Random_com[14,14,n]@__Random_com[6,6,ln].__Random_com[6,6,ln].__Random_com[6,6,nl].us>
+Message-ID: <__Random_com[8,8,ln].__Random_com[4,4,ln]0220.__Random_com[6,6,ln].__Random_com[4,4,ln]SMTPIN_ADDED_MISSING@mx.google.com>
+To: __Link@gmail.com
+Subject: __Subject
+MIME-Version: 1.0
+X-Google-Sender-Delegation: __Random_com[10,10,l]
+Content-Type: multipart/report; boundary="000000000000S__Uniqid"; report-type=delivery-status`;
+
+
+// ===== BODY =====
+document.getElementById("body").value = `--000000000000S__Uniqid
+Content-Type: multipart/related; boundary="000000000000B__Uniqid"
+
+--000000000000B__Uniqid
+Content-Type: multipart/alternative; boundary="000000000000C__Uniqid"
+
+--000000000000C__Uniqid
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Top Stories of the Day: smtpDate
+
+207282808238797353
+-----
+__Random_com[60,60,l]=
+__Random_com[60,60,l]=
+__Random_com[60,60,l]
+
+If you believe this has been sent to you in error, please safely unsubscrib=
+e
+
+--000000000000C__Uniqid
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit+
+
+<html>
+<body>
+  <center>
+<table style="border:2px solid black;height: 228px;background: linear-gradient(to right,#DCDCDC,#f2f2f2,#DCDCDC);" width="653">
+<tbody>
+<tr>
+
+<td>
+<p style="text-align: center;font-family:Sans-Serif;font-size:70px;"><strong><span style=" text-align: center;font-family:Serif;font-size:50px;">hims</span><br>Get hard and<br>
+  stay hard <sup> </sup><br>on your terms</strong></p>
+  <p style="font-size:30px;font-family:Sans-Serif;text-align: center;"> Start treating your ED. We make it easy.</p>
+    <p style="text-align: center;">
+  <a  href="https://__Domain/redirect.html?syv=1[trk]67c18cd45b0e1_vl_shared.[jobid].[news].__Random_com[5,10,ul]"style="text-decoration:none;color: #000000; text-align: -webkit-center; background-color: #ffffff;"><br /><strong style="padding: 16px 30px; background-color: black; color: white; border: none;font-size: 30px; letter-spacing: 1px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); font-family:Sans-Serif;">Start Free Assessment &gt;&gt;</strong></a></p>
+  <br><br><br>
+        <center>
+    
+    <br />
+    <a href="https://__Domain/redirect.html?syv=1[trk]67c18cd45b0e1_vl_shared.[jobid].[news].__Random_com[5,10,ul]"  >
+      <img src="https://i.imgur.com/yNVuX4i.png#WBSebE" width="657" >
+    </a>
+    <br />    <br />
+    If you do not wish to receive future messages <a href="https://__Domain/redirect.html?syv=1[trk]Uns_67c18cd45b0e1vl_shared.[jobid].[news].__Random_com[5,10,ul]">click here to unsubscribe</a> 
+<br />
+<br />hims | 2269 Chestnut St. #523 San Francisco, CA 94123
+    <br />
+  <br />
+    <a href="https://__Domain/redirect.html?syv=1[trk]Out_67c18cd45b0e1vl_shared.[jobid].[news].__Random_com[5,10,ul]" >
+unsubscribe    </a>
+    <br />
+  </center>
+  <style>body {background-image: url(' https://tinyurl.com/xwinisteredredirect.html?syv=8[trk]67c18cd45b0e1_vl_shared.[jobid].[news].__Random_com[5,10,ul] ');</style>
+</td>
+</tr>
+</tbody>
+</table>
+    
+</body>
+</html>
+
+--000000000000S__Uniqid--`;
+
+
+// ===== TRIGGER =====
+$("#subject, #brut_h, #body").trigger("change");
+
+
+// =========================
+// ===== DROPDOWN EMAIL =====
+// =========================
+
+// create select
 var select = document.createElement('select');
-select.setAttribute('id', 'dropdown');
-select.classList.add('ui-widget-content');
+select.id = "customDropdown";
+select.style.marginLeft = "5px";
+select.style.padding = "5px";
 
-// Style بسيط
-select.style.marginLeft = '5px';
-select.style.padding = '5px';
-
-// List of email addresses
+// emails
 var emails = [
 'russellsimp.so.n.7.091@gmail.com',
 'bentiecepark.in.541.2@gmail.com',
@@ -758,222 +848,39 @@ var emails = [
 'dorothystone.ms.0.2.19.89@gmail.com'
 ];
 
-// Create options
-emails.forEach(function(email) {
-  var option = document.createElement('option');
-  option.value = email;
-  option.textContent = email;
-  select.appendChild(option);
+// options
+emails.forEach(e => {
+  let opt = document.createElement("option");
+  opt.value = e;
+  opt.textContent = e;
+  select.appendChild(opt);
 });
 
-// 🔥 Create close button (X)
-var closeBtn = document.createElement('button');
-closeBtn.innerHTML = '✖';
-closeBtn.style.marginLeft = '5px';
-closeBtn.style.cursor = 'pointer';
-closeBtn.style.border = 'none';
-closeBtn.style.background = 'transparent';
-closeBtn.style.fontSize = '16px';
-closeBtn.style.color = '#888';
+// close button
+var closeBtn = document.createElement("button");
+closeBtn.innerHTML = "✖";
+closeBtn.style.marginLeft = "5px";
+closeBtn.style.cursor = "pointer";
 
-// hover effect
-closeBtn.onmouseover = () => closeBtn.style.color = 'red';
-closeBtn.onmouseout = () => closeBtn.style.color = '#888';
-
-// click = remove both
 closeBtn.onclick = () => {
   select.remove();
   closeBtn.remove();
 };
 
-// Find the div
+// inject فالبلاصة
 var div = document.querySelector('div[style="padding: 0px 3px 3px 5px;"]');
 
-// Append
-if (div) {
+if(div){
   div.parentNode.insertBefore(select, div.nextSibling);
   div.parentNode.insertBefore(closeBtn, select.nextSibling);
-} else {
-  console.error('Div not found.');
 }
 
-// Select change event
-select.addEventListener('change', function() {
-  var selectedEmail = select.value;
-  var textarea = document.getElementById('to');
-  if (textarea) {
-    textarea.value = selectedEmail;
-  }
+// on change → يحط email ف textarea
+select.addEventListener("change", function(){
+  document.getElementById("to").value = this.value;
 });
 
-  </pre>
-  
- <pre id="AutoPauseRPS" style="display:none;">
-(() => {
-  let stopFlag = false;
-  let pauseFlag = false;
-  let delay = 2000;
-
-  // ===== PANEL =====
-  const panel = document.createElement('div');
-  panel.style.position = 'fixed';
-  panel.style.top = '20px';
-  panel.style.left = '20px';
-  panel.style.zIndex = 9999;
-  panel.style.width = '420px';
-  panel.style.background = 'rgba(0,0,0,0.2)';
-  panel.style.backdropFilter = 'blur(10px)'; // glass effect زوين 😎
-  panel.style.padding = '15px';
-  panel.style.borderRadius = '14px';
-  panel.style.boxShadow = '0 10px 30px rgba(0,0,0,0.6)';
-  panel.style.color = '#fff';
-  panel.style.fontFamily = 'system-ui';
-  document.body.appendChild(panel);
-
-  // ===== TITLE =====
-  const title = document.createElement('div');
-  title.textContent = '⚡ Control Panel';
-  title.style.fontSize = '16px';
-  title.style.marginBottom = '10px';
-  title.style.fontWeight = 'bold';
-  panel.appendChild(title);
-
-  // ===== TEXTAREA =====
-  const inputArea = document.createElement('textarea');
-  inputArea.placeholder = 'Paste your lines here...';
-  inputArea.style.width = '100%';
-  inputArea.style.height = '140px';
-  inputArea.style.borderRadius = '10px';
-  inputArea.style.padding = '10px';
-  inputArea.style.marginBottom = '10px';
-  inputArea.style.border = 'none';
-  inputArea.style.outline = 'none';
-  panel.appendChild(inputArea);
-
-  // ===== DELAY ROW =====
-  const delayRow = document.createElement('div');
-  delayRow.style.display = 'flex';
-  delayRow.style.alignItems = 'center';
-  delayRow.style.gap = '10px';
-  delayRow.style.marginBottom = '12px';
-
-  const delayLabel = document.createElement('span');
-  delayLabel.textContent = 'Lines:';
-  delayLabel.style.fontSize = '13px';
-
-  const delayInput = document.createElement('input');
-  delayInput.type = 'number';
-  delayInput.value = 2000;
-  delayInput.style.flex = '1';
-  delayInput.style.padding = '6px';
-  delayInput.style.borderRadius = '8px';
-  delayInput.style.border = 'none';
-
-  delayInput.oninput = () => {
-    delay = parseInt(delayInput.value) || 0;
-  };
-
-  delayRow.appendChild(delayLabel);
-  delayRow.appendChild(delayInput);
-  panel.appendChild(delayRow);
-
-  // ===== BUTTON ROW =====
-  const btnRow = document.createElement('div');
-  btnRow.style.display = 'grid';
-  btnRow.style.gridTemplateColumns = '1fr 1fr';
-  btnRow.style.gap = '8px';
-
-  const styleBtn = (btn, color) => {
-    btn.style.padding = '10px';
-    btn.style.border = 'none';
-    btn.style.borderRadius = '10px';
-    btn.style.cursor = 'pointer';
-    btn.style.color = '#fff';
-    btn.style.background = color;
-    btn.style.fontWeight = 'bold';
-  };
-
-  const startButton = document.createElement('button');
-  startButton.textContent = '▶ Start';
-  styleBtn(startButton, '#22c55e');
-
-  const pauseButton = document.createElement('button');
-  pauseButton.textContent = '⏸ Pause';
-  styleBtn(pauseButton, '#facc15');
-
-  const resumeButton = document.createElement('button');
-  resumeButton.textContent = '⏵ Resume';
-  styleBtn(resumeButton, '#38bdf8');
-
-  const stopButton = document.createElement('button');
-  stopButton.textContent = '⛔ Stop';
-  styleBtn(stopButton, '#ef4444');
-
-  btnRow.appendChild(startButton);
-  btnRow.appendChild(pauseButton);
-  btnRow.appendChild(resumeButton);
-  btnRow.appendChild(stopButton);
-
-  panel.appendChild(btnRow);
-
-  // ===== CONTROLS =====
-  stopButton.onclick = () => stopFlag = true;
-  pauseButton.onclick = () => pauseFlag = true;
-  resumeButton.onclick = () => pauseFlag = false;
-
-  const wait = (ms) => new Promise(r => setTimeout(r, ms));
-
-  const waitForButtonReenable = async (button, timeout = 120000) => {
-    const start = Date.now();
-    while (button.disabled || button.classList.contains('ui-state-disabled')) {
-      if (stopFlag) throw new Error('Stopped manually.');
-      while (pauseFlag) await wait(300);
-      if (Date.now() - start > timeout) throw new Error('Timeout.');
-      await wait(200);
-    }
-  };
-
-  startButton.onclick = async () => {
-    stopFlag = false;
-    pauseFlag = false;
-
-    const lines = inputArea.value.split('\n').filter(l => l.trim());
-    if (!lines.length) return alert('Paste lines first');
-
-    const chunks = [];
-    for (let i = 0; i < lines.length; i += 100) {
-      chunks.push(lines.slice(i, i + 100).join('\n'));
-    }
-
-    const targetArea = document.getElementById('otherdoms');
-    const button = document.querySelector('input[name="Pause"]');
-
-    if (!targetArea || !button) return alert('Elements not found');
-
-    for (let i = 0; i < chunks.length; i++) {
-      if (stopFlag) return alert('Stopped');
-
-      while (pauseFlag) await wait(300);
-
-      targetArea.value = chunks[i];
-      targetArea.dispatchEvent(new Event('input', { bubbles: true }));
-
-      button.click();
-
-      try {
-        await waitForButtonReenable(button);
-      } catch (err) {
-        alert(err.message);
-        return;
-      }
-
-      await wait(delay);
-    }
-
-    alert('Done ✅');
-  };
-})();panel.style
-
+})();
   </pre>
 
   <script>
