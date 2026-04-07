@@ -220,7 +220,7 @@
       <textarea id="domainTextBox" placeholder="Paste your domains here..."></textarea>
     </div>
     <div class="text-box-wrapper">
-      <h3>Already Done Subdomains/Domains</h3>
+      <h3>Subdomains Existed</h3>
       <textarea id="alreadyDoneTextBox" placeholder="Already done subdomains/domains..."></textarea>
     </div>
   </div>
@@ -267,7 +267,7 @@
 
     // Filter repeated subdomains (2 or more)
     const repeatedSubdomains = Object.entries(subdomainCounts)
-      .filter(([subdomain, count]) => count >= 2)
+     .filter(([subdomain, count]) => count >= 1)
       .sort((a,b) => b[1] - a[1]);
 
     if (repeatedSubdomains.length === 0) {
