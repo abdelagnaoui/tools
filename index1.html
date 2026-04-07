@@ -1610,8 +1610,28 @@ function extractUniqueIPsAndCopyToClipboard() {
 <script id="fixjs1">
 const toggle = document.getElementById("toggleTheme");
 
+// 🔁 يرجّع الحالة ملي كتفتح الصفحة
+window.addEventListener("load", () => {
+  const savedMode = localStorage.getItem("theme");
+
+  if (savedMode === "pink") {
+    document.body.classList.add("pink-mode");
+    toggle.checked = true;
+  } else {
+    document.body.classList.remove("pink-mode");
+    toggle.checked = false;
+  }
+});
+
+// 🎯 ملي user يبدل
 toggle.addEventListener("change", () => {
-  document.body.classList.toggle("pink-mode");
+  if (toggle.checked) {
+    document.body.classList.add("pink-mode");
+    localStorage.setItem("theme", "pink");
+  } else {
+    document.body.classList.remove("pink-mode");
+    localStorage.setItem("theme", "default");
+  }
 });
 </script>
 <script>
