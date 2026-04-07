@@ -4,7 +4,7 @@
 	  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>🛠️ My Local Tools</title>
+  <title>🛠️ 𝐏📍️𝐳𝐳𝐲 Tools®࿐</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" >
@@ -210,15 +210,34 @@ body.pink-mode .tool-button{
         align-items: center;
       }
     }
+    .top-msg{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,0.7);
+  color:white;
+  padding:12px 25px;
+  border-radius:10px;
+  font-size:16px;
+  z-index:99999;
+  opacity:0;
+  transition:0.4s;
+}
+
+.top-msg.show{
+  opacity:1;
+  top:40px;
+}
   </style>
    
 </head>
 <body>
-
+<div id="topMessage" class="top-msg"></div>
 <header>
 
   <h1>⚜</h1>
-  <h3>𝐏🕴💤💤🏋</h3>
+  <h3>𝗔𝗯𝗱𝗲𝗹𝗮𝗴𝗻𝗮𝗼𝘂𝗶</h3>
 
   <!-- SWITCH -->
   <div class="form-check form-switch">
@@ -227,7 +246,7 @@ body.pink-mode .tool-button{
 </header>
 <br> <div class="search-bar" style="font-size:25px">
 	<b>
-      <center style="color:White" >𝐏📍️𝐳𝐳𝐲_Tools®࿐</center>
+      <center style="color:White" >𝐏🕴💤💤🏋Tools®࿐</center>
 	</b>
               </div>                                                
   
@@ -1596,6 +1615,43 @@ toggle.addEventListener("change", () => {
   document.body.classList.toggle("pink-mode");
 });
 </script>
+<script>
+// messages ديالك
+const messages = [
+  "أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ ",
+  "لَا إلَه إلّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءِ قَدِيرِ. ",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا. ",
+    "اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد.  ",
+    "سُبْحـانَ اللهِ وَبِحَمْـدِهِ عَدَدَ خَلْـقِه ، وَرِضـا نَفْسِـه ، وَزِنَـةَ عَـرْشِـه ، وَمِـدادَ كَلِمـاتِـه. ",
+    "اللّهُـمَّ بِكَ أَصْـبَحْنا وَبِكَ أَمْسَـينا ، وَبِكَ نَحْـيا وَبِكَ نَمُـوتُ وَإِلَـيْكَ النُّـشُور. ",
+    "اللّهُمَّ إِنّي أَعوذُ بِكَ مِنَ الْكُفر ، وَالفَقْر ، وَأَعوذُ بِكَ مِنْ عَذابِ القَبْر ، لا إلهَ إلاّ أَنْتَ.",
+    "سُبْحَانَ اللَّهِ ، وَالْحَمْدُ لِلَّهِ ، وَلا إِلَهَ إِلا اللَّهُ ، وَاللَّهُ أَكْبَرُ ، اللَّهُمَّ اغْفِرْ لِي ، اللَّهُمَّ ارْحَمْنِي ، اللَّهُمَّ ارْزُقْنِي. ",
+    "اللَّهُ أَكْبَرُ كَبِيرًا ، وَالْحَمْدُ لِلَّهِ كَثِيرًا ، وَسُبْحَانَ اللَّهِ بُكْرَةً وَأَصِيلاً.  ",
+    "سُبْحَانَكَ اللَّهُمَّ وبَحَمْدكَ أشْهدُ أنْ لا إلهَ إلا أنْتَ أَسْتَغْفِرُكَ وأتُوبُ إِلَيْكَ ",
+    "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
+    "لَّا إِلَهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ",
+    "سبحان الله الذي يسبح الرعد بحمده والملائكة من خيفته "
+];
+
+// random message
+function getRandomMsg(){
+  return messages[Math.floor(Math.random() * messages.length)];
+}
+
+window.onload = function(){
+  const msgBox = document.getElementById("topMessage");
+
+  msgBox.innerText = getRandomMsg();
+  msgBox.classList.add("show");
+
+  // hide after 5 seconds
+  setTimeout(() => {
+    msgBox.classList.remove("show");
+  }, 6200);
+};
+</script>
+ 
 </body>
 </html>
+
 	
