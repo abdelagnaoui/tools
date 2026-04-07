@@ -1,179 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Links Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Multiple Links</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #e6f0ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-<style>
-body {
-    font-family: Arial;
-    background: #e6f0ff;
-    margin: 0;
-    padding: 20px;
-}
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
-/* PANEL */
-.container {
-    background: #fff;
-    padding: 20px;
-    max-width: 600px;
-    margin: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
+        h2 {
+            text-align: center;
+            color: #2a5298;
+        }
 
-textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-}
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #c1d3e0;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            resize: vertical;
+        }
 
-button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: none;
-    background: #007bff;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
+        label {
+            font-size: 14px;
+            margin-right: 10px;
+            color: #2a5298;
+        }
 
-/* GRID */
-#framesContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 15px;
-    margin-top: 30px;
-}
+        .checkbox-container {
+            margin-bottom: 15px;
+        }
 
-/* CARD */
-.frameBox {
-    background: #fff;
-    border: 2px solid red;
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-}
+        button {
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
 
-/* IFRAME */
-iframe {
-    width: 100%;
-    height: 220px;
-    border: none;
-}
+        button:hover {
+            background-color: #0056b3;
+        }
 
-/* FALLBACK */
-.fallback {
-    position: absolute;
-    inset: 0;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 14px;
-    color: #333;
-    display: none;
-}
-
-.fallback button {
-    width: auto;
-    padding: 6px 12px;
-    margin-top: 10px;
-}
-</style>
+        button:focus {
+            outline: none;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="container">
-    <h3>Enter Links</h3>
+    <div class="container">
+        <h2>Enter Links and Select Prefix Type:</h2>
 
-    <textarea id="linksTextBox" rows="6"></textarea>
+        <textarea id="linksTextBox" rows="10" placeholder="Enter one link per line..."></textarea>
 
-    <button onclick="processLinks()">Load Links</button>
-    <button onclick="clearLinks()">Clear</button>
-</div>
+        <div class="checkbox-container">
+            <label><input type="checkbox" id="httpsCheckbox"> Add https://</label><br>
+            <label><input type="checkbox" id="httpCheckbox"> Add http://</label><br>
+            <label><input type="checkbox" id="nonHttpCheckbox"> Neither (no http or https)</label>
+        </div>
 
-<div id="framesContainer"></div>
+        <button onclick="processAndOpenLinks()">Process and Open Links</button>
+    </div>
 
-<script>
-const textarea = document.getElementById("linksTextBox");
-const container = document.getElementById("framesContainer");
+    <script>
+        function processAndOpenLinks() {
+            const linksTextBox = document.getElementById('linksTextBox').value;
+            const links = linksTextBox.split('\n').map(link => link.trim()).filter(link => link.length > 0);
 
-/* LOAD SAVED */
-window.onload = () => {
-    const saved = localStorage.getItem("links");
-    if(saved){
-        textarea.value = saved;
-        loadLinks(saved.split("\n"));
-    }
-};
+            const httpsChecked = document.getElementById('httpsCheckbox').checked;
+            const httpChecked = document.getElementById('httpCheckbox').checked;
+            const nonHttpChecked = document.getElementById('nonHttpCheckbox').checked;
 
-/* PROCESS */
-function processLinks(){
-    let links = textarea.value
-        .split("\n")
-        .map(l => l.trim())
-        .filter(l => l);
+            const updatedLinks = links.map(link => {
+                if (httpsChecked) {
+                    return 'https://' + link;
+                } else if (httpChecked) {
+                    return 'http://' + link;
+                } else if (nonHttpChecked) {
+                    return link; // No prefix added
+                }
+                return link; // No changes if no box is checked
+            });
 
-    // add https automatically
-    links = links.map(l => l.startsWith("http") ? l : "https://" + l);
-
-    localStorage.setItem("links", links.join("\n"));
-
-    loadLinks(links);
-}
-
-/* LOAD */
-function loadLinks(links){
-    container.innerHTML = "";
-
-    links.forEach(link => {
-
-        const box = document.createElement("div");
-        box.className = "frameBox";
-
-        const iframe = document.createElement("iframe");
-        iframe.src = link;
-
-        const fallback = document.createElement("div");
-        fallback.className = "fallback";
-
-        const txt = document.createElement("div");
-        txt.innerText = "🚫 Blocked by site";
-
-        const btn = document.createElement("button");
-        btn.innerText = "Open Link";
-        btn.onclick = () => window.open(link, "_blank");
-
-        fallback.appendChild(txt);
-        fallback.appendChild(btn);
-
-        box.appendChild(iframe);
-        box.appendChild(fallback);
-        container.appendChild(box);
-
-        /* DETECT BLOCK */
-        setTimeout(() => {
-            try {
-                iframe.contentWindow.location.href;
-            } catch {
-                fallback.style.display = "flex";
-            }
-        }, 1500);
-    });
-}
-
-/* CLEAR */
-function clearLinks(){
-    localStorage.removeItem("links");
-    container.innerHTML = "";
-    textarea.value = "";
-}
-</script>
+            // Open each updated link in a new tab
+            updatedLinks.forEach(link => {
+                window.open(link, '_blank');
+            });
+        }
+    </script>
 
 </body>
 </html>
