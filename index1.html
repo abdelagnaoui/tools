@@ -15,7 +15,58 @@
     }
 
 /* DEFAULT */
+/* container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
 
+/* hide checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* background */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: #0ea5e9;
+  border-radius: 50px;
+  transition: 0.4s;
+}
+
+/* circle + emoji */
+.slider:before {
+  content: "💙";
+  position: absolute;
+  height: 24px;
+  width: 24px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: 0.4s;
+}
+
+/* checked */
+.switch input:checked + .slider {
+  background: #ff4da6;
+}
+
+/* move + change emoji */
+.switch input:checked + .slider:before {
+  transform: translateX(30px);
+  content: "🎀";
+}
     
     body {
   background: url("https://wallpapercave.com/wp/wp3284848.gif") !important;
@@ -239,9 +290,10 @@ body.pink-mode .tool-button{
   <h3>𝗔𝗯𝗱𝗲𝗹𝗮𝗴𝗻𝗮𝗼𝘂𝗶</h3>
 
   <!-- SWITCH -->
-  <div class="form-check form-switch">
-  <input class="form-check-input" type="checkbox" role="switch" id="toggleTheme" checked>
-</div>
+ <label class="switch">
+  <input type="checkbox" id="toggleTheme">
+  <span class="slider"></span>
+</label>
 </header>
 <br> <div class="search-bar" style="font-size:25px">
 	<b>
