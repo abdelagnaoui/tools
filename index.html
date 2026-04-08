@@ -32,41 +32,17 @@
 
 /* background */
 .slider {
-  position: absolute;
-  cursor: pointer;
-  inset: 0;
-  background: #0ea5e9;
-  border-radius: 50px;
-  transition: 0.4s;
+   position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+    background: #0ea5e9;
+    border-radius: 50px;
+    transition: 0.4s;
+    width: 55px !important;
 }
-
-/* circle + emoji */
-.slider:before {
-  content: "💙";
-  position: absolute;
-  height: 24px;
-  width: 24px;
-  left: 3px;
-  bottom: 3px;
-  background: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  transition: 0.4s;
-}
-
-/* checked */
-.switch input:checked + .slider {
-  background: #ff4da6;
-}
-
-/* move + change emoji */
-.switch input:checked + .slider:before {
-  transform: translateX(30px);
-  content: "🎀";
-}
+    
+   #slider_icon { height: 24px;width: 24px;background: white;border-radius: 50%;display: flex;align-items: center;justify-content: center;font-size: 14px;transition: 0.4s;}
     
     body {
   background: url("https://wallpapercave.com/wp/wp3284848.gif") !important;
@@ -368,7 +344,11 @@ body.pink-mode .tool-button{
   <!-- SWITCH -->
  <label class="switch">
   <input type="checkbox" id="toggleTheme">
-  <span class="slider"></span>
+
+  <div class="slider">
+  <span id="slider_icon">💙</span>
+  </div>
+
 </label>
 </header>
 <br> <div class="search-bar" style="font-size:25px">
@@ -1799,9 +1779,17 @@ window.addEventListener("load", () => {
   if (savedMode === "pink") {
     document.body.classList.add("pink-mode");
     toggle.checked = true;
+	
+    document.getElementById('slider_icon').innerHTML = "🎀";
+    document.getElementById('slider_icon').style.transform = "translateX(30px)";
+    document.querySelector('.slider').style.background = "#ff4da6";
   } else {
     document.body.classList.remove("pink-mode");
     toggle.checked = false;
+	
+    document.getElementById('slider_icon').innerHTML = "💙";
+    document.getElementById('slider_icon').style.transform = "translateX(0px)";
+    document.querySelector('.slider').style.background = "#0ea5e9";
   }
 });
 
@@ -1810,11 +1798,19 @@ toggle.addEventListener("change", () => {
   if (toggle.checked) {
     document.body.classList.add("pink-mode");
     localStorage.setItem("theme", "pink");
+    document.getElementById('slider_icon').innerHTML = "🎀";
+    document.getElementById('slider_icon').style.transform = "translateX(30px)";
+    document.querySelector('.slider').style.background = "#ff4da6";
   } else {
     document.body.classList.remove("pink-mode");
     localStorage.setItem("theme", "default");
+    document.getElementById('slider_icon').innerHTML = "💙";
+    document.getElementById('slider_icon').style.transform = "translateX(0px)";
+    document.querySelector('.slider').style.background = "#0ea5e9";
   }
 });
+
+
 </script>
 <script>
 // messages
