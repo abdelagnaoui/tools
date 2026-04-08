@@ -4,7 +4,7 @@
 	  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>🛠️ 𝐏📍️𝐳𝐳𝐲 Tools®࿐</title>
+  <title>🛠️ Abelagnaui-Tools®࿐</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" >
@@ -362,8 +362,8 @@ body.pink-mode .tool-button{
 <div id="topMessage" class="top-msg"></div>
 <header>
 
-  <h1>⚜</h1>
-  <h3>𝗔𝗯𝗱𝗲𝗹𝗮𝗴𝗻𝗮𝗼𝘂𝗶</h3>
+  <b style="color : white">⚜𝐏🕴💤💤🏋</b>
+  <h3 style="font-size:15px">𝗔𝗯𝗱𝗲𝗹𝗮𝗴𝗻𝗮𝗼𝘂𝗶</h3>
 
   <!-- SWITCH -->
  <label class="switch">
@@ -373,7 +373,7 @@ body.pink-mode .tool-button{
 </header>
 <br> <div class="search-bar" style="font-size:25px">
 	<b>
-      <center style="color:White" >𝐏🕴💤💤🏋Tools®࿐</center>
+      <center style="color:White" > Tools®࿐</center>
 	</b>
               </div>                                                
   
@@ -603,89 +603,143 @@ toggleButton.addEventListener("click", () => {
 
   <pre id="autoScheduleScript" style="display:none;">
 // === UI Elements ===
+// === UI Panel ===
 const wrapper = document.createElement("div");
-wrapper.style.position = "fixed";
-wrapper.style.bottom = "20px";
-wrapper.style.right = "20px";
-wrapper.style.background = "#001f3f"; // dark blue background
-wrapper.style.color = "#00bfff"; // bright blue text
-wrapper.style.padding = "12px";
-wrapper.style.fontFamily = "monospace";
-wrapper.style.borderRadius = "10px";
-wrapper.style.zIndex = "9999";
-wrapper.style.boxShadow = "0 0 15px rgba(0, 191, 255, 0.6)";
-wrapper.style.display = "flex";
-wrapper.style.alignItems = "center";
-wrapper.style.gap = "10px";
+Object.assign(wrapper.style, {
+  position: "fixed",
+  bottom: "20px",
+  right: "20px",
+  background: "#001f3f", // Dark navy background
+  color: "#00bfff", // Bright blue text
+  padding: "12px",
+  fontFamily: "monospace",
+  borderRadius: "10px",
+  zIndex: "9999",
+  boxShadow: "0 0 15px rgba(0, 191, 255, 0.6)", // light blue glow
+  display: "flex",
+  flexDirection: "column",
+  gap: "8px"
+});
 
-// Input for seconds
-const input = document.createElement("input");
-input.type = "number";
-input.min = "1";
-input.value = "10"; // default 10 seconds
-input.style.width = "60px";
-input.style.padding = "5px";
-input.style.border = "1px solid #00bfff";
-input.style.borderRadius = "5px";
-input.style.background = "#002b5c";
-input.style.color = "#00bfff";
+const controls = document.createElement("div");
+Object.assign(controls.style, {
+  display: "flex",
+  alignItems: "center",
+  gap: "8px"
+});
 
-// Label
-const label = document.createElement("label");
-label.textContent = "Interval (sec): ";
-label.style.marginRight = "5px";
+const intervalLabel = document.createElement("label");
+intervalLabel.textContent = "Interval (sec):";
+intervalLabel.style.color = "#00bfff";
 
-// Timer display
-const timerDisplay = document.createElement("span");
-timerDisplay.textContent = "Next click in: --:--:--";
+const intervalInput = document.createElement("input");
+intervalInput.type = "number";
+intervalInput.min = "1";
+intervalInput.value = "10";
+Object.assign(intervalInput.style, {
+  width: "60px",
+  padding: "5px",
+  border: "1px solid #00bfff",
+  borderRadius: "5px",
+  background: "#002b5c", // dark blue input background
+  color: "#00bfff"
+});
+
+const toggleButton = document.createElement("button");
+toggleButton.textContent = "▶️ Start";
+Object.assign(toggleButton.style, {
+  padding: "6px 10px",
+  background: "#004080", // Dark blue button
+  color: "#00bfff",
+  border: "none",
+  borderRadius: "5px",
+  cursor: "pointer"
+});
+
+const timerDisplay = document.createElement("div");
+timerDisplay.textContent = "Next click in: --";
+timerDisplay.style.fontSize = "14px";
+timerDisplay.style.color = "#00bfff";
 
 // Assemble UI
-wrapper.appendChild(label);
-wrapper.appendChild(input);
+controls.appendChild(intervalLabel);
+controls.appendChild(intervalInput);
+controls.appendChild(toggleButton);
+wrapper.appendChild(controls);
 wrapper.appendChild(timerDisplay);
 document.body.appendChild(wrapper);
 
 // === Timer Logic ===
-let intervalMs = parseInt(input.value) * 1000;
-let remainingTime = intervalMs;
-let clickIntervalId, countdownIntervalId;
+let clickIntervalId = null;
+let countdownIntervalId = null;
+let remainingTime = 0;
+let running = false;
 
-// Select input elements
 const elements = document.querySelectorAll("input");
 
-// Update timer display
-function updateTimer() {
+function format(ms) {
+  const sec = Math.floor(ms / 1000);
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+function updateCountdown() {
   remainingTime -= 1000;
   if (remainingTime < 0) remainingTime = 0;
-
-  const hours = Math.floor(remainingTime / 3600000);
-  const minutes = Math.floor((remainingTime % 3600000) / 60000);
-  const seconds = Math.floor((remainingTime % 60000) / 1000);
-
-  timerDisplay.textContent = `Next click in: ${String(hours).padStart(1, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  timerDisplay.textContent = "Next click in: " + format(remainingTime);
 }
 
-// Auto-click function
-function startClicker() {
+function clickTargetElement() {
+  if (elements[8]) {
+    elements[8].click();
+    console.log("✅ Element clicked");
+  } else {
+    console.warn("⚠️ Target element not found!");
+  }
+}
+
+function startClicking() {
+  clearAll();
+
+  const interval = parseInt(intervalInput.value) * 1000;
+  remainingTime = interval;
+
+  clickTargetElement(); // optional first click
+  clickIntervalId = setInterval(() => {
+    clickTargetElement();
+    remainingTime = interval;
+  }, interval);
+
+  countdownIntervalId = setInterval(updateCountdown, 1000);
+  toggleButton.textContent = "⏹️ Stop";
+  running = true;
+}
+
+function stopClicking() {
+  clearAll();
+  toggleButton.textContent = "▶️ Start";
+  timerDisplay.textContent = "⏹️ Script Stoped ";
+  running = false;
+}
+
+function clearAll() {
   clearInterval(clickIntervalId);
   clearInterval(countdownIntervalId);
-  
-  intervalMs = parseInt(input.value) * 1000;
-  remainingTime = intervalMs;
-
-  clickIntervalId = setInterval(() => {
-    if (elements[8]) elements[8].click();
-    remainingTime = intervalMs;
-  }, intervalMs);
-
-  countdownIntervalId = setInterval(updateTimer, 1000);
 }
 
-// Start initially
-startClicker();
+toggleButton.addEventListener("click", () => {
+  if (!running) {
+    startClicking();
+  } else {
+    stopClicking();
+  }
+});
 
-// Restart when input changes
-input.addEventListener("change", startClicker);
+// ✅ Auto-apply new seconds while running
+intervalInput.addEventListener("change", () => {
+  if (running) startClicking();
+});
   </pre>
 
   <pre id="autoClickScript" style="display:none;">
@@ -1577,7 +1631,7 @@ function extractUniqueIPsAndCopyToClipboard() {
         const container = document.querySelector('.aeH');
         if (!container) return;
 
-        // ما يتكرروش
+        
         if (document.getElementById("custom-btns")) return;
 
         const wrapper = document.createElement('div');
@@ -1738,7 +1792,7 @@ function extractUniqueIPsAndCopyToClipboard() {
 <script id="fixjs1">
 const toggle = document.getElementById("toggleTheme");
 
-// 🔁 يرجّع الحالة ملي كتفتح الصفحة
+
 window.addEventListener("load", () => {
   const savedMode = localStorage.getItem("theme");
 
@@ -1751,7 +1805,7 @@ window.addEventListener("load", () => {
   }
 });
 
-// 🎯 ملي user يبدل
+
 toggle.addEventListener("change", () => {
   if (toggle.checked) {
     document.body.classList.add("pink-mode");
@@ -1763,7 +1817,7 @@ toggle.addEventListener("change", () => {
 });
 </script>
 <script>
-// messages ديالك
+// messages
 const messages = [
   "أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ ",
   "لَا إلَه إلّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءِ قَدِيرِ. ",
@@ -1814,5 +1868,3 @@ window.addEventListener("load", () => {
 </script>
 </body>
 </html>
-
-	
