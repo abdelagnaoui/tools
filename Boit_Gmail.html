@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Boit GMAIL</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:Poppins, sans-serif;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:#e2e8f0;
+}
+
+.container{
+  display:flex;
+  height:100vh;
+}
+
+.left{
+  width:320px;
+  background:rgba(255,255,255,0.05);
+  padding:20px;
+}
+
+.create{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  background:#6366f1;
+  color:white;
+  font-weight:600;
+}
+
+.card{
+  background:rgba(255,255,255,0.06);
+  padding:12px;
+  border-radius:12px;
+  margin-top:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.delete{
+  cursor:pointer;
+  color:#f87171;
+}
+
+.right{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px;
+}
+
+.page-title{
+  font-size:28px;
+  font-weight:600;
+  margin-top:10px;
+}
+
+.center{
+  text-align:center;
+}
+
+.email{
+  font-size:22px;
+  font-weight:600;
+  margin-bottom:15px;
+}
+
+.copy-btn{
+  padding:10px 20px;
+  border:none;
+  border-radius:10px;
+  background:#6366f1;
+  color:white;
+  cursor:pointer;
+}
+
+.footer{
+  font-size:13px;
+  opacity:0.6;
+  margin-bottom:10px;
+}
+
+.toast{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#6366f1;
+  padding:10px;
+  border-radius:10px;
+  opacity:0;
+}
+.toast.show{
+  opacity:1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="left">
+<button class="create" onclick="generateEmail()">+ Create Email</button>
+<div id="list"></div>
+</div>
+
+<div class="right">
+  <div class="page-title">Boit GMAIL</div>
+
+  <div class="center">
+    <div class="email" id="selectedEmail">No email</div>
+    <button class="copy-btn" onclick="copySelected()">Copy</button>
+  </div>
+
+  <div class="footer">@Abdelagnaoui</div>
+</div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// 🔥 POOL ديالك
+let pool = [
+'coraleemacenteerag.gssoz.s.zv@gmail.com',
+'benjamin2mil.l.er.5.0.84@gmail.com',
+'jerry29to.rr.e.s.7.047@gmail.com',
+'tracyg.ray4.92.80@gmail.com',
+'robinm.oor.e.66.78@gmail.com',
+'kaylinbryn.n.7.5.9@gmail.com',
+'anthonyharri.s.7.46.54@gmail.com',
+'cap.riru.s0.7.4@gmail.com',
+'leioc.h.o.a2369@gmail.com',
+'ulyssesbullingtonz.tc.v.u6680@gmail.com',
+'alvin.webb6970@gmail.com',
+'kuynhvuychm.e.n.hkang@gmail.com',
+'melaniepickering3245@gmail.com',
+'miracld.ea.n.0.4.3@gmail.com',
+'deloresjon.e.s.775.7.9@gmail.com',
+'terrywats.o.n5.7549@gmail.com',
+'audreypeters.o.n.7.85.9.3@gmail.com',
+'roredbut.ch.e.r.3.242@gmail.com',
+'lydiaharve.y.50444@gmail.com',
+'camillpittma.n.38.3@gmail.com',
+'bentiec.e.cox4.452@gmail.com',
+'patsimm.on.s6.1801@gmail.com',
+'kenneddoug.her.ty.49.3@gmail.com',
+'alicemendo.z.a.5.4.755@gmail.com',
+'jacquelinemitchell3.88.4.6@gmail.com',
+'jordonwi.llu.s.u.23@gmail.com',
+'roatghuang.hoe.t.l.a.nh@gmail.com',
+'isobelhamilto.n.7093.4@gmail.com',
+'sophiholla.n.d236.9@gmail.com',
+'scarlettfraz.i.er8404.5@gmail.com',
+'bentieshasim.mon.s67.2.3@gmail.com',
+'frederickfie.ld.s.99.25.3@gmail.com',
+'isabellahowa.rd.2.2.2.6@gmail.com',
+'eggerandergra.n.t.8252@gmail.com',
+'chaml.ue.n.g.ti.c.h@gmail.com',
+'quachhi.ech.h.i.e.ch@gmail.com',
+'gordongar.rett.7688@gmail.com',
+'thoam.l.am.b.uo.c@gmail.com',
+'stephendavids.o.n3.5.945@gmail.com',
+'bynhkoetb.ongp.u.a.n.h@gmail.com',
+'buocto.ng.tr.un.g@gmail.com',
+'garacibhara.t1v@gmail.com',
+'linsc.hmi.dt3.7.4@gmail.com',
+'giecphangqua.nhg.hu.ng@gmail.com',
+'hungghiepxa.c.hpu.yn.h@gmail.com',
+'rileywes.t3.79.0.1@gmail.com',
+'nina.pe.ck.8.2.8.7@gmail.com',
+'ritabar.ne.s1.3588@gmail.com',
+'kylib.owe.n.0.61@gmail.com',
+'aprilwallac.e8.1.304@gmail.com',
+'dennis.5le.e6.2.2.5@gmail.com',
+'sofisnyde.r.536@gmail.com',
+'tranmicael.a.833.5@gmail.com',
+'mandadzj.a.v.e.d.39@gmail.com',
+'lungngupp.hu.p.poat@gmail.com',
+'katrinalittle.82.03.0@gmail.com',
+'baumgaerbe.nt.ie.58.12@gmail.com',
+'mauricedoug.la.s.6.10.21@gmail.com',
+'laylawel.l.s.4.335.3@gmail.com',
+'joellehutch.i.n.s.o5.8.2@gmail.com',
+'mallickcrpo.o.n.a.mob@gmail.com',
+'ezrjam.es.2.369@gmail.com',
+'audreypeterso.n.7.8.5.9.3@gmail.com',
+'ly.la.k.h.a8.5.8@gmail.com',
+'hebertmarle.y.dt.dg@gmail.com',
+'rangsimanphu.nasr.i@gmail.com',
+'joellehutc.hin.so5.8.2@gmail.com',
+'lanhrietghoo.n.gku.y.en@gmail.com',
+'ngaynuanhxo.ong.d.u.y.nh@gmail.com',
+'christinejo.ne.s5.9.9.9.9@gmail.com',
+'marstevenson.2.3.6.9@gmail.com',
+'paulafield.s.5.7.1.40@gmail.com',
+'cuanhquangph.om.q.uu.y.e.n@gmail.com',
+'deloresjo.ne.s.7.757.9@gmail.com',
+'piechcuychqu.iep.guy.n.h@gmail.com',
+'carriewats.o.n6.6.8.22@gmail.com',
+'jeannepri.c.e.4.708.9@gmail.com',
+'coraleemacenteerag.gs.soz.s.zv@gmail.com',
+'kuangnguanbu.anh.po.a.ch@gmail.com',
+'louisgarcia7.0162@gmail.com',
+'quangquan.g.ph.u.nh@gmail.com',
+'quoonglungp.hu.iv.uy.e.n@gmail.com',
+'kristinmur.ph.y.7914@gmail.com',
+'emelilo.w.er.y.4.7.5@gmail.com',
+'gordongar.re.t.t7688@gmail.com',
+'craigell.mr.1.4.19.92@gmail.com',
+'reginaldfow.l.e.r.8.8.8.1@gmail.com',
+'phiechhiepphom.non.g@gmail.com',
+'rogersimmm.ons.1.76.79@gmail.com',
+'lydiahar.ve.y.5044.4@gmail.com',
+'salvadorpatters.on.44.7.8.1@gmail.com',
+'gabewoo.d.s.1352.8@gmail.com',
+'jenniferkel.le.y1.9.618@gmail.com',
+'noellesteve.ns96731@gmail.com',
+'mackenzieb.ra.n.c1.5.0@gmail.com',
+'aprilwall.ace.813.04@gmail.com',
+'billy24barne.s7835@gmail.com',
+'lucieb.k.iivahg@gmail.com',
+'luantuoiph.ua.n.ng.o.a.t@gmail.com',
+'noellestev.ens96.7.31@gmail.com',
+'ghynhghoonghi.ep.q.uiet@gmail.com',
+'juditdu.nl.ap457@gmail.com',
+'normami.le.s.9.4.0.4@gmail.com',
+'terryg.ray7.8.4.41@gmail.com',
+'bentieshasimmon.s.67.23@gmail.com',
+'grahamgrahamrs2.6.1.989@gmail.com',
+'donald94mill.er.66.4.2@gmail.com',
+'brucecoll.ins92.27@gmail.com',
+'boanhbie.c.h.b.i.e.c.h@gmail.com',
+'davidthom.a.s282.5.5@gmail.com',
+'coraleemacenteeraggs.so.zszv@gmail.com',
+'juditdunl.ap457@gmail.com',
+'noradu.nca.n4.8.3.2@gmail.com',
+'chesterjenk.ins4.93.98@gmail.com',
+'hunglinhnongt.in.h@gmail.com',
+'allisonp.r.ice9.76.6@gmail.com',
+'cangquuand.oet.h.u.y.n.h@gmail.com',
+'zackr.a.y7.9.3.6.2@gmail.com',
+'nganhsiepghi.ech.ki.et@gmail.com',
+'bernicehol.t15.1.1.3@gmail.com',
+'russellsimps.on.709.1@gmail.com',
+'baumgaerho.ope.r.2.8.3.2@gmail.com',
+'lokeipjag.di.shxm@gmail.com',
+'patne.w.man567.0@gmail.com',
+'kenneddoug.her.ty.493@gmail.com',
+'eggerosull.i.van153.2@gmail.com',
+'cap.ri.rus.074@gmail.com',
+'sylviarice.54.693@gmail.com',
+'tenh.mi.e.p.m.ie.p@gmail.com',
+'jennysi.lva.323.12@gmail.com',
+'anamorales.24.94.8@gmail.com',
+'fredst.on.e.9.2.69@gmail.com',
+'raynelbe.l.i.ngu.e.z@gmail.com',
+'dylanwa.m.r091.9.9.6@gmail.com',
+'dartxgaje.ndrag.h@gmail.com',
+'paislee.s.no5.0.1@gmail.com',
+'thomassny.d.er7.7.2.4@gmail.com',
+'dennis5lee6.2.2.5@gmail.com',
+'adelynmosl.e.y2369@gmail.com',
+'kylib.o.wen061@gmail.com',
+'kirkobri.en57791@gmail.com',
+'brycenmich.ae.lqpv.k@gmail.com',
+'andrae.xa.l.exm.8@gmail.com',
+'abdulmuminbal.ar.abe.85.5@gmail.com',
+'eggerandrap.oole1.2.3.2@gmail.com',
+'convillenowack.sv.d.a.3.95.6@gmail.com',
+'choetmo.a.m.thich@gmail.com',
+'bentieciahowar.t.h.7.94.2@gmail.com',
+'zack.ray.7.93.6.2@gmail.com',
+'anamoral.es2.49.4.8@gmail.com',
+'priscillagreen7.1.61.2@gmail.com',
+'estrel.laba.r.21.7@gmail.com',
+'poachlanhl.uando.et@gmail.com',
+'pannunziokluever.hoc.s9.162@gmail.com',
+'ngoongniepgan.gv.oa.t@gmail.com',
+'choetngi.e.t.ngiet@gmail.com',
+'katrinacha.vez.52.0.2@gmail.com',
+'audreypeter.son.7.85.93@gmail.com',
+'vincent3e.van.s.5.12.5@gmail.com',
+'bentieciaca.r.e.y36.4.2@gmail.com',
+'nayrichard.son83.0@gmail.com',
+'egge.rcox.5.5.4.2@gmail.com',
+'mathewnoso.mnat.hli@gmail.com',
+'carmelahyng.o.ld.n.er.o@gmail.com',
+'eggerandrapo.o.l.e1.23.2@gmail.com',
+'berthaow.en.s9.537.7@gmail.com',
+'garfbazzanellam.g.mk96.4.0@gmail.com',
+'tiechxanhdiec.hv.oa.c.h@gmail.com',
+'aarystrickla.n.d2.3.69@gmail.com',
+'raymondde.a.n26.63.6@gmail.com',
+'melaniewhittake.r4.4.2.9@gmail.com',
+'peohuml.u.ngc.e.n.h@gmail.com',
+'livingstonfro.s.t31.4@gmail.com',
+'ronald69washin.g.ton6.653@gmail.com',
+'margretheseb.a.s.o.v.i.c.h@gmail.com',
+'allisonp.rice9.76.6@gmail.com',
+'traceypear.s.on6.97.4@gmail.com',
+'paloma.su.t.t.o699@gmail.com',
+'jenadarris.ne.rw.dc.z.m@gmail.com',
+'rosephillips66.1.0.2@gmail.com',
+'louellagonza.lez.12.01.5@gmail.com',
+'jennysil.v.a3.231.2@gmail.com',
+'bentieshasim.mon.s6.7.23@gmail.com',
+'rangsiman.phu.nasr.i@gmail.com',
+'margrethese.ba.sov.ic.h@gmail.com',
+'kristinmu.rp.h.y7.91.4@gmail.com',
+'embes.imo.n.15.6@gmail.com',
+'eggerbutler7.732@gmail.com',
+'lydiaharve.y504.4.4@gmail.com',
+'rattitt.bi.nita.a.c@gmail.com',
+'hunglinhn.o.ng.t.inh@gmail.com',
+'georgejohn.son.5.64.7.9@gmail.com',
+'octavimck.ay.7.42@gmail.com',
+'baumgaerthomp.so.n37.5.2@gmail.com',
+'mackenzie.br.a.nc150@gmail.com',
+'priscillagreen7.161.2@gmail.com',
+'luebberspursifully.x.ye91.02@gmail.com',
+'isiaha.ru.jar.e.n.3@gmail.com',
+'briannaell.is60.47@gmail.com',
+'micheleluc.as2.10.2.4@gmail.com',
+'alyss.lamb.7.52@gmail.com',
+'hoachngiecgiecq.uo.ong@gmail.com',
+'jill.be.ll8.3.94@gmail.com',
+'parkeg.reen2369@gmail.com',
+'sotosotom.rs2.9.19.90@gmail.com',
+'craigell.mr.1.41.9.92@gmail.com',
+'louellagonza.le.z1.2.01.5@gmail.com',
+'jacquelinegonza.le.z.331.61@gmail.com',
+'richardcoll.ins.2.6.24.9@gmail.com',
+'loatngiungu.a.n.gbu.a@gmail.com',
+'tracyhachigiandastol.i.4.vda.r.v@gmail.com',
+'lydiaharvey.5044.4@gmail.com',
+'savantwtvais.ha.lihy@gmail.com',
+'alyssl.amb7.52@gmail.com',
+'rhondachambers62.123@gmail.com',
+'joellehutc.hin.so.5.8.2@gmail.com',
+'hongtungv.uy.ch.mo.n.g@gmail.com',
+'carlabro.o.ks834.2@gmail.com',
+'dhillon.si.s.onar5@gmail.com',
+'dennis5.l.ee6.225@gmail.com',
+'tenh.mi.e.pm.i.ep@gmail.com',
+'ngoongniepg.ang.vo.a.t@gmail.com',
+'margiefos.ter7.0.18.3@gmail.com',
+'egypt.o.cho.9.19@gmail.com',
+'ghipkeo.xiecrunh@gmail.com',
+'cuynh.soe.t.s.o.et@gmail.com',
+'hollf.ar.l.e.y.654@gmail.com',
+'bakshi.f.h.ramdx@gmail.com',
+'justinmendoz.a2.51.7.3@gmail.com',
+'eddiemedin.a.52.124@gmail.com',
+'geordiec.o.r.d.ar.o@gmail.com',
+'laurasanms.3119.89@gmail.com',
+'micheleluc.a.s.210.2.4@gmail.com',
+'ghenhphuicuangc.o.on.g@gmail.com',
+'priscillagree.n.71.612@gmail.com',
+'nola.fow.l.e.1.56@gmail.com',
+'charles97.yo.ung1.81@gmail.com',
+'margiefos.te.r.7.0.1.83@gmail.com',
+'cangquuando.e.thuyn.h@gmail.com',
+'anamora.le.s.24.948@gmail.com',
+'maisidelg.ado19.4@gmail.com',
+'craigjames.6.5.54.4@gmail.com',
+'bentieshaandr.e.ws3.4.29@gmail.com',
+'kirkobri.e.n5.779.1@gmail.com',
+'c.anyo.aya.n@gmail.com',
+'rosemaryholla.nd2.2.31.2@gmail.com',
+'aprilwall.ace81.3.04@gmail.com',
+'tiect.ie.csu.y.nh@gmail.com',
+'dalarla.w.so.n47.2@gmail.com',
+'ngachtrychph.ac.h.guy.n.h@gmail.com',
+'linsch.midt.374@gmail.com',
+'addisonpierce.3.6.738@gmail.com',
+'lachquynhgh.oe.txon.g@gmail.com',
+'jeremybarnes.4.8853@gmail.com',
+'cathygutierrez.6.4.66.1@gmail.com',
+'sloaalvar.e.z.2.369@gmail.com',
+'sloaalva.r.ez2.369@gmail.com',
+'jonathanfis.he.r.769.0.6@gmail.com',
+'jenniferkell.ey.1961.8@gmail.com',
+'rosgi.b.bs2369@gmail.com',
+'charlenearnold.47.31.1@gmail.com',
+'voachmongk.ie.t.q.uu.a.n@gmail.com',
+'diannerobert.so.n.8.6.23.6@gmail.com',
+'naima.trev.i.n.3.8@gmail.com',
+'eggerosulli.v.a.n.153.2@gmail.com',
+'pannunziokluever.ho.c.s.91.62@gmail.com',
+'t.i.us3.r.t.a@gmail.com',
+'tuyet.ki.c.h.m.oe.t@gmail.com',
+'camilaolso.n.96.90.3@gmail.com',
+'sylviar.ic.e.54693@gmail.com',
+'baylee.wa.l.sh6@gmail.com',
+'laurasanms31.1989@gmail.com',
+'livingstonfr.o.st.3.1.4@gmail.com',
+'craigellmr.1.4.1.99.2@gmail.com',
+'bachbuangkiechp.hu.y.e.n@gmail.com',
+'kangxiechquiu.nganh@gmail.com',
+'tanhviepn.ga.chniet@gmail.com',
+'jill.be.ll.8.39.4@gmail.com',
+'randyhillmr05.19.96@gmail.com',
+'jensenakybar.th.ol.o.m.e.u@gmail.com',
+'phuongquiechrac.h.r.uang@gmail.com',
+'phiechhiepp.h.o.mn.on.g@gmail.com',
+'emmalyngille.sp.ie0.69@gmail.com',
+'m4irin.tadenise@gmail.com',
+'garfbazzanellam.gm.k.9.6.40@gmail.com',
+'jeremybarnes488.53@gmail.com',
+'rileystewart342.7.1@gmail.com',
+'youngyoun.mr.03.1993@gmail.com',
+'roetxuannu.angp.h.o.a.t@gmail.com',
+'wesleyde.an.14.409@gmail.com',
+'ghipkeo.xi.e.crun.h@gmail.com',
+'jillb.e.l.l.83.9.4@gmail.com',
+'bakshi.fh.r.a.m.dx@gmail.com',
+'gailb.an.ks.175.1@gmail.com',
+'albertowoods.4.0.8.3.8@gmail.com',
+'bentieshasimm.on.s6.7.23@gmail.com',
+'jimmyhar.t7.427.4@gmail.com',
+'colemancoms31199.7@gmail.com',
+'marilynmitchelle.612.57@gmail.com',
+'chhabralwala.kn.an.da.v.l@gmail.com',
+'lexi.r.ui.z.99.7@gmail.com',
+'ca.n.y.o.ay.an@gmail.com',
+'phuongquiechr.a.chru.an.g@gmail.com',
+'ghipkeo.xi.ecrunh@gmail.com',
+'dharaevijay.ent.xn@gmail.com',
+'scottgarcia72769@gmail.com',
+'bentiecehow.art.h.6.125@gmail.com',
+'normamil.e.s9.4.04@gmail.com',
+'willardg.ra.y.389.35@gmail.com',
+'terranceca.rter3.60.7@gmail.com',
+'eleanorcolli.ns5539.8@gmail.com',
+'sophihol.land2.36.9@gmail.com',
+'katrinalitt.l.e820.3.0@gmail.com',
+'kirkobr.ien.57.79.1@gmail.com',
+'peterspemr091.996@gmail.com',
+'salvadorpatter.son4.4.7.8.1@gmail.com',
+'mard.aws.o.n7.92@gmail.com',
+'giecphangqua.n.h.gh.ung@gmail.com',
+'chesterjenkins.4.9.398@gmail.com',
+'eggerandrabry.an.7.262@gmail.com',
+'richardcoll.in.s26.2.49@gmail.com',
+'nayricha.rd.so.n.8.30@gmail.com',
+'lachquynhgho.e.tx.on.g@gmail.com',
+'lungngupp.hu.pp.oa.t@gmail.com',
+'carlostucke.r.9.37.29@gmail.com',
+'saramoor.e.3.0.45.7@gmail.com',
+'laylawell.s.4.3353@gmail.com',
+'nayrichar.d.s.o.n.8.30@gmail.com',
+'isabellahowa.r.d2226@gmail.com',
+'vincent3e.va.n.s.5125@gmail.com',
+'anyadou.gher.t1.67@gmail.com',
+'berniceh.ol.t.15.113@gmail.com',
+'vernonflor.e.s52.87.7@gmail.com',
+'hussainibel.l.o.35.3.3@gmail.com',
+'luciebk.ii.vah.g@gmail.com',
+'tracyg.ray.4.9.2.8.0@gmail.com',
+'morrissco.tt.3.4.77.4@gmail.com',
+'lucyfow.ler.8.93.07@gmail.com',
+'xoachhuann.ie.pgh.a.c.h@gmail.com',
+'anamorale.s.24948@gmail.com',
+'jeremiahfoster.89.44.0@gmail.com',
+'mauriceramire.z.7.4.2.5.9@gmail.com',
+'hoang.qu.i.pqu.ip@gmail.com',
+'isobelhamilt.on.7093.4@gmail.com',
+'roatghuangh.oetlanh@gmail.com',
+'m4irin.taden.i.s.e@gmail.com',
+'loatngiun.guangbua@gmail.com',
+'noellestev.ens967.31@gmail.com',
+'lanhsuych.siecki.e.c@gmail.com',
+'kittyha.y.es76.23.4@gmail.com',
+'estrel.la.b.a.r.21.7@gmail.com',
+'kirkgutierrez2.0.3.6@gmail.com',
+'hollf.arl.e.y6.54@gmail.com',
+'carriewat.son.66.82.2@gmail.com',
+'tracey.ki.m.5.5.42@gmail.com',
+'cecilhi.cks1.80.8.0@gmail.com',
+'mehraxb.obaid7.8@gmail.com',
+'hoachtungbu.an.g.lynh@gmail.com',
+'youngyoun.mr0.3.1.9.93@gmail.com',
+'melaniehawk.in.s.2.93.2@gmail.com',
+'eman.we.be.r102@gmail.com',
+'eggeranderbroo.kes.82.8.2@gmail.com',
+'grahamgrahamr.s.2.61.9.89@gmail.com',
+'emanwe.b.er.10.2@gmail.com',
+'lisareynold.s.71091@gmail.com',
+'noraduncan.4832@gmail.com',
+'baylee.wals.h6@gmail.com',
+'elsiebrew.e.r.16921@gmail.com',
+'thomassny.de.r77.2.4@gmail.com',
+'porterpo.m.r021.99.1@gmail.com',
+'margiefos.te.r7.018.3@gmail.com',
+'benmil.e.s.73.00@gmail.com',
+'lex.ir.uiz.9.97@gmail.com',
+'charles97.yo.u.ng.181@gmail.com',
+'pynhlietn.ac.hn.ge.o@gmail.com',
+'a.ish.vu26.0@gmail.com',
+'fredst.on.e.9269@gmail.com',
+'sylviari.ce.54693@gmail.com',
+'cuanquynh.gh.iu.s.e.nh@gmail.com',
+'xuychphayp.angt.uye.n@gmail.com',
+'rangsiman.ph.u.nasr.i@gmail.com',
+'markwel.ch391.2@gmail.com',
+'pannunzioklueverh.oc.s.91.6.2@gmail.com',
+'zack.ra.y7.9.3.6.2@gmail.com',
+'ngiechngi.echhoa.c.h@gmail.com',
+'bachbuangkiec.h.p.h.uye.n@gmail.com',
+'marsteven.son.2.3.69@gmail.com',
+'rachxiepvoon.gc.oac.h@gmail.com',
+'dartxga.je.nd.ra.gh@gmail.com',
+'eman.web.er1.0.2@gmail.com',
+'deloresjon.es.7757.9@gmail.com',
+'eggerandergra.n.t.8.2.52@gmail.com',
+'phiechhiepp.ho.m.n.o.n.g@gmail.com',
+'rileystew.art3.427.1@gmail.com',
+'alvinl.ee.59897@gmail.com',
+'abdulmuminbal.ara.be.8.5.5@gmail.com',
+'jennyriley18.4.07@gmail.com',
+'coraleemacenteeragg.sso.z.s.z.v@gmail.com',
+'gailb.ank.s1.751@gmail.com',
+'jocasey7.94@gmail.com',
+'jimmyh.ar.t.7.4.2.7.4@gmail.com',
+'ronald69washin.gt.o.n.6.6.53@gmail.com',
+'priscillagre.e.n7.1.6.1.2@gmail.com',
+'bentieshasimm.o.ns.672.3@gmail.com',
+'beverleycolem.an.9.037.6@gmail.com',
+'chhabralwalak.n.a.ndav.l@gmail.com',
+'nganhsiepgh.iec.hkiet@gmail.com',
+'hunterwagner63.7.6@gmail.com',
+'runhghiuta.chl.oet@gmail.com',
+'juditd.unlap.45.7@gmail.com',
+'roredander.son.3.21.2@gmail.com',
+'paloma.sutt.o6.99@gmail.com',
+'pennywag.ne.r.86.441@gmail.com',
+'katrinalitt.l.e.8.2.03.0@gmail.com',
+'tiect.iec.s.u.yn.h@gmail.com',
+'jeromedav.is.13938@gmail.com',
+'leroyfor.d2.34.5.4@gmail.com',
+'lisareynolds.7.1.0.91@gmail.com',
+'rosemaryholla.n.d2.2.31.2@gmail.com',
+'roredande.rs.o.n3.2.12@gmail.com',
+'zackr.a.y7.9362@gmail.com',
+'royhuds.o.n.4.361.8@gmail.com',
+'eggerco.x.5542@gmail.com',
+'quoonglungp.hu.i.vuy.e.n@gmail.com',
+'richardcoll.ins262.4.9@gmail.com',
+'isabellahow.ar.d2.2.26@gmail.com',
+'richardcolli.n.s.26.24.9@gmail.com',
+'hip.hop.m.uo.e.t@gmail.com',
+'porterpo.mr.02199.1@gmail.com',
+'cuynhsoet.soe.t@gmail.com',
+'allisonp.ri.c.e.9.766@gmail.com',
+'melaniepoll.ard71.7.2@gmail.com',
+'sofis.ny.d.er5.3.6@gmail.com',
+'zackra.y.7.93.6.2@gmail.com',
+'hussainib.ell.o353.3@gmail.com',
+'lucie.bk.ii.v.ah.g@gmail.com',
+'koatgungk.ua.nh.xa.n.h@gmail.com',
+'camm.o.ettuoi@gmail.com',
+'ghipkeo.xie.c.runh@gmail.com',
+'duynhtoetmo.n.gph.e.p@gmail.com',
+'ngiechngie.c.hhoa.ch@gmail.com',
+'tangpaug.ac.h.g.i.n.h@gmail.com',
+'nangtiechp.angghy.nh@gmail.com',
+'ronald69washing.t.o.n6.6.53@gmail.com',
+'jeromedav.i.s1.39.3.8@gmail.com',
+'kangxiechqui.u.ngan.h@gmail.com',
+'margiefost.er.70183@gmail.com',
+'roatghuangho.e.tla.n.h@gmail.com',
+'berthaowe.ns.95377@gmail.com',
+'rileywes.t.37901@gmail.com',
+'dylanwamr091.996@gmail.com',
+'traceyk.i.m5542@gmail.com',
+'gabewo.ods1.3.5.28@gmail.com',
+'leroybish.o.p7.30.6.9@gmail.com',
+'randyhillm.r05.1996@gmail.com',
+'jillfrankl.in.1.71.40@gmail.com',
+'gregory30pete.r.son1.46.0@gmail.com',
+'joellehutch.in.so5.82@gmail.com',
+'eleanorcolli.ns5.5.398@gmail.com',
+'isabellagardn.e.r6.21.1.7@gmail.com',
+'terrygr.a.y7844.1@gmail.com',
+'normami.l.e.s9.4.04@gmail.com',
+'leroyf.o.rd23.45.4@gmail.com',
+'dorahill94.6.8.9@gmail.com',
+'ninap.e.ck.8.287@gmail.com',
+'pannunzioklueverhocs.9.162@gmail.com',
+'ghynhghoongh.ie.p.qu.i.et@gmail.com',
+'carlostucke.r.93.7.29@gmail.com',
+'lukevar.gas.722.79@gmail.com',
+'bentieciaca.re.y.364.2@gmail.com',
+'siets.ie.tn.oach@gmail.com',
+'isobelhamilton70.93.4@gmail.com',
+'lanhsuychs.iec.kie.c@gmail.com',
+'bertagnolliverros.dr.qyq.58.5@gmail.com',
+'eggerandragr.aham.12.72@gmail.com',
+'cliffordmil.e.s90.7.3.0@gmail.com',
+'helel.ow.ery929@gmail.com',
+'hunterwagn.e.r.6376@gmail.com',
+'berniceholt.1.51.1.3@gmail.com',
+'hungghiepxa.c.hpuy.n.h@gmail.com',
+'richardcoll.in.s2.62.4.9@gmail.com',
+'dalemar.tin51.29.9@gmail.com',
+'bentiecepark.in5.4.12@gmail.com',
+'traceyk.im.5.54.2@gmail.com',
+'dennishughes4248.9@gmail.com',
+'katrinalit.tl.e8.20.30@gmail.com',
+'quachhonghu.ang.c.ie.c.h@gmail.com',
+'kenneddougherty4.9.3@gmail.com',
+'maisidelgado1.9.4@gmail.com',
+'choetmoam.thic.h@gmail.com',
+'brycenmic.ha.el.qpvk@gmail.com',
+'stephaniefrazie.r9679.0@gmail.com',
+'boanhbie.c.h.bi.ec.h@gmail.com',
+'charlotte.p.ratt.8.8.3@gmail.com',
+'hussainibe.ll.o.35.3.3@gmail.com',
+'poatd.ac.hdach@gmail.com',
+'colemancoms.311997@gmail.com',
+'ghachruangl.uy.nhvu.ng@gmail.com',
+'shanene.a.l5.4.6.8@gmail.com',
+'allisonp.rice976.6@gmail.com',
+'russellsimp.so.n.7.091@gmail.com',
+'bentiecepark.in.541.2@gmail.com',
+'ilenenessseren.s.ngnerv@gmail.com',
+'jeannepr.ic.e.47.08.9@gmail.com',
+'andreaw.ade.954.4@gmail.com',
+'madelynn.no.rr.i7.68@gmail.com',
+'ghipkeo.xie.c.r.u.n.h@gmail.com',
+'luantuoiphu.a.n.ng.oa.t@gmail.com',
+'lyrimu.l.l.en.620@gmail.com',
+'colemanco.ms3.1.1.997@gmail.com',
+'emmalyngilles.p.ie.0.69@gmail.com',
+'terrywatso.n.5.75.49@gmail.com',
+'lucyfowler.8.9.3.0.7@gmail.com',
+'rachelha.ll.8.4.5.46@gmail.com',
+'ngachtrychphac.h.guyn.h@gmail.com',
+'sietsi.e.tn.oach@gmail.com',
+'carlostuc.ke.r93.729@gmail.com',
+'blaialva.rad.o2369@gmail.com',
+'rogersimmmon.s.1.76.7.9@gmail.com',
+'isobelhamil.to.n.709.3.4@gmail.com',
+'patgrah.a.m.45.1.5.7@gmail.com',
+'francissut.ton.42386@gmail.com',
+'andrewwil.mr0.919.8.3@gmail.com',
+'hoctoap.n.goan@gmail.com',
+'chauhantmkris.h.nao.3@gmail.com',
+'xuychphayp.an.g.t.uy.en@gmail.com',
+'darrylvargas.1.384@gmail.com',
+'charlenearnold473.11@gmail.com',
+'hungghiepx.ach.puyn.h@gmail.com',
+'boachhi.et.hi.et@gmail.com',
+'alicemendoz.a.5.4.7.5.5@gmail.com',
+'quynhquy.nhr.oac.h@gmail.com',
+'carmenwo.ods2.9.7.1@gmail.com',
+'abigailhorton.5.600.6@gmail.com',
+'marstevenson.23.6.9@gmail.com',
+'micheleluc.a.s21.024@gmail.com',
+'normavasq.u.ez738.8.9@gmail.com',
+'savantwtva.is.h.a.li.h.y@gmail.com',
+'jeremybar.nes488.5.3@gmail.com',
+'janewarr.e.n.86790@gmail.com',
+'carlostuc.ke.r.9.37.29@gmail.com',
+'judsonartsgilla.mrwx.g.z.m@gmail.com',
+'jonathanfis.he.r.76.9.06@gmail.com',
+'piechcuychqui.ep.guy.n.h@gmail.com',
+'patsimmo.n.s.6.1.801@gmail.com',
+'jordanc.a.rr280.1.6@gmail.com',
+'bellarodriq.ue.z.2326.7@gmail.com',
+'kiecmuychmua.n.hb.o.a.c.h@gmail.com',
+'scottgar.cia7.2.7.69@gmail.com',
+'alejandrayzev.ern.n@gmail.com',
+'kenneddoughe.r.ty.49.3@gmail.com',
+'oliviaalexa.nde.r.1933@gmail.com',
+'boachqu.an.gq.u.a.n.g@gmail.com',
+'judsonartsgilla.m.r.w.x.g.z.m@gmail.com',
+'rattittbi.nit.aac@gmail.com',
+'suynh.kh.e.pthat@gmail.com',
+'brattainweisenburger.cd.i.b.45.41@gmail.com',
+'kadencantho.ny.46.1@gmail.com',
+'nola.fow.l.e156@gmail.com',
+'punhsuang.hachq.ue.o@gmail.com',
+'aarystrick.lan.d.2.36.9@gmail.com',
+'tietxieph.uyc.hnoat@gmail.com',
+'cuanhquangph.o.mquuyen@gmail.com',
+'chesterjenki.ns4.9.398@gmail.com',
+'richardcolli.ns2.6.249@gmail.com',
+'estrell.a.b.ar.217@gmail.com',
+'zoemitche.l.le39.28.8@gmail.com',
+'elliannjara.m.illo.61.8@gmail.com',
+'markha.l.l.9939@gmail.com',
+'kuangnguanbuanhp.oa.ch@gmail.com',
+'shane.ne.a.l5.4.68@gmail.com',
+'normamil.e.s9.404@gmail.com',
+'herbertjones7.1.9.10@gmail.com',
+'hollfarl.ey.65.4@gmail.com',
+'rosemaryholla.n.d.22312@gmail.com',
+'blaialvar.ado2.3.69@gmail.com',
+'rayraymr1.4.1.99.3@gmail.com',
+'sotosotom.rs.291.99.0@gmail.com',
+'markw.e.lch3.912@gmail.com',
+'choetmo.am.t.hi.c.h@gmail.com',
+'oliviaalexan.d.e.r.1.93.3@gmail.com',
+'kuangnguanbua.n.h.poac.h@gmail.com',
+'lenamartin4.5.90@gmail.com',
+'benjamin2miller5.0.84@gmail.com',
+'dartxgaj.en.dr.a.gh@gmail.com',
+'mandadzj.av.ed3.9@gmail.com',
+'boachh.iethi.e.t@gmail.com',
+'traceypearso.n6.9.7.4@gmail.com',
+'pinhguan.g.u.a.n@gmail.com',
+'louisgarci.a70162@gmail.com',
+'chhabralwalak.nand.av.l@gmail.com',
+'bentieciahowa.rt.h.7942@gmail.com',
+'scott97wal.k.er.271.8@gmail.com',
+'hunterwagn.er.6376@gmail.com',
+'melanieke.mp95721@gmail.com',
+'dennis.5l.ee.6.22.5@gmail.com',
+'baumgaerben.t.i.e5.81.2@gmail.com',
+'timmothybur.n.s.835.7.8@gmail.com',
+'xanhbachghi.ec.h.x.uy.n.h@gmail.com',
+'craigjames6.55.4.4@gmail.com',
+'baumgaerthomp.son3752@gmail.com',
+'melaniemarshall.6.59.2@gmail.com',
+'quangqua.n.gp.hunh@gmail.com',
+'egge.rc.ox5.5.42@gmail.com',
+'tranmica.ela8335@gmail.com',
+'kristinmur.phy7.9.14@gmail.com',
+'lenamart.i.n.4.5.9.0@gmail.com',
+'bechphuych.si.ecnon.g@gmail.com',
+'donald12ward.126.4@gmail.com',
+'maiside.lg.ad.o1.9.4@gmail.com',
+'huanhhua.n.hdoac.h@gmail.com',
+'markrobertso.n5628.5@gmail.com',
+'nicholasnguymr0.619.9.1@gmail.com',
+'ritthybaker.4.8.2.59@gmail.com',
+'hiph.op.muoet@gmail.com',
+'traceykim5542@gmail.com',
+'harrygonzal.ez2.5.715@gmail.com',
+'kangxiechquiun.g.a.n.h@gmail.com',
+'maddisorasm.ussen.13.9@gmail.com',
+'chhabralwalakna.n.davl@gmail.com',
+'jill.be.l.l8.3.94@gmail.com',
+'jacquelinemitch.el.l3.8.846@gmail.com',
+'meilan.ho.lt.236.9@gmail.com',
+'livingstonfros.t314@gmail.com',
+'terrywat.son5754.9@gmail.com',
+'loatngiun.gu.a.n.gbu.a@gmail.com',
+'voachmongk.ietqu.u.an@gmail.com',
+'hieptomp.h.uih.u.ng@gmail.com',
+'charlottepr.a.t.t8.8.3@gmail.com',
+'normami.le.s9.4.04@gmail.com',
+'leslieperk.in.s7.28.5.8@gmail.com',
+'johnniwill.ia.m.s4.0.6.9@gmail.com',
+'willardg.ray.38.93.5@gmail.com',
+'emelilowe.r.y4.7.5@gmail.com',
+'sietsi.et.n.oa.c.h@gmail.com',
+'mauriceramir.e.z.74.259@gmail.com',
+'dennis5le.e62.2.5@gmail.com',
+'rosephilli.ps.6.6102@gmail.com',
+'phuongquiechrachr.uang@gmail.com',
+'quoatghoettoo.ng.k.ua.n@gmail.com',
+'eggerandrap.ool.e1.2.3.2@gmail.com',
+'jordanc.arr2.80.16@gmail.com',
+'harperanderso.n2.9.62.6@gmail.com',
+'charles97.yo.u.ng1.81@gmail.com',
+'londoarell.a.no399@gmail.com',
+'gregory30pete.rso.n.1.46.0@gmail.com',
+'marciape.na433.0.8@gmail.com',
+'ednadavid.so.n224.62@gmail.com',
+'xanhbachghiec.hxu.y.n.h@gmail.com',
+'lanhsuychsi.e.c.kiec@gmail.com',
+'abigailhor.ton5600.6@gmail.com',
+'jonathanfrazie.r74268@gmail.com',
+'caprla.mb.er.t3.80@gmail.com',
+'jordonwillusu.23@gmail.com',
+'quangquangph.u.nh@gmail.com',
+'jennysil.v.a323.1.2@gmail.com',
+'roredcolem.an8.4.4.2@gmail.com',
+'wyattdepperschmidttauras.1f7nzb@gmail.com',
+'hebertmarl.ey.d.tdg@gmail.com',
+'melindaroge.rs8.2697@gmail.com',
+'zoemitchell.e.3.9.2.8.8@gmail.com',
+'loganall.en9.1.55.5@gmail.com',
+'janewar.ren8.6.7.9.0@gmail.com',
+'ngoongniep.g.angv.oat@gmail.com',
+'quoachkiec.ht.an.h.r.om@gmail.com',
+'thingni.e.m.pe.n.g@gmail.com',
+'maddisorasmus.se.n.1.3.9@gmail.com',
+'sidhupdja.g.rutim.q@gmail.com',
+'briannael.li.s6.04.7@gmail.com',
+'tiu.s3rt.a@gmail.com',
+'diazdimr.s.291.98.7@gmail.com',
+'sinhc.i.et.c.i.e.t@gmail.com',
+'howardprescot.t.2.5.6.7.0@gmail.com',
+'bentieshaand.re.ws.34.29@gmail.com',
+'sungrachr.ua.n.gp.iet@gmail.com',
+'noellestevens9.6731@gmail.com',
+'ghunhtangcu.a.nk.uan@gmail.com',
+'zoemitche.lle.3.9.2.8.8@gmail.com',
+'cassidy.gib.s.o9.81@gmail.com',
+'eggerschofi.e.ld.6.6.25@gmail.com',
+'rangsimanphunasr.i@gmail.com',
+'charlenearn.ol.d47.3.11@gmail.com',
+'tuyetk.ic.h.moet@gmail.com',
+'thingniem.pe.n.g@gmail.com',
+'terranceca.r.ter360.7@gmail.com',
+'octavim.ckay7.42@gmail.com',
+'ellaschw.a.rt.9.8.7@gmail.com',
+'caprlamb.ert.3.80@gmail.com',
+'garfbazzanella.mgmk9640@gmail.com',
+'soongso.o.n.g.po.a.t@gmail.com',
+'mandad.zj.a.v.ed.39@gmail.com',
+'laurasan.ms.3119.89@gmail.com',
+'trace.y.kim554.2@gmail.com',
+'scott97wal.k.er.2.7.18@gmail.com',
+'jeremiahfost.e.r.8944.0@gmail.com',
+'carlei.gh.celi.a4@gmail.com',
+'carriewat.so.n.6.682.2@gmail.com',
+'austincaldw.el.l2.016.9@gmail.com',
+'wesleyde.a.n.14.40.9@gmail.com',
+'lorrainegom.e.z54.68.6@gmail.com',
+'elliodoming.u.ez236.9@gmail.com',
+'ulyssesbullingtonztc.vu.668.0@gmail.com',
+'tranmic.aela8335@gmail.com',
+'kirkgutier.r.ez.2.0.3.6@gmail.com',
+'eleanorcolli.ns.55.39.8@gmail.com',
+'rachpiepcuan.v.a.n.h@gmail.com',
+'erinflem.ing50.83.5@gmail.com',
+'ghunhtang.cuan.k.ua.n@gmail.com',
+'tracyhachigiandastol.i.4vd.arv@gmail.com',
+'xanhbachghiechx.u.y.nh@gmail.com',
+'hoctoap.n.goa.n@gmail.com',
+'dartxga.jendr.ag.h@gmail.com',
+'ellaschwart.987@gmail.com',
+'davidtho.mas.2.8.25.5@gmail.com',
+'ca.n.yoayan@gmail.com',
+'markroberts.o.n5.6.285@gmail.com',
+'margretheseb.as.ov.ic.h@gmail.com',
+'rosemaryholl.an.d.22.3.1.2@gmail.com',
+'brycenmicha.e.l.qp.v.k@gmail.com',
+'normam.il.e.s9.4.04@gmail.com',
+'xungquangng.uan.gsach@gmail.com',
+'hiphop.m.uo.e.t@gmail.com',
+'harrygonzal.e.z257.15@gmail.com',
+'isiaharuj.a.re.n.3@gmail.com',
+'morrisonmor.mr.15199.6@gmail.com',
+'kaylanhob.bs.64.3@gmail.com',
+'savannapatter.so.n.7.0.4@gmail.com',
+'frederickfie.ld.s.99.2.53@gmail.com',
+'melaniepicke.ri.ng.32.4.5@gmail.com',
+'micheleluc.a.s.21024@gmail.com',
+'hoachngiecgie.c.q.u.oon.g@gmail.com',
+'huanhhu.anh.doac.h@gmail.com',
+'aarystrickl.a.nd.2.369@gmail.com',
+'brianwilm.r.1.4.198.9@gmail.com',
+'poatda.ch.d.ac.h@gmail.com',
+'herbertjones.71.91.0@gmail.com',
+'ngiechngie.ch.h.oa.c.h@gmail.com',
+'marlenewagn.er.2.1.52.3@gmail.com',
+'carmenwood.s.297.1@gmail.com',
+'lorrainegome.z5.468.6@gmail.com',
+'paloma.s.utto.6.9.9@gmail.com',
+'alejandrayz.evernn@gmail.com',
+'thoamlam.buoc@gmail.com',
+'cuanquynhg.hi.u.sen.h@gmail.com',
+'vernonflore.s.5287.7@gmail.com',
+'lungkoongroon.gk.uan@gmail.com',
+'sidhupdja.gr.u.ti.m.q@gmail.com',
+'egge.rc.o.x5.542@gmail.com',
+'carlabrook.s834.2@gmail.com',
+'grahamgraham.rs.2619.89@gmail.com',
+'baumgaerho.op.er28.3.2@gmail.com',
+'thoa.ml.am.b.uo.c@gmail.com',
+'brattainweisenburgercdib45.4.1@gmail.com',
+'mildredfos.t.er41.4.8.9@gmail.com',
+'audreypeterson7.8.5.93@gmail.com',
+'cecilhic.k.s.180.8.0@gmail.com',
+'dorahill9.4689@gmail.com',
+'baumgaerthom.pso.n375.2@gmail.com',
+'gregory30peterson.1.46.0@gmail.com',
+'cammoet.tuoi@gmail.com',
+'cuanhquangph.om.qu.u.ye.n@gmail.com',
+'rileyw.e.st37.9.0.1@gmail.com',
+'runhpietk.a.c.hso.et@gmail.com',
+'chesterjenk.in.s.4939.8@gmail.com',
+'rileystewa.rt.3.42.7.1@gmail.com',
+'johnniwilliams4.0.6.9@gmail.com',
+'boachngep.sach.q.ue.p@gmail.com',
+'luebberspursifully.x.ye.910.2@gmail.com',
+'jo.cas.e.y.794@gmail.com',
+'lungkoongroo.ngkua.n@gmail.com',
+'tranmica.e.la8.335@gmail.com',
+'jovichrist.i.a.n.23.6.9@gmail.com',
+'eggerandrawall.ac.e4.1.12@gmail.com',
+'robert18bak.e.r.9.72.2@gmail.com',
+'kuynhvuychmen.hka.n.g@gmail.com',
+'kylib.o.we.n.061@gmail.com',
+'ngoongniep.gan.g.vo.a.t@gmail.com',
+'bellhopki.n.s.236.9@gmail.com',
+'ritthybak.er.4.8.2.59@gmail.com',
+'leonrice27025@gmail.com',
+'sofis.nyd.e.r.5.3.6@gmail.com',
+'hieptomph.u.ih.un.g@gmail.com',
+'dartxga.je.nd.ra.g.h@gmail.com',
+'maisi.huf.f.913@gmail.com',
+'georgejohn.so.n56.479@gmail.com',
+'garaci.bhar.at1v@gmail.com',
+'bentiecesavage.5.4.6.2@gmail.com',
+'andrewwilm.r0.9.1983@gmail.com',
+'jayceebrade.n52.49@gmail.com',
+'avayagr.ee.r236.9@gmail.com',
+'runhpietka.c.h.s.o.e.t@gmail.com',
+'macmurraycolombajkv.rq61.90@gmail.com',
+'banhtua.nt.ua.n03.7@gmail.com',
+'linsch.m.idt.3.74@gmail.com',
+'thoaml.a.mb.u.o.c@gmail.com',
+'adelynmo.sl.ey23.69@gmail.com',
+'lydiaharv.e.y.5.0.4.44@gmail.com',
+'mehraxbo.ba.id.78@gmail.com',
+'shanelo.pez.4.5.531@gmail.com',
+'kristenjo.nes.738.02@gmail.com',
+'ngachtrychph.a.chguyn.h@gmail.com',
+'jeremiahfoster.89.440@gmail.com',
+'elsiemcdona.l.i.d.3.07.3@gmail.com',
+'jennylars.o.n3.5.519@gmail.com',
+'clairemy.e.r.s7.0.8.8@gmail.com',
+'georgejohns.on56479@gmail.com',
+'avayagre.er2.36.9@gmail.com',
+'markrobert.so.n56.2.85@gmail.com',
+'kiecmuychmuanhboa.ch@gmail.com',
+'barryew.tp.e.c.k.h@gmail.com',
+'jeremiahmorg.a.n6.428.6@gmail.com',
+'tiechxanhdi.ech.v.o.a.c.h@gmail.com',
+'loachmua.nhmua.nh@gmail.com',
+'lungkoongroo.ng.ku.a.n@gmail.com',
+'loachciepmo.ngn.i.e.ch@gmail.com',
+'abdulmuminbal.ar.ab.e.855@gmail.com',
+'avayagreer.236.9@gmail.com',
+'hussainibe.l.lo353.3@gmail.com',
+'abigailhorton.56.006@gmail.com',
+'canhmo.ng.th.u.en@gmail.com',
+'sinh.ciet.c.ie.t@gmail.com',
+'poachlanh.lu.and.oet@gmail.com',
+'eggerandergrant.825.2@gmail.com',
+'briannae.ll.is.6.04.7@gmail.com',
+'bentiec.ecox44.52@gmail.com',
+'xoachhuanniep.gha.c.h@gmail.com',
+'nangtiechpan.gg.hy.n.h@gmail.com',
+'xanhbachghiechxuy.nh@gmail.com',
+'roredbutc.her324.2@gmail.com',
+'judsonartsgillamrw.x.gzm@gmail.com',
+'jerry29to.rres704.7@gmail.com',
+'bentieciastephen.s.on3.1.86@gmail.com',
+'blaialvarado23.69@gmail.com',
+'katelyh.or.n.e.23.69@gmail.com',
+'marcwell.s8.57.1.8@gmail.com',
+'canhmon.g.thu.e.n@gmail.com',
+'lisareyno.lds71.0.9.1@gmail.com',
+'roberta.neal9.1.9.9@gmail.com',
+'erinfleming5.0.8.35@gmail.com',
+'shanelop.ez.4.5.5.3.1@gmail.com',
+'luantuoiphua.n.ngo.at@gmail.com',
+'willardgra.y.3893.5@gmail.com',
+'baumgaerthomp.son375.2@gmail.com',
+'quachhi.echh.i.e.ch@gmail.com',
+'koatgungk.u.anhxanh@gmail.com',
+'yarsel.le.rs.2.36.9@gmail.com',
+'dorothystone.ms.0.2.19.89@gmail.com'
+];
+let active = [];
+let selected = null;
+
+// ⏳ 30min
+function isExpired(time){
+  return (Date.now() - time) > (30 * 60 * 1000);
+}
+
+// 🔀 shuffle
+function shuffle(array){
+  for(let i = array.length - 1; i > 0; i--){
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+// GENERATE
+function generateEmail(){
+  let used = JSON.parse(localStorage.getItem("usedMails") || "{}");
+
+  if(active.length >= 5){
+    showToast("Limit reached ❌");
+    return;
+  }
+
+  let shuffled = shuffle([...pool]);
+
+  let email = shuffled.find(mail => {
+    if(!used[mail]) return true;
+    return isExpired(used[mail]);
+  });
+
+  if(!email){
+    showToast("Wait 30min ⏳");
+    return;
+  }
+
+  active.push(email);
+  selected = email;
+
+  used[email] = Date.now();
+  localStorage.setItem("usedMails", JSON.stringify(used));
+
+  render();
+}
+
+// RENDER
+function render(){
+  let used = JSON.parse(localStorage.getItem("usedMails") || "{}");
+
+  for(let mail in used){
+    if(isExpired(used[mail])){
+      delete used[mail];
+    }
+  }
+
+  localStorage.setItem("usedMails", JSON.stringify(used));
+
+  let list = document.getElementById("list");
+  list.innerHTML = "";
+
+  active.forEach((mail, i) => {
+    list.innerHTML += `
+      <div class="card">
+        <span onclick="selectEmail('${mail}')">${mail}</span>
+        <span class="delete" onclick="deleteMail(${i})">🗑</span>
+      </div>
+    `;
+  });
+
+  document.getElementById("selectedEmail").innerText = selected || "No email";
+}
+
+// SELECT
+function selectEmail(mail){
+  selected = mail;
+  render();
+}
+
+// COPY
+function copySelected(){
+  if(!selected) return;
+  navigator.clipboard.writeText(selected);
+  showToast("Copied!");
+}
+
+// DELETE
+function deleteMail(index){
+  active.splice(index,1);
+  render();
+}
+
+// TOAST
+function showToast(msg){
+  let t = document.getElementById("toast");
+  t.innerText = msg;
+  t.classList.add("show");
+
+  setTimeout(()=> t.classList.remove("show"),2000);
+}
+</script>
+</body>
+</html>
