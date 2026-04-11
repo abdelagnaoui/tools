@@ -583,143 +583,111 @@ toggleButton.addEventListener("click", () => {
 
   <pre id="autoScheduleScript" style="display:none;">
 // === UI Elements ===
-// === UI Panel ===
 const wrapper = document.createElement("div");
-Object.assign(wrapper.style, {
-  position: "fixed",
-  bottom: "20px",
-  right: "20px",
-  background: "#001f3f", // Dark navy background
-  color: "#00bfff", // Bright blue text
-  padding: "12px",
-  fontFamily: "monospace",
-  borderRadius: "10px",
-  zIndex: "9999",
-  boxShadow: "0 0 15px rgba(0, 191, 255, 0.6)", // light blue glow
-  display: "flex",
-  flexDirection: "column",
-  gap: "8px"
-});
+wrapper.style.position = "fixed";
+wrapper.style.bottom = "20px";
+wrapper.style.right = "20px";
+wrapper.style.background = "#001f3f";
+wrapper.style.color = "#00bfff";
+wrapper.style.padding = "12px";
+wrapper.style.fontFamily = "monospace";
+wrapper.style.borderRadius = "10px";
+wrapper.style.zIndex = "9999";
+wrapper.style.boxShadow = "0 0 15px rgba(0, 191, 255, 0.6)";
+wrapper.style.display = "flex";
+wrapper.style.alignItems = "center";
+wrapper.style.gap = "10px";
 
-const controls = document.createElement("div");
-Object.assign(controls.style, {
-  display: "flex",
-  alignItems: "center",
-  gap: "8px"
-});
+// Input
+const input = document.createElement("input");
+input.type = "number";
+input.min = "1";
+input.value = "10";
+input.style.width = "60px";
+input.style.padding = "5px";
+input.style.border = "1px solid #00bfff";
+input.style.borderRadius = "5px";
+input.style.background = "#002b5c";
+input.style.color = "#00bfff";
 
-const intervalLabel = document.createElement("label");
-intervalLabel.textContent = "Interval (sec):";
-intervalLabel.style.color = "#00bfff";
+// Label
+const label = document.createElement("label");
+label.textContent = "Interval (sec): ";
 
-const intervalInput = document.createElement("input");
-intervalInput.type = "number";
-intervalInput.min = "1";
-intervalInput.value = "10";
-Object.assign(intervalInput.style, {
-  width: "60px",
-  padding: "5px",
-  border: "1px solid #00bfff",
-  borderRadius: "5px",
-  background: "#002b5c", // dark blue input background
-  color: "#00bfff"
-});
+// START BUTTON
+const startBtn = document.createElement("button");
+startBtn.textContent = "Start";
+startBtn.style.padding = "5px 10px";
+startBtn.style.background = "#00bfff";
+startBtn.style.border = "none";
+startBtn.style.borderRadius = "5px";
+startBtn.style.cursor = "pointer";
 
-const toggleButton = document.createElement("button");
-toggleButton.textContent = "▶️ Start";
-Object.assign(toggleButton.style, {
-  padding: "6px 10px",
-  background: "#004080", // Dark blue button
-  color: "#00bfff",
-  border: "none",
-  borderRadius: "5px",
-  cursor: "pointer"
-});
+// 🔥 STOP BUTTON
+const stopBtn = document.createElement("button");
+stopBtn.textContent = "Stop";
+stopBtn.style.padding = "5px 10px";
+stopBtn.style.background = "#ff4d4d";
+stopBtn.style.border = "none";
+stopBtn.style.borderRadius = "5px";
+stopBtn.style.cursor = "pointer";
 
-const timerDisplay = document.createElement("div");
-timerDisplay.textContent = "Next click in: --";
-timerDisplay.style.fontSize = "14px";
-timerDisplay.style.color = "#00bfff";
+// Timer display
+const timerDisplay = document.createElement("span");
+timerDisplay.textContent = "Next click in: --:--:--";
 
-// Assemble UI
-controls.appendChild(intervalLabel);
-controls.appendChild(intervalInput);
-controls.appendChild(toggleButton);
-wrapper.appendChild(controls);
+// Assemble
+wrapper.appendChild(label);
+wrapper.appendChild(input);
+wrapper.appendChild(startBtn);
+wrapper.appendChild(stopBtn); // 🔥 added
 wrapper.appendChild(timerDisplay);
 document.body.appendChild(wrapper);
 
 // === Timer Logic ===
-let clickIntervalId = null;
-let countdownIntervalId = null;
-let remainingTime = 0;
-let running = false;
+let intervalMs = parseInt(input.value) * 1000;
+let remainingTime = intervalMs;
+let clickIntervalId, countdownIntervalId;
 
 const elements = document.querySelectorAll("input");
 
-function format(ms) {
-  const sec = Math.floor(ms / 1000);
-  const m = Math.floor(sec / 60);
-  const s = sec % 60;
-  return `${m}:${s.toString().padStart(2, '0')}`;
-}
-
-function updateCountdown() {
+function updateTimer() {
   remainingTime -= 1000;
   if (remainingTime < 0) remainingTime = 0;
-  timerDisplay.textContent = "Next click in: " + format(remainingTime);
+
+  const hours = Math.floor(remainingTime / 3600000);
+  const minutes = Math.floor((remainingTime % 3600000) / 60000);
+  const seconds = Math.floor((remainingTime % 60000) / 1000);
+
+  timerDisplay.textContent = `Next click in: ${hours}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
 }
 
-function clickTargetElement() {
-  if (elements[8]) {
-    elements[8].click();
-    console.log("✅ Element clicked");
-  } else {
-    console.warn("⚠️ Target element not found!");
-  }
-}
-
-function startClicking() {
-  clearAll();
-
-  const interval = parseInt(intervalInput.value) * 1000;
-  remainingTime = interval;
-
-  clickTargetElement(); // optional first click
-  clickIntervalId = setInterval(() => {
-    clickTargetElement();
-    remainingTime = interval;
-  }, interval);
-
-  countdownIntervalId = setInterval(updateCountdown, 1000);
-  toggleButton.textContent = "⏹️ Stop";
-  running = true;
-}
-
-function stopClicking() {
-  clearAll();
-  toggleButton.textContent = "▶️ Start";
-  timerDisplay.textContent = "⏹️ Script Stoped ";
-  running = false;
-}
-
-function clearAll() {
+function startClicker() {
   clearInterval(clickIntervalId);
   clearInterval(countdownIntervalId);
+
+  intervalMs = parseInt(input.value) * 1000;
+  remainingTime = intervalMs;
+
+  clickIntervalId = setInterval(() => {
+    if (elements[8]) elements[8].click();
+    remainingTime = intervalMs;
+  }, intervalMs);
+
+  countdownIntervalId = setInterval(updateTimer, 1000);
 }
 
-toggleButton.addEventListener("click", () => {
-  if (!running) {
-    startClicking();
-  } else {
-    stopClicking();
-  }
-});
+// 🔴 STOP FUNCTION
+function stopClicker(){
+  clearInterval(clickIntervalId);
+  clearInterval(countdownIntervalId);
+  timerDisplay.textContent = "STOP DONE 👌🏼";
+}
 
-// ✅ Auto-apply new seconds while running
-intervalInput.addEventListener("change", () => {
-  if (running) startClicking();
-});
+// EVENTS
+startBtn.addEventListener("click", startClicker);
+stopBtn.addEventListener("click", stopClicker);
+input.addEventListener("change", startClicker);
   </pre>
 
   <pre id="autoClickScript" style="display:none;">
