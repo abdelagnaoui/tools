@@ -1,638 +1,958 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Boit GMAIL</title>
+	  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>🛠️ Abelagnaui-Tools®࿐</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" >
 
-<style>
-body{
-  margin:0;
-  font-family:Poppins, sans-serif;
-  background:linear-gradient(135deg,#0f172a,#1e293b);
-  color:#e2e8f0;
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+/* DEFAULT */
+/* container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
+
+/* hide checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* background */
+.slider {
+   position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+    background: #0ea5e9;
+    border-radius: 50px;
+    transition: 0.4s;
+    width: 55px !important;
+}
+    
+   #slider_icon { height: 24px;width: 24px;background: white;border-radius: 50%;display: flex;align-items: center;justify-content: center;font-size: 14px;transition: 0.4s;}
+    
+    body {
+  background: url("https://wallpapercave.com/wp/wp3284848.gif") !important;
+  background-size: cover !important;
+        background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+/* pink mode */
+body.pink-mode {
+  background: url("https://wallpaperaccess.com/full/22801544.gif")  !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+}
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+       display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem 2rem;
+  backdrop-filter: blur(12px);
+    }
+
+
+    header h3 {
+      margin: 0;
+      color: #cbd5f5;
+    }
+
+    .search-bar {
+      margin: 30px auto 20px auto;
+      width: 80%;
+      max-width: 600px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(255,255,255,0.08);
+      color: white;
+      font-size: 16px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    input[type="text"]:focus {
+      box-shadow: 0 0 15px #38bdf8;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      padding: 20px;
+    }
+
+    .category {
+      background: rgba(255,255,255,0.05);
+      padding: 24px;
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.08);
+      flex: 1 1 300px;
+      max-width: 360px;
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ✅ FIX CLICK */
+    .category::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(56,189,248,0.2), transparent);
+      opacity: 0;
+      transition: 0.4s;
+      pointer-events: none;  
+    }
+
+    .category:hover::before {
+      opacity: 1;
+    }
+
+    .category:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 0 30px rgba(56,189,248,0.25);
+    }
+    
+    /* ===== BUTTON ===== */
+.tool-button{
+  display:block;
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+  color:white;
+  background: linear-gradient(135deg,#0ea5e9,#6366f1);
+  transition:0.3s;
+  box-shadow:0 6px 0 #1e40af;
+}
+
+.tool-button:hover{
+  transform: translateY(-3px);
+  box-shadow:0 10px 20px rgba(0,0,0,0.4);
+}
+
+/* ===== PINK BUTTON ===== */
+body.pink-mode .tool-button{
+  background: linear-gradient(135deg,#ff4da6,#ff66cc);
+  box-shadow:0 6px 0 #cc0066;
 }
 
 .container{
   display:flex;
-  height:100vh;
-}
-
-.left{
-  width:320px;
-  background:rgba(255,255,255,0.05);
+  flex-wrap:wrap;
+  gap:20px;
+  justify-content:center;
   padding:20px;
 }
 
-.create{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  cursor:pointer;
-  background:#6366f1;
-  color:white;
-  font-weight:600;
-}
+    .category h2 {
+      font-size: 20px;
+      color: white;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 8px;
+      margin-top: 0;
+      margin-bottom: 18px;
+    }
 
-.card{
-  background:rgba(255,255,255,0.06);
-  padding:12px;
-  border-radius:12px;
-  margin-top:10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
 
-.delete{
-  cursor:pointer;
-  color:#f87171;
-}
+    .tool-item {
+      margin-bottom: 14px;
+    }
 
-.right{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  align-items:center;
-  padding:20px;
-}
+    .tool-button {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      text-align: center;
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      color: white;
+      font-weight: 500;
+      font-size: 16px;
+      border-radius: 12px;
+      text-decoration: none;
+      border: none;
+      transition: 0.25s;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 0 10px rgba(56,189,248,0.4);
+    }
 
-.page-title{
-  font-size:28px;
-  font-weight:600;
-  margin-top:10px;
-}
+    .tool-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #38bdf8;
+    }
 
-.center{
-  text-align:center;
-}
+    .tool-button:active {
+      transform: scale(0.96);
+    }
 
-.email{
-  font-size:22px;
-  font-weight:600;
-  margin-bottom:15px;
-}
+    .copied-msg {
+      display: none;
+      margin-top: 5px;
+      color: White;
+      font-weight: 500;
+      font-size: 14px;
+    }
 
-.copy-btn{
-  padding:10px 20px;
-  border:none;
-  border-radius:10px;
-  background:#6366f1;
-  color:white;
-  cursor:pointer;
-}
-
-.footer{
-  font-size:13px;
-  opacity:0.6;
-  margin-bottom:10px;
-}
-
-.toast{
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    .top-msg{
   position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#6366f1;
-  padding:10px;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,0.7);
+  color:white;
+  padding:12px 25px;
   border-radius:10px;
+  font-size:16px;
+  z-index:99999;
   opacity:0;
+  transition:0.4s;
 }
-.toast.show{
+
+.top-msg.show{
   opacity:1;
+  top:40px;
 }
-</style>
+    
+    
+    #loader{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:#020617;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:999999;
+}
+
+/* content */
+.loader-content{
+  text-align:center;
+  color:white;
+  font-family:Poppins;
+}
+
+/* rings */
+.ring{
+  width:60px;
+  height:60px;
+  border:3px solid transparent;
+  border-top:3px solid #38bdf8;
+  border-radius:50%;
+  position:absolute;
+  animation:spin 1.2s linear infinite;
+}
+
+.ring:nth-child(2){
+  width:80px;
+  height:80px;
+  border-top:3px solid #ff4da6;
+  animation-duration:1.5s;
+}
+
+.ring:nth-child(3){
+  width:100px;
+  height:100px;
+  border-top:3px solid #22c55e;
+  animation-duration:2s;
+}
+
+/* text */
+.loader-content p{
+  margin-top:120px;
+  font-size:18px;
+  letter-spacing:1px;
+  animation:fade 1.5s infinite alternate;
+}
+
+/* animations */
+@keyframes spin{
+  0%{transform:rotate(0deg);}
+  100%{transform:rotate(360deg);}
+}
+
+@keyframes fade{
+  from{opacity:0.4;}
+  to{opacity:1;}
+}
+  </style>
+   
 </head>
-
 <body>
-
-<div class="container">
-
-<div class="left">
-<button class="create" onclick="generateEmail()">+ Create Email</button>
-<div id="list"></div>
+  
+  
+  <div id="loader">
+  <div class="loader-content">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <p>Loading Tools...</p>
+  </div>
 </div>
 
-<div class="right">
-  <div class="page-title">Boit GMAIL</div>
+<div id="topMessage" class="top-msg"></div>
+<header>
 
-  <div class="center">
-    <div class="email" id="selectedEmail">No email</div>
-    <button class="copy-btn" onclick="copySelected()">Copy</button>
+  <b style="color : white">⚜𝐏🕴💤💤🏋</b>
+  <h3 style="font-size:15px">𝗔𝗯𝗱𝗲𝗹𝗮𝗴𝗻𝗮𝗼𝘂𝗶</h3>
+
+  <!-- SWITCH -->
+ <label class="switch">
+  <input type="checkbox" id="toggleTheme">
+
+  <div class="slider">
+  <span id="slider_icon">💙</span>
   </div>
 
-  <div class="footer">@Abdelagnaoui</div>
-</div>
+</label>
+</header>
+<br> <div class="search-bar" style="font-size:25px">
+	<b>
+      <center style="color:White" > Tools®࿐</center>
+	</b>
+              </div>                                                
+  
+  
+  <div class="search-bar">
+ <input type="text" id="searchInput" placeholder="🔍 Search tools...">
+	
+	
+	
+  </div>
 
-</div>
+  <div class="container">
+    <div class="category">
+      <h2>📧 Email Tools</h2>
+      <ul>
+        <li class="tool-item"><a class="tool-button" href="return-paths_Maker.html" target="_blank">📨 Return Paths Maker</a></li>
+       <!-- <li class="tool-item"><a class="tool-button" href="C:\\Users\\a.lagnaoui\\Desktop\\sssss\\Bounce_Rate_calculator.html" target="_blank">📊 Bounce Rate Calculator</a></li>-->
+        <li class="tool-item"><a class="tool-button" href="Total_Send_Calculator.html" target="_blank">📬 Total Send Calculator</a></li>
+        <li class="tool-item"><a class="tool-button" href="remove_RPS_BOUNCE.html" target="_blank">📂 Remove Rps Bounce</a></li>
+      </ul>
+    </div>
 
-<div class="toast" id="toast"></div>
+    <div class="category">
+      <h2>💻 Server Tools</h2>
+      <ul>
+        <li class="tool-item"><a class="tool-button" href="Server_Manager.html" target="_blank">🛡 Server Manager</a></li>
+        <li class="tool-item"><a class="tool-button" href="Server_Splitter.html" target="_blank">🔗 Server Splitter</a></li>
+		<!--	 <li class="tool-item"><a class="tool-button" href="C:\\Users\\a.lagnaoui\\Desktop\\sssss\\edit_link.html" target="_blank">Edit Links</a></li>-->
+      </ul>
+    </div>
 
-<script>
-// 🔥 POOL ديالك
-let pool = [
-'coraleemacenteerag.gssoz.s.zv@gmail.com',
-'benjamin2mil.l.er.5.0.84@gmail.com',
-'jerry29to.rr.e.s.7.047@gmail.com',
-'tracyg.ray4.92.80@gmail.com',
-'robinm.oor.e.66.78@gmail.com',
-'kaylinbryn.n.7.5.9@gmail.com',
-'anthonyharri.s.7.46.54@gmail.com',
-'cap.riru.s0.7.4@gmail.com',
-'leioc.h.o.a2369@gmail.com',
-'ulyssesbullingtonz.tc.v.u6680@gmail.com',
-'alvin.webb6970@gmail.com',
-'kuynhvuychm.e.n.hkang@gmail.com',
-'melaniepickering3245@gmail.com',
-'miracld.ea.n.0.4.3@gmail.com',
-'deloresjon.e.s.775.7.9@gmail.com',
-'terrywats.o.n5.7549@gmail.com',
-'audreypeters.o.n.7.85.9.3@gmail.com',
-'roredbut.ch.e.r.3.242@gmail.com',
-'lydiaharve.y.50444@gmail.com',
-'camillpittma.n.38.3@gmail.com',
-'bentiec.e.cox4.452@gmail.com',
-'patsimm.on.s6.1801@gmail.com',
-'kenneddoug.her.ty.49.3@gmail.com',
-'alicemendo.z.a.5.4.755@gmail.com',
-'jacquelinemitchell3.88.4.6@gmail.com',
-'jordonwi.llu.s.u.23@gmail.com',
-'roatghuang.hoe.t.l.a.nh@gmail.com',
-'isobelhamilto.n.7093.4@gmail.com',
-'sophiholla.n.d236.9@gmail.com',
-'scarlettfraz.i.er8404.5@gmail.com',
-'bentieshasim.mon.s67.2.3@gmail.com',
-'frederickfie.ld.s.99.25.3@gmail.com',
-'isabellahowa.rd.2.2.2.6@gmail.com',
-'eggerandergra.n.t.8252@gmail.com',
-'chaml.ue.n.g.ti.c.h@gmail.com',
-'quachhi.ech.h.i.e.ch@gmail.com',
-'gordongar.rett.7688@gmail.com',
-'thoam.l.am.b.uo.c@gmail.com',
-'stephendavids.o.n3.5.945@gmail.com',
-'bynhkoetb.ongp.u.a.n.h@gmail.com',
-'buocto.ng.tr.un.g@gmail.com',
-'garacibhara.t1v@gmail.com',
-'linsc.hmi.dt3.7.4@gmail.com',
-'giecphangqua.nhg.hu.ng@gmail.com',
-'hungghiepxa.c.hpu.yn.h@gmail.com',
-'rileywes.t3.79.0.1@gmail.com',
-'nina.pe.ck.8.2.8.7@gmail.com',
-'ritabar.ne.s1.3588@gmail.com',
-'kylib.owe.n.0.61@gmail.com',
-'aprilwallac.e8.1.304@gmail.com',
-'dennis.5le.e6.2.2.5@gmail.com',
-'sofisnyde.r.536@gmail.com',
-'tranmicael.a.833.5@gmail.com',
-'mandadzj.a.v.e.d.39@gmail.com',
-'lungngupp.hu.p.poat@gmail.com',
-'katrinalittle.82.03.0@gmail.com',
-'baumgaerbe.nt.ie.58.12@gmail.com',
-'mauricedoug.la.s.6.10.21@gmail.com',
-'laylawel.l.s.4.335.3@gmail.com',
-'joellehutch.i.n.s.o5.8.2@gmail.com',
-'mallickcrpo.o.n.a.mob@gmail.com',
-'ezrjam.es.2.369@gmail.com',
-'audreypeterso.n.7.8.5.9.3@gmail.com',
-'ly.la.k.h.a8.5.8@gmail.com',
-'hebertmarle.y.dt.dg@gmail.com',
-'rangsimanphu.nasr.i@gmail.com',
-'joellehutc.hin.so5.8.2@gmail.com',
-'lanhrietghoo.n.gku.y.en@gmail.com',
-'ngaynuanhxo.ong.d.u.y.nh@gmail.com',
-'christinejo.ne.s5.9.9.9.9@gmail.com',
-'marstevenson.2.3.6.9@gmail.com',
-'paulafield.s.5.7.1.40@gmail.com',
-'cuanhquangph.om.q.uu.y.e.n@gmail.com',
-'deloresjo.ne.s.7.757.9@gmail.com',
-'piechcuychqu.iep.guy.n.h@gmail.com',
-'carriewats.o.n6.6.8.22@gmail.com',
-'jeannepri.c.e.4.708.9@gmail.com',
-'coraleemacenteerag.gs.soz.s.zv@gmail.com',
-'kuangnguanbu.anh.po.a.ch@gmail.com',
-'louisgarcia7.0162@gmail.com',
-'quangquan.g.ph.u.nh@gmail.com',
-'quoonglungp.hu.iv.uy.e.n@gmail.com',
-'kristinmur.ph.y.7914@gmail.com',
-'emelilo.w.er.y.4.7.5@gmail.com',
-'gordongar.re.t.t7688@gmail.com',
-'craigell.mr.1.4.19.92@gmail.com',
-'reginaldfow.l.e.r.8.8.8.1@gmail.com',
-'phiechhiepphom.non.g@gmail.com',
-'rogersimmm.ons.1.76.79@gmail.com',
-'lydiahar.ve.y.5044.4@gmail.com',
-'salvadorpatters.on.44.7.8.1@gmail.com',
-'gabewoo.d.s.1352.8@gmail.com',
-'jenniferkel.le.y1.9.618@gmail.com',
-'noellesteve.ns96731@gmail.com',
-'mackenzieb.ra.n.c1.5.0@gmail.com',
-'aprilwall.ace.813.04@gmail.com',
-'billy24barne.s7835@gmail.com',
-'lucieb.k.iivahg@gmail.com',
-'luantuoiph.ua.n.ng.o.a.t@gmail.com',
-'noellestev.ens96.7.31@gmail.com',
-'ghynhghoonghi.ep.q.uiet@gmail.com',
-'juditdu.nl.ap457@gmail.com',
-'normami.le.s.9.4.0.4@gmail.com',
-'terryg.ray7.8.4.41@gmail.com',
-'bentieshasimmon.s.67.23@gmail.com',
-'grahamgrahamrs2.6.1.989@gmail.com',
-'donald94mill.er.66.4.2@gmail.com',
-'brucecoll.ins92.27@gmail.com',
-'boanhbie.c.h.b.i.e.c.h@gmail.com',
-'davidthom.a.s282.5.5@gmail.com',
-'coraleemacenteeraggs.so.zszv@gmail.com',
-'juditdunl.ap457@gmail.com',
-'noradu.nca.n4.8.3.2@gmail.com',
-'chesterjenk.ins4.93.98@gmail.com',
-'hunglinhnongt.in.h@gmail.com',
-'allisonp.r.ice9.76.6@gmail.com',
-'cangquuand.oet.h.u.y.n.h@gmail.com',
-'zackr.a.y7.9.3.6.2@gmail.com',
-'nganhsiepghi.ech.ki.et@gmail.com',
-'bernicehol.t15.1.1.3@gmail.com',
-'russellsimps.on.709.1@gmail.com',
-'baumgaerho.ope.r.2.8.3.2@gmail.com',
-'lokeipjag.di.shxm@gmail.com',
-'patne.w.man567.0@gmail.com',
-'kenneddoug.her.ty.493@gmail.com',
-'eggerosull.i.van153.2@gmail.com',
-'cap.ri.rus.074@gmail.com',
-'sylviarice.54.693@gmail.com',
-'tenh.mi.e.p.m.ie.p@gmail.com',
-'jennysi.lva.323.12@gmail.com',
-'anamorales.24.94.8@gmail.com',
-'fredst.on.e.9.2.69@gmail.com',
-'raynelbe.l.i.ngu.e.z@gmail.com',
-'dylanwa.m.r091.9.9.6@gmail.com',
-'dartxgaje.ndrag.h@gmail.com',
-'paislee.s.no5.0.1@gmail.com',
-'thomassny.d.er7.7.2.4@gmail.com',
-'dennis5lee6.2.2.5@gmail.com',
-'adelynmosl.e.y2369@gmail.com',
-'kylib.o.wen061@gmail.com',
-'kirkobri.en57791@gmail.com',
-'brycenmich.ae.lqpv.k@gmail.com',
-'andrae.xa.l.exm.8@gmail.com',
-'abdulmuminbal.ar.abe.85.5@gmail.com',
-'eggerandrap.oole1.2.3.2@gmail.com',
-'convillenowack.sv.d.a.3.95.6@gmail.com',
-'choetmo.a.m.thich@gmail.com',
-'bentieciahowar.t.h.7.94.2@gmail.com',
-'zack.ray.7.93.6.2@gmail.com',
-'anamoral.es2.49.4.8@gmail.com',
-'priscillagreen7.1.61.2@gmail.com',
-'estrel.laba.r.21.7@gmail.com',
-'poachlanhl.uando.et@gmail.com',
-'pannunziokluever.hoc.s9.162@gmail.com',
-'ngoongniepgan.gv.oa.t@gmail.com',
-'choetngi.e.t.ngiet@gmail.com',
-'katrinacha.vez.52.0.2@gmail.com',
-'audreypeter.son.7.85.93@gmail.com',
-'vincent3e.van.s.5.12.5@gmail.com',
-'bentieciaca.r.e.y36.4.2@gmail.com',
-'nayrichard.son83.0@gmail.com',
-'egge.rcox.5.5.4.2@gmail.com',
-'mathewnoso.mnat.hli@gmail.com',
-'carmelahyng.o.ld.n.er.o@gmail.com',
-'eggerandrapo.o.l.e1.23.2@gmail.com',
-'berthaow.en.s9.537.7@gmail.com',
-'garfbazzanellam.g.mk96.4.0@gmail.com',
-'tiechxanhdiec.hv.oa.c.h@gmail.com',
-'aarystrickla.n.d2.3.69@gmail.com',
-'raymondde.a.n26.63.6@gmail.com',
-'melaniewhittake.r4.4.2.9@gmail.com',
-'peohuml.u.ngc.e.n.h@gmail.com',
-'livingstonfro.s.t31.4@gmail.com',
-'ronald69washin.g.ton6.653@gmail.com',
-'margretheseb.a.s.o.v.i.c.h@gmail.com',
-'allisonp.rice9.76.6@gmail.com',
-'traceypear.s.on6.97.4@gmail.com',
-'paloma.su.t.t.o699@gmail.com',
-'jenadarris.ne.rw.dc.z.m@gmail.com',
-'rosephillips66.1.0.2@gmail.com',
-'louellagonza.lez.12.01.5@gmail.com',
-'jennysil.v.a3.231.2@gmail.com',
-'bentieshasim.mon.s6.7.23@gmail.com',
-'rangsiman.phu.nasr.i@gmail.com',
-'margrethese.ba.sov.ic.h@gmail.com',
-'kristinmu.rp.h.y7.91.4@gmail.com',
-'embes.imo.n.15.6@gmail.com',
-'eggerbutler7.732@gmail.com',
-'lydiaharve.y504.4.4@gmail.com',
-'rattitt.bi.nita.a.c@gmail.com',
-'hunglinhn.o.ng.t.inh@gmail.com',
-'georgejohn.son.5.64.7.9@gmail.com',
-'octavimck.ay.7.42@gmail.com',
-'baumgaerthomp.so.n37.5.2@gmail.com',
-'mackenzie.br.a.nc150@gmail.com',
-'priscillagreen7.161.2@gmail.com',
-'luebberspursifully.x.ye91.02@gmail.com',
-'isiaha.ru.jar.e.n.3@gmail.com',
-'briannaell.is60.47@gmail.com',
-'micheleluc.as2.10.2.4@gmail.com',
-'alyss.lamb.7.52@gmail.com',
-'hoachngiecgiecq.uo.ong@gmail.com',
-'jill.be.ll8.3.94@gmail.com',
-'parkeg.reen2369@gmail.com',
-'sotosotom.rs2.9.19.90@gmail.com',
-'craigell.mr.1.41.9.92@gmail.com',
-'louellagonza.le.z1.2.01.5@gmail.com',
-'jacquelinegonza.le.z.331.61@gmail.com',
-'richardcoll.ins.2.6.24.9@gmail.com',
-'loatngiungu.a.n.gbu.a@gmail.com',
-'tracyhachigiandastol.i.4.vda.r.v@gmail.com',
-'lydiaharvey.5044.4@gmail.com',
-'savantwtvais.ha.lihy@gmail.com',
-'alyssl.amb7.52@gmail.com',
-'rhondachambers62.123@gmail.com',
-'joellehutc.hin.so.5.8.2@gmail.com',
-'hongtungv.uy.ch.mo.n.g@gmail.com',
-'carlabro.o.ks834.2@gmail.com',
-'dhillon.si.s.onar5@gmail.com',
-'dennis5.l.ee6.225@gmail.com',
-'tenh.mi.e.pm.i.ep@gmail.com',
-'ngoongniepg.ang.vo.a.t@gmail.com',
-'margiefos.ter7.0.18.3@gmail.com',
-'egypt.o.cho.9.19@gmail.com',
-'ghipkeo.xiecrunh@gmail.com',
-'cuynh.soe.t.s.o.et@gmail.com',
-'hollf.ar.l.e.y.654@gmail.com',
-'bakshi.f.h.ramdx@gmail.com',
-'justinmendoz.a2.51.7.3@gmail.com',
-'eddiemedin.a.52.124@gmail.com',
-'geordiec.o.r.d.ar.o@gmail.com',
-'laurasanms.3119.89@gmail.com',
-'micheleluc.a.s.210.2.4@gmail.com',
-'ghenhphuicuangc.o.on.g@gmail.com',
-'priscillagree.n.71.612@gmail.com',
-'nola.fow.l.e.1.56@gmail.com',
-'charles97.yo.ung1.81@gmail.com',
-'margiefos.te.r.7.0.1.83@gmail.com',
-'cangquuando.e.thuyn.h@gmail.com',
-'anamora.le.s.24.948@gmail.com',
-'maisidelg.ado19.4@gmail.com',
-'craigjames.6.5.54.4@gmail.com',
-'bentieshaandr.e.ws3.4.29@gmail.com',
-'kirkobri.e.n5.779.1@gmail.com',
-'c.anyo.aya.n@gmail.com',
-'rosemaryholla.nd2.2.31.2@gmail.com',
-'aprilwall.ace81.3.04@gmail.com',
-'tiect.ie.csu.y.nh@gmail.com',
-'dalarla.w.so.n47.2@gmail.com',
-'ngachtrychph.ac.h.guy.n.h@gmail.com',
-'linsch.midt.374@gmail.com',
-'addisonpierce.3.6.738@gmail.com',
-'lachquynhgh.oe.txon.g@gmail.com',
-'jeremybarnes.4.8853@gmail.com',
-'cathygutierrez.6.4.66.1@gmail.com',
-'sloaalvar.e.z.2.369@gmail.com',
-'sloaalva.r.ez2.369@gmail.com',
-'jonathanfis.he.r.769.0.6@gmail.com',
-'jenniferkell.ey.1961.8@gmail.com',
-'rosgi.b.bs2369@gmail.com',
-'charlenearnold.47.31.1@gmail.com',
-'voachmongk.ie.t.q.uu.a.n@gmail.com',
-'diannerobert.so.n.8.6.23.6@gmail.com',
-'naima.trev.i.n.3.8@gmail.com',
-'eggerosulli.v.a.n.153.2@gmail.com',
-'pannunziokluever.ho.c.s.91.62@gmail.com',
-'t.i.us3.r.t.a@gmail.com',
-'tuyet.ki.c.h.m.oe.t@gmail.com',
-'camilaolso.n.96.90.3@gmail.com',
-'sylviar.ic.e.54693@gmail.com',
-'baylee.wa.l.sh6@gmail.com',
-'laurasanms31.1989@gmail.com',
-'livingstonfr.o.st.3.1.4@gmail.com',
-'craigellmr.1.4.1.99.2@gmail.com',
-'bachbuangkiechp.hu.y.e.n@gmail.com',
-'kangxiechquiu.nganh@gmail.com',
-'tanhviepn.ga.chniet@gmail.com',
-'jill.be.ll.8.39.4@gmail.com',
-'randyhillmr05.19.96@gmail.com',
-'jensenakybar.th.ol.o.m.e.u@gmail.com',
-'phuongquiechrac.h.r.uang@gmail.com',
-'phiechhiepp.h.o.mn.on.g@gmail.com',
-'emmalyngille.sp.ie0.69@gmail.com',
-'m4irin.tadenise@gmail.com',
-'garfbazzanellam.gm.k.9.6.40@gmail.com',
-'jeremybarnes488.53@gmail.com',
-'rileystewart342.7.1@gmail.com',
-'youngyoun.mr.03.1993@gmail.com',
-'roetxuannu.angp.h.o.a.t@gmail.com',
-'wesleyde.an.14.409@gmail.com',
-'ghipkeo.xi.e.crun.h@gmail.com',
-'jillb.e.l.l.83.9.4@gmail.com',
-'bakshi.fh.r.a.m.dx@gmail.com',
-'gailb.an.ks.175.1@gmail.com',
-'albertowoods.4.0.8.3.8@gmail.com',
-'bentieshasimm.on.s6.7.23@gmail.com',
-'jimmyhar.t7.427.4@gmail.com',
-'colemancoms31199.7@gmail.com',
-'marilynmitchelle.612.57@gmail.com',
-'chhabralwala.kn.an.da.v.l@gmail.com',
-'lexi.r.ui.z.99.7@gmail.com',
-'ca.n.y.o.ay.an@gmail.com',
-'phuongquiechr.a.chru.an.g@gmail.com',
-'ghipkeo.xi.ecrunh@gmail.com',
-'dharaevijay.ent.xn@gmail.com',
-'scottgarcia72769@gmail.com',
-'bentiecehow.art.h.6.125@gmail.com',
-'normamil.e.s9.4.04@gmail.com',
-'willardg.ra.y.389.35@gmail.com',
-'terranceca.rter3.60.7@gmail.com',
-'eleanorcolli.ns5539.8@gmail.com',
-'sophihol.land2.36.9@gmail.com',
-'katrinalitt.l.e820.3.0@gmail.com',
-'kirkobr.ien.57.79.1@gmail.com',
-'peterspemr091.996@gmail.com',
-'salvadorpatter.son4.4.7.8.1@gmail.com',
-'mard.aws.o.n7.92@gmail.com',
-'giecphangqua.n.h.gh.ung@gmail.com',
-'chesterjenkins.4.9.398@gmail.com',
-'eggerandrabry.an.7.262@gmail.com',
-'richardcoll.in.s26.2.49@gmail.com',
-'nayricha.rd.so.n.8.30@gmail.com',
-'lachquynhgho.e.tx.on.g@gmail.com',
-'lungngupp.hu.pp.oa.t@gmail.com',
-'carlostucke.r.9.37.29@gmail.com',
-'saramoor.e.3.0.45.7@gmail.com',
-'laylawell.s.4.3353@gmail.com',
-'nayrichar.d.s.o.n.8.30@gmail.com',
-'isabellahowa.r.d2226@gmail.com',
-'vincent3e.va.n.s.5125@gmail.com',
-'anyadou.gher.t1.67@gmail.com',
-'berniceh.ol.t.15.113@gmail.com',
-'vernonflor.e.s52.87.7@gmail.com',
-'hussainibel.l.o.35.3.3@gmail.com',
-'luciebk.ii.vah.g@gmail.com',
-'tracyg.ray.4.9.2.8.0@gmail.com',
-'morrissco.tt.3.4.77.4@gmail.com',
-'lucyfow.ler.8.93.07@gmail.com',
-'xoachhuann.ie.pgh.a.c.h@gmail.com',
-'anamorale.s.24948@gmail.com',
-'jeremiahfoster.89.44.0@gmail.com',
-'mauriceramire.z.7.4.2.5.9@gmail.com',
-'hoang.qu.i.pqu.ip@gmail.com',
-'isobelhamilt.on.7093.4@gmail.com',
-'roatghuangh.oetlanh@gmail.com',
-'m4irin.taden.i.s.e@gmail.com',
-'loatngiun.guangbua@gmail.com',
-'noellestev.ens967.31@gmail.com',
-'lanhsuych.siecki.e.c@gmail.com',
-'kittyha.y.es76.23.4@gmail.com',
-'estrel.la.b.a.r.21.7@gmail.com',
-'kirkgutierrez2.0.3.6@gmail.com',
-'hollf.arl.e.y6.54@gmail.com',
-'carriewat.son.66.82.2@gmail.com',
-'tracey.ki.m.5.5.42@gmail.com',
-'cecilhi.cks1.80.8.0@gmail.com',
-'mehraxb.obaid7.8@gmail.com',
-'hoachtungbu.an.g.lynh@gmail.com',
-'youngyoun.mr0.3.1.9.93@gmail.com',
-'melaniehawk.in.s.2.93.2@gmail.com',
-'eman.we.be.r102@gmail.com',
-'eggeranderbroo.kes.82.8.2@gmail.com',
-'grahamgrahamr.s.2.61.9.89@gmail.com',
-'emanwe.b.er.10.2@gmail.com',
-'lisareynold.s.71091@gmail.com',
-'noraduncan.4832@gmail.com',
-'baylee.wals.h6@gmail.com',
-'elsiebrew.e.r.16921@gmail.com',
-'thomassny.de.r77.2.4@gmail.com',
-'porterpo.m.r021.99.1@gmail.com',
-'margiefos.te.r7.018.3@gmail.com',
-'benmil.e.s.73.00@gmail.com',
-'lex.ir.uiz.9.97@gmail.com',
-'charles97.yo.u.ng.181@gmail.com',
-'pynhlietn.ac.hn.ge.o@gmail.com',
-'a.ish.vu26.0@gmail.com',
-'fredst.on.e.9269@gmail.com',
-'sylviari.ce.54693@gmail.com',
-'cuanquynh.gh.iu.s.e.nh@gmail.com',
-'xuychphayp.angt.uye.n@gmail.com',
-'rangsiman.ph.u.nasr.i@gmail.com',
-'markwel.ch391.2@gmail.com',
-'pannunzioklueverh.oc.s.91.6.2@gmail.com',
-'zack.ra.y7.9.3.6.2@gmail.com',
-'ngiechngi.echhoa.c.h@gmail.com',
-'bachbuangkiec.h.p.h.uye.n@gmail.com',
-'marsteven.son.2.3.69@gmail.com',
-'rachxiepvoon.gc.oac.h@gmail.com',
-'dartxga.je.nd.ra.gh@gmail.com',
-'eman.web.er1.0.2@gmail.com',
-'deloresjon.es.7757.9@gmail.com',
-'eggerandergra.n.t.8.2.52@gmail.com',
-'phiechhiepp.ho.m.n.o.n.g@gmail.com',
-'rileystew.art3.427.1@gmail.com',
-'alvinl.ee.59897@gmail.com',
-'abdulmuminbal.ara.be.8.5.5@gmail.com',
-'jennyriley18.4.07@gmail.com',
-'coraleemacenteeragg.sso.z.s.z.v@gmail.com',
-'gailb.ank.s1.751@gmail.com',
-'jocasey7.94@gmail.com',
-'jimmyh.ar.t.7.4.2.7.4@gmail.com',
-'ronald69washin.gt.o.n.6.6.53@gmail.com',
-'priscillagre.e.n7.1.6.1.2@gmail.com',
-'bentieshasimm.o.ns.672.3@gmail.com',
-'beverleycolem.an.9.037.6@gmail.com',
-'chhabralwalak.n.a.ndav.l@gmail.com',
-'nganhsiepgh.iec.hkiet@gmail.com',
-'hunterwagner63.7.6@gmail.com',
-'runhghiuta.chl.oet@gmail.com',
-'juditd.unlap.45.7@gmail.com',
-'roredander.son.3.21.2@gmail.com',
-'paloma.sutt.o6.99@gmail.com',
-'pennywag.ne.r.86.441@gmail.com',
-'katrinalitt.l.e.8.2.03.0@gmail.com',
-'tiect.iec.s.u.yn.h@gmail.com',
-'jeromedav.is.13938@gmail.com',
-'leroyfor.d2.34.5.4@gmail.com',
-'lisareynolds.7.1.0.91@gmail.com',
-'rosemaryholla.n.d2.2.31.2@gmail.com',
-'roredande.rs.o.n3.2.12@gmail.com',
-'zackr.a.y7.9362@gmail.com',
-'royhuds.o.n.4.361.8@gmail.com',
-'eggerco.x.5542@gmail.com',
-'quoonglungp.hu.i.vuy.e.n@gmail.com',
-'richardcoll.ins262.4.9@gmail.com',
-'isabellahow.ar.d2.2.26@gmail.com',
-'richardcolli.n.s.26.24.9@gmail.com',
-'hip.hop.m.uo.e.t@gmail.com',
-'porterpo.mr.02199.1@gmail.com',
-'cuynhsoet.soe.t@gmail.com',
-'allisonp.ri.c.e.9.766@gmail.com',
-'melaniepoll.ard71.7.2@gmail.com',
-'sofis.ny.d.er5.3.6@gmail.com',
-'zackra.y.7.93.6.2@gmail.com',
-'hussainib.ell.o353.3@gmail.com',
-'lucie.bk.ii.v.ah.g@gmail.com',
-'koatgungk.ua.nh.xa.n.h@gmail.com',
-'camm.o.ettuoi@gmail.com',
-'ghipkeo.xie.c.runh@gmail.com',
-'duynhtoetmo.n.gph.e.p@gmail.com',
-'ngiechngie.c.hhoa.ch@gmail.com',
-'tangpaug.ac.h.g.i.n.h@gmail.com',
-'nangtiechp.angghy.nh@gmail.com',
-'ronald69washing.t.o.n6.6.53@gmail.com',
-'jeromedav.i.s1.39.3.8@gmail.com',
-'kangxiechqui.u.ngan.h@gmail.com',
-'margiefost.er.70183@gmail.com',
-'roatghuangho.e.tla.n.h@gmail.com',
-'berthaowe.ns.95377@gmail.com',
-'rileywes.t.37901@gmail.com',
-'dylanwamr091.996@gmail.com',
-'traceyk.i.m5542@gmail.com',
-'gabewo.ods1.3.5.28@gmail.com',
-'leroybish.o.p7.30.6.9@gmail.com',
-'randyhillm.r05.1996@gmail.com',
-'jillfrankl.in.1.71.40@gmail.com',
-'gregory30pete.r.son1.46.0@gmail.com',
-'joellehutch.in.so5.82@gmail.com',
-'eleanorcolli.ns5.5.398@gmail.com',
-'isabellagardn.e.r6.21.1.7@gmail.com',
-'terrygr.a.y7844.1@gmail.com',
-'normami.l.e.s9.4.04@gmail.com',
-'leroyf.o.rd23.45.4@gmail.com',
-'dorahill94.6.8.9@gmail.com',
-'ninap.e.ck.8.287@gmail.com',
-'pannunzioklueverhocs.9.162@gmail.com',
-'ghynhghoongh.ie.p.qu.i.et@gmail.com',
-'carlostucke.r.93.7.29@gmail.com',
-'lukevar.gas.722.79@gmail.com',
-'bentieciaca.re.y.364.2@gmail.com',
-'siets.ie.tn.oach@gmail.com',
-'isobelhamilton70.93.4@gmail.com',
-'lanhsuychs.iec.kie.c@gmail.com',
-'bertagnolliverros.dr.qyq.58.5@gmail.com',
-'eggerandragr.aham.12.72@gmail.com',
-'cliffordmil.e.s90.7.3.0@gmail.com',
-'helel.ow.ery929@gmail.com',
-'hunterwagn.e.r.6376@gmail.com',
-'berniceholt.1.51.1.3@gmail.com',
-'hungghiepxa.c.hpuy.n.h@gmail.com',
-'richardcoll.in.s2.62.4.9@gmail.com',
-'dalemar.tin51.29.9@gmail.com',
-'bentiecepark.in5.4.12@gmail.com',
-'traceyk.im.5.54.2@gmail.com',
-'dennishughes4248.9@gmail.com',
-'katrinalit.tl.e8.20.30@gmail.com',
-'quachhonghu.ang.c.ie.c.h@gmail.com',
-'kenneddougherty4.9.3@gmail.com',
-'maisidelgado1.9.4@gmail.com',
-'choetmoam.thic.h@gmail.com',
-'brycenmic.ha.el.qpvk@gmail.com',
-'stephaniefrazie.r9679.0@gmail.com',
-'boanhbie.c.h.bi.ec.h@gmail.com',
-'charlotte.p.ratt.8.8.3@gmail.com',
-'hussainibe.ll.o.35.3.3@gmail.com',
-'poatd.ac.hdach@gmail.com',
-'colemancoms.311997@gmail.com',
-'ghachruangl.uy.nhvu.ng@gmail.com',
-'shanene.a.l5.4.6.8@gmail.com',
-'allisonp.rice976.6@gmail.com',
+    <div class="category">
+      <h2>👾 Utilities</h2>
+      <ul>
+         <li class="tool-item"><a class="tool-button" href="SubsGenerator.html" target="_blank">⚙️Subs Generator</a></li>
+         <li class="tool-item"><a class="tool-button" href="Boit_Gmail.html" target="_blank">Boit Gmail for test Auto</a></li>
+        <li class="tool-item"><a class="tool-button" href="List_Spliter.html" target="_blank">🔍 List Splitter</a></li>
+        <li class="tool-item"><a class="tool-button" href="Link_Opener.html" target="_blank">🌐 Link Opener</a></li>
+        <li class="tool-item"><a class="tool-button" href="offers_.html" target="_blank">🎯 Offer Manager</a></li>
+      </ul>
+    </div>
+
+    <div class="category">
+      <h2>📟 Console Scripts</h2>
+      <ul>
+        <li class="tool-item">
+          <button class="tool-button" data-script="autoCleanScript">🧹 Auto Clean (Pmta Manager)</button>
+          <div class="copied-msg">NaaaDii✔️</div>
+        </li>
+        <li class="tool-item">
+          <button class="tool-button" data-script="autoScheduleScript">🕜 Auto Schedule (Pmta Manager)</button>
+          <div class="copied-msg">NaaaDii✔️</div>
+        </li>
+        <li class="tool-item">
+          <button class="tool-button" data-script="autoClickScript">🚀 Auto Send Drop</button>
+          <div class="copied-msg">NaaaDii✔️</div>
+        </li>
+        <li class="tool-item">
+          <button class="tool-button" data-script="TesTAuto_Mail">✉️ Test Auto/Mail </button>
+          <div class="copied-msg">NaaaDii✔️</div>
+        </li>
+		        <li class="tool-item">
+          <button class="tool-button" data-script="AutoPauseRPS">⏸️ Auto Pause RPS (Pmta Manager)</button>
+          <div class="copied-msg">NaaaDii✔️</div>
+        </li>
+         <li class="tool-item">
+          <button class="tool-button" data-script="CopyScript">📋 Copy Subj & Ips from mail</button>
+          <div class="copied-msg">NaaaDii✔️</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Hidden scripts for copy -->
+  <pre id="autoCleanScript" style="display:none;">
+// === UI Elements ===
+const wrapper = document.createElement("div");
+wrapper.style.position = "fixed";
+wrapper.style.bottom = "20px";
+wrapper.style.right = "20px";
+wrapper.style.background = "#001f3f";
+wrapper.style.color = "#00bfff";
+wrapper.style.padding = "12px";
+wrapper.style.fontFamily = "monospace";
+wrapper.style.borderRadius = "10px";
+wrapper.style.zIndex = "9999";
+wrapper.style.boxShadow = "0 0 15px rgba(0, 191, 255, 0.6)";
+wrapper.style.display = "flex";
+wrapper.style.flexDirection = "column";
+wrapper.style.gap = "8px";
+
+// === Controls ===
+const controls = document.createElement("div");
+controls.style.display = "flex";
+controls.style.alignItems = "center";
+controls.style.gap = "8px";
+
+// Interval input
+const intervalInput = document.createElement("input");
+intervalInput.type = "number";
+intervalInput.min = "1";
+intervalInput.value = "10";
+intervalInput.style.width = "60px";
+intervalInput.style.padding = "5px";
+intervalInput.style.border = "1px solid #00bfff";
+intervalInput.style.borderRadius = "5px";
+intervalInput.style.background = "#002b5c";
+intervalInput.style.color = "#00bfff";
+
+// Duration input
+const durationInput = intervalInput.cloneNode();
+durationInput.value = "60";
+
+// Labels
+const intervalLabel = document.createElement("label");
+intervalLabel.textContent = "Interval (sec):";
+
+const durationLabel = document.createElement("label");
+durationLabel.textContent = "Duration (sec):";
+
+// Button
+const toggleButton = document.createElement("button");
+toggleButton.textContent = "▶ Start";
+toggleButton.style.padding = "6px 10px";
+toggleButton.style.background = "#005eff";
+toggleButton.style.color = "#fff";
+toggleButton.style.border = "none";
+toggleButton.style.borderRadius = "5px";
+toggleButton.style.cursor = "pointer";
+
+// Timer displays
+const clickTimerDisplay = document.createElement("div");
+clickTimerDisplay.textContent = "Next click in: --:--";
+const stopTimerDisplay = document.createElement("div");
+stopTimerDisplay.textContent = "Stopping in: --:--";
+clickTimerDisplay.style.fontSize = stopTimerDisplay.style.fontSize = "14px";
+
+// Assemble UI
+controls.appendChild(intervalLabel);
+controls.appendChild(intervalInput);
+controls.appendChild(durationLabel);
+controls.appendChild(durationInput);
+controls.appendChild(toggleButton);
+wrapper.appendChild(controls);
+wrapper.appendChild(clickTimerDisplay);
+wrapper.appendChild(stopTimerDisplay);
+document.body.appendChild(wrapper);
+
+// === Timer Logic ===
+let clickIntervalId, countdownIntervalId, stopTimeout;
+let intervalMs = parseInt(intervalInput.value) * 1000;
+let remainingClickTime = intervalMs;
+let remainingStopTime = parseInt(durationInput.value) * 1000;
+let running = false;
+
+const elements = document.querySelectorAll("input");
+
+// Format helper
+function format(ms) {
+  const totalSeconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(minutes).padStart(1, '0')}:${String(seconds).padStart(2, '0')}`;
+}
+
+// Update countdowns
+function updateCountdowns() {
+  remainingClickTime -= 1000;
+  remainingStopTime -= 1000;
+
+  if (remainingClickTime < 0) remainingClickTime = 0;
+  if (remainingStopTime < 0) remainingStopTime = 0;
+
+  clickTimerDisplay.textContent = `Next click in: ${format(remainingClickTime)}`;
+  stopTimerDisplay.textContent = `Stopping in: ${format(remainingStopTime)}`;
+}
+
+// Start
+function startScript() {
+  clearAll();
+
+  intervalMs = parseInt(intervalInput.value) * 1000;
+  remainingClickTime = intervalMs;
+  remainingStopTime = parseInt(durationInput.value) * 1000;
+
+  clickIntervalId = setInterval(() => {
+    if (elements[7]) elements[7].click();
+    remainingClickTime = intervalMs;
+  }, intervalMs);
+
+  countdownIntervalId = setInterval(updateCountdowns, 1000);
+
+  stopTimeout = setTimeout(() => {
+    stopScript();
+    clickTimerDisplay.textContent = "⏹ Clicks stopped";
+    stopTimerDisplay.textContent = "✅ Done!";
+  }, remainingStopTime);
+
+  toggleButton.textContent = "⏹ Stop";
+  running = true;
+}
+
+// Stop
+function stopScript() {
+  clearAll();
+  toggleButton.textContent = "▶ Start";
+  running = false;
+}
+
+// Clear all timers
+function clearAll() {
+  clearInterval(clickIntervalId);
+  clearInterval(countdownIntervalId);
+  clearTimeout(stopTimeout);
+}
+
+// Toggle on button click
+toggleButton.addEventListener("click", () => {
+  if (!running) {
+    startScript();
+  } else {
+    stopScript();
+    clickTimerDisplay.textContent = "⏹ Stopped manually";
+    stopTimerDisplay.textContent = "⌛ Waiting...";
+  }
+});
+  </pre>
+
+  <pre id="autoScheduleScript" style="display:none;">
+// === UI Elements ===
+const wrapper = document.createElement("div");
+wrapper.style.position = "fixed";
+wrapper.style.bottom = "20px";
+wrapper.style.right = "20px";
+wrapper.style.background = "#001f3f";
+wrapper.style.color = "#00bfff";
+wrapper.style.padding = "12px";
+wrapper.style.fontFamily = "monospace";
+wrapper.style.borderRadius = "10px";
+wrapper.style.zIndex = "9999";
+wrapper.style.boxShadow = "0 0 15px rgba(0, 191, 255, 0.6)";
+wrapper.style.display = "flex";
+wrapper.style.alignItems = "center";
+wrapper.style.gap = "10px";
+
+// Input
+const input = document.createElement("input");
+input.type = "number";
+input.min = "1";
+input.value = "10";
+input.style.width = "60px";
+input.style.padding = "5px";
+input.style.border = "1px solid #00bfff";
+input.style.borderRadius = "5px";
+input.style.background = "#002b5c";
+input.style.color = "#00bfff";
+
+// Label
+const label = document.createElement("label");
+label.textContent = "Interval (sec): ";
+
+// START BUTTON
+const startBtn = document.createElement("button");
+startBtn.textContent = "Start";
+startBtn.style.padding = "5px 10px";
+startBtn.style.background = "#00bfff";
+startBtn.style.border = "none";
+startBtn.style.borderRadius = "5px";
+startBtn.style.cursor = "pointer";
+
+// 🔥 STOP BUTTON
+const stopBtn = document.createElement("button");
+stopBtn.textContent = "Stop";
+stopBtn.style.padding = "5px 10px";
+stopBtn.style.background = "#ff4d4d";
+stopBtn.style.border = "none";
+stopBtn.style.borderRadius = "5px";
+stopBtn.style.cursor = "pointer";
+
+// Timer display
+const timerDisplay = document.createElement("span");
+timerDisplay.textContent = "Next click in: --:--:--";
+
+// Assemble
+wrapper.appendChild(label);
+wrapper.appendChild(input);
+wrapper.appendChild(startBtn);
+wrapper.appendChild(stopBtn); // 🔥 added
+wrapper.appendChild(timerDisplay);
+document.body.appendChild(wrapper);
+
+// === Timer Logic ===
+let intervalMs = parseInt(input.value) * 1000;
+let remainingTime = intervalMs;
+let clickIntervalId, countdownIntervalId;
+
+const elements = document.querySelectorAll("input");
+
+function updateTimer() {
+  remainingTime -= 1000;
+  if (remainingTime < 0) remainingTime = 0;
+
+  const hours = Math.floor(remainingTime / 3600000);
+  const minutes = Math.floor((remainingTime % 3600000) / 60000);
+  const seconds = Math.floor((remainingTime % 60000) / 1000);
+
+  timerDisplay.textContent = `Next click in: ${hours}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+}
+
+function startClicker() {
+  clearInterval(clickIntervalId);
+  clearInterval(countdownIntervalId);
+
+  intervalMs = parseInt(input.value) * 1000;
+  remainingTime = intervalMs;
+
+  clickIntervalId = setInterval(() => {
+    if (elements[8]) elements[8].click();
+    remainingTime = intervalMs;
+  }, intervalMs);
+
+  countdownIntervalId = setInterval(updateTimer, 1000);
+}
+
+// 🔴 STOP FUNCTION
+function stopClicker(){
+  clearInterval(clickIntervalId);
+  clearInterval(countdownIntervalId);
+  timerDisplay.textContent = "STOP DONE 👌🏼";
+}
+
+// EVENTS
+startBtn.addEventListener("click", startClicker);
+stopBtn.addEventListener("click", stopClicker);
+input.addEventListener("change", startClicker);
+  </pre>
+
+  <pre id="autoClickScript" style="display:none;">
+  
+  (function () {
+  const box = document.createElement("div");
+  box.style.position = "fixed";
+  box.style.bottom = "20px";
+  box.style.right = "20px";
+  box.style.background = "#0f172a";
+  box.style.color = "#fff";
+  box.style.padding = "15px";
+  box.style.borderRadius = "12px";
+  box.style.zIndex = "9999";
+  box.style.fontFamily = "Arial";
+  box.style.boxShadow = "0 8px 25px rgba(0,0,0,0.4)";
+  box.style.display = "flex";
+  box.style.flexDirection = "column";
+  box.style.gap = "10px";
+
+
+  const inputsRow = document.createElement("div");
+  inputsRow.style.display = "flex";
+  inputsRow.style.gap = "6px";
+
+  function createInput(ph) {
+    const inp = document.createElement("input");
+    inp.type = "number";
+    inp.placeholder = ph;
+    inp.style.width = "50px";
+    inp.style.padding = "6px";
+    inp.style.borderRadius = "6px";
+    inp.style.border = "1px solid #334155";
+    inp.style.background = "#020617";
+    inp.style.color = "#fff";
+    inp.style.textAlign = "center";
+    return inp;
+  }
+
+  const h = createInput("HH");
+  const m = createInput("MM");
+  const s = createInput("SS");
+
+  inputsRow.append(h, m, s);
+
+  const btnRow = document.createElement("div");
+  btnRow.style.display = "flex";
+  btnRow.style.gap = "8px";
+
+  function createBtn(text, color) {
+    const btn = document.createElement("button");
+    btn.textContent = text;
+
+    btn.style.flex = "1";
+    btn.style.padding = "8px";
+    btn.style.border = "none";
+    btn.style.borderRadius = "8px";
+    btn.style.cursor = "pointer";
+    btn.style.fontWeight = "bold";
+    btn.style.background = color;
+    btn.style.color = "#fff";
+    btn.style.transition = "0.2s";
+
+    btn.onmouseenter = () => {
+      btn.style.opacity = "0.85";
+      btn.style.transform = "translateY(-1px)";
+    };
+    btn.onmouseleave = () => {
+      btn.style.opacity = "1";
+      btn.style.transform = "none";
+    };
+
+    return btn;
+  }
+
+  const start = createBtn("▶ Start", "#22c55e");
+  const stop = createBtn("⏹ Stop", "#ef4444");
+
+  // text
+  const txt = document.createElement("div");
+  txt.style.fontSize = "13px";
+  txt.style.textAlign = "center";
+  txt.style.color = "#94a3b8";
+
+  // assemble UI
+  btnRow.append(start, stop);
+  box.append(inputsRow, btnRow, txt);
+  document.body.appendChild(box);
+
+  // ===== TIMER =====
+  let timer = null;
+
+  function format(t) {
+    const hh = Math.floor(t / 3600);
+    const mm = Math.floor((t % 3600) / 60);
+    const ss = t % 60;
+    return [hh, mm, ss].map(x => String(x).padStart(2, '0')).join(':');
+  }
+
+  function clickSend() {
+    const btn = document.querySelector('input.send');
+
+    if (btn) {
+      btn.click();
+      return true;
+    }
+    return false;
+  }
+
+  start.onclick = () => {
+    let total =
+      (parseInt(h.value) || 0) * 3600 +
+      (parseInt(m.value) || 0) * 60 +
+      (parseInt(s.value) || 0);
+
+    if (total <= 0) {
+      txt.textContent = "❌ invalid time";
+      txt.style.color = "#ef4444";
+      return;
+    }
+
+    txt.style.color = "#94a3b8";
+    clearInterval(timer);
+
+    timer = setInterval(() => {
+      if (total <= 0) {
+        clearInterval(timer);
+
+        const ok = clickSend();
+
+        txt.textContent = ok
+          ? "✅ Clicked Send"
+          : "❌ Button not found";
+
+        txt.style.color = ok ? "#22c55e" : "#ef4444";
+        return;
+      }
+
+      txt.textContent = "⏳ " + format(total);
+      total--;
+
+    }, 1000);
+  };
+
+  stop.onclick = () => {
+    clearInterval(timer);
+    txt.textContent = "⏹ stopped";
+    txt.style.color = "#94a3b8";
+  };
+
+})();
+
+  </pre>
+
+  <pre id="TesTAuto_Mail" style="display:none;">
+
+(function(){
+
+// ===== SUBJECT =====
+document.getElementById("subject").value = "__Returnpath";
+
+
+// ===== HEADER =====
+document.getElementById("brut_h").value = `Received: from njmta-53.sailthru.com (173.228.155.53) by dailybeast-a.sailthru.com id h1t86m1qqbs3 for __Link@gmail.com; __smtpDate
+Received: from nj1-madbrick.flt (172.18.20.7) by njmta-53.sailthru.com id h1t7vc1qqbsf for __Link@gmail.com; __smtpDate
+Date: __smtpDate
+From: "__From_nm" <__Random_com[14,14,l].__Random_com[14,14,n]@__Random_com[6,6,ln].__Random_com[6,6,ln].__Random_com[6,6,nl].us>
+Message-ID: <__Random_com[8,8,ln].__Random_com[4,4,ln]0220.__Random_com[6,6,ln].__Random_com[4,4,ln]SMTPIN_ADDED_MISSING@mx.google.com>
+To: __Link@gmail.com
+Subject: __Subject
+MIME-Version: 1.0
+X-Google-Sender-Delegation: __Random_com[10,10,l]
+Content-Type: multipart/report; boundary="000000000000S__Uniqid"; report-type=delivery-status`;
+
+
+// ===== BODY =====
+document.getElementById("body").value = `--000000000000S__Uniqid
+Content-Type: multipart/related; boundary="000000000000B__Uniqid"
+
+--000000000000B__Uniqid
+Content-Type: multipart/alternative; boundary="000000000000C__Uniqid"
+
+--000000000000C__Uniqid
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Top Stories of the Day: smtpDate
+
+207282808238797353
+-----
+__Random_com[60,60,l]=
+__Random_com[60,60,l]=
+__Random_com[60,60,l]
+
+If you believe this has been sent to you in error, please safely unsubscrib=
+e
+
+--000000000000C__Uniqid
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit+
+
+
+<html>
+<body>
+  <center>
+<table style="border:2px solid black;height: 228px;background: linear-gradient(to right,#DCDCDC,#f2f2f2,#DCDCDC);" width="653">
+<tbody>
+<tr>
+
+<td>
+<p style="text-align: center;font-family:Sans-Serif;font-size:70px;"><strong><span style=" text-align: center;font-family:Serif;font-size:50px;">hims</span><br>Get hard and<br>
+  stay hard <sup> </sup><br>on your terms</strong></p>
+  <p style="font-size:30px;font-family:Sans-Serif;text-align: center;"> Start treating your ED. We make it easy.</p>
+    <p style="text-align: center;">
+  <a  href="https://__Domain/redirect.html?syv=1[trk]67c18cd45b0e1_vl_shared.[jobid].[news].__Random_com[5,10,ul]"style="text-decoration:none;color: #000000; text-align: -webkit-center; background-color: #ffffff;"><br /><strong style="padding: 16px 30px; background-color: black; color: white; border: none;font-size: 30px; letter-spacing: 1px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); font-family:Sans-Serif;">Start Free Assessment &gt;&gt;</strong></a></p>
+  <br><br><br>
+        <center>
+    
+    <br />
+    <a href="https://__Domain/redirect.html?syv=1[trk]67c18cd45b0e1_vl_shared.[jobid].[news].__Random_com[5,10,ul]"  >
+      <img src="https://i.imgur.com/yNVuX4i.png#WBSebE" width="657" >
+    </a>
+    <br />    <br />
+    If you do not wish to receive future messages <a href="https://__Domain/redirect.html?syv=1[trk]Uns_67c18cd45b0e1vl_shared.[jobid].[news].__Random_com[5,10,ul]">click here to unsubscribe</a> 
+<br />
+<br />hims | 2269 Chestnut St. #523 San Francisco, CA 94123
+    <br />
+  <br />
+    <a href="https://__Domain/redirect.html?syv=1[trk]Out_67c18cd45b0e1vl_shared.[jobid].[news].__Random_com[5,10,ul]" >
+unsubscribe    </a>
+    <br />
+  </center>
+  <style>body {background-image: url(' https://tinyurl.com/xwinisteredredirect.html?syv=8[trk]67c18cd45b0e1_vl_shared.[jobid].[news].__Random_com[5,10,ul] ');</style>
+</td>
+</tr>
+</tbody>
+</table>
+    
+</body>
+</html>
+--000000000000C__Uniqid--
+--000000000000B__Uniqid--
+--000000000000S__Uniqid--
+
+--000000000000S__Uniqid--`;
+
+
+// ===== TRIGGER =====
+$("#subject, #brut_h, #body").trigger("change");
+
+
+// =========================
+// ===== DROPDOWN EMAIL =====
+// =========================
+
+// create select
+var select = document.createElement('select');
+select.id = "customDropdown";
+select.style.marginLeft = "5px";
+select.style.padding = "5px";
+
+// emails
+// List of email addresses
+var emails = [
 'russellsimp.so.n.7.091@gmail.com',
 'bentiecepark.in.541.2@gmail.com',
 'ilenenessseren.s.ngnerv@gmail.com',
@@ -761,327 +1081,755 @@ let pool = [
 'loatngiun.gu.a.n.gbu.a@gmail.com',
 'voachmongk.ietqu.u.an@gmail.com',
 'hieptomp.h.uih.u.ng@gmail.com',
-'charlottepr.a.t.t8.8.3@gmail.com',
-'normami.le.s9.4.04@gmail.com',
-'leslieperk.in.s7.28.5.8@gmail.com',
-'johnniwill.ia.m.s4.0.6.9@gmail.com',
-'willardg.ray.38.93.5@gmail.com',
-'emelilowe.r.y4.7.5@gmail.com',
-'sietsi.et.n.oa.c.h@gmail.com',
-'mauriceramir.e.z.74.259@gmail.com',
-'dennis5le.e62.2.5@gmail.com',
-'rosephilli.ps.6.6102@gmail.com',
-'phuongquiechrachr.uang@gmail.com',
-'quoatghoettoo.ng.k.ua.n@gmail.com',
-'eggerandrap.ool.e1.2.3.2@gmail.com',
-'jordanc.arr2.80.16@gmail.com',
-'harperanderso.n2.9.62.6@gmail.com',
-'charles97.yo.u.ng1.81@gmail.com',
-'londoarell.a.no399@gmail.com',
-'gregory30pete.rso.n.1.46.0@gmail.com',
-'marciape.na433.0.8@gmail.com',
-'ednadavid.so.n224.62@gmail.com',
-'xanhbachghiec.hxu.y.n.h@gmail.com',
-'lanhsuychsi.e.c.kiec@gmail.com',
-'abigailhor.ton5600.6@gmail.com',
-'jonathanfrazie.r74268@gmail.com',
-'caprla.mb.er.t3.80@gmail.com',
-'jordonwillusu.23@gmail.com',
-'quangquangph.u.nh@gmail.com',
-'jennysil.v.a323.1.2@gmail.com',
-'roredcolem.an8.4.4.2@gmail.com',
-'wyattdepperschmidttauras.1f7nzb@gmail.com',
-'hebertmarl.ey.d.tdg@gmail.com',
-'melindaroge.rs8.2697@gmail.com',
-'zoemitchell.e.3.9.2.8.8@gmail.com',
-'loganall.en9.1.55.5@gmail.com',
-'janewar.ren8.6.7.9.0@gmail.com',
-'ngoongniep.g.angv.oat@gmail.com',
-'quoachkiec.ht.an.h.r.om@gmail.com',
-'thingni.e.m.pe.n.g@gmail.com',
-'maddisorasmus.se.n.1.3.9@gmail.com',
-'sidhupdja.g.rutim.q@gmail.com',
-'briannael.li.s6.04.7@gmail.com',
-'tiu.s3rt.a@gmail.com',
-'diazdimr.s.291.98.7@gmail.com',
-'sinhc.i.et.c.i.e.t@gmail.com',
-'howardprescot.t.2.5.6.7.0@gmail.com',
-'bentieshaand.re.ws.34.29@gmail.com',
-'sungrachr.ua.n.gp.iet@gmail.com',
-'noellestevens9.6731@gmail.com',
-'ghunhtangcu.a.nk.uan@gmail.com',
-'zoemitche.lle.3.9.2.8.8@gmail.com',
-'cassidy.gib.s.o9.81@gmail.com',
-'eggerschofi.e.ld.6.6.25@gmail.com',
-'rangsimanphunasr.i@gmail.com',
-'charlenearn.ol.d47.3.11@gmail.com',
-'tuyetk.ic.h.moet@gmail.com',
-'thingniem.pe.n.g@gmail.com',
-'terranceca.r.ter360.7@gmail.com',
-'octavim.ckay7.42@gmail.com',
-'ellaschw.a.rt.9.8.7@gmail.com',
-'caprlamb.ert.3.80@gmail.com',
-'garfbazzanella.mgmk9640@gmail.com',
-'soongso.o.n.g.po.a.t@gmail.com',
-'mandad.zj.a.v.ed.39@gmail.com',
-'laurasan.ms.3119.89@gmail.com',
-'trace.y.kim554.2@gmail.com',
-'scott97wal.k.er.2.7.18@gmail.com',
-'jeremiahfost.e.r.8944.0@gmail.com',
-'carlei.gh.celi.a4@gmail.com',
-'carriewat.so.n.6.682.2@gmail.com',
-'austincaldw.el.l2.016.9@gmail.com',
-'wesleyde.a.n.14.40.9@gmail.com',
-'lorrainegom.e.z54.68.6@gmail.com',
-'elliodoming.u.ez236.9@gmail.com',
-'ulyssesbullingtonztc.vu.668.0@gmail.com',
-'tranmic.aela8335@gmail.com',
-'kirkgutier.r.ez.2.0.3.6@gmail.com',
-'eleanorcolli.ns.55.39.8@gmail.com',
-'rachpiepcuan.v.a.n.h@gmail.com',
-'erinflem.ing50.83.5@gmail.com',
-'ghunhtang.cuan.k.ua.n@gmail.com',
-'tracyhachigiandastol.i.4vd.arv@gmail.com',
-'xanhbachghiechx.u.y.nh@gmail.com',
-'hoctoap.n.goa.n@gmail.com',
-'dartxga.jendr.ag.h@gmail.com',
-'ellaschwart.987@gmail.com',
-'davidtho.mas.2.8.25.5@gmail.com',
-'ca.n.yoayan@gmail.com',
-'markroberts.o.n5.6.285@gmail.com',
-'margretheseb.as.ov.ic.h@gmail.com',
-'rosemaryholl.an.d.22.3.1.2@gmail.com',
-'brycenmicha.e.l.qp.v.k@gmail.com',
-'normam.il.e.s9.4.04@gmail.com',
-'xungquangng.uan.gsach@gmail.com',
-'hiphop.m.uo.e.t@gmail.com',
-'harrygonzal.e.z257.15@gmail.com',
-'isiaharuj.a.re.n.3@gmail.com',
-'morrisonmor.mr.15199.6@gmail.com',
-'kaylanhob.bs.64.3@gmail.com',
-'savannapatter.so.n.7.0.4@gmail.com',
-'frederickfie.ld.s.99.2.53@gmail.com',
-'melaniepicke.ri.ng.32.4.5@gmail.com',
-'micheleluc.a.s.21024@gmail.com',
-'hoachngiecgie.c.q.u.oon.g@gmail.com',
-'huanhhu.anh.doac.h@gmail.com',
-'aarystrickl.a.nd.2.369@gmail.com',
-'brianwilm.r.1.4.198.9@gmail.com',
-'poatda.ch.d.ac.h@gmail.com',
-'herbertjones.71.91.0@gmail.com',
-'ngiechngie.ch.h.oa.c.h@gmail.com',
-'marlenewagn.er.2.1.52.3@gmail.com',
-'carmenwood.s.297.1@gmail.com',
-'lorrainegome.z5.468.6@gmail.com',
-'paloma.s.utto.6.9.9@gmail.com',
-'alejandrayz.evernn@gmail.com',
-'thoamlam.buoc@gmail.com',
-'cuanquynhg.hi.u.sen.h@gmail.com',
-'vernonflore.s.5287.7@gmail.com',
-'lungkoongroon.gk.uan@gmail.com',
-'sidhupdja.gr.u.ti.m.q@gmail.com',
-'egge.rc.o.x5.542@gmail.com',
-'carlabrook.s834.2@gmail.com',
-'grahamgraham.rs.2619.89@gmail.com',
-'baumgaerho.op.er28.3.2@gmail.com',
-'thoa.ml.am.b.uo.c@gmail.com',
-'brattainweisenburgercdib45.4.1@gmail.com',
-'mildredfos.t.er41.4.8.9@gmail.com',
-'audreypeterson7.8.5.93@gmail.com',
-'cecilhic.k.s.180.8.0@gmail.com',
-'dorahill9.4689@gmail.com',
-'baumgaerthom.pso.n375.2@gmail.com',
-'gregory30peterson.1.46.0@gmail.com',
-'cammoet.tuoi@gmail.com',
-'cuanhquangph.om.qu.u.ye.n@gmail.com',
-'rileyw.e.st37.9.0.1@gmail.com',
-'runhpietk.a.c.hso.et@gmail.com',
-'chesterjenk.in.s.4939.8@gmail.com',
-'rileystewa.rt.3.42.7.1@gmail.com',
-'johnniwilliams4.0.6.9@gmail.com',
-'boachngep.sach.q.ue.p@gmail.com',
-'luebberspursifully.x.ye.910.2@gmail.com',
-'jo.cas.e.y.794@gmail.com',
-'lungkoongroo.ngkua.n@gmail.com',
-'tranmica.e.la8.335@gmail.com',
-'jovichrist.i.a.n.23.6.9@gmail.com',
-'eggerandrawall.ac.e4.1.12@gmail.com',
-'robert18bak.e.r.9.72.2@gmail.com',
-'kuynhvuychmen.hka.n.g@gmail.com',
-'kylib.o.we.n.061@gmail.com',
-'ngoongniep.gan.g.vo.a.t@gmail.com',
-'bellhopki.n.s.236.9@gmail.com',
-'ritthybak.er.4.8.2.59@gmail.com',
-'leonrice27025@gmail.com',
-'sofis.nyd.e.r.5.3.6@gmail.com',
-'hieptomph.u.ih.un.g@gmail.com',
-'dartxga.je.nd.ra.g.h@gmail.com',
-'maisi.huf.f.913@gmail.com',
-'georgejohn.so.n56.479@gmail.com',
-'garaci.bhar.at1v@gmail.com',
-'bentiecesavage.5.4.6.2@gmail.com',
-'andrewwilm.r0.9.1983@gmail.com',
-'jayceebrade.n52.49@gmail.com',
-'avayagr.ee.r236.9@gmail.com',
-'runhpietka.c.h.s.o.e.t@gmail.com',
-'macmurraycolombajkv.rq61.90@gmail.com',
-'banhtua.nt.ua.n03.7@gmail.com',
-'linsch.m.idt.3.74@gmail.com',
-'thoaml.a.mb.u.o.c@gmail.com',
-'adelynmo.sl.ey23.69@gmail.com',
-'lydiaharv.e.y.5.0.4.44@gmail.com',
-'mehraxbo.ba.id.78@gmail.com',
-'shanelo.pez.4.5.531@gmail.com',
-'kristenjo.nes.738.02@gmail.com',
-'ngachtrychph.a.chguyn.h@gmail.com',
-'jeremiahfoster.89.440@gmail.com',
-'elsiemcdona.l.i.d.3.07.3@gmail.com',
-'jennylars.o.n3.5.519@gmail.com',
-'clairemy.e.r.s7.0.8.8@gmail.com',
-'georgejohns.on56479@gmail.com',
-'avayagre.er2.36.9@gmail.com',
-'markrobert.so.n56.2.85@gmail.com',
-'kiecmuychmuanhboa.ch@gmail.com',
-'barryew.tp.e.c.k.h@gmail.com',
-'jeremiahmorg.a.n6.428.6@gmail.com',
-'tiechxanhdi.ech.v.o.a.c.h@gmail.com',
-'loachmua.nhmua.nh@gmail.com',
-'lungkoongroo.ng.ku.a.n@gmail.com',
-'loachciepmo.ngn.i.e.ch@gmail.com',
-'abdulmuminbal.ar.ab.e.855@gmail.com',
-'avayagreer.236.9@gmail.com',
-'hussainibe.l.lo353.3@gmail.com',
-'abigailhorton.56.006@gmail.com',
-'canhmo.ng.th.u.en@gmail.com',
-'sinh.ciet.c.ie.t@gmail.com',
-'poachlanh.lu.and.oet@gmail.com',
-'eggerandergrant.825.2@gmail.com',
-'briannae.ll.is.6.04.7@gmail.com',
-'bentiec.ecox44.52@gmail.com',
-'xoachhuanniep.gha.c.h@gmail.com',
-'nangtiechpan.gg.hy.n.h@gmail.com',
-'xanhbachghiechxuy.nh@gmail.com',
-'roredbutc.her324.2@gmail.com',
-'judsonartsgillamrw.x.gzm@gmail.com',
-'jerry29to.rres704.7@gmail.com',
-'bentieciastephen.s.on3.1.86@gmail.com',
-'blaialvarado23.69@gmail.com',
-'katelyh.or.n.e.23.69@gmail.com',
-'marcwell.s8.57.1.8@gmail.com',
-'canhmon.g.thu.e.n@gmail.com',
-'lisareyno.lds71.0.9.1@gmail.com',
-'roberta.neal9.1.9.9@gmail.com',
-'erinfleming5.0.8.35@gmail.com',
-'shanelop.ez.4.5.5.3.1@gmail.com',
-'luantuoiphua.n.ngo.at@gmail.com',
-'willardgra.y.3893.5@gmail.com',
-'baumgaerthomp.son375.2@gmail.com',
-'quachhi.echh.i.e.ch@gmail.com',
-'koatgungk.u.anhxanh@gmail.com',
-'yarsel.le.rs.2.36.9@gmail.com',
 'dorothystone.ms.0.2.19.89@gmail.com'
 ];
-let active = [];
-let selected = null;
 
-// ⏳ 30min
-function isExpired(time){
-  return (Date.now() - time) > (30 * 60 * 1000);
+// options
+emails.forEach(e => {
+  let opt = document.createElement("option");
+  opt.value = e;
+  opt.textContent = e;
+  select.appendChild(opt);
+});
+
+// close button
+var closeBtn = document.createElement("button");
+closeBtn.innerHTML = "✖";
+closeBtn.style.marginLeft = "5px";
+closeBtn.style.cursor = "pointer";
+
+closeBtn.onclick = () => {
+  select.remove();
+  closeBtn.remove();
+};
+
+// inject 
+var div = document.querySelector('div[style="padding: 0px 3px 3px 5px;"]');
+
+if(div){
+  div.parentNode.insertBefore(select, div.nextSibling);
+  div.parentNode.insertBefore(closeBtn, select.nextSibling);
 }
 
-// 🔀 shuffle
-function shuffle(array){
-  for(let i = array.length - 1; i > 0; i--){
-    let j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
+// on change → يحط email ف textarea
+select.addEventListener("change", function(){
+  document.getElementById("to").value = this.value;
+});
+
+})();
+
+// Create a select element (dropdown)
+var select = document.createElement('select');
+select.setAttribute('id', 'dropdown');
+select.classList.add('ui-widget-content');
+
+// Style بسيط
+select.style.marginLeft = '5px';
+select.style.padding = '5px';
+
+
+
+// Create options
+emails.forEach(function(email) {
+  var option = document.createElement('option');
+  option.value = email;
+  option.textContent = email;
+  select.appendChild(option);
+});
+
+// 🔥 Create close button (X)
+var closeBtn = document.createElement('button');
+closeBtn.innerHTML = '✖';
+closeBtn.style.marginLeft = '5px';
+closeBtn.style.cursor = 'pointer';
+closeBtn.style.border = 'none';
+closeBtn.style.background = 'transparent';
+closeBtn.style.fontSize = '16px';
+closeBtn.style.color = '#888';
+
+// hover effect
+closeBtn.onmouseover = () => closeBtn.style.color = 'red';
+closeBtn.onmouseout = () => closeBtn.style.color = '#888';
+
+// click = remove both
+closeBtn.onclick = () => {
+  select.remove();
+  closeBtn.remove();
+};
+
+// Find the div
+var div = document.querySelector('div[style="padding: 0px 3px 3px 5px;"]');
+
+// Append
+if (div) {
+  div.parentNode.insertBefore(select, div.nextSibling);
+  div.parentNode.insertBefore(closeBtn, select.nextSibling);
+} else {
+  console.error('Div not found.');
 }
 
-// GENERATE
-function generateEmail(){
-  let used = JSON.parse(localStorage.getItem("usedMails") || "{}");
-
-  if(active.length >= 5){
-    showToast("Limit reached ❌");
-    return;
+// Select change event
+select.addEventListener('change', function() {
+  var selectedEmail = select.value;
+  var textarea = document.getElementById('to');
+  if (textarea) {
+    textarea.value = selectedEmail;
   }
+});
 
-  let shuffled = shuffle([...pool]);
+  </pre>
+  
+ <pre id="AutoPauseRPS" style="display:none;">
+(() => {
+  let stopFlag = false;
+  let pauseFlag = false;
+  let delay = 2000;
 
-  let email = shuffled.find(mail => {
-    if(!used[mail]) return true;
-    return isExpired(used[mail]);
+  // ===== PANEL =====
+  const panel = document.createElement('div');
+  panel.style.position = 'fixed';
+  panel.style.top = '20px';
+  panel.style.left = '20px';
+  panel.style.zIndex = 9999;
+  panel.style.width = '420px';
+  panel.style.background = 'rgba(0,0,0,0.2)';
+  panel.style.backdropFilter = 'blur(10px)'; // glass effect زوين 😎
+  panel.style.padding = '15px';
+  panel.style.borderRadius = '14px';
+  panel.style.boxShadow = '0 10px 30px rgba(0,0,0,0.6)';
+  panel.style.color = '#fff';
+  panel.style.fontFamily = 'system-ui';
+  document.body.appendChild(panel);
+
+  // ===== TITLE =====
+  const title = document.createElement('div');
+  title.textContent = '⚡ Control Panel';
+  title.style.fontSize = '16px';
+  title.style.marginBottom = '10px';
+  title.style.fontWeight = 'bold';
+  panel.appendChild(title);
+
+  // ===== TEXTAREA =====
+  const inputArea = document.createElement('textarea');
+  inputArea.placeholder = 'Paste your lines here...';
+  inputArea.style.width = '100%';
+  inputArea.style.height = '140px';
+  inputArea.style.borderRadius = '10px';
+  inputArea.style.padding = '10px';
+  inputArea.style.marginBottom = '10px';
+  inputArea.style.border = 'none';
+  inputArea.style.outline = 'none';
+  panel.appendChild(inputArea);
+
+  // ===== DELAY ROW =====
+  const delayRow = document.createElement('div');
+  delayRow.style.display = 'flex';
+  delayRow.style.alignItems = 'center';
+  delayRow.style.gap = '10px';
+  delayRow.style.marginBottom = '12px';
+
+  const delayLabel = document.createElement('span');
+  delayLabel.textContent = 'Lines:';
+  delayLabel.style.fontSize = '13px';
+
+  const delayInput = document.createElement('input');
+  delayInput.type = 'number';
+  delayInput.value = 2000;
+  delayInput.style.flex = '1';
+  delayInput.style.padding = '6px';
+  delayInput.style.borderRadius = '8px';
+  delayInput.style.border = 'none';
+
+  delayInput.oninput = () => {
+    delay = parseInt(delayInput.value) || 0;
+  };
+
+  delayRow.appendChild(delayLabel);
+  delayRow.appendChild(delayInput);
+  panel.appendChild(delayRow);
+
+  // ===== BUTTON ROW =====
+  const btnRow = document.createElement('div');
+  btnRow.style.display = 'grid';
+  btnRow.style.gridTemplateColumns = '1fr 1fr';
+  btnRow.style.gap = '8px';
+
+  const styleBtn = (btn, color) => {
+    btn.style.padding = '10px';
+    btn.style.border = 'none';
+    btn.style.borderRadius = '10px';
+    btn.style.cursor = 'pointer';
+    btn.style.color = '#fff';
+    btn.style.background = color;
+    btn.style.fontWeight = 'bold';
+  };
+
+  const startButton = document.createElement('button');
+  startButton.textContent = '▶ Start';
+  styleBtn(startButton, '#22c55e');
+
+  const pauseButton = document.createElement('button');
+  pauseButton.textContent = '⏸ Pause';
+  styleBtn(pauseButton, '#facc15');
+
+  const resumeButton = document.createElement('button');
+  resumeButton.textContent = '⏵ Resume';
+  styleBtn(resumeButton, '#38bdf8');
+
+  const stopButton = document.createElement('button');
+  stopButton.textContent = '⛔ Stop';
+  styleBtn(stopButton, '#ef4444');
+
+  btnRow.appendChild(startButton);
+  btnRow.appendChild(pauseButton);
+  btnRow.appendChild(resumeButton);
+  btnRow.appendChild(stopButton);
+
+  panel.appendChild(btnRow);
+
+  // ===== CONTROLS =====
+  stopButton.onclick = () => stopFlag = true;
+  pauseButton.onclick = () => pauseFlag = true;
+  resumeButton.onclick = () => pauseFlag = false;
+
+  const wait = (ms) => new Promise(r => setTimeout(r, ms));
+
+  const waitForButtonReenable = async (button, timeout = 120000) => {
+    const start = Date.now();
+    while (button.disabled || button.classList.contains('ui-state-disabled')) {
+      if (stopFlag) throw new Error('Stopped manually.');
+      while (pauseFlag) await wait(300);
+      if (Date.now() - start > timeout) throw new Error('Timeout.');
+      await wait(200);
+    }
+  };
+
+  startButton.onclick = async () => {
+    stopFlag = false;
+    pauseFlag = false;
+
+    const lines = inputArea.value.split('\n').filter(l => l.trim());
+    if (!lines.length) return alert('Paste lines first');
+
+    const chunks = [];
+    for (let i = 0; i < lines.length; i += 100) {
+      chunks.push(lines.slice(i, i + 100).join('\n'));
+    }
+
+    const targetArea = document.getElementById('otherdoms');
+    const button = document.querySelector('input[name="Pause"]');
+
+    if (!targetArea || !button) return alert('Elements not found');
+
+    for (let i = 0; i < chunks.length; i++) {
+      if (stopFlag) return alert('Stopped');
+
+      while (pauseFlag) await wait(300);
+
+      targetArea.value = chunks[i];
+      targetArea.dispatchEvent(new Event('input', { bubbles: true }));
+
+      button.click();
+
+      try {
+        await waitForButtonReenable(button);
+      } catch (err) {
+        alert(err.message);
+        return;
+      }
+
+      await wait(delay);
+    }
+
+    alert('Done ✅');
+  };
+})();
+
+  </pre>
+
+<pre id="AutoPauseRPS" style="display:none;">
+(() => {
+  let stopFlag = false;
+  let pauseFlag = false;
+  let delay = 2000;
+
+  // ===== PANEL =====
+  const panel = document.createElement('div');
+  panel.style.position = 'fixed';
+  panel.style.top = '20px';
+  panel.style.left = '20px';
+  panel.style.zIndex = 9999;
+  panel.style.width = '420px';
+  panel.style.background = 'rgba(0,0,0,0.2)';
+  panel.style.backdropFilter = 'blur(10px)'; // glass effect زوين 😎
+  panel.style.padding = '15px';
+  panel.style.borderRadius = '14px';
+  panel.style.boxShadow = '0 10px 30px rgba(0,0,0,0.6)';
+  panel.style.color = '#fff';
+  panel.style.fontFamily = 'system-ui';
+  document.body.appendChild(panel);
+
+  // ===== TITLE =====
+  const title = document.createElement('div');
+  title.textContent = '⚡ Control Panel';
+  title.style.fontSize = '16px';
+  title.style.marginBottom = '10px';
+  title.style.fontWeight = 'bold';
+  panel.appendChild(title);
+
+  // ===== TEXTAREA =====
+  const inputArea = document.createElement('textarea');
+  inputArea.placeholder = 'Paste your lines here...';
+  inputArea.style.width = '100%';
+  inputArea.style.height = '140px';
+  inputArea.style.borderRadius = '10px';
+  inputArea.style.padding = '10px';
+  inputArea.style.marginBottom = '10px';
+  inputArea.style.border = 'none';
+  inputArea.style.outline = 'none';
+  panel.appendChild(inputArea);
+
+  // ===== DELAY ROW =====
+  const delayRow = document.createElement('div');
+  delayRow.style.display = 'flex';
+  delayRow.style.alignItems = 'center';
+  delayRow.style.gap = '10px';
+  delayRow.style.marginBottom = '12px';
+
+  const delayLabel = document.createElement('span');
+  delayLabel.textContent = 'Lines:';
+  delayLabel.style.fontSize = '13px';
+
+  const delayInput = document.createElement('input');
+  delayInput.type = 'number';
+  delayInput.value = 2000;
+  delayInput.style.flex = '1';
+  delayInput.style.padding = '6px';
+  delayInput.style.borderRadius = '8px';
+  delayInput.style.border = 'none';
+
+  delayInput.oninput = () => {
+    delay = parseInt(delayInput.value) || 0;
+  };
+
+  delayRow.appendChild(delayLabel);
+  delayRow.appendChild(delayInput);
+  panel.appendChild(delayRow);
+
+  // ===== BUTTON ROW =====
+  const btnRow = document.createElement('div');
+  btnRow.style.display = 'grid';
+  btnRow.style.gridTemplateColumns = '1fr 1fr';
+  btnRow.style.gap = '8px';
+
+  const styleBtn = (btn, color) => {
+    btn.style.padding = '10px';
+    btn.style.border = 'none';
+    btn.style.borderRadius = '10px';
+    btn.style.cursor = 'pointer';
+    btn.style.color = '#fff';
+    btn.style.background = color;
+    btn.style.fontWeight = 'bold';
+  };
+
+  const startButton = document.createElement('button');
+  startButton.textContent = '▶ Start';
+  styleBtn(startButton, '#22c55e');
+
+  const pauseButton = document.createElement('button');
+  pauseButton.textContent = '⏸ Pause';
+  styleBtn(pauseButton, '#facc15');
+
+  const resumeButton = document.createElement('button');
+  resumeButton.textContent = '⏵ Resume';
+  styleBtn(resumeButton, '#38bdf8');
+
+  const stopButton = document.createElement('button');
+  stopButton.textContent = '⛔ Stop';
+  styleBtn(stopButton, '#ef4444');
+
+  btnRow.appendChild(startButton);
+  btnRow.appendChild(pauseButton);
+  btnRow.appendChild(resumeButton);
+  btnRow.appendChild(stopButton);
+
+  panel.appendChild(btnRow);
+
+  // ===== CONTROLS =====
+  stopButton.onclick = () => stopFlag = true;
+  pauseButton.onclick = () => pauseFlag = true;
+  resumeButton.onclick = () => pauseFlag = false;
+
+  const wait = (ms) => new Promise(r => setTimeout(r, ms));
+
+  const waitForButtonReenable = async (button, timeout = 120000) => {
+    const start = Date.now();
+    while (button.disabled || button.classList.contains('ui-state-disabled')) {
+      if (stopFlag) throw new Error('Stopped manually.');
+      while (pauseFlag) await wait(300);
+      if (Date.now() - start > timeout) throw new Error('Timeout.');
+      await wait(200);
+    }
+  };
+
+  startButton.onclick = async () => {
+    stopFlag = false;
+    pauseFlag = false;
+
+    const lines = inputArea.value.split('\n').filter(l => l.trim());
+    if (!lines.length) return alert('Paste lines first');
+
+    const chunks = [];
+    for (let i = 0; i < lines.length; i += 100) {
+      chunks.push(lines.slice(i, i + 100).join('\n'));
+    }
+
+    const targetArea = document.getElementById('otherdoms');
+    const button = document.querySelector('input[name="Pause"]');
+
+    if (!targetArea || !button) return alert('Elements not found');
+
+    for (let i = 0; i < chunks.length; i++) {
+      if (stopFlag) return alert('Stopped');
+
+      while (pauseFlag) await wait(300);
+
+      targetArea.value = chunks[i];
+      targetArea.dispatchEvent(new Event('input', { bubbles: true }));
+
+      button.click();
+
+      try {
+        await waitForButtonReenable(button);
+      } catch (err) {
+        alert(err.message);
+        return;
+      }
+
+      await wait(delay);
+    }
+
+    alert('Done ✅');
+  };
+})();
+
+  </pre>
+  
+  <pre id="CopyScript" style="display:none;">
+// ===== FUNCTIONS =====
+function extractEmailsAndSubjects() {
+    const emails = document.querySelectorAll('.bog span');
+    const subjects = [];
+
+    emails.forEach(email => {
+        let subject = email.textContent
+            .trim()
+            .replace(/return@|\[|\]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .replace(/ /g, '\t')
+            .trim();
+
+        subjects.push(subject);
+    });
+
+    subjects.sort();
+    const sortedSubjects = subjects.join('\n');
+    copyToClipboard(sortedSubjects);
+}
+
+function copyToClipboard(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+}
+
+function extractUniqueIPsAndCopyToClipboard() {
+    const elements = document.querySelectorAll('.zA');
+    const uniqueIPs = new Set();
+    const ipRegex = /\b(?:\d{1,3}\.){3}\d{1,3}\b/g;
+
+    elements.forEach(element => {
+        const text = element.textContent.trim();
+        const ips = text.match(ipRegex);
+
+        if (ips) {
+            ips.forEach(ip => uniqueIPs.add(ip));
+        }
+    });
+
+    const sortedIPs = Array.from(uniqueIPs)
+        .filter(ip => ip.trim() !== '')
+        .sort()
+        .join('\n');
+
+    const textarea = document.createElement('textarea');
+    textarea.value = sortedIPs;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+}
+
+// ===== UI =====
+(function () {
+
+    function injectButtons() {
+        const container = document.querySelector('.aeH');
+        if (!container) return;
+
+        
+        if (document.getElementById("custom-btns")) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.id = "custom-btns";
+        wrapper.style.display = "flex";
+        wrapper.style.gap = "10px";
+        wrapper.style.margin = "10px 0";
+        wrapper.style.zIndex = "9999";
+        wrapper.style.position = "relative";
+
+        function createButton(text, color) {
+            const btn = document.createElement('button');
+            btn.innerText = text;
+
+            btn.style.padding = "7px 14px";
+            btn.style.borderRadius = "20px";
+            btn.style.border = "1px solid #dadce0";
+            btn.style.background = "#fff";
+            btn.style.cursor = "pointer";
+            btn.style.fontSize = "13px";
+            btn.style.fontWeight = "500";
+            btn.style.transition = "all 0.2s ease";
+            btn.style.boxShadow = "0 1px 3px rgba(0,0,0,0.1)";
+            btn.style.pointerEvents = "auto";
+
+            btn.onmouseenter = () => {
+                btn.style.background = color;
+                btn.style.color = "#fff";
+                btn.style.borderColor = color;
+                btn.style.transform = "translateY(-1px)";
+            };
+
+            btn.onmouseleave = () => {
+                btn.style.background = "#fff";
+                btn.style.color = "#000";
+                btn.style.borderColor = "#dadce0";
+                btn.style.transform = "none";
+            };
+
+            return btn;
+        }
+
+        const btn1 = createButton("📋 Subjects", "#34a853");
+        btn1.onclick = (e) => {
+            e.stopPropagation();
+            extractEmailsAndSubjects();
+        };
+
+        const btn2 = createButton("🌐 IPs", "#1a73e8");
+        btn2.onclick = (e) => {
+            e.stopPropagation();
+            extractUniqueIPsAndCopyToClipboard();
+        };
+
+        wrapper.appendChild(btn1);
+        wrapper.appendChild(btn2);
+
+        container.appendChild(wrapper);
+    }
+
+    // Gmail dynamic fix
+    const observer = new MutationObserver(() => {
+        injectButtons();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+})();
+
+  </pre>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" ></script>
+
+  <script>
+
+
+  // ===== SEARCH FILTER =====
+  document.getElementById('searchInput').addEventListener('input', function () {
+    const filter = this.value.toLowerCase();
+    document.querySelectorAll('.tool-item').forEach(item => {
+      const text = item.textContent.toLowerCase();
+      item.style.display = text.includes(filter) ? '' : 'none';
+    });
   });
 
-  if(!email){
-    showToast("Wait 30min ⏳");
-    return;
-  }
 
-  active.push(email);
-  selected = email;
+  // ===== COPY FUNCTION (FIX COMPATIBILITY) =====
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    } else {
+      return new Promise((resolve) => {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.left = "-999999px";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
 
-  used[email] = Date.now();
-  localStorage.setItem("usedMails", JSON.stringify(used));
+        try {
+          document.execCommand("copy");
+        } catch (err) {
+          alert("❌ Copy failed");
+        }
 
-  render();
-}
-
-// RENDER
-function render(){
-  let used = JSON.parse(localStorage.getItem("usedMails") || "{}");
-
-  for(let mail in used){
-    if(isExpired(used[mail])){
-      delete used[mail];
+        textarea.remove();
+        resolve();
+      });
     }
   }
 
-  localStorage.setItem("usedMails", JSON.stringify(used));
 
-  let list = document.getElementById("list");
-  list.innerHTML = "";
+  // ===== COPY + UI LOGIC =====
+  document.querySelectorAll('.tool-button[data-script]').forEach(button => {
+    button.addEventListener('click', () => {
 
-  active.forEach((mail, i) => {
-    list.innerHTML += `
-      <div class="card">
-        <span onclick="selectEmail('${mail}')">${mail}</span>
-        <span class="delete" onclick="deleteMail(${i})">🗑</span>
-      </div>
-    `;
+      const scriptId = button.getAttribute('data-script');
+
+      const el = document.getElementById(scriptId);
+      const scriptText = el ? el.innerText.trim() : "";
+
+      if (!scriptText) return;
+
+      copyText(scriptText).then(() => {
+
+        // reset colors
+        document.querySelectorAll('.tool-button[data-script]').forEach(btn => {
+          btn.style.backgroundColor = '#2b2e83';
+        });
+
+        // active button
+        button.style.backgroundColor = 'green';
+
+        // hide all messages
+        document.querySelectorAll('.copied-msg').forEach(msg => {
+          msg.style.display = 'none';
+        });
+
+        // show message
+        const msg = button.nextElementSibling;
+        if (msg && msg.classList.contains('copied-msg')) {
+          msg.style.display = 'inline-block';
+          msg.textContent = 'Has Been Copied✔️';
+
+          setTimeout(() => {
+            msg.style.display = 'none';
+            button.style.backgroundColor = '#2b2e83';
+          }, 2000);
+        }
+
+      }).catch(() => {
+        alert('❌ Failed to copy!');
+      });
+
+    });
   });
+</script>
+<script id="fixjs1">
+const toggle = document.getElementById("toggleTheme");
 
-  document.getElementById("selectedEmail").innerText = selected || "No email";
+
+window.addEventListener("load", () => {
+  const savedMode = localStorage.getItem("theme");
+
+  if (savedMode === "pink") {
+    document.body.classList.add("pink-mode");
+    toggle.checked = true;
+	
+    document.getElementById('slider_icon').innerHTML = "🎀";
+    document.getElementById('slider_icon').style.transform = "translateX(30px)";
+    document.querySelector('.slider').style.background = "#ff4da6";
+  } else {
+    document.body.classList.remove("pink-mode");
+    toggle.checked = false;
+	
+    document.getElementById('slider_icon').innerHTML = "💙";
+    document.getElementById('slider_icon').style.transform = "translateX(0px)";
+    document.querySelector('.slider').style.background = "#0ea5e9";
+  }
+});
+
+
+toggle.addEventListener("change", () => {
+  if (toggle.checked) {
+    document.body.classList.add("pink-mode");
+    localStorage.setItem("theme", "pink");
+    document.getElementById('slider_icon').innerHTML = "🎀";
+    document.getElementById('slider_icon').style.transform = "translateX(30px)";
+    document.querySelector('.slider').style.background = "#ff4da6";
+  } else {
+    document.body.classList.remove("pink-mode");
+    localStorage.setItem("theme", "default");
+    document.getElementById('slider_icon').innerHTML = "💙";
+    document.getElementById('slider_icon').style.transform = "translateX(0px)";
+    document.querySelector('.slider').style.background = "#0ea5e9";
+  }
+});
+
+
+</script>
+<script>
+// messages
+const messages = [
+  "أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ ",
+  "لَا إلَه إلّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءِ قَدِيرِ. ",
+  "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا. ",
+    "اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد.  ",
+    "سُبْحـانَ اللهِ وَبِحَمْـدِهِ عَدَدَ خَلْـقِه ، وَرِضـا نَفْسِـه ، وَزِنَـةَ عَـرْشِـه ، وَمِـدادَ كَلِمـاتِـه. ",
+    "اللّهُـمَّ بِكَ أَصْـبَحْنا وَبِكَ أَمْسَـينا ، وَبِكَ نَحْـيا وَبِكَ نَمُـوتُ وَإِلَـيْكَ النُّـشُور. ",
+    "اللّهُمَّ إِنّي أَعوذُ بِكَ مِنَ الْكُفر ، وَالفَقْر ، وَأَعوذُ بِكَ مِنْ عَذابِ القَبْر ، لا إلهَ إلاّ أَنْتَ.",
+    "سُبْحَانَ اللَّهِ ، وَالْحَمْدُ لِلَّهِ ، وَلا إِلَهَ إِلا اللَّهُ ، وَاللَّهُ أَكْبَرُ ، اللَّهُمَّ اغْفِرْ لِي ، اللَّهُمَّ ارْحَمْنِي ، اللَّهُمَّ ارْزُقْنِي. ",
+    "اللَّهُ أَكْبَرُ كَبِيرًا ، وَالْحَمْدُ لِلَّهِ كَثِيرًا ، وَسُبْحَانَ اللَّهِ بُكْرَةً وَأَصِيلاً.  ",
+    "سُبْحَانَكَ اللَّهُمَّ وبَحَمْدكَ أشْهدُ أنْ لا إلهَ إلا أنْتَ أَسْتَغْفِرُكَ وأتُوبُ إِلَيْكَ ",
+    "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
+    "لَّا إِلَهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ",
+    "سبحان الله الذي يسبح الرعد بحمده والملائكة من خيفته "
+];
+
+// random message
+function getRandomMsg(){
+  return messages[Math.floor(Math.random() * messages.length)];
 }
 
-// SELECT
-function selectEmail(mail){
-  selected = mail;
-  render();
-}
+window.onload = function(){
+  const msgBox = document.getElementById("topMessage");
 
-// COPY
-function copySelected(){
-  if(!selected) return;
-  navigator.clipboard.writeText(selected);
-  showToast("Copied!");
-}
+  msgBox.innerText = getRandomMsg();
+  msgBox.classList.add("show");
 
-// DELETE
-function deleteMail(index){
-  active.splice(index,1);
-  render();
-}
+  // hide after 5 seconds
+  setTimeout(() => {
+    msgBox.classList.remove("show");
+  }, 6200);
+};
+</script>
+ <script>
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    const loader = document.getElementById("loader");
 
-// TOAST
-function showToast(msg){
-  let t = document.getElementById("toast");
-  t.innerText = msg;
-  t.classList.add("show");
+    loader.style.opacity = "0";
+    loader.style.transition = "0.5s";
 
-  setTimeout(()=> t.classList.remove("show"),2000);
-}
+    setTimeout(() => {
+      loader.style.display = "none";
+    }, 500);
+
+  }, 2000);
+});
 </script>
 </body>
 </html>
