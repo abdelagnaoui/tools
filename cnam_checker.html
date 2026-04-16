@@ -5,15 +5,39 @@
 <title>Ultimate Scanner</title>
 
 <style>
-body { font-family: Arial; padding: 30px; }
-input { padding: 10px; width: 300px; }
-button { padding: 10px 15px; cursor: pointer; }
+body { 
+  font-family: Arial; 
+  padding: 30px; 
+  background: #0f172a;
+  color: white;
+}
+
+textarea { 
+  padding: 10px; 
+  width: 320px; 
+  height: 120px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+button { 
+  padding: 10px 15px; 
+  cursor: pointer; 
+  margin-top: 10px;
+  background: #3b82f6;
+  border: none;
+  color: white;
+  border-radius: 6px;
+}
+
 pre {
-  background: #f4f4f4;
+  background: #020617;
   padding: 15px;
   margin-top: 20px;
   height: 400px;
   overflow: auto;
+  border-radius: 10px;
 }
 </style>
 </head>
@@ -22,7 +46,7 @@ pre {
 
 <h2>🌐 Wildcard + Subdomain CNAME Scanner</h2>
 
-<input type="text" id="domainInput" placeholder="wix">
+<textarea id="domainInput" placeholder="wix&#10;google&#10;shop"></textarea><br>
 <button onclick="start()">Scan</button>
 
 <pre id="result">Ready...</pre>
@@ -32,7 +56,7 @@ pre {
 const tlds = ["com","net","org","io","ma","xyz","ai","de"];
 const subs = ["www","api","mail","blog","cdn"];
 
-// 🔥 DNS check
+// DNS check
 async function check(domain) {
   try {
     const res = await fetch(
@@ -50,11 +74,17 @@ function sleep(ms) {
 }
 
 async function start() {
-  const input = document.getElementById("domainInput").value.trim();
+  const input = document.getElementById("domainInput").value;
   const result = document.getElementById("result");
 
-  if (!input) {
-    result.textContent = "⚠️ enter keyword (example)";
+  // split multiline / comma / space
+  let keywords = input.split(/\n|,|\s/);
+
+  // clean + remove empty + duplicates
+  keywords = [...new Set(keywords.map(k => k.trim()).filter(k => k))];
+
+  if (keywords.length === 0) {
+    result.textContent = "⚠️ enter at least one keyword";
     return;
   }
 
@@ -62,40 +92,42 @@ async function start() {
 
   let found = [];
 
-  for (let tld of tlds) {
+  for (let keyword of keywords) {
 
-    const root = `${input}.${tld}`;
+    result.textContent += `\n🔎 scanning: ${keyword}\n`;
 
-    // 🔥 check root
-    const rootData = await check(root);
-    if (rootData && rootData.Answer) {
-      const cname = rootData.Answer.find(r => r.type === 5);
-      if (cname) {
-        const line = `✅ ${root} → ${cname.data}`;
-        found.push(line);
-        result.textContent = found.join("\n");
-      }
-    }
+    for (let tld of tlds) {
 
-    // 🔥 check subdomains
-    for (let s of subs) {
-      const full = `${s}.${root}`;
+      const root = `${keyword}.${tld}`;
 
-      const data = await check(full);
-
-      if (data && data.Answer) {
-        const cname = data.Answer.find(r => r.type === 5);
-
-        if (cname && cname.data) {
-          const line = `✅ ${full} → ${cname.data}`;
+      // check root
+      const rootData = await check(root);
+      if (rootData && rootData.Answer) {
+        const cname = rootData.Answer.find(r => r.type === 5);
+        if (cname) {
+          const line = `✅ ${root} → ${cname.data}`;
           found.push(line);
-
-          // 👇 كيكتب مباشرة بحال اللي بغيتي
           result.textContent = found.join("\n");
         }
       }
 
-      await sleep(100);
+      // check subdomains
+      for (let s of subs) {
+        const full = `${s}.${root}`;
+        const data = await check(full);
+
+        if (data && data.Answer) {
+          const cname = data.Answer.find(r => r.type === 5);
+
+          if (cname && cname.data) {
+            const line = `✅ ${full} → ${cname.data}`;
+            found.push(line);
+            result.textContent = found.join("\n");
+          }
+        }
+
+        await sleep(100);
+      }
     }
   }
 
