@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Domain Checker Tool</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 320px;
+      height: 120px;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #3b82f6;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .results {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 15px;
+      border-radius: 12px;
+      width: 300px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .domain {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    a {
+      display: block;
+      margin: 5px 0;
+      color: #38bdf8;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🚀 Domain Checker</h1>
+
+  <textarea id="domains" placeholder="example.com&#10;myapp.io"></textarea><br>
+  <button onclick="generateLinks()">Check Domains</button>
+
+  <div class="results" id="results"></div>
+
+  <script>
+    function generateLinks() {
+      const input = document.getElementById("domains").value;
+      const domains = input.split("\n");
+      const results = document.getElementById("results");
+
+      results.innerHTML = "";
+
+      domains.forEach(domain => {
+        domain = domain.trim();
+        if (!domain) return;
+
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+          <div class="domain">${domain}</div>
+          <a href="https://www.godaddy.com/domainsearch/find?domainToCheck=${domain}" target="_blank">
+            🔎 Check on GoDaddy
+          </a>
+          <a href="https://www.namecheap.com/domains/registration/results/?domain=${domain}" target="_blank">
+            🔎 Check on Namecheap
+          </a>
+        `;
+
+        results.appendChild(card);
+      });
+    }
+  </script>
+
+</body>
+</html>
