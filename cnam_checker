@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ultimate Scanner</title>
+
+<style>
+body { font-family: Arial; padding: 30px; }
+input { padding: 10px; width: 300px; }
+button { padding: 10px 15px; cursor: pointer; }
+pre {
+  background: #f4f4f4;
+  padding: 15px;
+  margin-top: 20px;
+  height: 400px;
+  overflow: auto;
+}
+</style>
+</head>
+
+<body>
+
+<h2>🌐 Wildcard + Subdomain CNAME Scanner</h2>
+
+<input type="text" id="domainInput" placeholder="wix">
+<button onclick="start()">Scan</button>
+
+<pre id="result">Ready...</pre>
+
+<script>
+
+const tlds = ["com","net","org","io","ma","xyz","ai","de"];
+const subs = ["www","api","mail","blog","cdn"];
+
+// 🔥 DNS check
+async function check(domain) {
+  try {
+    const res = await fetch(
+      `https://cloudflare-dns.com/dns-query?name=${domain}&type=CNAME`,
+      { headers: { "accept": "application/dns-json" } }
+    );
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+function sleep(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
+
+async function start() {
+  const input = document.getElementById("domainInput").value.trim();
+  const result = document.getElementById("result");
+
+  if (!input) {
+    result.textContent = "⚠️ enter keyword (example)";
+    return;
+  }
+
+  result.textContent = "⏳ scanning...\n\n";
+
+  let found = [];
+
+  for (let tld of tlds) {
+
+    const root = `${input}.${tld}`;
+
+    // 🔥 check root
+    const rootData = await check(root);
+    if (rootData && rootData.Answer) {
+      const cname = rootData.Answer.find(r => r.type === 5);
+      if (cname) {
+        const line = `✅ ${root} → ${cname.data}`;
+        found.push(line);
+        result.textContent = found.join("\n");
+      }
+    }
+
+    // 🔥 check subdomains
+    for (let s of subs) {
+      const full = `${s}.${root}`;
+
+      const data = await check(full);
+
+      if (data && data.Answer) {
+        const cname = data.Answer.find(r => r.type === 5);
+
+        if (cname && cname.data) {
+          const line = `✅ ${full} → ${cname.data}`;
+          found.push(line);
+
+          // 👇 كيكتب مباشرة بحال اللي بغيتي
+          result.textContent = found.join("\n");
+        }
+      }
+
+      await sleep(100);
+    }
+  }
+
+  if (found.length === 0) {
+    result.textContent = "❌ No CNAME found";
+  } else {
+    result.textContent += "\n\n🎯 Done";
+  }
+}
+
+</script>
+
+</body>
+</html>
