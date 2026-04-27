@@ -67,32 +67,41 @@ let used = JSON.parse(localStorage.getItem("ALL_SUBS")) || [];
 
 // words--
 const base = [
-"progress","secure","fast","quantum","vertex","matrix","fusion","orbit","pulse","vector","nexus",
-"infra","logic","binary","signal","crypto","flux","engine","vision",
-"scale","stack","sync","drive","spark","byte","node","frame",
-"layer","link","bridge","radar","scope","pilot","shift",
-"boost","stream","forge","craft","axis","phase","loop","mesh",
-"edge","root","shell","track","path","wave","field",
-"kernel","delta","omega","sigma","gamma","theta",
-"neon","pixel","render","compute","cluster","array",
-"protocol","gateway","backend","frontend","pipeline","cache",
-"runtime","instance","virtual","storage","server","client",
-"dashboard","monitor","optimizer","builder","manager",
-"smart","global","dynamic","elite","prime",
-"nova","alpha","core","system","portal","hub","cloud","data",
-"network","flow","grid","zone","lab","base","control","center"
+"autonomy","cognition","inference","model","agent","reasoning","synthesis","abstraction","learning","training","finetune","embedding","transformer","attention","diffusion",
+"classifier","regression","labeling","dataset","feature","vectorization","hyperparameter","evaluation","benchmark","microservice","container","virtualization","orchestration","serverless","function",
+"api","endpoint","webhook","sdk","library","framework","plugin","extension","module","package",
+"repository","registry","build","deploy","release","version","commit","branch","merge","diff",
+"patch","review","testing","unit","integration","e2e","staging","production","sandbox",
+"encryption","decryption","hashing","indexing","search","ranking","recommendation","analytics","telemetry","observability",
+"logging","tracing","event","streaming","batch","realtime","latency","throughput",
+"scalability","resilience","redundancy","failover","backup","restore","compliance","governance","policy",
+"identity","access","authentication","authorization","session","token","automation","devops","mlops",
+"aiops","simulation","digitaltwin","workflow","jobscheduling","autonomy","cognition","inference","model",
+"agent","reasoning","synthesis","abstraction","learning","training","finetune","embedding","transformer","attention","diffusion","classifier","regression","labeling","dataset","feature",
+"simulation","digitaltwin","workflow","jobscheduling"
+
 ];
 
 //  doms
 const domainNames = [
-"cloudcore","techflow","baracademy","webstack","datapulse",
-"nextgrid","hostzone","netcraft","skyhub","devpoint","barnews",
- "barreview","classroom","examoffice","virtualcourt"
+"cloudcore","cloudforge","cloudpulse","cloudgrid","cloudstack","cloudhub","cloudnode","cloudvault","cloudbridge","cloudstream",
+"techflow","techcore","techgrid","techvault","techpulse","techhub","techforge","techstack","techbridge","techstream",
+"datapulse","datacore","datagrid","datavault","datastream","databridge","datalab","datanode","datasync","datamind",
+"webstack","webcore","webflow","webgrid","webvault","webhub","webforge","webpulse","weblink","webnode",
+"netcraft","netcore","netgrid","netflow","netvault","nethub","netnode","netbridge","netpulse","netstack",
+"devpoint","devcore","devgrid","devflow","devvault","devhub","devstack","devbridge","devpulse","devlab",
+"aicore","aihub","aigrid","aivault","aipulse","aiforge","aistream","ainode","aibridge","aistack",
+"cybercore","cyberhub","cybervault","cybergrid","cyberpulse","cyberforge","cyberlink","cybernode","cyberbridge","cyberstack",
+"classroom","examoffice","virtualcourt","newspulse","newsgrid","newscore","reviewhub","reviewstack","reviewpulse","academycore",
+"skillforge","learnhub","studycore","codeforge","logiclane","neuralnest","systembridge","pixelshift","quantalab",
+"hostzone","cloudcore","baracademy","webstack","datapulse","nextgrid","hostzone","netcraft",
+"skyhub","devpoint","barnews","barreview","classroom","examoffice","virtualcourt"
+
 ];
 
 // extensions
 const tlds = [
-".com",".net",".org",".xyz",".io",".co",".us",".app",".dev",".site"
+".com",".net",".org"
 ];
 
 function rand(arr){
