@@ -36,7 +36,6 @@ body{
 
 .card{
     background:white;
-
     padding:18px;
 
     border-radius:20px;
@@ -44,9 +43,9 @@ body{
     box-shadow:0 4px 12px rgba(0,0,0,.08);
 }
 
-input,
 textarea{
     width:100%;
+    resize:none;
 
     padding:14px;
 
@@ -57,17 +56,11 @@ textarea{
     font-size:14px;
 }
 
-textarea{
-    resize:none;
-}
-
 button{
     border:none;
-
     cursor:pointer;
 
     background:black;
-
     color:white;
 
     padding:12px 20px;
@@ -89,7 +82,6 @@ h2{
     margin-top:0;
 }
 </style>
-
 </head>
 <body>
 
@@ -112,13 +104,17 @@ h2{
 
         <div class="card">
 
+
             <h2>Server</h2>
+
 
             <textarea
                 id="servers"
                 rows="6"
                 placeholder="one server per line"
             ></textarea>
+
+
 
 
             <textarea
@@ -129,9 +125,19 @@ h2{
             ></textarea>
 
 
+
+
             <button id="generateBtn">
                 Generate Domains
             </button>
+
+
+
+
+            <button id="exportBtn">
+                Export Excel
+            </button>
+
 
         </div>
 
@@ -141,15 +147,19 @@ h2{
 
 
 
+
         <div class="card">
 
+
             <h2>IP Address</h2>
+
 
             <textarea
                 id="ips"
                 rows="10"
                 placeholder="ips + ---"
             ></textarea>
+
 
         </div>
 
@@ -174,12 +184,15 @@ h2{
 
 
 
-        <!-- domains -->
         <div class="card">
+
 
             <h2>Generated Domains</h2>
 
+
+
             <div class="row">
+
 
                 <textarea
                     id="generatedDomains"
@@ -188,13 +201,16 @@ h2{
                 ></textarea>
 
 
+
                 <textarea
                     id="spfOutput"
                     rows="8"
                     readonly
                 ></textarea>
 
+
             </div>
+
 
         </div>
 
@@ -205,10 +221,11 @@ h2{
 
 
 
-        <!-- wildcard -->
         <div class="card">
 
+
             <h2>Wildcard + DKIM</h2>
+
 
             <textarea
                 id="wildcardOutput"
@@ -216,6 +233,7 @@ h2{
                 readonly
             ></textarea>
 
+
         </div>
 
 
@@ -225,25 +243,32 @@ h2{
 
 
 
-        <!-- DKIM -->
         <div class="card">
 
+
             <h2>DKIM Inspector</h2>
+
 
             <textarea
                 id="dkimInputs"
                 rows="6"
-                placeholder="domain.com|default"
+                placeholder="domain.com"
             ></textarea>
 
 
+
+
             <h3>DKIM Record</h3>
+
+
+
 
             <textarea
                 id="dkimOutput"
                 rows="8"
                 readonly
             ></textarea>
+
 
         </div>
 
@@ -265,9 +290,14 @@ h2{
 
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
 <script>
+
+
+let generatedByServer =
+[];
+
 
 
 
@@ -280,6 +310,7 @@ function randomText(){
 
     let result =
     "";
+
 
 
     for(
@@ -412,6 +443,7 @@ async function fetchDKIM(
     catch(e){}
 
 
+
     return "Not found";
 
 }
@@ -424,6 +456,12 @@ async function fetchDKIM(
 
 
 async function generateAll(){
+
+
+
+    generatedByServer =
+    [];
+
 
 
 
@@ -576,24 +614,38 @@ async function generateAll(){
 
 
 
-        const dkimParts =
 
-        dkimLines[i]
-        .split("|");
-
+        const line =
+        dkimLines[i];
 
 
 
-        const dkimDomain =
-        dkimParts[0];
+        let dkimDomain =
+        line;
 
 
 
-
-        const selector =
-        dkimParts[1]
-        ||
+        let selector =
         "default";
+
+
+
+        if(
+            line.includes("|")
+        ){
+
+            const parts =
+            line.split("|");
+
+
+            dkimDomain =
+            parts[0].trim();
+
+
+            selector =
+            parts[1].trim();
+
+        }
 
 
 
@@ -647,6 +699,10 @@ async function generateAll(){
 
 
 
+        const serverGenerated =
+        [];
+
+
 
 
         domains.forEach(
@@ -665,6 +721,13 @@ async function generateAll(){
                     "."
                     +
                     domain;
+
+
+
+
+                serverGenerated.push(
+                    sub
+                );
 
 
 
@@ -708,8 +771,19 @@ async function generateAll(){
 
 
 
-    }
 
+        generatedByServer.push({
+
+            name: server,
+
+            domains:
+            serverGenerated
+
+        });
+
+
+
+    }
 
 
 
@@ -781,6 +855,170 @@ async function generateAll(){
 
 
 
+function exportExcel(){
+
+
+
+    if(
+        generatedByServer.length===0
+    ){
+        return;
+    }
+
+
+
+
+    const workbook =
+
+    XLSX.utils.book_new();
+
+
+
+
+    let maxRows =
+    0;
+
+
+
+
+    generatedByServer.forEach(
+
+        serverData => {
+
+
+            if(
+
+                serverData.domains.length
+
+                >
+
+                maxRows
+
+            ){
+
+                maxRows =
+
+                serverData.domains.length;
+
+            }
+
+
+        }
+
+    );
+
+
+
+
+
+    const rows =
+    [];
+
+
+
+
+
+    rows.push(
+
+        generatedByServer.map(
+
+            serverData =>
+
+            serverData.name
+
+        )
+
+    );
+
+
+
+
+
+
+    for(
+
+        let i=0;
+
+        i<maxRows;
+
+        i++
+
+    ){
+
+
+
+        const row =
+
+        generatedByServer.map(
+
+            serverData =>
+
+
+            serverData.domains[i]
+
+            ||
+
+            ""
+
+        );
+
+
+
+
+        rows.push(
+            row
+        );
+
+
+    }
+
+
+
+
+
+
+    const sheet =
+
+    XLSX.utils.aoa_to_sheet(
+        rows
+    );
+
+
+
+
+
+    XLSX.utils.book_append_sheet(
+
+        workbook,
+
+        sheet,
+
+        "Servers"
+
+    );
+
+
+
+
+
+    XLSX.writeFile(
+
+        workbook,
+
+        "servers.xlsx"
+
+    );
+
+
+}
+
+
+
+
+
+
+
+
 document
 .getElementById(
     "generateBtn"
@@ -788,6 +1026,18 @@ document
 .addEventListener(
     "click",
     generateAll
+);
+
+
+
+
+document
+.getElementById(
+    "exportBtn"
+)
+.addEventListener(
+    "click",
+    exportExcel
 );
 
 
