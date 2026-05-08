@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Server Dashboard</title>
+<title>Batch Server Dashboard</title>
 
 <style>
-
 *{
     box-sizing:border-box;
     font-family:Arial;
@@ -19,54 +18,34 @@ body{
 }
 
 .container{
-
     max-width:1600px;
-
     margin:auto;
 
     display:grid;
-
-    grid-template-columns:320px 1fr;
-
-    gap:20px;
-
-}
-
-.left{
-
-    display:flex;
-
-    flex-direction:column;
+    grid-template-columns:260px 1fr;
 
     gap:20px;
-
 }
 
+.left,
 .right{
-
     display:flex;
-
     flex-direction:column;
-
     gap:20px;
-
 }
 
 .card{
-
     background:white;
 
-    padding:22px;
+    padding:18px;
 
     border-radius:20px;
 
     box-shadow:0 4px 12px rgba(0,0,0,.08);
-
 }
 
 input,
 textarea{
-
     width:100%;
 
     padding:14px;
@@ -75,8 +54,7 @@ textarea{
 
     border-radius:12px;
 
-    font-size:16px;
-
+    font-size:14px;
 }
 
 textarea{
@@ -84,7 +62,6 @@ textarea{
 }
 
 button{
-
     border:none;
 
     cursor:pointer;
@@ -93,55 +70,29 @@ button{
 
     color:white;
 
-    padding:14px 25px;
+    padding:12px 20px;
 
     border-radius:12px;
 
     margin-top:15px;
-
-}
-
-h2{
-    margin-top:0;
 }
 
 .row{
-
-    display:grid;
-
-    grid-template-columns:1fr 1fr auto;
-
-    gap:15px;
-
-}
-
-.twoCols{
-
     display:grid;
 
     grid-template-columns:1fr 1fr;
 
     gap:20px;
-
 }
 
-.ok{
-
-    margin-top:20px;
-
-    padding:18px;
-
-    border:1px solid green;
-
-    color:green;
-
-    border-radius:15px;
-
+h2{
+    margin-top:0;
 }
-
 </style>
+
 </head>
 <body>
+
 
 
 
@@ -151,40 +102,36 @@ h2{
 
 
 
+
     <!-- LEFT -->
     <div class="left">
 
 
 
-        <!-- SERVER -->
-        <div class="card">
 
+
+        <div class="card">
 
             <h2>Server</h2>
 
-
-            <input
-                id="server"
-                placeholder="Server Name"
-            >
-
+            <textarea
+                id="servers"
+                rows="6"
+                placeholder="one server per line"
+            ></textarea>
 
 
             <textarea
                 id="domains"
-                rows="6"
-                placeholder="domain one par line"
+                rows="8"
                 style="margin-top:15px;"
+                placeholder="domains + ---"
             ></textarea>
 
 
-
-            <button
-                id="generateDomainsBtn"
-            >
+            <button id="generateBtn">
                 Generate Domains
             </button>
-
 
         </div>
 
@@ -194,19 +141,15 @@ h2{
 
 
 
-        <!-- IP -->
         <div class="card">
-
 
             <h2>IP Address</h2>
 
-
             <textarea
-                id="ip"
-                rows="8"
-                placeholder="One IP per line"
+                id="ips"
+                rows="10"
+                placeholder="ips + ---"
             ></textarea>
-
 
         </div>
 
@@ -214,6 +157,7 @@ h2{
 
 
     </div>
+
 
 
 
@@ -230,19 +174,13 @@ h2{
 
 
 
-        <!-- DOMAINS + SPF -->
+        <!-- domains -->
         <div class="card">
-
 
             <h2>Generated Domains</h2>
 
+            <div class="row">
 
-
-            <div class="twoCols">
-
-
-
-                <!-- domains -->
                 <textarea
                     id="generatedDomains"
                     rows="8"
@@ -250,21 +188,13 @@ h2{
                 ></textarea>
 
 
-
-
-                <!-- SPF -->
                 <textarea
-                    id="domainSpf"
+                    id="spfOutput"
                     rows="8"
                     readonly
                 ></textarea>
 
-
-
-
             </div>
-
-
 
         </div>
 
@@ -275,21 +205,16 @@ h2{
 
 
 
-        <!-- WILDCARD + DKIM -->
+        <!-- wildcard -->
         <div class="card">
-
 
             <h2>Wildcard + DKIM</h2>
 
-
-
             <textarea
-                id="wildcardDkim"
+                id="wildcardOutput"
                 rows="8"
                 readonly
             ></textarea>
-
-
 
         </div>
 
@@ -303,60 +228,22 @@ h2{
         <!-- DKIM -->
         <div class="card">
 
-
             <h2>DKIM Inspector</h2>
 
-
-
-            <div class="row">
-
-
-
-                <input
-                    id="domain"
-                    placeholder="example.com"
-                >
-
-
-
-                <input
-                    id="selector"
-                    value="default"
-                >
-
-
-
-                <button
-                    id="inspectBtn"
-                >
-                    INSPECT DKIM
-                </button>
-
-
-
-            </div>
-
-
-
-
-
-            <div id="status"></div>
-
-
-
+            <textarea
+                id="dkimInputs"
+                rows="6"
+                placeholder="domain.com|default"
+            ></textarea>
 
 
             <h3>DKIM Record</h3>
 
-
-
             <textarea
-                id="dkim"
+                id="dkimOutput"
                 rows="8"
                 readonly
             ></textarea>
-
-
 
         </div>
 
@@ -364,6 +251,7 @@ h2{
 
 
     </div>
+
 
 
 
@@ -378,40 +266,20 @@ h2{
 
 
 
+
 <script>
 
 
-const dkimField =
-document.getElementById(
-    "dkim"
-);
 
 
-const statusField =
-document.getElementById(
-    "status"
-);
-
-
-
-
-
-
-
-
-/* random letters */
 function randomText(){
 
-
     const letters =
-
     "abcdefghijklmnopqrstuvwxyz";
-
 
 
     let result =
     "";
-
 
 
     for(
@@ -420,30 +288,47 @@ function randomText(){
         i++
     ){
 
-
         result +=
 
         letters[
 
             Math.floor(
-
                 Math.random()
-
                 *
-
                 letters.length
-
             )
 
         ];
 
-
     }
-
 
 
     return result;
 
+}
+
+
+
+
+
+
+function splitGroups(
+    text
+){
+
+    return text
+
+    .split(
+        "---"
+    )
+
+    .map(
+        x=>x.trim()
+    )
+
+    .filter(
+        x=>x
+    );
 
 }
 
@@ -454,276 +339,12 @@ function randomText(){
 
 
 
-
-/* generate all */
-function generateDomains(){
-
-
-
-    const server =
-
-    document
-    .getElementById(
-        "server"
-    )
-    .value
-    .trim();
-
-
-
-
-    const domains =
-
-    document
-    .getElementById(
-        "domains"
-    )
-    .value
-
-    .split("\n")
-
-    .map(
-        x=>x.trim()
-    )
-
-    .filter(
-        x=>x
-    );
-
-
-
-
-    const ips =
-
-    document
-    .getElementById(
-        "ip"
-    )
-    .value
-
-    .split("\n")
-
-    .map(
-        x=>x.trim()
-    )
-
-    .filter(
-        x=>x
-    );
-
-
-
-
-    const spf =
-
-        "v=spf1 "
-
-        +
-
-        ips.map(
-
-            ip=>
-
-            "ip4:"+ip
-
-        ).join(
-            " "
-        )
-
-        +
-
-        " -all";
-
-
-
-
-    const randomGroup =
-    randomText();
-
-
-
-
-    const subDomains =
-    [];
-
-
-    const spfRecords =
-    [];
-
-
-    const wildcardRecords =
-    [];
-
-
-
-
-    const dkim =
-
-    document
-    .getElementById(
-        "dkim"
-    )
-    .value;
-
-
-
-
-    domains.forEach(
-
-        domain => {
-
-
-            const sub =
-
-                server
-                +
-                "."
-                +
-                randomGroup
-                +
-                "."
-                +
-                domain;
-
-
-
-
-            subDomains.push(
-                sub
-            );
-
-
-
-
-            spfRecords.push(
-
-                sub
-                +
-                ","
-                +
-                spf
-
-            );
-
-
-
-
-            wildcardRecords.push(
-
-                "*."
-                +
-                sub
-                +
-                ","
-                +
-                dkim
-
-            );
-
-
-        }
-
-    );
-
-
-
-
-
-    document
-    .getElementById(
-        "generatedDomains"
-    )
-    .value =
-
-    subDomains.join(
-        "\n"
-    );
-
-
-
-
-
-    document
-    .getElementById(
-        "domainSpf"
-    )
-    .value =
-
-    spfRecords.join(
-        "\n"
-    );
-
-
-
-
-
-    document
-    .getElementById(
-        "wildcardDkim"
-    )
-    .value =
-
-    wildcardRecords.join(
-        "\n"
-    );
-
-
-}
-
-
-
-
-
-
-
-
-
-/* DKIM */
-async function inspectDKIM(){
-
-
-
-    const domain =
-
-    document
-    .getElementById(
-        "domain"
-    )
-    .value
-    .trim();
-
-
-
-
-    const selector =
-
-    document
-    .getElementById(
-        "selector"
-    )
-    .value
-    .trim();
-
-
-
-
-    if(
-        !domain
-    ){
-        return;
-    }
-
-
-
-
-    dkimField.value =
-    "Loading...";
-
-
-
+async function fetchDKIM(
+    domain,
+    selector
+){
 
     try{
-
 
 
         const query =
@@ -763,27 +384,11 @@ async function inspectDKIM(){
 
 
 
-        let dkimText =
-        "Not found";
-
-
-
-
         if(
-
             data.Answer
-
-            &&
-
-            data.Answer.length
-
         ){
 
-
-
-            dkimText =
-
-            data.Answer
+            return data.Answer
 
             .map(
 
@@ -800,37 +405,371 @@ async function inspectDKIM(){
                 " "
             );
 
-
-
-
-            statusField.innerHTML =
-
-            `
-            <div class="ok">
-                Congratulations! Your DKIM record is valid.
-            </div>
-            `;
-
-
         }
 
 
+    }
+    catch(e){}
 
 
-        dkimField.value =
-        dkimText;
+    return "Not found";
+
+}
+
+
+
+
+
+
+
+
+async function generateAll(){
+
+
+
+    const servers =
+
+    document
+    .getElementById(
+        "servers"
+    )
+    .value
+
+    .split("\n")
+
+    .map(
+        x=>x.trim()
+    )
+
+    .filter(
+        x=>x
+    );
+
+
+
+
+
+    const domainGroups =
+
+    splitGroups(
+
+        document
+        .getElementById(
+            "domains"
+        )
+        .value
+
+    );
+
+
+
+
+
+    const ipGroups =
+
+    splitGroups(
+
+        document
+        .getElementById(
+            "ips"
+        )
+        .value
+
+    );
+
+
+
+
+
+    const dkimLines =
+
+    document
+    .getElementById(
+        "dkimInputs"
+    )
+    .value
+
+    .split("\n")
+
+    .map(
+        x=>x.trim()
+    )
+
+    .filter(
+        x=>x
+    );
+
+
+
+
+
+
+    const domainResults =
+    [];
+
+
+    const spfResults =
+    [];
+
+
+    const wildcardResults =
+    [];
+
+
+    const dkimResults =
+    [];
+
+
+
+
+
+
+    for(
+
+        let i=0;
+
+        i<servers.length;
+
+        i++
+
+    ){
+
+
+
+        const server =
+        servers[i];
+
+
+
+
+        const domains =
+
+        domainGroups[i]
+
+        .split("\n")
+
+        .map(
+            x=>x.trim()
+        )
+
+        .filter(
+            x=>x
+        );
+
+
+
+
+        const ips =
+
+        ipGroups[i]
+
+        .split("\n")
+
+        .map(
+            x=>x.trim()
+        )
+
+        .filter(
+            x=>x
+        );
+
+
+
+
+        const dkimParts =
+
+        dkimLines[i]
+        .split("|");
+
+
+
+
+        const dkimDomain =
+        dkimParts[0];
+
+
+
+
+        const selector =
+        dkimParts[1]
+        ||
+        "default";
+
+
+
+
+        const dkim =
+
+        await fetchDKIM(
+
+            dkimDomain,
+
+            selector
+
+        );
+
+
+
+
+        dkimResults.push(
+            dkim
+        );
+
+
+
+
+        const random =
+        randomText();
+
+
+
+
+        const spf =
+
+            "v=spf1 "
+
+            +
+
+            ips.map(
+
+                ip=>
+
+                "ip4:"+ip
+
+            ).join(
+                " "
+            )
+
+            +
+
+            " -all";
+
+
+
+
+
+
+        domains.forEach(
+
+            domain => {
+
+
+                const sub =
+
+                    server
+                    +
+                    "."
+                    +
+                    random
+                    +
+                    "."
+                    +
+                    domain;
+
+
+
+
+                domainResults.push(
+                    sub
+                );
+
+
+
+
+                spfResults.push(
+
+                    sub
+                    +
+                    ","
+                    +
+                    spf
+
+                );
+
+
+
+
+                wildcardResults.push(
+
+                    "*."
+                    +
+                    sub
+                    +
+                    ","
+                    +
+                    dkim
+
+                );
+
+
+            }
+
+        );
 
 
 
     }
-    catch(error){
 
 
-        dkimField.value =
-        "Error";
 
 
-    }
+
+
+
+    document
+    .getElementById(
+        "generatedDomains"
+    )
+    .value =
+
+    domainResults.join(
+        "\n"
+    );
+
+
+
+
+
+
+    document
+    .getElementById(
+        "spfOutput"
+    )
+    .value =
+
+    spfResults.join(
+        "\n"
+    );
+
+
+
+
+
+
+    document
+    .getElementById(
+        "wildcardOutput"
+    )
+    .value =
+
+    wildcardResults.join(
+        "\n"
+    );
+
+
+
+
+
+
+    document
+    .getElementById(
+        "dkimOutput"
+    )
+    .value =
+
+    dkimResults.join(
+        "\n\n"
+    );
 
 
 }
@@ -842,31 +781,17 @@ async function inspectDKIM(){
 
 
 
-
 document
 .getElementById(
-    "generateDomainsBtn"
+    "generateBtn"
 )
 .addEventListener(
     "click",
-    generateDomains
-);
-
-
-
-
-document
-.getElementById(
-    "inspectBtn"
-)
-.addEventListener(
-    "click",
-    inspectDKIM
+    generateAll
 );
 
 
 </script>
-
 
 </body>
 </html>
