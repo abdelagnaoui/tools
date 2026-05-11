@@ -409,6 +409,10 @@ body.pink-mode .tool-button{
           <button class="tool-button" data-script="autoScheduleScript">🕜 Auto Schedule (Pmta Manager)</button>
           <div class="copied-msg">NaaaDii✔️</div>
         </li>
+          <li class="tool-item">
+          <button class="tool-button" data-script="vmta">Auto VMTA</button>
+          <div class="copied-msg">NaaaDii✔️</div>
+        </li>
         <li class="tool-item">
           <button class="tool-button" data-script="autoClickScript">🚀 Auto Send Drop</button>
           <div class="copied-msg">NaaaDii✔️</div>
@@ -425,6 +429,7 @@ body.pink-mode .tool-button{
           <button class="tool-button" data-script="CopyScript">📋 Copy Subj & Ips from mail</button>
           <div class="copied-msg">NaaaDii✔️</div>
         </li>
+       
       </ul>
     </div>
   </div>
@@ -693,6 +698,468 @@ stopBtn.addEventListener("click", stopClicker);
 input.addEventListener("change", startClicker);
   </pre>
 
+
+ <pre id="vmta" style="display:none;">
+(function(){
+
+if(
+    document.getElementById(
+        "vmtaConsoleBox"
+    )
+){
+    return;
+}
+
+
+
+
+
+
+const panel =
+document.createElement(
+    "div"
+);
+
+panel.id =
+"vmtaConsoleBox";
+
+panel.style = `
+position:fixed;
+top:20px;
+right:20px;
+z-index:999999;
+background:white;
+padding:15px;
+border:2px solid black;
+border-radius:12px;
+width:340px;
+box-shadow:0 5px 20px rgba(0,0,0,.2);
+`;
+
+
+
+
+
+
+panel.innerHTML = `
+
+&lt;div style="font-weight:bold;margin-bottom:10px;"&gt;
+VMTA TOOL
+&lt;/div&gt;
+
+&lt;textarea
+id="vmtaServersInput"
+style="
+width:100%;
+height:160px;
+resize:none;
+"
+placeholder="one server per line"
+&gt;&lt;/textarea&gt;
+
+&lt;button
+id="vmtaAddBtn"
+style="
+width:100%;
+margin-top:10px;
+"
+&gt;
+Add Servers
+&lt;/button&gt;
+
+&lt;hr&gt;
+
+&lt;button
+id="vmtaAutoBtn"
+style="
+width:100%;
+"
+&gt;
+Auto VMTA
+&lt;/button&gt;
+
+`;
+
+
+
+
+
+
+document.body.appendChild(
+panel
+);
+
+
+
+
+
+
+
+
+function sleep(ms){
+
+return new Promise(
+
+r=>setTimeout(
+r,
+ms
+)
+
+);
+
+}
+
+
+
+
+
+
+
+
+async function addOneServer(server){
+
+
+
+$("#gs_serverId")
+
+.val(
+server
+)
+
+.trigger(
+"keyup"
+);
+
+
+
+
+
+$("#blocks_grid")[0]
+.triggerToolbar();
+
+
+
+
+
+await sleep(
+400
+);
+
+
+
+
+
+const ids =
+
+$("#blocks_grid")
+
+.jqGrid(
+"getDataIDs"
+);
+
+
+
+
+
+if(
+ids.length
+){
+
+fn_add_selected_block(
+ids[0]
+);
+
+}
+
+
+
+
+
+$(".domains:last")
+
+.val(
+"__Domain"
+)
+
+.trigger(
+"keyup"
+)
+
+.trigger(
+"change"
+);
+
+
+
+
+
+await sleep(
+100
+);
+
+}
+
+
+
+
+
+
+
+
+
+$("#vmtaAddBtn").click(
+async function(){
+
+
+
+const servers =
+
+$("#vmtaServersInput")
+
+.val()
+
+.split("\n")
+
+.map(
+x=>x.trim()
+)
+
+.filter(
+Boolean
+);
+
+
+
+
+
+let added =
+0;
+
+
+
+
+
+for(
+const server
+of
+servers
+){
+
+
+
+await addOneServer(
+server
+);
+
+
+
+added++;
+
+
+
+}
+
+
+
+
+
+console.log(
+"Added:",
+added
+);
+
+
+
+
+
+$("#gs_serverId")
+
+.val("")
+
+.trigger(
+"keyup"
+);
+
+
+
+
+
+$("#blocks_grid")[0]
+.triggerToolbar();
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+async function waitFinish(){
+
+
+
+let guard =
+0;
+
+
+
+
+
+while(
+
+window.inprocess > 0
+
+&&
+
+guard < 100
+
+){
+
+
+
+await sleep(
+100
+);
+
+
+
+guard++;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+$("#vmtaAutoBtn").click(
+async function(){
+
+
+
+const letters = [
+
+"a","z","e","r","t",
+"y","u","i","o","p",
+"q","s","d","f","g",
+"h","j","k","l","m"
+
+];
+
+
+
+
+
+for(
+const l
+of
+letters
+){
+
+
+
+const vmta =
+l+l;
+
+
+
+
+
+$("#vmta_prefix_p2")
+
+.focus()
+
+.val(
+vmta
+)
+
+.trigger(
+"keyup"
+)
+
+.trigger(
+"blur"
+)
+
+.trigger(
+"change"
+);
+
+
+
+
+
+await sleep(
+100
+);
+
+
+
+
+
+$("#submit")
+
+.trigger(
+"click"
+);
+
+
+
+
+
+console.log(
+"Submitting:",
+vmta
+);
+
+
+
+
+
+await waitFinish();
+
+
+
+
+
+await sleep(
+100
+);
+
+
+
+}
+
+
+
+
+
+alert(
+"Done"
+);
+
+
+
+});
+
+
+})();
+</pre>
   <pre id="autoClickScript" style="display:none;">
   
   (function () {
