@@ -1,2148 +1,3020 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>🛠️ Abelagnaui-Tools®࿐</title>
+	<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		  <meta charset="UTF-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  
+	  <title>🛠️ Abelagnaui-Tools®࿐</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" >
+	  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" >
 
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
+	  <style>
+		*, *::before, *::after {
+		  box-sizing: border-box;
+		}
 
-/* DEFAULT */
-/* container */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 30px;
+	/* DEFAULT */
+	/* container */
+	.switch {
+	  position: relative;
+	  display: inline-block;
+	  width: 60px;
+	  height: 30px;
+	}
+
+	/* hide checkbox */
+	.switch input {
+	  opacity: 0;
+	  width: 0;
+	  height: 0;
+	}
+
+	/* background */
+	.slider {
+	   position: absolute;
+		top: 0px;
+		right: 0px;
+		cursor: pointer;
+		background: #0ea5e9;
+		border-radius: 50px;
+		transition: 0.4s;
+		width: 55px !important;
+	}
+		
+	   #slider_icon { height: 24px;width: 24px;background: white;border-radius: 50%;display: flex;align-items: center;justify-content: center;font-size: 14px;transition: 0.4s;}
+		
+		body {
+	  background: url("https://wallpapercave.com/wp/wp3284848.gif") !important;
+	  background-size: cover !important;
+			background-repeat: no-repeat !important;
+	  background-position: center !important;
+	}
+
+	/* pink mode */
+	body.pink-mode {
+	  background: url("https://wallpaperaccess.com/full/12067286.gif")  !important;
+	  background-repeat: no-repeat !important;
+	  background-position: center !important;
+	}
+
+		header {
+		  display: flex;
+		  align-items: center;
+		  justify-content: space-between;
+		  padding: 1rem 2rem;
+		  background: rgba(255,255,255,0.05);
+		  backdrop-filter: blur(12px);
+		  border-bottom: 1px solid rgba(255,255,255,0.08);
+		   display:flex;
+	  justify-content:space-between;
+	  align-items:center;
+	  padding:1rem 2rem;
+	  backdrop-filter: blur(12px);
+		}
+
+
+		header h3 {
+		  margin: 0;
+		  color: #cbd5f5;
+		}
+
+		.search-bar {
+		  margin: 30px auto 20px auto;
+		  width: 80%;
+		  max-width: 600px;
+		}
+
+		input[type="text"] {
+		  width: 100%;
+		  padding: 14px 18px;
+		  border-radius: 999px;
+		  border: none;
+		  background: rgba(255,255,255,0.08);
+		  color: white;
+		  font-size: 16px;
+		  outline: none;
+		  transition: 0.3s;
+		}
+
+		input[type="text"]:focus {
+		  box-shadow: 0 0 15px #38bdf8;
+		}
+
+		.category{
+
+	  background:rgba(255,255,255,0.05);
+
+	  padding:24px;
+
+	  border-radius:20px;
+
+	  backdrop-filter:blur(12px);
+
+	  border:1px solid rgba(255,255,255,0.08);
+
+	  position:relative;
+
+	  overflow:hidden;
+
+	  flex:0 0 360px;
+
+	  width:360px;
+
+	  min-height:100%;
+
+	  transition:0.3s;
+	}
+
+		/* ✅ FIX CLICK */
+		.category::before {
+		  content: "";
+		  position: absolute;
+		  inset: 0;
+		  background: linear-gradient(120deg, transparent, rgba(56,189,248,0.2), transparent);
+		  opacity: 0;
+		  transition: 0.4s;
+		  pointer-events: none;  
+		}
+
+		.category:hover::before {
+		  opacity: 1;
+		}
+
+		.category:hover {
+		  transform: translateY(-6px) scale(1.02);
+		  box-shadow: 0 0 30px rgba(56,189,248,0.25);
+		}
+
+	  
+	/* ======= CONSOLE GRID ========= */
+
+.console-category{
+  flex:0 0 520px !important;
+  width:520px !important;
+  max-width:520px !important;
 }
+	.console-grid{
+	  display:grid;
+	  grid-template-columns:1fr 1fr;
+	  gap:18px;
+	  align-items:start;
+	}
 
-/* hide checkbox */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+	.console-grid ul{
+	  list-style:none;
+	  padding:0;
+	  margin:0;
+	}
 
-/* background */
-.slider {
-   position: absolute;
-    top: 0px;
-    right: 0px;
-    cursor: pointer;
-    background: #0ea5e9;
-    border-radius: 50px;
-    transition: 0.4s;
-    width: 55px !important;
-}
-    
-   #slider_icon { height: 24px;width: 24px;background: white;border-radius: 50%;display: flex;align-items: center;justify-content: center;font-size: 14px;transition: 0.4s;}
-    
-    body {
-  background: url("https://wallpapercave.com/wp/wp3284848.gif") !important;
-  background-size: cover !important;
-        background-repeat: no-repeat !important;
-  background-position: center !important;
-}
+	.console-grid .tool-item{
+	  margin-bottom:14px;
+	}
 
-/* pink mode */
-body.pink-mode {
-  background: url("https://wallpaperaccess.com/full/12067286.gif")  !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-}
+	/* ================================================= */
+	/* ============ CONSOLE ORIGINAL STYLE ============= */
+	/* ================================================= */
 
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 2rem;
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-       display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:1rem 2rem;
-  backdrop-filter: blur(12px);
-    }
+	.console-category{
+	  max-width:520px;
+	}
 
+	/* GRID */
+	.console-grid{
+	  display:grid;
+	  grid-template-columns:1fr 1fr;
+	  gap:14px;
+	}
 
-    header h3 {
-      margin: 0;
-      color: #cbd5f5;
-    }
+	/* UL */
+	.console-grid ul{
+	  list-style:none;
+	  padding:0;
+	  margin:0;
 
-    .search-bar {
-      margin: 30px auto 20px auto;
-      width: 80%;
-      max-width: 600px;
-    }
+	  display:flex;
+	  flex-direction:column;
+	  gap:14px;
+	}
 
-    input[type="text"] {
-      width: 100%;
-      padding: 14px 18px;
-      border-radius: 999px;
-      border: none;
-      background: rgba(255,255,255,0.08);
-      color: white;
-      font-size: 16px;
-      outline: none;
-      transition: 0.3s;
-    }
+	/* ITEM */
+	.console-grid .tool-item{
+	  margin:0;
+	}
 
-    input[type="text"]:focus {
-      box-shadow: 0 0 15px #38bdf8;
-    }
+	/* SAME ORIGINAL BUTTON STYLE */
+	.console-grid .tool-button{
+	  display:block;
+	  width:100%;
 
-    .container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 24px;
-      padding: 20px;
-    }
+	  padding:12px 16px;
 
-    .category {
-      background: rgba(255,255,255,0.05);
-      padding: 24px;
-      border-radius: 20px;
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.08);
-      flex: 1 1 300px;
-      max-width: 360px;
-      transition: 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
+	  text-align:center;
 
-    /* ✅ FIX CLICK */
-    .category::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(120deg, transparent, rgba(56,189,248,0.2), transparent);
-      opacity: 0;
-      transition: 0.4s;
-      pointer-events: none;  
-    }
+	  background:linear-gradient(135deg,#0ea5e9,#6366f1);
 
-    .category:hover::before {
-      opacity: 1;
-    }
+	  color:white;
 
-    .category:hover {
-      transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 0 30px rgba(56,189,248,0.25);
-    }
-    
-    /* ===== BUTTON ===== */
-.tool-button{
-  display:block;
-  width:100%;
-  padding:12px;
-  margin-bottom:10px;
-  border-radius:12px;
-  border:none;
-  cursor:pointer;
-  color:white;
-  background: linear-gradient(135deg,#0ea5e9,#6366f1);
-  transition:0.3s;
-  box-shadow:0 6px 0 #1e40af;
-}
+	  font-weight:500;
 
-.tool-button:hover{
-  transform: translateY(-3px);
-  box-shadow:0 10px 20px rgba(0,0,0,0.4);
-}
+	  font-size:16px;
 
-/* ===== PINK BUTTON ===== */
-body.pink-mode .tool-button{
-  background: linear-gradient(135deg,#ff4da6,#ff66cc);
-  box-shadow:0 6px 0 #cc0066;
-}
+	  border-radius:12px;
+
+	  text-decoration:none;
+
+	  border:none;
+
+	  transition:0.25s;
+
+	  cursor:pointer;
+
+	  font-family:inherit;
+
+	  box-shadow:0 0 10px rgba(56,189,248,0.4);
+
+	  white-space:normal;
+
+	  line-height:1.5;
+	}
+
+	/* HOVER */
+	.console-grid .tool-button:hover{
+	  transform:scale(1.05);
+	  box-shadow:0 0 20px #38bdf8;
+	}
+
+	/* ACTIVE */
+	.console-grid .tool-button:active{
+	  transform:scale(0.96);
+	}
+
+	/* COPY MSG */
+	.console-grid .copied-msg{
+	  display:none;
+	  margin-top:5px;
+	  color:white;
+	  font-weight:500;
+	  font-size:14px;
+	  text-align:center;
+	}
+
+	/* MOBILE */
+	@media(max-width:768px){
+
+	  .console-grid{
+		grid-template-columns:1fr;
+	  }
+
+	}
+	 
+	 
+		/* ===== BUTTON ===== */
+	.tool-button{
+	  display:block;
+	  width:100%;
+	  padding:12px;
+	  margin-bottom:10px;
+	  border-radius:12px;
+	  border:none;
+	  cursor:pointer;
+	  color:white;
+	  background: linear-gradient(135deg,#0ea5e9,#6366f1);
+	  transition:0.3s;
+	  box-shadow:0 6px 0 #1e40af;
+	}
+
+	.tool-button:hover{
+	  transform: translateY(-3px);
+	  box-shadow:0 10px 20px rgba(0,0,0,0.4);
+	}
 
 .container{
-  display:flex;
-  flex-wrap:wrap;
-  gap:20px;
+
+  width:100%;
+  max-width:1800px;
+
+  margin:0 auto;
+
+  display:grid;
+
+  grid-template-columns:
+    360px
+    360px
+    360px
+    360px;
+
   justify-content:center;
+
+  align-items:start;
+
+  gap:24px;
+
   padding:20px;
 }
 
-    .category h2 {
-      font-size: 20px;
-      color: white;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      padding-bottom: 8px;
-      margin-top: 0;
-      margin-bottom: 18px;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .tool-item {
-      margin-bottom: 14px;
-    }
-
-    .tool-button {
-      display: block;
-      width: 100%;
-      padding: 12px 16px;
-      text-align: center;
-      background: linear-gradient(135deg, #0ea5e9, #6366f1);
-      color: white;
-      font-weight: 500;
-      font-size: 16px;
-      border-radius: 12px;
-      text-decoration: none;
-      border: none;
-      transition: 0.25s;
-      cursor: pointer;
-      font-family: inherit;
-      box-shadow: 0 0 10px rgba(56,189,248,0.4);
-    }
-
-    .tool-button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px #38bdf8;
-    }
-
-    .tool-button:active {
-      transform: scale(0.96);
-    }
-
-    .copied-msg {
-      display: none;
-      margin-top: 5px;
-      color: White;
-      font-weight: 500;
-      font-size: 14px;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-    .top-msg{
-  position:fixed;
-  top:20px;
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(0,0,0,0.7);
-  color:white;
-  padding:12px 25px;
-  border-radius:10px;
-  font-size:16px;
-  z-index:99999;
-  opacity:0;
-  transition:0.4s;
-}
-
-.top-msg.show{
-  opacity:1;
-  top:40px;
-}
-    
-    
-    #loader{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:#020617;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  z-index:999999;
-}
-
-/* content */
-.loader-content{
-  text-align:center;
-  color:white;
-  font-family:Poppins;
-}
-
-/* rings */
-.ring{
-  width:60px;
-  height:60px;
-  border:3px solid transparent;
-  border-top:3px solid #38bdf8;
-  border-radius:50%;
-  position:absolute;
-  animation:spin 1.2s linear infinite;
-}
-
-.ring:nth-child(2){
-  width:80px;
-  height:80px;
-  border-top:3px solid #ff4da6;
-  animation-duration:1.5s;
-}
-
-.ring:nth-child(3){
-  width:100px;
-  height:100px;
-  border-top:3px solid #22c55e;
-  animation-duration:2s;
-}
-
-/* text */
-.loader-content p{
-  margin-top:120px;
-  font-size:18px;
-  letter-spacing:1px;
-  animation:fade 1.5s infinite alternate;
-}
-
-/* animations */
-@keyframes spin{
-  0%{transform:rotate(0deg);}
-  100%{transform:rotate(360deg);}
-}
-
-@keyframes fade{
-  from{opacity:0.4;}
-  to{opacity:1;}
-}
-  </style>
-   
-</head>
-<body>
-  
-  
-  <div id="loader">
-  <div class="loader-content">
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <p>Loading Tools...</p>
-  </div>
-</div>
-
-<div id="topMessage" class="top-msg"></div>
-<header>
-
-  <b style="color : white">⚜𝐏🕴💤💤🏋</b>
-  <h3 style="font-size:15px">𝗔𝗯𝗱𝗲𝗹𝗮𝗴𝗻𝗮𝗼𝘂𝗶</h3>
-
-  <!-- SWITCH -->
- <label class="switch">
-  <input type="checkbox" id="toggleTheme">
-
-  <div class="slider">
-  <span id="slider_icon">💙</span>
-  </div>
-
-</label>
-</header>
-<br> <div class="search-bar" style="font-size:25px">
-	<b>
-      <center style="color:White" > Tools®࿐</center>
-	</b>
-              </div>                                                
-  
-  
-  <div class="search-bar">
- <input type="text" id="searchInput" placeholder="🔍 Search tools...">
-	
-	
-	
-  </div>
-
-  <div class="container">
-    <div class="category">
-      <h2>📧 Email Tools</h2>
-      <ul>
-        <li class="tool-item"><a class="tool-button" href="return-paths_Maker.html" target="_blank">📨 Return Paths Maker</a></li>
-      
-        <li class="tool-item"><a class="tool-button" href="Total_Send_Calculator.html" target="_blank">📬 Total Send Calculator</a></li>
-        <li class="tool-item"><a class="tool-button" href="remove_RPS_BOUNCE.html" target="_blank">📂 Remove Rps Bounce</a></li>
-      </ul>
-    </div>
-
-    <div class="category">
-      <h2>💻 Server Tools</h2>
-      <ul>
-      <li class="tool-item"><a class="tool-button" href="Spf_Dkim.html" target="_blank">SPF & DKIM</a></li>
-        <li class="tool-item"><a class="tool-button" href="Server_Manager.html" target="_blank">🛡 Server Manager</a></li>
-        <li class="tool-item"><a class="tool-button" href="Server_Splitter.html" target="_blank">🔗 Server Splitter</a></li>
-	 <li class="tool-item"><a class="tool-button" href="cnam_checker.html" target="_blank">🛰Cnam Checker</a></li>
-	<li class="tool-item"><a class="tool-button" href="Domains_Checker.html" target="_blank">🛒Domains Checker</a></li>
-      </ul>
-    </div>
-
-    <div class="category">
-      <h2>👾 Utilities</h2>
-      <ul>
-         <li class="tool-item"><a class="tool-button" href="SubsGenerator.html" target="_blank">⚙️Subs Generator</a></li>
-         <li class="tool-item"><a class="tool-button" href="Boit_Gmail.html" target="_blank">Boit Gmail for test Auto</a></li>
-        <li class="tool-item"><a class="tool-button" href="List_Spliter.html" target="_blank">🔍 List Splitter</a></li>
-        <li class="tool-item"><a class="tool-button" href="Link_Opener.html" target="_blank">🌐 Link Opener</a></li>
-        <li class="tool-item"><a class="tool-button" href="offers_.html" target="_blank">🎯 Offer Manager</a></li>
-      </ul>
-    </div>
-
-    <div class="category">
-      <h2>📟 Console Scripts</h2>
-      <ul>
-        <li class="tool-item">
-          <button class="tool-button" data-script="autoCleanScript">🧹 Auto Clean (Pmta Manager)</button>
-          <div class="copied-msg">NaaaDii✔️</div>
-        </li>
-        <li class="tool-item">
-          <button class="tool-button" data-script="autoScheduleScript">🕜 Auto Schedule (Pmta Manager)</button>
-          <div class="copied-msg">NaaaDii✔️</div>
-        </li>
-          <li class="tool-item">
-          <button class="tool-button" data-script="vmta">Auto VMTA</button>
-          <div class="copied-msg">NaaaDii✔️</div>
-        </li>
-        <li class="tool-item">
-          <button class="tool-button" data-script="autoClickScript">🚀 Auto Send Drop</button>
-          <div class="copied-msg">NaaaDii✔️</div>
-        </li>
-        <li class="tool-item">
-          <button class="tool-button" data-script="TesTAuto_Mail">✉️ Test Auto/Mail </button>
-          <div class="copied-msg">NaaaDii✔️</div>
-        </li>
-		        <li class="tool-item">
-          <button class="tool-button" data-script="AutoPauseRPS">⏸️ Auto Pause RPS (Pmta Manager)</button>
-          <div class="copied-msg">NaaaDii✔️</div>
-        </li>
-         <li class="tool-item">
-          <button class="tool-button" data-script="CopyScript">📋 Copy Subj & Ips from mail</button>
-          <div class="copied-msg">NaaaDii✔️</div>
-        </li>
-       
-      </ul>
-    </div>
-  </div>
-
-  <!-- Hidden scripts for copy -->
-  <pre id="autoCleanScript" style="display:none;">
-// === UI Elements ===
-const wrapper = document.createElement("div");
-wrapper.style.position = "fixed";
-wrapper.style.bottom = "20px";
-wrapper.style.right = "20px";
-wrapper.style.background = "#001f3f";
-wrapper.style.color = "#00bfff";
-wrapper.style.padding = "12px";
-wrapper.style.fontFamily = "monospace";
-wrapper.style.borderRadius = "10px";
-wrapper.style.zIndex = "9999";
-wrapper.style.boxShadow = "0 0 15px rgba(0, 191, 255, 0.6)";
-wrapper.style.display = "flex";
-wrapper.style.flexDirection = "column";
-wrapper.style.gap = "8px";
-
-// === Controls ===
-const controls = document.createElement("div");
-controls.style.display = "flex";
-controls.style.alignItems = "center";
-controls.style.gap = "8px";
-
-// Interval input
-const intervalInput = document.createElement("input");
-intervalInput.type = "number";
-intervalInput.min = "1";
-intervalInput.value = "10";
-intervalInput.style.width = "60px";
-intervalInput.style.padding = "5px";
-intervalInput.style.border = "1px solid #00bfff";
-intervalInput.style.borderRadius = "5px";
-intervalInput.style.background = "#002b5c";
-intervalInput.style.color = "#00bfff";
-
-// Duration input
-const durationInput = intervalInput.cloneNode();
-durationInput.value = "60";
-
-// Labels
-const intervalLabel = document.createElement("label");
-intervalLabel.textContent = "Interval (sec):";
-
-const durationLabel = document.createElement("label");
-durationLabel.textContent = "Duration (sec):";
-
-// Button
-const toggleButton = document.createElement("button");
-toggleButton.textContent = "▶ Start";
-toggleButton.style.padding = "6px 10px";
-toggleButton.style.background = "#005eff";
-toggleButton.style.color = "#fff";
-toggleButton.style.border = "none";
-toggleButton.style.borderRadius = "5px";
-toggleButton.style.cursor = "pointer";
-
-// Timer displays
-const clickTimerDisplay = document.createElement("div");
-clickTimerDisplay.textContent = "Next click in: --:--";
-const stopTimerDisplay = document.createElement("div");
-stopTimerDisplay.textContent = "Stopping in: --:--";
-clickTimerDisplay.style.fontSize = stopTimerDisplay.style.fontSize = "14px";
-
-// Assemble UI
-controls.appendChild(intervalLabel);
-controls.appendChild(intervalInput);
-controls.appendChild(durationLabel);
-controls.appendChild(durationInput);
-controls.appendChild(toggleButton);
-wrapper.appendChild(controls);
-wrapper.appendChild(clickTimerDisplay);
-wrapper.appendChild(stopTimerDisplay);
-document.body.appendChild(wrapper);
-
-// === Timer Logic ===
-let clickIntervalId, countdownIntervalId, stopTimeout;
-let intervalMs = parseInt(intervalInput.value) * 1000;
-let remainingClickTime = intervalMs;
-let remainingStopTime = parseInt(durationInput.value) * 1000;
-let running = false;
-
-const elements = document.querySelectorAll("input");
-
-// Format helper
-function format(ms) {
-  const totalSeconds = Math.floor(ms / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  return `${String(minutes).padStart(1, '0')}:${String(seconds).padStart(2, '0')}`;
-}
-
-// Update countdowns
-function updateCountdowns() {
-  remainingClickTime -= 1000;
-  remainingStopTime -= 1000;
-
-  if (remainingClickTime < 0) remainingClickTime = 0;
-  if (remainingStopTime < 0) remainingStopTime = 0;
-
-  clickTimerDisplay.textContent = `Next click in: ${format(remainingClickTime)}`;
-  stopTimerDisplay.textContent = `Stopping in: ${format(remainingStopTime)}`;
-}
-
-// Start
-function startScript() {
-  clearAll();
-
-  intervalMs = parseInt(intervalInput.value) * 1000;
-  remainingClickTime = intervalMs;
-  remainingStopTime = parseInt(durationInput.value) * 1000;
-
-  clickIntervalId = setInterval(() => {
-    if (elements[7]) elements[7].click();
-    remainingClickTime = intervalMs;
-  }, intervalMs);
-
-  countdownIntervalId = setInterval(updateCountdowns, 1000);
-
-  stopTimeout = setTimeout(() => {
-    stopScript();
-    clickTimerDisplay.textContent = "⏹ Clicks stopped";
-    stopTimerDisplay.textContent = "✅ Done!";
-  }, remainingStopTime);
-
-  toggleButton.textContent = "⏹ Stop";
-  running = true;
-}
-
-// Stop
-function stopScript() {
-  clearAll();
-  toggleButton.textContent = "▶ Start";
-  running = false;
-}
-
-// Clear all timers
-function clearAll() {
-  clearInterval(clickIntervalId);
-  clearInterval(countdownIntervalId);
-  clearTimeout(stopTimeout);
-}
-
-// Toggle on button click
-toggleButton.addEventListener("click", () => {
-  if (!running) {
-    startScript();
-  } else {
-    stopScript();
-    clickTimerDisplay.textContent = "⏹ Stopped manually";
-    stopTimerDisplay.textContent = "⌛ Waiting...";
-  }
-});
-  </pre>
-
-  <pre id="autoScheduleScript" style="display:none;">
-// === UI Elements ===
-const wrapper = document.createElement("div");
-wrapper.style.position = "fixed";
-wrapper.style.bottom = "20px";
-wrapper.style.right = "20px";
-wrapper.style.background = "#001f3f";
-wrapper.style.color = "#00bfff";
-wrapper.style.padding = "12px";
-wrapper.style.fontFamily = "monospace";
-wrapper.style.borderRadius = "10px";
-wrapper.style.zIndex = "9999";
-wrapper.style.boxShadow = "0 0 15px rgba(0, 191, 255, 0.6)";
-wrapper.style.display = "flex";
-wrapper.style.alignItems = "center";
-wrapper.style.gap = "10px";
-
-// Input
-const input = document.createElement("input");
-input.type = "number";
-input.min = "1";
-input.value = "10";
-input.style.width = "60px";
-input.style.padding = "5px";
-input.style.border = "1px solid #00bfff";
-input.style.borderRadius = "5px";
-input.style.background = "#002b5c";
-input.style.color = "#00bfff";
-
-// Label
-const label = document.createElement("label");
-label.textContent = "Interval (sec): ";
-
-// START BUTTON
-const startBtn = document.createElement("button");
-startBtn.textContent = "Start";
-startBtn.style.padding = "5px 10px";
-startBtn.style.background = "#00bfff";
-startBtn.style.border = "none";
-startBtn.style.borderRadius = "5px";
-startBtn.style.cursor = "pointer";
-
-// 🔥 STOP BUTTON
-const stopBtn = document.createElement("button");
-stopBtn.textContent = "Stop";
-stopBtn.style.padding = "5px 10px";
-stopBtn.style.background = "#ff4d4d";
-stopBtn.style.border = "none";
-stopBtn.style.borderRadius = "5px";
-stopBtn.style.cursor = "pointer";
-
-// Timer display
-const timerDisplay = document.createElement("span");
-timerDisplay.textContent = "Next click in: --:--:--";
-
-// Assemble
-wrapper.appendChild(label);
-wrapper.appendChild(input);
-wrapper.appendChild(startBtn);
-wrapper.appendChild(stopBtn); // 🔥 added
-wrapper.appendChild(timerDisplay);
-document.body.appendChild(wrapper);
-
-// === Timer Logic ===
-let intervalMs = parseInt(input.value) * 1000;
-let remainingTime = intervalMs;
-let clickIntervalId, countdownIntervalId;
-
-const elements = document.querySelectorAll("input");
-
-function updateTimer() {
-  remainingTime -= 1000;
-  if (remainingTime < 0) remainingTime = 0;
-
-  const hours = Math.floor(remainingTime / 3600000);
-  const minutes = Math.floor((remainingTime % 3600000) / 60000);
-  const seconds = Math.floor((remainingTime % 60000) / 1000);
-
-  timerDisplay.textContent = `Next click in: ${hours}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
-}
-
-function startClicker() {
-  clearInterval(clickIntervalId);
-  clearInterval(countdownIntervalId);
-
-  intervalMs = parseInt(input.value) * 1000;
-  remainingTime = intervalMs;
-
-  clickIntervalId = setInterval(() => {
-    if (elements[8]) elements[8].click();
-    remainingTime = intervalMs;
-  }, intervalMs);
-
-  countdownIntervalId = setInterval(updateTimer, 1000);
-}
-
-// 🔴 STOP FUNCTION
-function stopClicker(){
-  clearInterval(clickIntervalId);
-  clearInterval(countdownIntervalId);
-  timerDisplay.textContent = "STOP DONE 👌🏼";
-}
-
-// EVENTS
-startBtn.addEventListener("click", startClicker);
-stopBtn.addEventListener("click", stopClicker);
-input.addEventListener("change", startClicker);
-  </pre>
-
-
- <pre id="vmta" style="display:none;">
-(function(){
-
-if(
-    document.getElementById(
-        "vmtaConsoleBox"
-    )
-){
-    return;
-}
-
-
-
-
-
-
-const panel =
-document.createElement(
-    "div"
-);
-
-panel.id =
-"vmtaConsoleBox";
-
-panel.style = `
-position:fixed;
-top:20px;
-right:20px;
-z-index:999999;
-background:white;
-padding:15px;
-border:2px solid black;
-border-radius:12px;
-width:340px;
-box-shadow:0 5px 20px rgba(0,0,0,.2);
-`;
-
-
-
-
-
-
-panel.innerHTML = `
-
-&lt;div style="font-weight:bold;margin-bottom:10px;"&gt;
-VMTA TOOL
-&lt;/div&gt;
-
-&lt;textarea
-id="vmtaServersInput"
-style="
-width:100%;
-height:160px;
-resize:none;
-"
-placeholder="one server per line"
-&gt;&lt;/textarea&gt;
-
-&lt;button
-id="vmtaAddBtn"
-style="
-width:100%;
-margin-top:10px;
-"
-&gt;
-Add Servers
-&lt;/button&gt;
-
-&lt;hr&gt;
-
-&lt;button
-id="vmtaAutoBtn"
-style="
-width:100%;
-"
-&gt;
-Auto VMTA
-&lt;/button&gt;
-
-`;
-
-
-
-
-
-
-document.body.appendChild(
-panel
-);
-
-
-
-
-
-
-
-
-function sleep(ms){
-
-return new Promise(
-
-r=>setTimeout(
-r,
-ms
-)
-
-);
-
-}
 
-
+	/* ===== PINK BUTTON ===== */
+	body.pink-mode .tool-button{
+	  background: linear-gradient(135deg,#ff4da6,#ff66cc);
+	  box-shadow:0 6px 0 #cc0066;
+	}
+
+		.category h2 {
+		  font-size: 20px;
+		  color: white;
+		  border-bottom: 1px solid rgba(255,255,255,0.1);
+		  padding-bottom: 8px;
+		  margin-top: 0;
+		  margin-bottom: 18px;
+		}
+
+		ul {
+		  list-style: none;
+		  padding: 0;
+		  margin: 0;
+		}
+
+		.tool-item {
+		  margin-bottom: 14px;
+		}
+
+		.tool-button {
+		  display: block;
+		  width: 100%;
+		  padding: 12px 16px;
+		  text-align: center;
+		  background: linear-gradient(135deg, #0ea5e9, #6366f1);
+		  color: white;
+		  font-weight: 500;
+		  font-size: 16px;
+		  border-radius: 12px;
+		  text-decoration: none;
+		  border: none;
+		  transition: 0.25s;
+		  cursor: pointer;
+		  font-family: inherit;
+		  box-shadow: 0 0 10px rgba(56,189,248,0.4);
+		}
+
+		.tool-button:hover {
+		  transform: scale(1.05);
+		  box-shadow: 0 0 20px #38bdf8;
+		}
+
+		.tool-button:active {
+		  transform: scale(0.96);
+		}
+
+		.copied-msg {
+		  display: none;
+		  margin-top: 5px;
+		  color: White;
+		  font-weight: 500;
+		  font-size: 14px;
+		}
+
+		@media (max-width: 768px) {
+		  .container {
+			flex-direction: column;
+			align-items: center;
+		  }
+		}
+		.top-msg{
+	  position:fixed;
+	  top:20px;
+	  left:50%;
+	  transform:translateX(-50%);
+	  background:rgba(0,0,0,0.7);
+	  color:white;
+	  padding:12px 25px;
+	  border-radius:10px;
+	  font-size:16px;
+	  z-index:99999;
+	  opacity:0;
+	  transition:0.4s;
+	}
+
+	.top-msg.show{
+	  opacity:1;
+	  top:40px;
+	}
+		
+		
+		#loader{
+	  position:fixed;
+	  top:0;
+	  left:0;
+	  width:100%;
+	  height:100%;
+	  background:#020617;
+	  display:flex;
+	  justify-content:center;
+	  align-items:center;
+	  z-index:999999;
+	}
+
+	/* content */
+	.loader-content{
+	  text-align:center;
+	  color:white;
+	  font-family:Poppins;
+	}
+
+	/* rings */
+	.ring{
+	  width:60px;
+	  height:60px;
+	  border:3px solid transparent;
+	  border-top:3px solid #38bdf8;
+	  border-radius:50%;
+	  position:absolute;
+	  animation:spin 1.2s linear infinite;
+	}
+
+	.ring:nth-child(2){
+	  width:80px;
+	  height:80px;
+	  border-top:3px solid #ff4da6;
+	  animation-duration:1.5s;
+	}
+
+	.ring:nth-child(3){
+	  width:100px;
+	  height:100px;
+	  border-top:3px solid #22c55e;
+	  animation-duration:2s;
+	}
+
+	/* text */
+	.loader-content p{
+	  margin-top:120px;
+	  font-size:18px;
+	  letter-spacing:1px;
+	  animation:fade 1.5s infinite alternate;
+	}
+
+	/* animations */
+	@keyframes spin{
+	  0%{transform:rotate(0deg);}
+	  100%{transform:rotate(360deg);}
+	}
+
+	@keyframes fade{
+	  from{opacity:0.4;}
+	  to{opacity:1;}
+	}
+	  </style>
+	   
+	</head>
+	<body>
+	  
+	  
+	  <div id="loader">
+	  <div class="loader-content">
+		<div class="ring"></div>
+		<div class="ring"></div>
+		<div class="ring"></div>
+		<p>Loading Tools...</p>
+	  </div>
+	</div>
+
+	<div id="topMessage" class="top-msg"></div>
+	<header>
+
+	  <b style="color : white">⚜𝐏🕴💤💤🏋</b>
+	  <h3 style="font-size:15px">𝗔𝗯𝗱𝗲𝗹𝗮𝗴𝗻𝗮𝗼𝘂𝗶</h3>
+
+	  <!-- SWITCH -->
+	 <label class="switch">
+	  <input type="checkbox" id="toggleTheme">
+
+	  <div class="slider">
+	  <span id="slider_icon">💙</span>
+	  </div>
+
+	</label>
+	</header>
+	<br> <div class="search-bar" style="font-size:25px">
+		<b>
+		  <center style="color:White" > Tools®࿐</center>
+		</b>
+				  </div>                                                
+	  
+	  
+	  <div class="search-bar">
+	 <input type="text" id="searchInput" placeholder="🔍 Search tools...">
+		
+		
+		
+	  </div>
+
+	  <div class="container">
+		<div class="category">
+		  <h2>📧 Email Tools</h2>
+		  <ul>
+			<li class="tool-item"><a class="tool-button" href="return-paths_Maker.html" target="_blank">📨 Return Paths Maker</a></li>
+		  
+			<li class="tool-item"><a class="tool-button" href="Total_Send_Calculator.html" target="_blank">📬 Total Send Calculator</a></li>
+			<li class="tool-item"><a class="tool-button" href="remove_RPS_BOUNCE.html" target="_blank">📂 Remove Rps Bounce</a></li>
+		  </ul>
+		</div>
+
+		<div class="category">
+		  <h2>💻 Server Tools</h2>
+		  <ul>
+		  <li class="tool-item"><a class="tool-button" href="Spf_Dkim.html" target="_blank">SPF & DKIM</a></li>
+			<li class="tool-item"><a class="tool-button" href="Server_Manager.html" target="_blank">🛡 Server Manager</a></li>
+			<li class="tool-item"><a class="tool-button" href="Server_Splitter.html" target="_blank">🔗 Server Splitter</a></li>
+		 <li class="tool-item"><a class="tool-button" href="cnam_checker.html" target="_blank">🛰Cnam Checker</a></li>
+		<li class="tool-item"><a class="tool-button" href="Domains_Checker.html" target="_blank">🛒Domains Checker</a></li>
+		  </ul>
+		</div>
+
+		<div class="category">
+		  <h2>👾 Utilities</h2>
+		  <ul>
+			 <li class="tool-item"><a class="tool-button" href="SubsGenerator.html" target="_blank">⚙️Subs Generator</a></li>
+			 <li class="tool-item"><a class="tool-button" href="Boit_Gmail.html" target="_blank">Boit Gmail for test Auto</a></li>
+			<li class="tool-item"><a class="tool-button" href="List_Spliter.html" target="_blank">🔍 List Splitter</a></li>
+			<li class="tool-item"><a class="tool-button" href="Link_Opener.html" target="_blank">🌐 Link Opener</a></li>
+			<li class="tool-item"><a class="tool-button" href="offers_.html" target="_blank">🎯 Offer Manager</a></li>
+		  </ul>
+		</div>
+
+		 <div class="category console-category">
+	  <h2>📟 Console Scripts</h2>
+
+	  <div class="console-grid">
+
+		<!-- COLUMN 1 -->
+		<ul>
+
+		  <li class="tool-item">
+			<button class="tool-button" data-script="autoCleanScript">🧹 Auto Clean (Pmta Manager)</button>
+			<div class="copied-msg">NaaaDii✔️</div>
+		  </li>
+
+		  <li class="tool-item">
+			<button class="tool-button" data-script="autoScheduleScript">🕜 Auto Schedule (Pmta Manager)</button>
+			<div class="copied-msg">NaaaDii✔️</div>
+		  </li>
+
+		
+
+		 
+		   <li class="tool-item">
+			<button class="tool-button" data-script="TesTAuto_Mail">✉️ Test Auto/Mail </button>
+			<div class="copied-msg">NaaaDii✔️</div>
+		  </li>
+		  
+		  
+		   <li class="tool-item">
+			<button class="tool-button" data-script="autoClickScript">🚀 Auto Send Drop</button>
+			<div class="copied-msg">NaaaDii✔️</div>
+		  </li>
+
+
+		  	
+
+		</ul>
+
+		<!-- COLUMN 2 -->
+		<ul>
+		  <li class="tool-item">
+			<button class="tool-button" data-script="CopyScript">📋 Copy Subj & Ips from mail</button>
+			<div class="copied-msg">NaaaDii✔️</div>
+		  </li>
+		  
+		  
+		   <li class="tool-item">
+			<button class="tool-button" data-script="AutoPauseRPS">⏸️ Auto Pause RPS (Pmta Manager)</button>
+			<div class="copied-msg">NaaaDii✔️</div>
+		  </li>
+		  
 
+		 	   <li class="tool-item">
+			<button class="tool-button" data-script="vmta">Auto VMTA</button>
+			<div class="copied-msg">NaaaDii✔️</div>
+		  </li>
+		  
+		  <li class="tool-item">
+			<button class="tool-button" data-script="ValidateDKIM">Auto Validate DKIM</button>
+			<div class="copied-msg">NaaaDii✔️</div>
+		  </li>
+		  
+		  <li class="tool-item">
+			<button class="tool-button" data-script="ValidateSPF">Auto Validate SPF</button>
+			<div class="copied-msg">NaaaDii✔️</div>
+		  </li>
+		</ul>
 
+	  </div>
+	  </div>
 
+	  <!-- Hidden scripts for copy -->
+	  
+		<pre id="ValidateSPF" style="display:none;">
+	(function(){
 
+	if($("#bulkSpfTool").length){
+		return;
+	}
 
+	function sleep(ms){
+		return new Promise(
+			r=>setTimeout(r,ms)
+		);
+	}
 
-async function addOneServer(server){
 
+	async function waitResult(){
 
 
-$("#gs_serverId")
 
-.val(
-server
-)
+		while(true){
 
-.trigger(
-"keyup"
-);
 
 
+			const msg =
 
+			$("#msgErroraddSPF")
+
+			.text()
+
+			.trim();
+
+
+
+
+
+
+			if(
+				msg.length > 0
+			){
+
+				return msg;
+
+			}
+
+
+
+
+
+
+			await sleep(
+				100
+			);
+
+
+
+		}
+
+	}
+
+	async function closeModal(){
+
+
+
+		$("#modalSPF")
+
+		.find(
+			"[data-dismiss='modal']"
+		)
+
+		.first()
+
+		.trigger(
+			"click"
+		);
+
+		while(
+
+			$("#modalSPF")
+
+			.is(
+				":visible"
+			)
+
+		){
+
+			await sleep(
+				50
+			);
+
+		}
+
+	}
+
+
+	const panel =
+	document.createElement(
+		"div"
+	);
 
+	panel.id =
+	"bulkSpfTool";
 
-$("#blocks_grid")[0]
-.triggerToolbar();
+	panel.style = `
+	position:fixed;
+	top:20px;
+	right:20px;
+	z-index:999999;
+	background:white;
+	padding:15px;
+	width:520px;
+	border:2px solid black;
+	`;
 
+	panel.innerHTML = `
 
+	<div>
+	🚀 SPF AUTO REAL
+	</div>
 
+	<input
+	id="spfBatchSize"
+	value="1"
+	type="number"
+	style="
+	width:100%;
+	height:40px;
+	margin:10px 0;
+	"
+	/>
 
+	<textarea
+	id="bulkSpfInput"
+	style="
+	width:100%;
+	height:220px;
+	"
+	></textarea>
 
-await sleep(
-400
-);
+	<button
+	id="spfStart"
+	style="
+	width:100%;
+	height:42px;
+	"
+	>
+	START
+	</button>
 
+	<div
+	id="spfProgress"
+	style="
+	margin-top:10px;
+	font-weight:bold;
+	"
+	>
+	Ready
+	</div>
 
+	<div
+	id="spfStatus"
+	style="
+	margin-top:10px;
+	font-size:12px;
+	"
+	>
+	-
+	</div>
 
+	`;
 
+	document.body.appendChild(
+	panel
+	);
 
-const ids =
 
-$("#blocks_grid")
 
-.jqGrid(
-"getDataIDs"
-);
+	$("#spfStart").click(
+	async function(){
 
+		const lines =
 
+		$("#bulkSpfInput")
 
+		.val()
 
+		.split("\n")
 
-if(
-ids.length
-){
+		.filter(
+			x=>x.trim()
+		);
 
-fn_add_selected_block(
-ids[0]
-);
 
-}
+		const size =
 
+		parseInt(
 
+			$("#spfBatchSize")
 
+			.val()
 
+		) || 1;
 
-$(".domains:last")
 
-.val(
-"__Domain"
-)
+		const total =
 
-.trigger(
-"keyup"
-)
+		Math.ceil(
 
-.trigger(
-"change"
-);
+			lines.length / size
 
+		);
 
 
 
+		for(
 
-await sleep(
-100
-);
+			let i = 0;
 
-}
+			i < lines.length;
 
+			i += size
 
+		){
 
 
+			const current =
 
+			(i / size) + 1;
 
 
+			$("#spfProgress")
 
+			.text(
 
-$("#vmtaAddBtn").click(
-async function(){
+				current
 
+				+
 
+				"/"
 
-const servers =
+				+
 
-$("#vmtaServersInput")
+				total
 
-.val()
+			);
 
-.split("\n")
 
-.map(
-x=>x.trim()
-)
+			const batch =
 
-.filter(
-Boolean
-);
+			lines
 
+			.slice(
+				i,
+				i + size
+			)
 
+			.join(
+				"\n"
+			);
 
 
+			$("#msgErroraddSPF")
+			.html(
+				""
+			);
 
-let added =
-0;
 
+			$("#ADDSPF")
+			.trigger(
+				"click"
+			);
 
 
+			await sleep(
+				300
+			);
 
 
-for(
-const server
-of
-servers
-){
+			$("#infospf")
 
+			.val(
+				batch
+			)
 
+			.trigger(
+				"input"
+			)
 
-await addOneServer(
-server
-);
+			.trigger(
+				"change"
+			);
 
 
 
-added++;
+			await sleep(
+				200
+			);
 
 
+			$("#addSPF")
+			.trigger(
+				"click"
+			);
 
-}
 
+			const result =
 
+			await waitResult();
 
 
 
-console.log(
-"Added:",
-added
-);
+			$("#spfStatus")
 
+			.text(
+				result
+			);
 
 
+			await closeModal();
 
 
-$("#gs_serverId")
 
-.val("")
+			await sleep(
+				150
+			);
 
-.trigger(
-"keyup"
-);
 
 
+		}
 
+		$("#spfProgress")
+		.text(
+			"Done ✅"
+		);
 
+	});
+	})();
+	  </pre>
+	  
+	  
+	  
+		<pre id="ValidateDKIM" style="display:none;">
+	(function(){
 
-$("#blocks_grid")[0]
-.triggerToolbar();
+	if($("#bulkTXTTool").length){
+		return;
+	}
 
+	function sleep(ms){
+		return new Promise(
+			r=>setTimeout(r,ms)
+		);
+	}
 
+	async function waitResult(){
 
-});
 
+		while(true){
 
+			const msg =
 
+			$("#msgErroraddTXT")
 
+			.text()
 
+			.trim();
 
+			if(
+				msg.length > 0
+			){
 
+				return msg;
 
+			}
 
 
-async function waitFinish(){
+			await sleep(
+				100
+			);
 
 
 
-let guard =
-0;
+		}
 
+	}
 
 
+	async function closeModal(){
 
+		$("#modalTXT")
 
-while(
+		.find(
+			"[data-dismiss='modal']"
+		)
 
-window.inprocess > 0
+		.first()
 
-&&
+		.trigger(
+			"click"
+		);
 
-guard < 100
+		while(
 
-){
+			$("#modalTXT")
 
+			.is(
+				":visible"
+			)
 
+		){
 
-await sleep(
-100
-);
+			await sleep(
+				50
+			);
 
+		}
 
+	}
 
-guard++;
+	const panel =
+	document.createElement(
+		"div"
+	);
 
+	panel.id =
+	"bulkTXTTool";
 
+	panel.style = `
+	position:fixed;
+	top:20px;
+	right:20px;
+	z-index:999999;
+	background:white;
+	padding:15px;
+	width:520px;
+	border:2px solid black;
+	border-radius:10px;
+	box-shadow:0 0 15px rgba(0,0,0,.2);
+	font-family:Arial;
+	`;
 
-}
+	panel.innerHTML = `
 
+	<div style="
+	font-size:18px;
+	font-weight:bold;
+	margin-bottom:10px;
+	">
+	🚀 TXT RECORD AUTO
+	</div>
 
+	<input
+	id="txtBatchSize"
+	value="1"
+	type="number"
+	style="
+	width:100%;
+	height:40px;
+	margin-bottom:10px;
+	padding-left:10px;
+	"
+	/>
 
-}
+	<textarea
+	id="bulkTXTInput"
+	style="
+	width:100%;
+	height:220px;
+	padding:10px;
+	resize:none;
+	"
+	placeholder="domain,TXT"
+	></textarea>
 
+	<button
+	id="txtStart"
+	style="
+	width:100%;
+	height:42px;
+	margin-top:10px;
+	background:#28a745;
+	color:white;
+	border:none;
+	cursor:pointer;
+	"
+	>
+	START
+	</button>
 
+	<div
+	id="txtProgress"
+	style="
+	margin-top:10px;
+	font-weight:bold;
+	"
+	>
+	Ready
+	</div>
 
+	<div
+	id="txtStatus"
+	style="
+	margin-top:10px;
+	font-size:12px;
+	word-break:break-word;
+	"
+	>
+	-
+	</div>
 
+	`;
 
+	document.body.appendChild(
+	panel
+	);
 
 
+	$("#txtStart").click(
+	async function(){
 
 
-$("#vmtaAutoBtn").click(
-async function(){
 
+		const lines =
 
+		$("#bulkTXTInput")
 
-const letters = [
+		.val()
 
-"a","z","e","r","t",
-"y","u","i","o","p",
-"q","s","d","f","g",
-"h","j","k","l","m"
+		.split("\n")
 
-];
+		.filter(
+			x=>x.trim()
+		);
 
+		const size =
 
+		parseInt(
 
+			$("#txtBatchSize")
 
+			.val()
 
-for(
-const l
-of
-letters
-){
+		) || 1;
 
 
 
-const vmta =
-l+l;
+		const total =
 
+		Math.ceil(
 
+			lines.length / size
 
+		);
 
 
-$("#vmta_prefix_p2")
 
-.focus()
+		for(
 
-.val(
-vmta
-)
+			let i = 0;
 
-.trigger(
-"keyup"
-)
+			i < lines.length;
 
-.trigger(
-"blur"
-)
+			i += size
 
-.trigger(
-"change"
-);
+		){
 
 
+			const current =
 
+			(i / size) + 1;
 
 
-await sleep(
-100
-);
+			$("#txtProgress")
 
+			.text(
 
+				"Running "
 
+				+
 
+				current
 
-$("#submit")
+				+
 
-.trigger(
-"click"
-);
+				"/"
 
+				+
 
+				total
 
+			);
 
 
-console.log(
-"Submitting:",
-vmta
-);
+			const batch =
 
+			lines
 
+			.slice(
+				i,
+				i + size
+			)
 
+			.join(
+				"\n"
+			);
 
 
-await waitFinish();
+			$("#msgErroraddTXT")
+			.html(
+				""
+			);
 
 
+			$("#ADDTXT")
+			.trigger(
+				"click"
+			);
 
+			await sleep(
+				300
+			);
 
 
-await sleep(
-100
-);
+			$("#infotxt")
 
+			.val(
+				batch
+			)
 
+			.trigger(
+				"input"
+			)
 
-}
+			.trigger(
+				"keyup"
+			)
 
+			.trigger(
+				"change"
+			);
 
 
+			await sleep(
+				200
+			);
 
 
-alert(
-"Done"
-);
+			$("#addTXT")
+			.trigger(
+				"click"
+			);
 
 
 
-});
+			const result =
 
+			await waitResult();
 
-})();
-</pre>
-  <pre id="autoClickScript" style="display:none;">
-  
-  (function () {
-  const box = document.createElement("div");
-  box.style.position = "fixed";
-  box.style.bottom = "20px";
-  box.style.right = "20px";
-  box.style.background = "#0f172a";
-  box.style.color = "#fff";
-  box.style.padding = "15px";
-  box.style.borderRadius = "12px";
-  box.style.zIndex = "9999";
-  box.style.fontFamily = "Arial";
-  box.style.boxShadow = "0 8px 25px rgba(0,0,0,0.4)";
-  box.style.display = "flex";
-  box.style.flexDirection = "column";
-  box.style.gap = "10px";
+			$("#txtStatus")
 
+			.text(
+				result
+			);
 
-  const inputsRow = document.createElement("div");
-  inputsRow.style.display = "flex";
-  inputsRow.style.gap = "6px";
 
-  function createInput(ph) {
-    const inp = document.createElement("input");
-    inp.type = "number";
-    inp.placeholder = ph;
-    inp.style.width = "50px";
-    inp.style.padding = "6px";
-    inp.style.borderRadius = "6px";
-    inp.style.border = "1px solid #334155";
-    inp.style.background = "#020617";
-    inp.style.color = "#fff";
-    inp.style.textAlign = "center";
-    return inp;
-  }
+			await closeModal();
 
-  const h = createInput("HH");
-  const m = createInput("MM");
-  const s = createInput("SS");
+			await sleep(
+				150
+			);
 
-  inputsRow.append(h, m, s);
+		}
 
-  const btnRow = document.createElement("div");
-  btnRow.style.display = "flex";
-  btnRow.style.gap = "8px";
+		$("#txtProgress")
+		.text(
+			"Done ✅"
+		);
 
-  function createBtn(text, color) {
-    const btn = document.createElement("button");
-    btn.textContent = text;
+	});
+	})();
+	</pre>
+	  
+	  <pre id="autoCleanScript" style="display:none;">
+	// === UI Elements ===
+	const wrapper = document.createElement("div");
+	wrapper.style.position = "fixed";
+	wrapper.style.bottom = "20px";
+	wrapper.style.right = "20px";
+	wrapper.style.background = "#001f3f";
+	wrapper.style.color = "#00bfff";
+	wrapper.style.padding = "12px";
+	wrapper.style.fontFamily = "monospace";
+	wrapper.style.borderRadius = "10px";
+	wrapper.style.zIndex = "9999";
+	wrapper.style.boxShadow = "0 0 15px rgba(0, 191, 255, 0.6)";
+	wrapper.style.display = "flex";
+	wrapper.style.flexDirection = "column";
+	wrapper.style.gap = "8px";
 
-    btn.style.flex = "1";
-    btn.style.padding = "8px";
-    btn.style.border = "none";
-    btn.style.borderRadius = "8px";
-    btn.style.cursor = "pointer";
-    btn.style.fontWeight = "bold";
-    btn.style.background = color;
-    btn.style.color = "#fff";
-    btn.style.transition = "0.2s";
+	// === Controls ===
+	const controls = document.createElement("div");
+	controls.style.display = "flex";
+	controls.style.alignItems = "center";
+	controls.style.gap = "8px";
 
-    btn.onmouseenter = () => {
-      btn.style.opacity = "0.85";
-      btn.style.transform = "translateY(-1px)";
-    };
-    btn.onmouseleave = () => {
-      btn.style.opacity = "1";
-      btn.style.transform = "none";
-    };
+	// Interval input
+	const intervalInput = document.createElement("input");
+	intervalInput.type = "number";
+	intervalInput.min = "1";
+	intervalInput.value = "10";
+	intervalInput.style.width = "60px";
+	intervalInput.style.padding = "5px";
+	intervalInput.style.border = "1px solid #00bfff";
+	intervalInput.style.borderRadius = "5px";
+	intervalInput.style.background = "#002b5c";
+	intervalInput.style.color = "#00bfff";
 
-    return btn;
-  }
+	// Duration input
+	const durationInput = intervalInput.cloneNode();
+	durationInput.value = "60";
 
-  const start = createBtn("▶ Start", "#22c55e");
-  const stop = createBtn("⏹ Stop", "#ef4444");
+	// Labels
+	const intervalLabel = document.createElement("label");
+	intervalLabel.textContent = "Interval (sec):";
 
-  // text
-  const txt = document.createElement("div");
-  txt.style.fontSize = "13px";
-  txt.style.textAlign = "center";
-  txt.style.color = "#94a3b8";
+	const durationLabel = document.createElement("label");
+	durationLabel.textContent = "Duration (sec):";
 
-  // assemble UI
-  btnRow.append(start, stop);
-  box.append(inputsRow, btnRow, txt);
-  document.body.appendChild(box);
+	// Button
+	const toggleButton = document.createElement("button");
+	toggleButton.textContent = "▶ Start";
+	toggleButton.style.padding = "6px 10px";
+	toggleButton.style.background = "#005eff";
+	toggleButton.style.color = "#fff";
+	toggleButton.style.border = "none";
+	toggleButton.style.borderRadius = "5px";
+	toggleButton.style.cursor = "pointer";
 
-  // ===== TIMER =====
-  let timer = null;
+	// Timer displays
+	const clickTimerDisplay = document.createElement("div");
+	clickTimerDisplay.textContent = "Next click in: --:--";
+	const stopTimerDisplay = document.createElement("div");
+	stopTimerDisplay.textContent = "Stopping in: --:--";
+	clickTimerDisplay.style.fontSize = stopTimerDisplay.style.fontSize = "14px";
 
-  function format(t) {
-    const hh = Math.floor(t / 3600);
-    const mm = Math.floor((t % 3600) / 60);
-    const ss = t % 60;
-    return [hh, mm, ss].map(x => String(x).padStart(2, '0')).join(':');
-  }
+	// Assemble UI
+	controls.appendChild(intervalLabel);
+	controls.appendChild(intervalInput);
+	controls.appendChild(durationLabel);
+	controls.appendChild(durationInput);
+	controls.appendChild(toggleButton);
+	wrapper.appendChild(controls);
+	wrapper.appendChild(clickTimerDisplay);
+	wrapper.appendChild(stopTimerDisplay);
+	document.body.appendChild(wrapper);
 
-  function clickSend() {
-    const btn = document.querySelector('input.send');
+	// === Timer Logic ===
+	let clickIntervalId, countdownIntervalId, stopTimeout;
+	let intervalMs = parseInt(intervalInput.value) * 1000;
+	let remainingClickTime = intervalMs;
+	let remainingStopTime = parseInt(durationInput.value) * 1000;
+	let running = false;
 
-    if (btn) {
-      btn.click();
-      return true;
-    }
-    return false;
-  }
+	const elements = document.querySelectorAll("input");
 
-  start.onclick = () => {
-    let total =
-      (parseInt(h.value) || 0) * 3600 +
-      (parseInt(m.value) || 0) * 60 +
-      (parseInt(s.value) || 0);
+	// Format helper
+	function format(ms) {
+	  const totalSeconds = Math.floor(ms / 1000);
+	  const minutes = Math.floor(totalSeconds / 60);
+	  const seconds = totalSeconds % 60;
+	  return `${String(minutes).padStart(1, '0')}:${String(seconds).padStart(2, '0')}`;
+	}
 
-    if (total <= 0) {
-      txt.textContent = "❌ invalid time";
-      txt.style.color = "#ef4444";
-      return;
-    }
+	// Update countdowns
+	function updateCountdowns() {
+	  remainingClickTime -= 1000;
+	  remainingStopTime -= 1000;
 
-    txt.style.color = "#94a3b8";
-    clearInterval(timer);
+	  if (remainingClickTime < 0) remainingClickTime = 0;
+	  if (remainingStopTime < 0) remainingStopTime = 0;
 
-    timer = setInterval(() => {
-      if (total <= 0) {
-        clearInterval(timer);
+	  clickTimerDisplay.textContent = `Next click in: ${format(remainingClickTime)}`;
+	  stopTimerDisplay.textContent = `Stopping in: ${format(remainingStopTime)}`;
+	}
 
-        const ok = clickSend();
+	// Start
+	function startScript() {
+	  clearAll();
 
-        txt.textContent = ok
-          ? "✅ Clicked Send"
-          : "❌ Button not found";
+	  intervalMs = parseInt(intervalInput.value) * 1000;
+	  remainingClickTime = intervalMs;
+	  remainingStopTime = parseInt(durationInput.value) * 1000;
 
-        txt.style.color = ok ? "#22c55e" : "#ef4444";
-        return;
-      }
+	  clickIntervalId = setInterval(() => {
+		if (elements[7]) elements[7].click();
+		remainingClickTime = intervalMs;
+	  }, intervalMs);
 
-      txt.textContent = "⏳ " + format(total);
-      total--;
+	  countdownIntervalId = setInterval(updateCountdowns, 1000);
 
-    }, 1000);
-  };
+	  stopTimeout = setTimeout(() => {
+		stopScript();
+		clickTimerDisplay.textContent = "⏹ Clicks stopped";
+		stopTimerDisplay.textContent = "✅ Done!";
+	  }, remainingStopTime);
 
-  stop.onclick = () => {
-    clearInterval(timer);
-    txt.textContent = "⏹ stopped";
-    txt.style.color = "#94a3b8";
-  };
+	  toggleButton.textContent = "⏹ Stop";
+	  running = true;
+	}
 
-})();
+	// Stop
+	function stopScript() {
+	  clearAll();
+	  toggleButton.textContent = "▶ Start";
+	  running = false;
+	}
 
-  </pre>
+	// Clear all timers
+	function clearAll() {
+	  clearInterval(clickIntervalId);
+	  clearInterval(countdownIntervalId);
+	  clearTimeout(stopTimeout);
+	}
 
-  <pre id="TesTAuto_Mail" style="display:none;">
+	// Toggle on button click
+	toggleButton.addEventListener("click", () => {
+	  if (!running) {
+		startScript();
+	  } else {
+		stopScript();
+		clickTimerDisplay.textContent = "⏹ Stopped manually";
+		stopTimerDisplay.textContent = "⌛ Waiting...";
+	  }
+	});
+	  </pre>
 
-(function(){
+	  <pre id="autoScheduleScript" style="display:none;">
+	// === UI Elements ===
+	const wrapper = document.createElement("div");
+	wrapper.style.position = "fixed";
+	wrapper.style.bottom = "20px";
+	wrapper.style.right = "20px";
+	wrapper.style.background = "#001f3f";
+	wrapper.style.color = "#00bfff";
+	wrapper.style.padding = "12px";
+	wrapper.style.fontFamily = "monospace";
+	wrapper.style.borderRadius = "10px";
+	wrapper.style.zIndex = "9999";
+	wrapper.style.boxShadow = "0 0 15px rgba(0, 191, 255, 0.6)";
+	wrapper.style.display = "flex";
+	wrapper.style.alignItems = "center";
+	wrapper.style.gap = "10px";
 
-// ===== SUBJECT =====
-document.getElementById("subject").value = "__Returnpath";
+	// Input
+	const input = document.createElement("input");
+	input.type = "number";
+	input.min = "1";
+	input.value = "10";
+	input.style.width = "60px";
+	input.style.padding = "5px";
+	input.style.border = "1px solid #00bfff";
+	input.style.borderRadius = "5px";
+	input.style.background = "#002b5c";
+	input.style.color = "#00bfff";
 
+	// Label
+	const label = document.createElement("label");
+	label.textContent = "Interval (sec): ";
 
-// ===== HEADER =====
-document.getElementById("brut_h").value = `Received: from njmta-53.sailthru.com (173.228.155.53) by dailybeast-a.sailthru.com id h1t86m1qqbs3 for __Link@gmail.com; __smtpDate
-Received: from nj1-madbrick.flt (172.18.20.7) by njmta-53.sailthru.com id h1t7vc1qqbsf for __Link@gmail.com; __smtpDate
-Date: __smtpDate
-From: "__From_nm" <__Random_com[14,14,l].__Random_com[14,14,n]@__Random_com[6,6,ln].__Random_com[6,6,ln].__Random_com[6,6,nl].us>
-Message-ID: <__Random_com[8,8,ln].__Random_com[4,4,ln]0220.__Random_com[6,6,ln].__Random_com[4,4,ln]SMTPIN_ADDED_MISSING@mx.google.com>
-To: __Link@gmail.com
-Subject: __Subject
-MIME-Version: 1.0
-X-Google-Sender-Delegation: __Random_com[10,10,l]
-Content-Type: multipart/report; boundary="000000000000S__Uniqid"; report-type=delivery-status`;
+	// START BUTTON
+	const startBtn = document.createElement("button");
+	startBtn.textContent = "Start";
+	startBtn.style.padding = "5px 10px";
+	startBtn.style.background = "#00bfff";
+	startBtn.style.border = "none";
+	startBtn.style.borderRadius = "5px";
+	startBtn.style.cursor = "pointer";
 
+	// 🔥 STOP BUTTON
+	const stopBtn = document.createElement("button");
+	stopBtn.textContent = "Stop";
+	stopBtn.style.padding = "5px 10px";
+	stopBtn.style.background = "#ff4d4d";
+	stopBtn.style.border = "none";
+	stopBtn.style.borderRadius = "5px";
+	stopBtn.style.cursor = "pointer";
 
-// ===== BODY =====
-document.getElementById("body").value = `--000000000000S__Uniqid
-Content-Type: multipart/related; boundary="000000000000B__Uniqid"
+	// Timer display
+	const timerDisplay = document.createElement("span");
+	timerDisplay.textContent = "Next click in: --:--:--";
 
---000000000000B__Uniqid
-Content-Type: multipart/alternative; boundary="000000000000C__Uniqid"
+	// Assemble
+	wrapper.appendChild(label);
+	wrapper.appendChild(input);
+	wrapper.appendChild(startBtn);
+	wrapper.appendChild(stopBtn); // 🔥 added
+	wrapper.appendChild(timerDisplay);
+	document.body.appendChild(wrapper);
 
---000000000000C__Uniqid
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	// === Timer Logic ===
+	let intervalMs = parseInt(input.value) * 1000;
+	let remainingTime = intervalMs;
+	let clickIntervalId, countdownIntervalId;
 
-Top Stories of the Day: smtpDate
+	const elements = document.querySelectorAll("input");
 
-207282808238797353
------
-__Random_com[60,60,l]=
-__Random_com[60,60,l]=
-__Random_com[60,60,l]
+	function updateTimer() {
+	  remainingTime -= 1000;
+	  if (remainingTime < 0) remainingTime = 0;
 
-If you believe this has been sent to you in error, please safely unsubscrib=
-e
+	  const hours = Math.floor(remainingTime / 3600000);
+	  const minutes = Math.floor((remainingTime % 3600000) / 60000);
+	  const seconds = Math.floor((remainingTime % 60000) / 1000);
 
---000000000000C__Uniqid
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 8bit+
+	  timerDisplay.textContent = `Next click in: ${hours}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+	}
 
+	function startClicker() {
+	  clearInterval(clickIntervalId);
+	  clearInterval(countdownIntervalId);
 
-<html>
-<body>
-  <center>
-<table style="border:2px solid black;height: 228px;background: linear-gradient(to right,#DCDCDC,#f2f2f2,#DCDCDC);" width="653">
-<tbody>
-<tr>
+	  intervalMs = parseInt(input.value) * 1000;
+	  remainingTime = intervalMs;
 
-<td>
-<p style="text-align: center;font-family:Sans-Serif;font-size:70px;"><strong><span style=" text-align: center;font-family:Serif;font-size:50px;">hims</span><br>Get hard and<br>
-  stay hard <sup> </sup><br>on your terms</strong></p>
-  <p style="font-size:30px;font-family:Sans-Serif;text-align: center;"> Start treating your ED. We make it easy.</p>
-    <p style="text-align: center;">
-  <a  href="https://__Domain/redirect.html?syv=1[trk]67c18cd45b0e1_vl_shared.[jobid].[news].__Random_com[5,10,ul]"style="text-decoration:none;color: #000000; text-align: -webkit-center; background-color: #ffffff;"><br /><strong style="padding: 16px 30px; background-color: black; color: white; border: none;font-size: 30px; letter-spacing: 1px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); font-family:Sans-Serif;">Start Free Assessment &gt;&gt;</strong></a></p>
-  <br><br><br>
-        <center>
-    
-    <br />
-    <a href="https://__Domain/redirect.html?syv=1[trk]67c18cd45b0e1_vl_shared.[jobid].[news].__Random_com[5,10,ul]"  >
-      <img src="https://i.imgur.com/yNVuX4i.png#WBSebE" width="657" >
-    </a>
-    <br />    <br />
-    If you do not wish to receive future messages <a href="https://__Domain/redirect.html?syv=1[trk]Uns_67c18cd45b0e1vl_shared.[jobid].[news].__Random_com[5,10,ul]">click here to unsubscribe</a> 
-<br />
-<br />hims | 2269 Chestnut St. #523 San Francisco, CA 94123
-    <br />
-  <br />
-    <a href="https://__Domain/redirect.html?syv=1[trk]Out_67c18cd45b0e1vl_shared.[jobid].[news].__Random_com[5,10,ul]" >
-unsubscribe    </a>
-    <br />
-  </center>
-  <style>body {background-image: url(' https://tinyurl.com/xwinisteredredirect.html?syv=8[trk]67c18cd45b0e1_vl_shared.[jobid].[news].__Random_com[5,10,ul] ');</style>
-</td>
-</tr>
-</tbody>
-</table>
-    
-</body>
-</html>
---000000000000C__Uniqid--
---000000000000B__Uniqid--
---000000000000S__Uniqid--
+	  clickIntervalId = setInterval(() => {
+		if (elements[8]) elements[8].click();
+		remainingTime = intervalMs;
+	  }, intervalMs);
 
---000000000000S__Uniqid--`;
+	  countdownIntervalId = setInterval(updateTimer, 1000);
+	}
 
+	// 🔴 STOP FUNCTION
+	function stopClicker(){
+	  clearInterval(clickIntervalId);
+	  clearInterval(countdownIntervalId);
+	  timerDisplay.textContent = "STOP DONE 👌🏼";
+	}
 
-// ===== TRIGGER =====
-$("#subject, #brut_h, #body").trigger("change");
+	// EVENTS
+	startBtn.addEventListener("click", startClicker);
+	stopBtn.addEventListener("click", stopClicker);
+	input.addEventListener("change", startClicker);
+	  </pre>
 
 
-// =========================
-// ===== DROPDOWN EMAIL =====
-// =========================
+	 <pre id="vmta" style="display:none;">
+	(function(){
 
-// create select
-var select = document.createElement('select');
-select.id = "customDropdown";
-select.style.marginLeft = "5px";
-select.style.padding = "5px";
+	if(
+		document.getElementById(
+			"vmtaConsoleBox"
+		)
+	){
+		return;
+	}
 
-// emails
-// List of email addresses
-var emails = [
-'russellsimp.so.n.7.091@gmail.com',
-'bentiecepark.in.541.2@gmail.com',
-'ilenenessseren.s.ngnerv@gmail.com',
-'jeannepr.ic.e.47.08.9@gmail.com',
-'andreaw.ade.954.4@gmail.com',
-'madelynn.no.rr.i7.68@gmail.com',
-'ghipkeo.xie.c.r.u.n.h@gmail.com',
-'luantuoiphu.a.n.ng.oa.t@gmail.com',
-'lyrimu.l.l.en.620@gmail.com',
-'colemanco.ms3.1.1.997@gmail.com',
-'emmalyngilles.p.ie.0.69@gmail.com',
-'terrywatso.n.5.75.49@gmail.com',
-'lucyfowler.8.9.3.0.7@gmail.com',
-'rachelha.ll.8.4.5.46@gmail.com',
-'ngachtrychphac.h.guyn.h@gmail.com',
-'sietsi.e.tn.oach@gmail.com',
-'carlostuc.ke.r93.729@gmail.com',
-'blaialva.rad.o2369@gmail.com',
-'rogersimmmon.s.1.76.7.9@gmail.com',
-'isobelhamil.to.n.709.3.4@gmail.com',
-'patgrah.a.m.45.1.5.7@gmail.com',
-'francissut.ton.42386@gmail.com',
-'andrewwil.mr0.919.8.3@gmail.com',
-'hoctoap.n.goan@gmail.com',
-'chauhantmkris.h.nao.3@gmail.com',
-'xuychphayp.an.g.t.uy.en@gmail.com',
-'darrylvargas.1.384@gmail.com',
-'charlenearnold473.11@gmail.com',
-'hungghiepx.ach.puyn.h@gmail.com',
-'boachhi.et.hi.et@gmail.com',
-'alicemendoz.a.5.4.7.5.5@gmail.com',
-'quynhquy.nhr.oac.h@gmail.com',
-'carmenwo.ods2.9.7.1@gmail.com',
-'abigailhorton.5.600.6@gmail.com',
-'marstevenson.23.6.9@gmail.com',
-'micheleluc.a.s21.024@gmail.com',
-'normavasq.u.ez738.8.9@gmail.com',
-'savantwtva.is.h.a.li.h.y@gmail.com',
-'jeremybar.nes488.5.3@gmail.com',
-'janewarr.e.n.86790@gmail.com',
-'carlostuc.ke.r.9.37.29@gmail.com',
-'judsonartsgilla.mrwx.g.z.m@gmail.com',
-'jonathanfis.he.r.76.9.06@gmail.com',
-'piechcuychqui.ep.guy.n.h@gmail.com',
-'patsimmo.n.s.6.1.801@gmail.com',
-'jordanc.a.rr280.1.6@gmail.com',
-'bellarodriq.ue.z.2326.7@gmail.com',
-'kiecmuychmua.n.hb.o.a.c.h@gmail.com',
-'scottgar.cia7.2.7.69@gmail.com',
-'alejandrayzev.ern.n@gmail.com',
-'kenneddoughe.r.ty.49.3@gmail.com',
-'oliviaalexa.nde.r.1933@gmail.com',
-'boachqu.an.gq.u.a.n.g@gmail.com',
-'judsonartsgilla.m.r.w.x.g.z.m@gmail.com',
-'rattittbi.nit.aac@gmail.com',
-'suynh.kh.e.pthat@gmail.com',
-'brattainweisenburger.cd.i.b.45.41@gmail.com',
-'kadencantho.ny.46.1@gmail.com',
-'nola.fow.l.e156@gmail.com',
-'punhsuang.hachq.ue.o@gmail.com',
-'aarystrick.lan.d.2.36.9@gmail.com',
-'tietxieph.uyc.hnoat@gmail.com',
-'cuanhquangph.o.mquuyen@gmail.com',
-'chesterjenki.ns4.9.398@gmail.com',
-'richardcolli.ns2.6.249@gmail.com',
-'estrell.a.b.ar.217@gmail.com',
-'zoemitche.l.le39.28.8@gmail.com',
-'elliannjara.m.illo.61.8@gmail.com',
-'markha.l.l.9939@gmail.com',
-'kuangnguanbuanhp.oa.ch@gmail.com',
-'shane.ne.a.l5.4.68@gmail.com',
-'normamil.e.s9.404@gmail.com',
-'herbertjones7.1.9.10@gmail.com',
-'hollfarl.ey.65.4@gmail.com',
-'rosemaryholla.n.d.22312@gmail.com',
-'blaialvar.ado2.3.69@gmail.com',
-'rayraymr1.4.1.99.3@gmail.com',
-'sotosotom.rs.291.99.0@gmail.com',
-'markw.e.lch3.912@gmail.com',
-'choetmo.am.t.hi.c.h@gmail.com',
-'oliviaalexan.d.e.r.1.93.3@gmail.com',
-'kuangnguanbua.n.h.poac.h@gmail.com',
-'lenamartin4.5.90@gmail.com',
-'benjamin2miller5.0.84@gmail.com',
-'dartxgaj.en.dr.a.gh@gmail.com',
-'mandadzj.av.ed3.9@gmail.com',
-'boachh.iethi.e.t@gmail.com',
-'traceypearso.n6.9.7.4@gmail.com',
-'pinhguan.g.u.a.n@gmail.com',
-'louisgarci.a70162@gmail.com',
-'chhabralwalak.nand.av.l@gmail.com',
-'bentieciahowa.rt.h.7942@gmail.com',
-'scott97wal.k.er.271.8@gmail.com',
-'hunterwagn.er.6376@gmail.com',
-'melanieke.mp95721@gmail.com',
-'dennis.5l.ee.6.22.5@gmail.com',
-'baumgaerben.t.i.e5.81.2@gmail.com',
-'timmothybur.n.s.835.7.8@gmail.com',
-'xanhbachghi.ec.h.x.uy.n.h@gmail.com',
-'craigjames6.55.4.4@gmail.com',
-'baumgaerthomp.son3752@gmail.com',
-'melaniemarshall.6.59.2@gmail.com',
-'quangqua.n.gp.hunh@gmail.com',
-'egge.rc.ox5.5.42@gmail.com',
-'tranmica.ela8335@gmail.com',
-'kristinmur.phy7.9.14@gmail.com',
-'lenamart.i.n.4.5.9.0@gmail.com',
-'bechphuych.si.ecnon.g@gmail.com',
-'donald12ward.126.4@gmail.com',
-'maiside.lg.ad.o1.9.4@gmail.com',
-'huanhhua.n.hdoac.h@gmail.com',
-'markrobertso.n5628.5@gmail.com',
-'nicholasnguymr0.619.9.1@gmail.com',
-'ritthybaker.4.8.2.59@gmail.com',
-'hiph.op.muoet@gmail.com',
-'traceykim5542@gmail.com',
-'harrygonzal.ez2.5.715@gmail.com',
-'kangxiechquiun.g.a.n.h@gmail.com',
-'maddisorasm.ussen.13.9@gmail.com',
-'chhabralwalakna.n.davl@gmail.com',
-'jill.be.l.l8.3.94@gmail.com',
-'jacquelinemitch.el.l3.8.846@gmail.com',
-'meilan.ho.lt.236.9@gmail.com',
-'livingstonfros.t314@gmail.com',
-'terrywat.son5754.9@gmail.com',
-'loatngiun.gu.a.n.gbu.a@gmail.com',
-'voachmongk.ietqu.u.an@gmail.com',
-'hieptomp.h.uih.u.ng@gmail.com',
-'dorothystone.ms.0.2.19.89@gmail.com'
-];
 
-// options
-emails.forEach(e => {
-  let opt = document.createElement("option");
-  opt.value = e;
-  opt.textContent = e;
-  select.appendChild(opt);
-});
 
-// close button
-var closeBtn = document.createElement("button");
-closeBtn.innerHTML = "✖";
-closeBtn.style.marginLeft = "5px";
-closeBtn.style.cursor = "pointer";
 
-closeBtn.onclick = () => {
-  select.remove();
-  closeBtn.remove();
-};
 
-// inject 
-var div = document.querySelector('div[style="padding: 0px 3px 3px 5px;"]');
 
-if(div){
-  div.parentNode.insertBefore(select, div.nextSibling);
-  div.parentNode.insertBefore(closeBtn, select.nextSibling);
-}
+	const panel =
+	document.createElement(
+		"div"
+	);
 
-// on change → يحط email ف textarea
-select.addEventListener("change", function(){
-  document.getElementById("to").value = this.value;
-});
+	panel.id =
+	"vmtaConsoleBox";
 
-})();
+	panel.style = `
+	position:fixed;
+	top:20px;
+	right:20px;
+	z-index:999999;
+	background:white;
+	padding:15px;
+	border:2px solid black;
+	border-radius:12px;
+	width:340px;
+	box-shadow:0 5px 20px rgba(0,0,0,.2);
+	`;
 
-// Create a select element (dropdown)
-var select = document.createElement('select');
-select.setAttribute('id', 'dropdown');
-select.classList.add('ui-widget-content');
 
-// Style بسيط
-select.style.marginLeft = '5px';
-select.style.padding = '5px';
 
 
 
-// Create options
-emails.forEach(function(email) {
-  var option = document.createElement('option');
-  option.value = email;
-  option.textContent = email;
-  select.appendChild(option);
-});
 
-// 🔥 Create close button (X)
-var closeBtn = document.createElement('button');
-closeBtn.innerHTML = '✖';
-closeBtn.style.marginLeft = '5px';
-closeBtn.style.cursor = 'pointer';
-closeBtn.style.border = 'none';
-closeBtn.style.background = 'transparent';
-closeBtn.style.fontSize = '16px';
-closeBtn.style.color = '#888';
+	panel.innerHTML = `
 
-// hover effect
-closeBtn.onmouseover = () => closeBtn.style.color = 'red';
-closeBtn.onmouseout = () => closeBtn.style.color = '#888';
+	&lt;div style="font-weight:bold;margin-bottom:10px;"&gt;
+	VMTA TOOL
+	&lt;/div&gt;
 
-// click = remove both
-closeBtn.onclick = () => {
-  select.remove();
-  closeBtn.remove();
-};
+	&lt;textarea
+	id="vmtaServersInput"
+	style="
+	width:100%;
+	height:160px;
+	resize:none;
+	"
+	placeholder="one server per line"
+	&gt;&lt;/textarea&gt;
 
-// Find the div
-var div = document.querySelector('div[style="padding: 0px 3px 3px 5px;"]');
+	&lt;button
+	id="vmtaAddBtn"
+	style="
+	width:100%;
+	margin-top:10px;
+	"
+	&gt;
+	Add Servers
+	&lt;/button&gt;
 
-// Append
-if (div) {
-  div.parentNode.insertBefore(select, div.nextSibling);
-  div.parentNode.insertBefore(closeBtn, select.nextSibling);
-} else {
-  console.error('Div not found.');
-}
+	&lt;hr&gt;
 
-// Select change event
-select.addEventListener('change', function() {
-  var selectedEmail = select.value;
-  var textarea = document.getElementById('to');
-  if (textarea) {
-    textarea.value = selectedEmail;
-  }
-});
+	&lt;button
+	id="vmtaAutoBtn"
+	style="
+	width:100%;
+	"
+	&gt;
+	Auto VMTA
+	&lt;/button&gt;
 
-  </pre>
-  
- <pre id="AutoPauseRPS" style="display:none;">
-(() => {
-  let stopFlag = false;
-  let pauseFlag = false;
-  let batchSize = 100;
+	`;
 
-  // ===== PANEL =====
-  const panel = document.createElement('div');
-  panel.style.position = 'fixed';
-  panel.style.top = '20px';
-  panel.style.left = '20px';
-  panel.style.zIndex = 9999;
-  panel.style.width = '420px';
-  panel.style.background = 'rgba(0,0,0,0.2)';
-  panel.style.backdropFilter = 'blur(10px)';
-  panel.style.padding = '15px';
-  panel.style.borderRadius = '14px';
-  panel.style.boxShadow = '0 10px 30px rgba(0,0,0,0.6)';
-  panel.style.color = '#fff';
-  panel.style.fontFamily = 'system-ui';
-  document.body.appendChild(panel);
 
-  // ===== TITLE =====
-  const title = document.createElement('div');
-  title.textContent = '⚡ Control Panel';
-  title.style.fontSize = '16px';
-  title.style.marginBottom = '10px';
-  title.style.fontWeight = 'bold';
-  panel.appendChild(title);
 
-  // ===== TEXTAREA =====
-  const inputArea = document.createElement('textarea');
-  inputArea.placeholder = 'Paste your lines here...';
-  inputArea.style.width = '100%';
-  inputArea.style.height = '140px';
-  inputArea.style.borderRadius = '10px';
-  inputArea.style.padding = '10px';
-  inputArea.style.marginBottom = '10px';
-  panel.appendChild(inputArea);
 
-  // ===== BATCH =====
-  const batchRow = document.createElement('div');
-  batchRow.style.display = 'flex';
-  batchRow.style.gap = '10px';
-  batchRow.style.marginBottom = '12px';
 
-  const batchLabel = document.createElement('span');
-  batchLabel.textContent = 'Batch:';
 
-  const batchInput = document.createElement('input');
-  batchInput.type = 'number';
-  batchInput.value = 100;
-  batchInput.style.flex = '1';
+	document.body.appendChild(
+	panel
+	);
 
-  batchInput.oninput = () => {
-    batchSize = parseInt(batchInput.value) || 100;
-  };
 
-  batchRow.append(batchLabel, batchInput);
-  panel.appendChild(batchRow);
 
-  // ===== BUTTONS =====
-  const btnRow = document.createElement('div');
-  btnRow.style.display = 'grid';
-  btnRow.style.gridTemplateColumns = '1fr 1fr';
-  btnRow.style.gap = '8px';
 
-  const styleBtn = (btn, color) => {
-    btn.style.padding = '10px';
-    btn.style.border = 'none';
-    btn.style.borderRadius = '10px';
-    btn.style.cursor = 'pointer';
-    btn.style.color = '#fff';
-    btn.style.background = color;
-    btn.style.fontWeight = 'bold';
-  };
 
-  const startButton = document.createElement('button');
-  startButton.textContent = '▶ Start';
-  styleBtn(startButton, '#22c55e');
 
-  const pauseButton = document.createElement('button');
-  pauseButton.textContent = '⏸ Pause';
-  styleBtn(pauseButton, '#facc15');
 
-  const resumeButton = document.createElement('button');
-  resumeButton.textContent = '⏵ Resume';
-  styleBtn(resumeButton, '#38bdf8');
 
-  const stopButton = document.createElement('button');
-  stopButton.textContent = '⛔ Stop';
-  styleBtn(stopButton, '#ef4444');
+	function sleep(ms){
 
-  btnRow.append(startButton, pauseButton, resumeButton, stopButton);
-  panel.appendChild(btnRow);
+	return new Promise(
 
-  stopButton.onclick = () => stopFlag = true;
-  pauseButton.onclick = () => pauseFlag = true;
-  resumeButton.onclick = () => pauseFlag = false;
+	r=>setTimeout(
+	r,
+	ms
+	)
 
-  const wait = ms => new Promise(r => setTimeout(r, ms));
+	);
 
-  const waitForButtonReenable = async (button) => {
-    while (button.disabled || button.classList.contains('ui-state-disabled')) {
+	}
 
-      if (stopFlag) throw new Error('Stopped');
 
-      while (pauseFlag) {
-        await wait(300);
-      }
 
-      await wait(200);
-    }
-  };
 
-  startButton.onclick = async () => {
 
-    stopFlag = false;
-    pauseFlag = false;
 
-    const lines = inputArea.value
-      .split('\n')
-      .filter(x => x.trim());
 
-    if (!lines.length) {
-      alert('Paste lines first');
-      return;
-    }
 
-    const chunks = [];
+	async function addOneServer(server){
 
-    for (let i = 0; i < lines.length; i += batchSize) {
-      chunks.push(
-        lines.slice(i, i + batchSize).join('\n')
-      );
-    }
 
-    const targetArea = document.getElementById('otherdoms');
-    const button = document.querySelector('input[name="Pause"]');
 
-    if (!targetArea || !button) {
-      alert('Elements not found');
-      return;
-    }
+	$("#gs_serverId")
 
-    for (let i = 0; i < chunks.length; i++) {
+	.val(
+	server
+	)
 
-      if (stopFlag) {
-        alert('Stopped');
-        return;
-      }
+	.trigger(
+	"keyup"
+	);
 
-      while (pauseFlag) {
-        await wait(300);
-      }
 
-      targetArea.value = chunks[i];
-      targetArea.dispatchEvent(
-        new Event('input', { bubbles: true })
-      );
 
-      button.click();
 
-      try {
-        await waitForButtonReenable(button);
-      } catch (err) {
-        alert(err.message);
-        return;
-      }
-    }
 
-    alert('Done ✅');
-  };
+	$("#blocks_grid")[0]
+	.triggerToolbar();
 
-})();
-  </pre>
- 
-  
 
 
-  <pre id="CopyScript" style="display:none;">
-// ===== FUNCTIONS =====
-function extractEmailsAndSubjects() {
-    const emails = document.querySelectorAll('.bog span');
-    const subjects = [];
 
-    emails.forEach(email => {
-        let subject = email.textContent
-            .trim()
-            .replace(/return@|\[|\]/g, ' ')
-            .replace(/\s+/g, ' ')
-            .replace(/ /g, '\t')
-            .trim();
 
-        subjects.push(subject);
-    });
+	await sleep(
+	400
+	);
 
-    subjects.sort();
-    const sortedSubjects = subjects.join('\n');
-    copyToClipboard(sortedSubjects);
-}
 
-function copyToClipboard(text) {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-}
 
-function extractUniqueIPsAndCopyToClipboard() {
-    const elements = document.querySelectorAll('.zA');
-    const uniqueIPs = new Set();
-    const ipRegex = /\b(?:\d{1,3}\.){3}\d{1,3}\b/g;
 
-    elements.forEach(element => {
-        const text = element.textContent.trim();
-        const ips = text.match(ipRegex);
 
-        if (ips) {
-            ips.forEach(ip => uniqueIPs.add(ip));
-        }
-    });
+	const ids =
 
-    const sortedIPs = Array.from(uniqueIPs)
-        .filter(ip => ip.trim() !== '')
-        .sort()
-        .join('\n');
+	$("#blocks_grid")
 
-    const textarea = document.createElement('textarea');
-    textarea.value = sortedIPs;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textarea);
-}
+	.jqGrid(
+	"getDataIDs"
+	);
 
-// ===== UI =====
-(function () {
 
-    function injectButtons() {
-        const container = document.querySelector('.aeH');
-        if (!container) return;
 
-        
-        if (document.getElementById("custom-btns")) return;
 
-        const wrapper = document.createElement('div');
-        wrapper.id = "custom-btns";
-        wrapper.style.display = "flex";
-        wrapper.style.gap = "10px";
-        wrapper.style.margin = "10px 0";
-        wrapper.style.zIndex = "9999";
-        wrapper.style.position = "relative";
 
-        function createButton(text, color) {
-            const btn = document.createElement('button');
-            btn.innerText = text;
+	if(
+	ids.length
+	){
 
-            btn.style.padding = "7px 14px";
-            btn.style.borderRadius = "20px";
-            btn.style.border = "1px solid #dadce0";
-            btn.style.background = "#fff";
-            btn.style.cursor = "pointer";
-            btn.style.fontSize = "13px";
-            btn.style.fontWeight = "500";
-            btn.style.transition = "all 0.2s ease";
-            btn.style.boxShadow = "0 1px 3px rgba(0,0,0,0.1)";
-            btn.style.pointerEvents = "auto";
+	fn_add_selected_block(
+	ids[0]
+	);
 
-            btn.onmouseenter = () => {
-                btn.style.background = color;
-                btn.style.color = "#fff";
-                btn.style.borderColor = color;
-                btn.style.transform = "translateY(-1px)";
-            };
+	}
 
-            btn.onmouseleave = () => {
-                btn.style.background = "#fff";
-                btn.style.color = "#000";
-                btn.style.borderColor = "#dadce0";
-                btn.style.transform = "none";
-            };
 
-            return btn;
-        }
 
-        const btn1 = createButton("📋 Subjects", "#34a853");
-        btn1.onclick = (e) => {
-            e.stopPropagation();
-            extractEmailsAndSubjects();
-        };
 
-        const btn2 = createButton("🌐 IPs", "#1a73e8");
-        btn2.onclick = (e) => {
-            e.stopPropagation();
-            extractUniqueIPsAndCopyToClipboard();
-        };
 
-        wrapper.appendChild(btn1);
-        wrapper.appendChild(btn2);
+	$(".domains:last")
 
-        container.appendChild(wrapper);
-    }
+	.val(
+	"__Domain"
+	)
 
-    // Gmail dynamic fix
-    const observer = new MutationObserver(() => {
-        injectButtons();
-    });
+	.trigger(
+	"keyup"
+	)
 
-    observer.observe(document.body, { childList: true, subtree: true });
+	.trigger(
+	"change"
+	);
 
-})();
 
-  </pre>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" ></script>
 
-  <script>
 
 
-  // ===== SEARCH FILTER =====
-  document.getElementById('searchInput').addEventListener('input', function () {
-    const filter = this.value.toLowerCase();
-    document.querySelectorAll('.tool-item').forEach(item => {
-      const text = item.textContent.toLowerCase();
-      item.style.display = text.includes(filter) ? '' : 'none';
-    });
-  });
+	await sleep(
+	100
+	);
 
+	}
 
-  // ===== COPY FUNCTION (FIX COMPATIBILITY) =====
-  function copyText(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-      return navigator.clipboard.writeText(text);
-    } else {
-      return new Promise((resolve) => {
-        const textarea = document.createElement("textarea");
-        textarea.value = text;
-        textarea.style.position = "fixed";
-        textarea.style.left = "-999999px";
-        document.body.appendChild(textarea);
-        textarea.focus();
-        textarea.select();
 
-        try {
-          document.execCommand("copy");
-        } catch (err) {
-          alert("❌ Copy failed");
-        }
 
-        textarea.remove();
-        resolve();
-      });
-    }
-  }
 
 
-  // ===== COPY + UI LOGIC =====
-  document.querySelectorAll('.tool-button[data-script]').forEach(button => {
-    button.addEventListener('click', () => {
 
-      const scriptId = button.getAttribute('data-script');
 
-      const el = document.getElementById(scriptId);
-      const scriptText = el ? el.innerText.trim() : "";
 
-      if (!scriptText) return;
 
-      copyText(scriptText).then(() => {
+	$("#vmtaAddBtn").click(
+	async function(){
 
-        // reset colors
-        document.querySelectorAll('.tool-button[data-script]').forEach(btn => {
-          btn.style.backgroundColor = '#2b2e83';
-        });
 
-        // active button
-        button.style.backgroundColor = 'green';
 
-        // hide all messages
-        document.querySelectorAll('.copied-msg').forEach(msg => {
-          msg.style.display = 'none';
-        });
+	const servers =
 
-        // show message
-        const msg = button.nextElementSibling;
-        if (msg && msg.classList.contains('copied-msg')) {
-          msg.style.display = 'inline-block';
-          msg.textContent = 'Has Been Copied✔️';
+	$("#vmtaServersInput")
 
-          setTimeout(() => {
-            msg.style.display = 'none';
-            button.style.backgroundColor = '#2b2e83';
-          }, 2000);
-        }
+	.val()
 
-      }).catch(() => {
-        alert('❌ Failed to copy!');
-      });
+	.split("\n")
 
-    });
-  });
-</script>
-<script id="fixjs1">
-const toggle = document.getElementById("toggleTheme");
+	.map(
+	x=>x.trim()
+	)
 
+	.filter(
+	Boolean
+	);
 
-window.addEventListener("load", () => {
-  const savedMode = localStorage.getItem("theme");
 
-  if (savedMode === "pink") {
-    document.body.classList.add("pink-mode");
-    toggle.checked = true;
-	
-    document.getElementById('slider_icon').innerHTML = "🎀";
-    document.getElementById('slider_icon').style.transform = "translateX(30px)";
-    document.querySelector('.slider').style.background = "#ff4da6";
-  } else {
-    document.body.classList.remove("pink-mode");
-    toggle.checked = false;
-	
-    document.getElementById('slider_icon').innerHTML = "💙";
-    document.getElementById('slider_icon').style.transform = "translateX(0px)";
-    document.querySelector('.slider').style.background = "#0ea5e9";
-  }
-});
 
 
-toggle.addEventListener("change", () => {
-  if (toggle.checked) {
-    document.body.classList.add("pink-mode");
-    localStorage.setItem("theme", "pink");
-    document.getElementById('slider_icon').innerHTML = "🎀";
-    document.getElementById('slider_icon').style.transform = "translateX(30px)";
-    document.querySelector('.slider').style.background = "#ff4da6";
-  } else {
-    document.body.classList.remove("pink-mode");
-    localStorage.setItem("theme", "default");
-    document.getElementById('slider_icon').innerHTML = "💙";
-    document.getElementById('slider_icon').style.transform = "translateX(0px)";
-    document.querySelector('.slider').style.background = "#0ea5e9";
-  }
-});
 
+	let added =
+	0;
 
-</script>
-<script>
-// messages
-const messages = [
-  "أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ ",
-  "لَا إلَه إلّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءِ قَدِيرِ. ",
-  "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا. ",
-    "اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد.  ",
-    "سُبْحـانَ اللهِ وَبِحَمْـدِهِ عَدَدَ خَلْـقِه ، وَرِضـا نَفْسِـه ، وَزِنَـةَ عَـرْشِـه ، وَمِـدادَ كَلِمـاتِـه. ",
-    "اللّهُـمَّ بِكَ أَصْـبَحْنا وَبِكَ أَمْسَـينا ، وَبِكَ نَحْـيا وَبِكَ نَمُـوتُ وَإِلَـيْكَ النُّـشُور. ",
-    "اللّهُمَّ إِنّي أَعوذُ بِكَ مِنَ الْكُفر ، وَالفَقْر ، وَأَعوذُ بِكَ مِنْ عَذابِ القَبْر ، لا إلهَ إلاّ أَنْتَ.",
-    "سُبْحَانَ اللَّهِ ، وَالْحَمْدُ لِلَّهِ ، وَلا إِلَهَ إِلا اللَّهُ ، وَاللَّهُ أَكْبَرُ ، اللَّهُمَّ اغْفِرْ لِي ، اللَّهُمَّ ارْحَمْنِي ، اللَّهُمَّ ارْزُقْنِي. ",
-    "اللَّهُ أَكْبَرُ كَبِيرًا ، وَالْحَمْدُ لِلَّهِ كَثِيرًا ، وَسُبْحَانَ اللَّهِ بُكْرَةً وَأَصِيلاً.  ",
-    "سُبْحَانَكَ اللَّهُمَّ وبَحَمْدكَ أشْهدُ أنْ لا إلهَ إلا أنْتَ أَسْتَغْفِرُكَ وأتُوبُ إِلَيْكَ ",
-    "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
-    "لَّا إِلَهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ",
-    "سبحان الله الذي يسبح الرعد بحمده والملائكة من خيفته "
-];
 
-// random message
-function getRandomMsg(){
-  return messages[Math.floor(Math.random() * messages.length)];
-}
 
-window.onload = function(){
-  const msgBox = document.getElementById("topMessage");
 
-  msgBox.innerText = getRandomMsg();
-  msgBox.classList.add("show");
 
-  // hide after 5 seconds
-  setTimeout(() => {
-    msgBox.classList.remove("show");
-  }, 6200);
-};
-</script>
- <script>
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    const loader = document.getElementById("loader");
+	for(
+	const server
+	of
+	servers
+	){
 
-    loader.style.opacity = "0";
-    loader.style.transition = "0.5s";
 
-    setTimeout(() => {
-      loader.style.display = "none";
-    }, 500);
 
-  }, 2000);
-});
-</script>
-</body>
-</html>
+	await addOneServer(
+	server
+	);
+
+
+
+	added++;
+
+
+
+	}
+
+
+
+
+
+	console.log(
+	"Added:",
+	added
+	);
+
+
+
+
+
+	$("#gs_serverId")
+
+	.val("")
+
+	.trigger(
+	"keyup"
+	);
+
+
+
+
+
+	$("#blocks_grid")[0]
+	.triggerToolbar();
+
+
+
+	});
+
+
+
+
+
+
+
+
+
+
+	async function waitFinish(){
+
+
+
+	let guard =
+	0;
+
+
+
+
+
+	while(
+
+	window.inprocess > 0
+
+	&&
+
+	guard < 100
+
+	){
+
+
+
+	await sleep(
+	100
+	);
+
+
+
+	guard++;
+
+
+
+	}
+
+
+
+	}
+
+
+
+
+
+
+
+
+
+	$("#vmtaAutoBtn").click(
+	async function(){
+
+
+
+	const letters = [
+
+	"a","z","e","r","t",
+	"y","u","i","o","p",
+	"q","s","d","f","g",
+	"h","j","k","l","m"
+
+	];
+
+
+
+
+
+	for(
+	const l
+	of
+	letters
+	){
+
+
+
+	const vmta =
+	l+l;
+
+
+
+
+
+	$("#vmta_prefix_p2")
+
+	.focus()
+
+	.val(
+	vmta
+	)
+
+	.trigger(
+	"keyup"
+	)
+
+	.trigger(
+	"blur"
+	)
+
+	.trigger(
+	"change"
+	);
+
+
+
+
+
+	await sleep(
+	100
+	);
+
+
+
+
+
+	$("#submit")
+
+	.trigger(
+	"click"
+	);
+
+
+
+
+
+	console.log(
+	"Submitting:",
+	vmta
+	);
+
+
+
+
+
+	await waitFinish();
+
+
+
+
+
+	await sleep(
+	100
+	);
+
+
+
+	}
+
+
+
+
+
+	alert(
+	"Done"
+	);
+
+
+
+	});
+
+
+	})();
+	</pre>
+	  <pre id="autoClickScript" style="display:none;">
+	  
+	  (function () {
+	  const box = document.createElement("div");
+	  box.style.position = "fixed";
+	  box.style.bottom = "20px";
+	  box.style.right = "20px";
+	  box.style.background = "#0f172a";
+	  box.style.color = "#fff";
+	  box.style.padding = "15px";
+	  box.style.borderRadius = "12px";
+	  box.style.zIndex = "9999";
+	  box.style.fontFamily = "Arial";
+	  box.style.boxShadow = "0 8px 25px rgba(0,0,0,0.4)";
+	  box.style.display = "flex";
+	  box.style.flexDirection = "column";
+	  box.style.gap = "10px";
+
+
+	  const inputsRow = document.createElement("div");
+	  inputsRow.style.display = "flex";
+	  inputsRow.style.gap = "6px";
+
+	  function createInput(ph) {
+		const inp = document.createElement("input");
+		inp.type = "number";
+		inp.placeholder = ph;
+		inp.style.width = "50px";
+		inp.style.padding = "6px";
+		inp.style.borderRadius = "6px";
+		inp.style.border = "1px solid #334155";
+		inp.style.background = "#020617";
+		inp.style.color = "#fff";
+		inp.style.textAlign = "center";
+		return inp;
+	  }
+
+	  const h = createInput("HH");
+	  const m = createInput("MM");
+	  const s = createInput("SS");
+
+	  inputsRow.append(h, m, s);
+
+	  const btnRow = document.createElement("div");
+	  btnRow.style.display = "flex";
+	  btnRow.style.gap = "8px";
+
+	  function createBtn(text, color) {
+		const btn = document.createElement("button");
+		btn.textContent = text;
+
+		btn.style.flex = "1";
+		btn.style.padding = "8px";
+		btn.style.border = "none";
+		btn.style.borderRadius = "8px";
+		btn.style.cursor = "pointer";
+		btn.style.fontWeight = "bold";
+		btn.style.background = color;
+		btn.style.color = "#fff";
+		btn.style.transition = "0.2s";
+
+		btn.onmouseenter = () => {
+		  btn.style.opacity = "0.85";
+		  btn.style.transform = "translateY(-1px)";
+		};
+		btn.onmouseleave = () => {
+		  btn.style.opacity = "1";
+		  btn.style.transform = "none";
+		};
+
+		return btn;
+	  }
+
+	  const start = createBtn("▶ Start", "#22c55e");
+	  const stop = createBtn("⏹ Stop", "#ef4444");
+
+	  // text
+	  const txt = document.createElement("div");
+	  txt.style.fontSize = "13px";
+	  txt.style.textAlign = "center";
+	  txt.style.color = "#94a3b8";
+
+	  // assemble UI
+	  btnRow.append(start, stop);
+	  box.append(inputsRow, btnRow, txt);
+	  document.body.appendChild(box);
+
+	  // ===== TIMER =====
+	  let timer = null;
+
+	  function format(t) {
+		const hh = Math.floor(t / 3600);
+		const mm = Math.floor((t % 3600) / 60);
+		const ss = t % 60;
+		return [hh, mm, ss].map(x => String(x).padStart(2, '0')).join(':');
+	  }
+
+	  function clickSend() {
+		const btn = document.querySelector('input.send');
+
+		if (btn) {
+		  btn.click();
+		  return true;
+		}
+		return false;
+	  }
+
+	  start.onclick = () => {
+		let total =
+		  (parseInt(h.value) || 0) * 3600 +
+		  (parseInt(m.value) || 0) * 60 +
+		  (parseInt(s.value) || 0);
+
+		if (total <= 0) {
+		  txt.textContent = "❌ invalid time";
+		  txt.style.color = "#ef4444";
+		  return;
+		}
+
+		txt.style.color = "#94a3b8";
+		clearInterval(timer);
+
+		timer = setInterval(() => {
+		  if (total <= 0) {
+			clearInterval(timer);
+
+			const ok = clickSend();
+
+			txt.textContent = ok
+			  ? "✅ Clicked Send"
+			  : "❌ Button not found";
+
+			txt.style.color = ok ? "#22c55e" : "#ef4444";
+			return;
+		  }
+
+		  txt.textContent = "⏳ " + format(total);
+		  total--;
+
+		}, 1000);
+	  };
+
+	  stop.onclick = () => {
+		clearInterval(timer);
+		txt.textContent = "⏹ stopped";
+		txt.style.color = "#94a3b8";
+	  };
+
+	})();
+
+	  </pre>
+
+	  <pre id="TesTAuto_Mail" style="display:none;">
+
+	(function(){
+
+	// ===== SUBJECT =====
+	document.getElementById("subject").value = "__Returnpath";
+
+
+	// ===== HEADER =====
+	document.getElementById("brut_h").value = `Received: from njmta-53.sailthru.com (173.228.155.53) by dailybeast-a.sailthru.com id h1t86m1qqbs3 for __Link@gmail.com; __smtpDate
+	Received: from nj1-madbrick.flt (172.18.20.7) by njmta-53.sailthru.com id h1t7vc1qqbsf for __Link@gmail.com; __smtpDate
+	Date: __smtpDate
+	From: "__From_nm" <__Random_com[14,14,l].__Random_com[14,14,n]@__Random_com[6,6,ln].__Random_com[6,6,ln].__Random_com[6,6,nl].us>
+	Message-ID: <__Random_com[8,8,ln].__Random_com[4,4,ln]0220.__Random_com[6,6,ln].__Random_com[4,4,ln]SMTPIN_ADDED_MISSING@mx.google.com>
+	To: __Link@gmail.com
+	Subject: __Subject
+	MIME-Version: 1.0
+	X-Google-Sender-Delegation: __Random_com[10,10,l]
+	Content-Type: multipart/report; boundary="000000000000S__Uniqid"; report-type=delivery-status`;
+
+
+	// ===== BODY =====
+	document.getElementById("body").value = `--000000000000S__Uniqid
+	Content-Type: multipart/related; boundary="000000000000B__Uniqid"
+
+	--000000000000B__Uniqid
+	Content-Type: multipart/alternative; boundary="000000000000C__Uniqid"
+
+	--000000000000C__Uniqid
+	Content-Type: text/plain; charset="UTF-8"
+	Content-Transfer-Encoding: quoted-printable
+
+	Top Stories of the Day: smtpDate
+
+	207282808238797353
+	-----
+	__Random_com[60,60,l]=
+	__Random_com[60,60,l]=
+	__Random_com[60,60,l]
+
+	If you believe this has been sent to you in error, please safely unsubscrib=
+	e
+
+	--000000000000C__Uniqid
+	Content-Type: text/html; charset="UTF-8"
+	Content-Transfer-Encoding: 8bit+
+
+
+	<html>
+	<body>
+	  <center>
+	<table style="border:2px solid black;height: 228px;background: linear-gradient(to right,#DCDCDC,#f2f2f2,#DCDCDC);" width="653">
+	<tbody>
+	<tr>
+
+	<td>
+	<p style="text-align: center;font-family:Sans-Serif;font-size:70px;"><strong><span style=" text-align: center;font-family:Serif;font-size:50px;">hims</span><br>Get hard and<br>
+	  stay hard <sup> </sup><br>on your terms</strong></p>
+	  <p style="font-size:30px;font-family:Sans-Serif;text-align: center;"> Start treating your ED. We make it easy.</p>
+		<p style="text-align: center;">
+	  <a  href="https://__Domain/redirect.html?syv=1[trk]67c18cd45b0e1_vl_shared.[jobid].[news].__Random_com[5,10,ul]"style="text-decoration:none;color: #000000; text-align: -webkit-center; background-color: #ffffff;"><br /><strong style="padding: 16px 30px; background-color: black; color: white; border: none;font-size: 30px; letter-spacing: 1px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); font-family:Sans-Serif;">Start Free Assessment &gt;&gt;</strong></a></p>
+	  <br><br><br>
+			<center>
+		
+		<br />
+		<a href="https://__Domain/redirect.html?syv=1[trk]67c18cd45b0e1_vl_shared.[jobid].[news].__Random_com[5,10,ul]"  >
+		  <img src="https://i.imgur.com/yNVuX4i.png#WBSebE" width="657" >
+		</a>
+		<br />    <br />
+		If you do not wish to receive future messages <a href="https://__Domain/redirect.html?syv=1[trk]Uns_67c18cd45b0e1vl_shared.[jobid].[news].__Random_com[5,10,ul]">click here to unsubscribe</a> 
+	<br />
+	<br />hims | 2269 Chestnut St. #523 San Francisco, CA 94123
+		<br />
+	  <br />
+		<a href="https://__Domain/redirect.html?syv=1[trk]Out_67c18cd45b0e1vl_shared.[jobid].[news].__Random_com[5,10,ul]" >
+	unsubscribe    </a>
+		<br />
+	  </center>
+	  <style>body {background-image: url(' https://tinyurl.com/xwinisteredredirect.html?syv=8[trk]67c18cd45b0e1_vl_shared.[jobid].[news].__Random_com[5,10,ul] ');</style>
+	</td>
+	</tr>
+	</tbody>
+	</table>
+		
+	</body>
+	</html>
+	--000000000000C__Uniqid--
+	--000000000000B__Uniqid--
+	--000000000000S__Uniqid--
+
+	--000000000000S__Uniqid--`;
+
+
+	// ===== TRIGGER =====
+	$("#subject, #brut_h, #body").trigger("change");
+
+
+	// =========================
+	// ===== DROPDOWN EMAIL =====
+	// =========================
+
+	// create select
+	var select = document.createElement('select');
+	select.id = "customDropdown";
+	select.style.marginLeft = "5px";
+	select.style.padding = "5px";
+
+	// emails
+	// List of email addresses
+	var emails = [
+	'russellsimp.so.n.7.091@gmail.com',
+	'bentiecepark.in.541.2@gmail.com',
+	'ilenenessseren.s.ngnerv@gmail.com',
+	'jeannepr.ic.e.47.08.9@gmail.com',
+	'andreaw.ade.954.4@gmail.com',
+	'madelynn.no.rr.i7.68@gmail.com',
+	'ghipkeo.xie.c.r.u.n.h@gmail.com',
+	'luantuoiphu.a.n.ng.oa.t@gmail.com',
+	'lyrimu.l.l.en.620@gmail.com',
+	'colemanco.ms3.1.1.997@gmail.com',
+	'emmalyngilles.p.ie.0.69@gmail.com',
+	'terrywatso.n.5.75.49@gmail.com',
+	'lucyfowler.8.9.3.0.7@gmail.com',
+	'rachelha.ll.8.4.5.46@gmail.com',
+	'ngachtrychphac.h.guyn.h@gmail.com',
+	'sietsi.e.tn.oach@gmail.com',
+	'carlostuc.ke.r93.729@gmail.com',
+	'blaialva.rad.o2369@gmail.com',
+	'rogersimmmon.s.1.76.7.9@gmail.com',
+	'isobelhamil.to.n.709.3.4@gmail.com',
+	'patgrah.a.m.45.1.5.7@gmail.com',
+	'francissut.ton.42386@gmail.com',
+	'andrewwil.mr0.919.8.3@gmail.com',
+	'hoctoap.n.goan@gmail.com',
+	'chauhantmkris.h.nao.3@gmail.com',
+	'xuychphayp.an.g.t.uy.en@gmail.com',
+	'darrylvargas.1.384@gmail.com',
+	'charlenearnold473.11@gmail.com',
+	'hungghiepx.ach.puyn.h@gmail.com',
+	'boachhi.et.hi.et@gmail.com',
+	'alicemendoz.a.5.4.7.5.5@gmail.com',
+	'quynhquy.nhr.oac.h@gmail.com',
+	'carmenwo.ods2.9.7.1@gmail.com',
+	'abigailhorton.5.600.6@gmail.com',
+	'marstevenson.23.6.9@gmail.com',
+	'micheleluc.a.s21.024@gmail.com',
+	'normavasq.u.ez738.8.9@gmail.com',
+	'savantwtva.is.h.a.li.h.y@gmail.com',
+	'jeremybar.nes488.5.3@gmail.com',
+	'janewarr.e.n.86790@gmail.com',
+	'carlostuc.ke.r.9.37.29@gmail.com',
+	'judsonartsgilla.mrwx.g.z.m@gmail.com',
+	'jonathanfis.he.r.76.9.06@gmail.com',
+	'piechcuychqui.ep.guy.n.h@gmail.com',
+	'patsimmo.n.s.6.1.801@gmail.com',
+	'jordanc.a.rr280.1.6@gmail.com',
+	'bellarodriq.ue.z.2326.7@gmail.com',
+	'kiecmuychmua.n.hb.o.a.c.h@gmail.com',
+	'scottgar.cia7.2.7.69@gmail.com',
+	'alejandrayzev.ern.n@gmail.com',
+	'kenneddoughe.r.ty.49.3@gmail.com',
+	'oliviaalexa.nde.r.1933@gmail.com',
+	'boachqu.an.gq.u.a.n.g@gmail.com',
+	'judsonartsgilla.m.r.w.x.g.z.m@gmail.com',
+	'rattittbi.nit.aac@gmail.com',
+	'suynh.kh.e.pthat@gmail.com',
+	'brattainweisenburger.cd.i.b.45.41@gmail.com',
+	'kadencantho.ny.46.1@gmail.com',
+	'nola.fow.l.e156@gmail.com',
+	'punhsuang.hachq.ue.o@gmail.com',
+	'aarystrick.lan.d.2.36.9@gmail.com',
+	'tietxieph.uyc.hnoat@gmail.com',
+	'cuanhquangph.o.mquuyen@gmail.com',
+	'chesterjenki.ns4.9.398@gmail.com',
+	'richardcolli.ns2.6.249@gmail.com',
+	'estrell.a.b.ar.217@gmail.com',
+	'zoemitche.l.le39.28.8@gmail.com',
+	'elliannjara.m.illo.61.8@gmail.com',
+	'markha.l.l.9939@gmail.com',
+	'kuangnguanbuanhp.oa.ch@gmail.com',
+	'shane.ne.a.l5.4.68@gmail.com',
+	'normamil.e.s9.404@gmail.com',
+	'herbertjones7.1.9.10@gmail.com',
+	'hollfarl.ey.65.4@gmail.com',
+	'rosemaryholla.n.d.22312@gmail.com',
+	'blaialvar.ado2.3.69@gmail.com',
+	'rayraymr1.4.1.99.3@gmail.com',
+	'sotosotom.rs.291.99.0@gmail.com',
+	'markw.e.lch3.912@gmail.com',
+	'choetmo.am.t.hi.c.h@gmail.com',
+	'oliviaalexan.d.e.r.1.93.3@gmail.com',
+	'kuangnguanbua.n.h.poac.h@gmail.com',
+	'lenamartin4.5.90@gmail.com',
+	'benjamin2miller5.0.84@gmail.com',
+	'dartxgaj.en.dr.a.gh@gmail.com',
+	'mandadzj.av.ed3.9@gmail.com',
+	'boachh.iethi.e.t@gmail.com',
+	'traceypearso.n6.9.7.4@gmail.com',
+	'pinhguan.g.u.a.n@gmail.com',
+	'louisgarci.a70162@gmail.com',
+	'chhabralwalak.nand.av.l@gmail.com',
+	'bentieciahowa.rt.h.7942@gmail.com',
+	'scott97wal.k.er.271.8@gmail.com',
+	'hunterwagn.er.6376@gmail.com',
+	'melanieke.mp95721@gmail.com',
+	'dennis.5l.ee.6.22.5@gmail.com',
+	'baumgaerben.t.i.e5.81.2@gmail.com',
+	'timmothybur.n.s.835.7.8@gmail.com',
+	'xanhbachghi.ec.h.x.uy.n.h@gmail.com',
+	'craigjames6.55.4.4@gmail.com',
+	'baumgaerthomp.son3752@gmail.com',
+	'melaniemarshall.6.59.2@gmail.com',
+	'quangqua.n.gp.hunh@gmail.com',
+	'egge.rc.ox5.5.42@gmail.com',
+	'tranmica.ela8335@gmail.com',
+	'kristinmur.phy7.9.14@gmail.com',
+	'lenamart.i.n.4.5.9.0@gmail.com',
+	'bechphuych.si.ecnon.g@gmail.com',
+	'donald12ward.126.4@gmail.com',
+	'maiside.lg.ad.o1.9.4@gmail.com',
+	'huanhhua.n.hdoac.h@gmail.com',
+	'markrobertso.n5628.5@gmail.com',
+	'nicholasnguymr0.619.9.1@gmail.com',
+	'ritthybaker.4.8.2.59@gmail.com',
+	'hiph.op.muoet@gmail.com',
+	'traceykim5542@gmail.com',
+	'harrygonzal.ez2.5.715@gmail.com',
+	'kangxiechquiun.g.a.n.h@gmail.com',
+	'maddisorasm.ussen.13.9@gmail.com',
+	'chhabralwalakna.n.davl@gmail.com',
+	'jill.be.l.l8.3.94@gmail.com',
+	'jacquelinemitch.el.l3.8.846@gmail.com',
+	'meilan.ho.lt.236.9@gmail.com',
+	'livingstonfros.t314@gmail.com',
+	'terrywat.son5754.9@gmail.com',
+	'loatngiun.gu.a.n.gbu.a@gmail.com',
+	'voachmongk.ietqu.u.an@gmail.com',
+	'hieptomp.h.uih.u.ng@gmail.com',
+	'dorothystone.ms.0.2.19.89@gmail.com'
+	];
+
+	// options
+	emails.forEach(e => {
+	  let opt = document.createElement("option");
+	  opt.value = e;
+	  opt.textContent = e;
+	  select.appendChild(opt);
+	});
+
+	// close button
+	var closeBtn = document.createElement("button");
+	closeBtn.innerHTML = "✖";
+	closeBtn.style.marginLeft = "5px";
+	closeBtn.style.cursor = "pointer";
+
+	closeBtn.onclick = () => {
+	  select.remove();
+	  closeBtn.remove();
+	};
+
+	// inject 
+	var div = document.querySelector('div[style="padding: 0px 3px 3px 5px;"]');
+
+	if(div){
+	  div.parentNode.insertBefore(select, div.nextSibling);
+	  div.parentNode.insertBefore(closeBtn, select.nextSibling);
+	}
+
+	// on change → يحط email ف textarea
+	select.addEventListener("change", function(){
+	  document.getElementById("to").value = this.value;
+	});
+
+	})();
+
+	// Create a select element (dropdown)
+	var select = document.createElement('select');
+	select.setAttribute('id', 'dropdown');
+	select.classList.add('ui-widget-content');
+
+	// Style بسيط
+	select.style.marginLeft = '5px';
+	select.style.padding = '5px';
+
+
+
+	// Create options
+	emails.forEach(function(email) {
+	  var option = document.createElement('option');
+	  option.value = email;
+	  option.textContent = email;
+	  select.appendChild(option);
+	});
+
+	// 🔥 Create close button (X)
+	var closeBtn = document.createElement('button');
+	closeBtn.innerHTML = '✖';
+	closeBtn.style.marginLeft = '5px';
+	closeBtn.style.cursor = 'pointer';
+	closeBtn.style.border = 'none';
+	closeBtn.style.background = 'transparent';
+	closeBtn.style.fontSize = '16px';
+	closeBtn.style.color = '#888';
+
+	// hover effect
+	closeBtn.onmouseover = () => closeBtn.style.color = 'red';
+	closeBtn.onmouseout = () => closeBtn.style.color = '#888';
+
+	// click = remove both
+	closeBtn.onclick = () => {
+	  select.remove();
+	  closeBtn.remove();
+	};
+
+	// Find the div
+	var div = document.querySelector('div[style="padding: 0px 3px 3px 5px;"]');
+
+	// Append
+	if (div) {
+	  div.parentNode.insertBefore(select, div.nextSibling);
+	  div.parentNode.insertBefore(closeBtn, select.nextSibling);
+	} else {
+	  console.error('Div not found.');
+	}
+
+	// Select change event
+	select.addEventListener('change', function() {
+	  var selectedEmail = select.value;
+	  var textarea = document.getElementById('to');
+	  if (textarea) {
+		textarea.value = selectedEmail;
+	  }
+	});
+
+	  </pre>
+	  
+	 <pre id="AutoPauseRPS" style="display:none;">
+	(() => {
+	  let stopFlag = false;
+	  let pauseFlag = false;
+	  let batchSize = 100;
+
+	  // ===== PANEL =====
+	  const panel = document.createElement('div');
+	  panel.style.position = 'fixed';
+	  panel.style.top = '20px';
+	  panel.style.left = '20px';
+	  panel.style.zIndex = 9999;
+	  panel.style.width = '420px';
+	  panel.style.background = 'rgba(0,0,0,0.2)';
+	  panel.style.backdropFilter = 'blur(10px)';
+	  panel.style.padding = '15px';
+	  panel.style.borderRadius = '14px';
+	  panel.style.boxShadow = '0 10px 30px rgba(0,0,0,0.6)';
+	  panel.style.color = '#fff';
+	  panel.style.fontFamily = 'system-ui';
+	  document.body.appendChild(panel);
+
+	  // ===== TITLE =====
+	  const title = document.createElement('div');
+	  title.textContent = '⚡ Control Panel';
+	  title.style.fontSize = '16px';
+	  title.style.marginBottom = '10px';
+	  title.style.fontWeight = 'bold';
+	  panel.appendChild(title);
+
+	  // ===== TEXTAREA =====
+	  const inputArea = document.createElement('textarea');
+	  inputArea.placeholder = 'Paste your lines here...';
+	  inputArea.style.width = '100%';
+	  inputArea.style.height = '140px';
+	  inputArea.style.borderRadius = '10px';
+	  inputArea.style.padding = '10px';
+	  inputArea.style.marginBottom = '10px';
+	  panel.appendChild(inputArea);
+
+	  // ===== BATCH =====
+	  const batchRow = document.createElement('div');
+	  batchRow.style.display = 'flex';
+	  batchRow.style.gap = '10px';
+	  batchRow.style.marginBottom = '12px';
+
+	  const batchLabel = document.createElement('span');
+	  batchLabel.textContent = 'Batch:';
+
+	  const batchInput = document.createElement('input');
+	  batchInput.type = 'number';
+	  batchInput.value = 100;
+	  batchInput.style.flex = '1';
+
+	  batchInput.oninput = () => {
+		batchSize = parseInt(batchInput.value) || 100;
+	  };
+
+	  batchRow.append(batchLabel, batchInput);
+	  panel.appendChild(batchRow);
+
+	  // ===== BUTTONS =====
+	  const btnRow = document.createElement('div');
+	  btnRow.style.display = 'grid';
+	  btnRow.style.gridTemplateColumns = '1fr 1fr';
+	  btnRow.style.gap = '8px';
+
+	  const styleBtn = (btn, color) => {
+		btn.style.padding = '10px';
+		btn.style.border = 'none';
+		btn.style.borderRadius = '10px';
+		btn.style.cursor = 'pointer';
+		btn.style.color = '#fff';
+		btn.style.background = color;
+		btn.style.fontWeight = 'bold';
+	  };
+
+	  const startButton = document.createElement('button');
+	  startButton.textContent = '▶ Start';
+	  styleBtn(startButton, '#22c55e');
+
+	  const pauseButton = document.createElement('button');
+	  pauseButton.textContent = '⏸ Pause';
+	  styleBtn(pauseButton, '#facc15');
+
+	  const resumeButton = document.createElement('button');
+	  resumeButton.textContent = '⏵ Resume';
+	  styleBtn(resumeButton, '#38bdf8');
+
+	  const stopButton = document.createElement('button');
+	  stopButton.textContent = '⛔ Stop';
+	  styleBtn(stopButton, '#ef4444');
+
+	  btnRow.append(startButton, pauseButton, resumeButton, stopButton);
+	  panel.appendChild(btnRow);
+
+	  stopButton.onclick = () => stopFlag = true;
+	  pauseButton.onclick = () => pauseFlag = true;
+	  resumeButton.onclick = () => pauseFlag = false;
+
+	  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+	  const waitForButtonReenable = async (button) => {
+		while (button.disabled || button.classList.contains('ui-state-disabled')) {
+
+		  if (stopFlag) throw new Error('Stopped');
+
+		  while (pauseFlag) {
+			await wait(300);
+		  }
+
+		  await wait(200);
+		}
+	  };
+
+	  startButton.onclick = async () => {
+
+		stopFlag = false;
+		pauseFlag = false;
+
+		const lines = inputArea.value
+		  .split('\n')
+		  .filter(x => x.trim());
+
+		if (!lines.length) {
+		  alert('Paste lines first');
+		  return;
+		}
+
+		const chunks = [];
+
+		for (let i = 0; i < lines.length; i += batchSize) {
+		  chunks.push(
+			lines.slice(i, i + batchSize).join('\n')
+		  );
+		}
+
+		const targetArea = document.getElementById('otherdoms');
+		const button = document.querySelector('input[name="Pause"]');
+
+		if (!targetArea || !button) {
+		  alert('Elements not found');
+		  return;
+		}
+
+		for (let i = 0; i < chunks.length; i++) {
+
+		  if (stopFlag) {
+			alert('Stopped');
+			return;
+		  }
+
+		  while (pauseFlag) {
+			await wait(300);
+		  }
+
+		  targetArea.value = chunks[i];
+		  targetArea.dispatchEvent(
+			new Event('input', { bubbles: true })
+		  );
+
+		  button.click();
+
+		  try {
+			await waitForButtonReenable(button);
+		  } catch (err) {
+			alert(err.message);
+			return;
+		  }
+		}
+
+		alert('Done ✅');
+	  };
+
+	})();
+	  </pre>
+	 
+	  
+
+
+	  <pre id="CopyScript" style="display:none;">
+	// ===== FUNCTIONS =====
+	function extractEmailsAndSubjects() {
+		const emails = document.querySelectorAll('.bog span');
+		const subjects = [];
+
+		emails.forEach(email => {
+			let subject = email.textContent
+				.trim()
+				.replace(/return@|\[|\]/g, ' ')
+				.replace(/\s+/g, ' ')
+				.replace(/ /g, '\t')
+				.trim();
+
+			subjects.push(subject);
+		});
+
+		subjects.sort();
+		const sortedSubjects = subjects.join('\n');
+		copyToClipboard(sortedSubjects);
+	}
+
+	function copyToClipboard(text) {
+		const textarea = document.createElement('textarea');
+		textarea.value = text;
+		document.body.appendChild(textarea);
+		textarea.select();
+		document.execCommand('copy');
+		document.body.removeChild(textarea);
+	}
+
+	function extractUniqueIPsAndCopyToClipboard() {
+		const elements = document.querySelectorAll('.zA');
+		const uniqueIPs = new Set();
+		const ipRegex = /\b(?:\d{1,3}\.){3}\d{1,3}\b/g;
+
+		elements.forEach(element => {
+			const text = element.textContent.trim();
+			const ips = text.match(ipRegex);
+
+			if (ips) {
+				ips.forEach(ip => uniqueIPs.add(ip));
+			}
+		});
+
+		const sortedIPs = Array.from(uniqueIPs)
+			.filter(ip => ip.trim() !== '')
+			.sort()
+			.join('\n');
+
+		const textarea = document.createElement('textarea');
+		textarea.value = sortedIPs;
+		document.body.appendChild(textarea);
+		textarea.select();
+		document.execCommand('copy');
+		document.body.removeChild(textarea);
+	}
+
+	// ===== UI =====
+	(function () {
+
+		function injectButtons() {
+			const container = document.querySelector('.aeH');
+			if (!container) return;
+
+			
+			if (document.getElementById("custom-btns")) return;
+
+			const wrapper = document.createElement('div');
+			wrapper.id = "custom-btns";
+			wrapper.style.display = "flex";
+			wrapper.style.gap = "10px";
+			wrapper.style.margin = "10px 0";
+			wrapper.style.zIndex = "9999";
+			wrapper.style.position = "relative";
+
+			function createButton(text, color) {
+				const btn = document.createElement('button');
+				btn.innerText = text;
+
+				btn.style.padding = "7px 14px";
+				btn.style.borderRadius = "20px";
+				btn.style.border = "1px solid #dadce0";
+				btn.style.background = "#fff";
+				btn.style.cursor = "pointer";
+				btn.style.fontSize = "13px";
+				btn.style.fontWeight = "500";
+				btn.style.transition = "all 0.2s ease";
+				btn.style.boxShadow = "0 1px 3px rgba(0,0,0,0.1)";
+				btn.style.pointerEvents = "auto";
+
+				btn.onmouseenter = () => {
+					btn.style.background = color;
+					btn.style.color = "#fff";
+					btn.style.borderColor = color;
+					btn.style.transform = "translateY(-1px)";
+				};
+
+				btn.onmouseleave = () => {
+					btn.style.background = "#fff";
+					btn.style.color = "#000";
+					btn.style.borderColor = "#dadce0";
+					btn.style.transform = "none";
+				};
+
+				return btn;
+			}
+
+			const btn1 = createButton("📋 Subjects", "#34a853");
+			btn1.onclick = (e) => {
+				e.stopPropagation();
+				extractEmailsAndSubjects();
+			};
+
+			const btn2 = createButton("🌐 IPs", "#1a73e8");
+			btn2.onclick = (e) => {
+				e.stopPropagation();
+				extractUniqueIPsAndCopyToClipboard();
+			};
+
+			wrapper.appendChild(btn1);
+			wrapper.appendChild(btn2);
+
+			container.appendChild(wrapper);
+		}
+
+		// Gmail dynamic fix
+		const observer = new MutationObserver(() => {
+			injectButtons();
+		});
+
+		observer.observe(document.body, { childList: true, subtree: true });
+
+	})();
+
+	  </pre>
+		  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" ></script>
+
+	  <script>
+
+
+	  // ===== SEARCH FILTER =====
+	  document.getElementById('searchInput').addEventListener('input', function () {
+		const filter = this.value.toLowerCase();
+		document.querySelectorAll('.tool-item').forEach(item => {
+		  const text = item.textContent.toLowerCase();
+		  item.style.display = text.includes(filter) ? '' : 'none';
+		});
+	  });
+
+
+	  // ===== COPY FUNCTION (FIX COMPATIBILITY) =====
+	  function copyText(text) {
+		if (navigator.clipboard && window.isSecureContext) {
+		  return navigator.clipboard.writeText(text);
+		} else {
+		  return new Promise((resolve) => {
+			const textarea = document.createElement("textarea");
+			textarea.value = text;
+			textarea.style.position = "fixed";
+			textarea.style.left = "-999999px";
+			document.body.appendChild(textarea);
+			textarea.focus();
+			textarea.select();
+
+			try {
+			  document.execCommand("copy");
+			} catch (err) {
+			  alert("❌ Copy failed");
+			}
+
+			textarea.remove();
+			resolve();
+		  });
+		}
+	  }
+
+
+	  // ===== COPY + UI LOGIC =====
+	  document.querySelectorAll('.tool-button[data-script]').forEach(button => {
+		button.addEventListener('click', () => {
+
+		  const scriptId = button.getAttribute('data-script');
+
+		  const el = document.getElementById(scriptId);
+		  const scriptText = el ? el.innerText.trim() : "";
+
+		  if (!scriptText) return;
+
+		  copyText(scriptText).then(() => {
+
+			// reset colors
+			document.querySelectorAll('.tool-button[data-script]').forEach(btn => {
+			  btn.style.backgroundColor = '#2b2e83';
+			});
+
+			// active button
+			button.style.backgroundColor = 'green';
+
+			// hide all messages
+			document.querySelectorAll('.copied-msg').forEach(msg => {
+			  msg.style.display = 'none';
+			});
+
+			// show message
+			const msg = button.nextElementSibling;
+			if (msg && msg.classList.contains('copied-msg')) {
+			  msg.style.display = 'inline-block';
+			  msg.textContent = 'Has Been Copied✔️';
+
+			  setTimeout(() => {
+				msg.style.display = 'none';
+				button.style.backgroundColor = '#2b2e83';
+			  }, 2000);
+			}
+
+		  }).catch(() => {
+			alert('❌ Failed to copy!');
+		  });
+
+		});
+	  });
+	</script>
+	<script id="fixjs1">
+	const toggle = document.getElementById("toggleTheme");
+
+
+	window.addEventListener("load", () => {
+	  const savedMode = localStorage.getItem("theme");
+
+	  if (savedMode === "pink") {
+		document.body.classList.add("pink-mode");
+		toggle.checked = true;
+		
+		document.getElementById('slider_icon').innerHTML = "🎀";
+		document.getElementById('slider_icon').style.transform = "translateX(30px)";
+		document.querySelector('.slider').style.background = "#ff4da6";
+	  } else {
+		document.body.classList.remove("pink-mode");
+		toggle.checked = false;
+		
+		document.getElementById('slider_icon').innerHTML = "💙";
+		document.getElementById('slider_icon').style.transform = "translateX(0px)";
+		document.querySelector('.slider').style.background = "#0ea5e9";
+	  }
+	});
+
+
+	toggle.addEventListener("change", () => {
+	  if (toggle.checked) {
+		document.body.classList.add("pink-mode");
+		localStorage.setItem("theme", "pink");
+		document.getElementById('slider_icon').innerHTML = "🎀";
+		document.getElementById('slider_icon').style.transform = "translateX(30px)";
+		document.querySelector('.slider').style.background = "#ff4da6";
+	  } else {
+		document.body.classList.remove("pink-mode");
+		localStorage.setItem("theme", "default");
+		document.getElementById('slider_icon').innerHTML = "💙";
+		document.getElementById('slider_icon').style.transform = "translateX(0px)";
+		document.querySelector('.slider').style.background = "#0ea5e9";
+	  }
+	});
+
+
+	</script>
+	<script>
+	// messages
+	const messages = [
+	  "أسْتَغْفِرُ اللهَ وَأتُوبُ إلَيْهِ ",
+	  "لَا إلَه إلّا اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءِ قَدِيرِ. ",
+	  "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا. ",
+		"اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ على نَبِيِّنَا مُحمَّد.  ",
+		"سُبْحـانَ اللهِ وَبِحَمْـدِهِ عَدَدَ خَلْـقِه ، وَرِضـا نَفْسِـه ، وَزِنَـةَ عَـرْشِـه ، وَمِـدادَ كَلِمـاتِـه. ",
+		"اللّهُـمَّ بِكَ أَصْـبَحْنا وَبِكَ أَمْسَـينا ، وَبِكَ نَحْـيا وَبِكَ نَمُـوتُ وَإِلَـيْكَ النُّـشُور. ",
+		"اللّهُمَّ إِنّي أَعوذُ بِكَ مِنَ الْكُفر ، وَالفَقْر ، وَأَعوذُ بِكَ مِنْ عَذابِ القَبْر ، لا إلهَ إلاّ أَنْتَ.",
+		"سُبْحَانَ اللَّهِ ، وَالْحَمْدُ لِلَّهِ ، وَلا إِلَهَ إِلا اللَّهُ ، وَاللَّهُ أَكْبَرُ ، اللَّهُمَّ اغْفِرْ لِي ، اللَّهُمَّ ارْحَمْنِي ، اللَّهُمَّ ارْزُقْنِي. ",
+		"اللَّهُ أَكْبَرُ كَبِيرًا ، وَالْحَمْدُ لِلَّهِ كَثِيرًا ، وَسُبْحَانَ اللَّهِ بُكْرَةً وَأَصِيلاً.  ",
+		"سُبْحَانَكَ اللَّهُمَّ وبَحَمْدكَ أشْهدُ أنْ لا إلهَ إلا أنْتَ أَسْتَغْفِرُكَ وأتُوبُ إِلَيْكَ ",
+		"رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
+		"لَّا إِلَهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ",
+		"سبحان الله الذي يسبح الرعد بحمده والملائكة من خيفته "
+	];
+
+	// random message
+	function getRandomMsg(){
+	  return messages[Math.floor(Math.random() * messages.length)];
+	}
+
+	window.onload = function(){
+	  const msgBox = document.getElementById("topMessage");
+
+	  msgBox.innerText = getRandomMsg();
+	  msgBox.classList.add("show");
+
+	  // hide after 5 seconds
+	  setTimeout(() => {
+		msgBox.classList.remove("show");
+	  }, 6200);
+	};
+	</script>
+	 <script>
+	window.addEventListener("load", () => {
+	  setTimeout(() => {
+		const loader = document.getElementById("loader");
+
+		loader.style.opacity = "0";
+		loader.style.transition = "0.5s";
+
+		setTimeout(() => {
+		  loader.style.display = "none";
+		}, 500);
+
+	  }, 2000);
+	});
+	</script>
+
+	<script>
+
+	/* ===== AUTO REFRESH EVERY 10 MIN ===== */
+
+	setInterval(() => {
+
+	  location.reload();
+
+	}, 60 * 60 * 1000);
+
+	</script>
+
+	</body>
+	</html>
