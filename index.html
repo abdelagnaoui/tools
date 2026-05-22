@@ -671,7 +671,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 			<div class="copied-msg">NaaaDii✔️</div>
 		  </li>
 
-
+  <li class="tool-item">
+			<button class="tool-button" data-script="rdns_check"> Rdns Checker</button>
+			<div class="copied-msg">NaaaDii✔️</div>
+		  </li>
 		  	
 
 		</ul>
@@ -710,7 +713,205 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 	  </div>
 
 	  <!-- Hidden scripts for copy -->
-	  
+	  <pre id="rdns_check" style="display:none;">
+(function(){
+
+if(document.getElementById("multiDomainBox")){
+    return;
+}
+
+
+
+
+
+const panel =
+document.createElement("div");
+
+panel.id =
+"multiDomainBox";
+
+panel.style = `
+position:fixed;
+top:20px;
+right:20px;
+z-index:999999;
+background:white;
+padding:15px;
+border:2px solid black;
+border-radius:12px;
+width:340px;
+`;
+
+
+
+
+
+panel.innerHTML = `
+
+&lt;div style="font-weight:bold;margin-bottom:10px;"&gt;
+MULTI DOMAIN SEARCH
+&lt;/div&gt;
+
+&lt;textarea
+id="domainsInput"
+style="
+width:100%;
+height:180px;
+resize:none;
+"
+placeholder="past all Ptr u want"
+&gt;&lt;/textarea&gt;
+
+&lt;button
+id="runDomainsSearch"
+style="
+width:100%;
+margin-top:10px;
+"
+&gt;
+Search Domains
+&lt;/button&gt;
+
+`;
+
+
+
+document.body.appendChild(
+panel
+);
+
+
+
+
+
+
+
+
+function runSearch(){
+
+
+
+const domains =
+
+$("#domainsInput")
+
+.val()
+
+.split("\n")
+
+.map(
+x=>x.trim()
+)
+
+.filter(
+Boolean
+);
+
+
+
+
+
+const table =
+
+$("#DataTables_Table_0")
+.DataTable();
+
+
+
+
+
+if(
+!domains.length
+){
+
+table
+
+.column(2)
+
+.search(
+""
+)
+
+.draw();
+
+
+
+
+console.log(
+"Filter cleared"
+);
+
+
+
+
+return;
+
+}
+
+
+
+
+
+const regex =
+
+domains.join("|");
+
+
+
+
+
+table
+
+.column(2)
+
+.search(
+regex,
+true,
+false
+)
+
+.draw();
+
+
+
+
+
+console.log(
+"Searching:",
+domains
+);
+
+
+
+}
+
+
+
+
+
+
+
+
+$("#runDomainsSearch")
+.click(
+runSearch
+);
+
+
+
+
+
+
+
+
+$("#domainsInput")
+.on(
+"input",
+runSearch
+);
+
+})();
+	  </pre>
 		<pre id="ValidateSPF" style="display:none;">
 	(function(){
 
