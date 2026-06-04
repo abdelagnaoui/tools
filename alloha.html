@@ -441,7 +441,14 @@ disableActions();
 	);
 
 function loadFile(event){
+ 
 
+  const file =
+    event.target.files[0];
+
+  if(!file) return;
+
+  uploadedFile = file;
   const ext =
 file.name.split(".").pop().toLowerCase();
 
@@ -462,6 +469,14 @@ else{
   document.getElementById("input").value =
     "📄 TXT/CSV loaded";
 
+}
+document.getElementById("fileName").textContent =
+  file.name;
+
+document.getElementById("status").textContent =
+  `📂 ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+
+uploadToSupabase(file);
 }
 
 async function prepareFiles(){
