@@ -284,6 +284,67 @@ if (!session) {
 	</div>
 
 	<script>
+	
+	
+	let autoSaveTimer;
+
+document.getElementById("input")
+.addEventListener("input", () => {
+
+  clearTimeout(autoSaveTimer);
+
+  autoSaveTimer = setTimeout(() => {
+    saveTextareaToSupabase();
+  }, 5000);
+
+});
+
+async function saveTextareaToSupabase(){
+
+  const text =
+    document.getElementById("input").value;
+
+  if(!text.trim()) return;
+
+  const {
+    data: { user }
+  } =
+  await window.supabase.auth.getUser();
+
+  const file = new Blob(
+    [text],
+    {
+      type:"text/plain"
+    }
+  );
+
+  const fileName =
+    `autosaves/${user.id}.txt`;
+
+  const { error } =
+  await window.supabase.storage
+  .from("uploads")
+  .upload(
+    fileName,
+    file,
+    {
+      upsert:true
+    }
+  );
+
+  if(error){
+
+    console.error(error);
+
+    document.getElementById("status").textContent =
+      "❌ Auto save failed";
+
+    return;
+  }
+
+  document.getElementById("status").textContent =
+    "💾 Auto saved";
+}
 
 async function logout(){
 
