@@ -23,8 +23,7 @@ if (!session) {
   window.location.href = "login.html";
 }
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/unrar-js@0.2.1/dist/unrar.min.js"></script>
+
 	<style>
 	*{
 		margin:0;
@@ -481,23 +480,35 @@ uploadToSupabase(file);
 
 async function prepareFiles(){
 
-  if(!uploadSuccess){
-
-    alert("Upload failed.");
-    return;
-  }
-
   if(!uploadedFile){
-
     alert("Import file first.");
     return;
   }
 
-  document.getElementById("status").textContent =
-    "Reading file...";
+  let text = "";
 
-  const text =
-    await uploadedFile.text();
+  // ZIP
+  if(uploadedFile.name.toLowerCase().endsWith(".zip")){
+
+    document.getElementById("status").textContent =
+      "📦 Extracting ZIP...";
+
+    const zip = await JSZip.loadAsync(uploadedFile);
+
+    const firstFile =
+      Object.keys(zip.files)[0];
+
+    text = await zip.files[firstFile]
+      .async("string");
+
+  }
+
+  // TXT / CSV
+  else{
+
+    text = await uploadedFile.text();
+
+  }
 
   const size =
     parseInt(
@@ -509,13 +520,12 @@ async function prepareFiles(){
 
   chunks = [];
 
-  for(let i=0;i<lines.length;i+=size){
+  for(let i=0; i<lines.length; i+=size){
 
     chunks.push(
-      lines
-      .slice(i,i+size)
-      .join("\n")
+      lines.slice(i, i+size).join("\n")
     );
+
   }
 
   currentIndex = 0;
@@ -714,6 +724,7 @@ disableActions();
 	100;
 	}
 	</script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/unrar-js@0.2.1/dist/unrar.min.js"></script>
 	</body>
 	</html>
