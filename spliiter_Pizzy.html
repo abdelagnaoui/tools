@@ -277,9 +277,11 @@ window.supabase = createClient(
 
 	</div>
 
+ 
+
 	<script>
 
- 
+ let uploadedFile = null;
 
 	async function uploadToSupabase(file){
 
@@ -341,37 +343,19 @@ function loadFile(event){
 
   if(!file) return;
 
-  if(file.size > 300 * 1024 * 1024){
+  uploadedFile = file;
 
-    alert(
-      "Large files are not supported yet. Maximum 50 MB."
-    );
+  document.getElementById("fileName").textContent =
+    file.name;
 
-    return;
-  }
+  document.getElementById("status").textContent =
+    `📂 ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
 
   uploadToSupabase(file);
 
-  document.getElementById(
-    "fileName"
-  ).textContent =
-  file.name;
-
-  const reader =
-  new FileReader();
-
-  reader.onload = function(e){
-
-    document.getElementById(
-      "input"
-    ).value =
-    e.target.result;
-
-  };
-
-  reader.readAsText(file);
+  document.getElementById("input").value =
+    "Large file loaded. Click Generate Files.";
 }
-
 
 	const dropZone =
 	document.getElementById(
@@ -422,61 +406,62 @@ function loadFile(event){
 	}
 	);
 
-	function prepareFiles(){
+	  
+async function prepareFiles(){
 
-	const text =
-	document.getElementById(
-	"input"
-	).value.trim();
+  if(!uploadedFile){
 
-	if(!text){
+    alert("Import file first.");
 
-	alert(
-	"Import or paste data first."
-	);
+    return;
+  }
 
-	return;
-	}
+  document.getElementById("status").textContent =
+    "Reading file...";
 
-	const size =
-	parseInt(
-	document.getElementById(
-	"chunkSize"
-	).value
-	) || 100;
+  const text =
+    await uploadedFile.text();
 
-	const lines =
-	text.split(/\r?\n/);
+  const size =
+    parseInt(
+      document.getElementById(
+        "chunkSize"
+      ).value
+    ) || 100;
 
-	chunks = [];
+  const lines =
+    text.split(/\r?\n/);
 
-	for(
-	let i=0;
-	i<lines.length;
-	i+=size
-	){
-	chunks.push(
-	lines
-	.slice(i,i+size)
-	.join("\n")
-	);
-	}
+  chunks = [];
 
-	currentIndex = 0;
+  for(
+    let i = 0;
+    i < lines.length;
+    i += size
+  ){
 
-	document.getElementById(
-	"totalFiles"
-	).textContent =
-	chunks.length;
+    chunks.push(
+      lines
+      .slice(i, i + size)
+      .join("\n")
+    );
 
-	updateUI();
+  }
 
-	document.getElementById(
-	"status"
-	).textContent =
-	`✅ ${chunks.length} files ready`;
-	}
+  currentIndex = 0;
 
+  document.getElementById(
+    "totalFiles"
+  ).textContent =
+  chunks.length;
+
+  updateUI();
+
+  document.getElementById(
+    "status"
+  ).textContent =
+  `✅ ${chunks.length} files ready`;
+}
 	function downloadNext(){
 
 	if(chunks.length===0){
@@ -616,7 +601,7 @@ function loadFile(event){
 	}
 
 	function resetAll(){
-
+	uploadedFile = null;
 	chunks = [];
 
 	currentIndex = 0;
@@ -649,6 +634,8 @@ function loadFile(event){
 	).value =
 	100;
 	}
+	
+
 	</script>
 
 	</body>
