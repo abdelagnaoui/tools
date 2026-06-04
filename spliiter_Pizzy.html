@@ -226,27 +226,17 @@ window.supabase = createClient(
 	placeholder="Lines per file"
 	>
 
-	<button
-	class="generate"
-	onclick="prepareFiles()"
-	>
-	⚡ Generate Files
-	</button>
+<button id="generateBtn" class="generate" onclick="prepareFiles()">
+⚡ Generate Files
+</button>
 
-	<button
-	class="download"
-	onclick="downloadNext()"
-	>
-	⬇ Download Next
-	</button>
+<button id="downloadBtn" class="download" onclick="downloadNext()">
+⬇ Download Next
+</button>
 
-	<button
-	class="downloadall"
-	onclick="downloadAll()"
-	>
-	🚀 Download All
-	</button>
-
+<button id="downloadAllBtn" class="downloadall" onclick="downloadAll()">
+🚀 Download All
+</button>
 	<button
 	class="reset"
 	onclick="resetAll()"
@@ -280,62 +270,89 @@ window.supabase = createClient(
  
 
 	<script>
-
- let uploadedFile = null;
-
-	async function uploadToSupabase(file){
-
-	  try{
-
-		document.getElementById("status").textContent =
-		"...";
-
-		const fileName =
-		Date.now() + "-" + file.name;
-
-		const { data, error } =
-		await window.supabase.storage
-		.from("uploads")
-		.upload(fileName, file);
-
-		if(error){
-		  console.error(error);
-
-		  document.getElementById("status").textContent =
-		  "❌ Upload failed";
-
-		  return;
-		}
-
-		document.getElementById("status").textContent =
-		"✅";
-
-		console.log(data);
-
-	  }catch(err){
-
-		console.error(err);
-
-		document.getElementById("status").textContent =
-		"❌ Upload error";
-	  }
-	}
+let uploadedFile = null;
+let uploadSuccess = false;
+let chunks = [];
+let currentIndex = 0;
 
 
+function disableActions(){
+
+  document.getElementById("generateBtn").disabled = true;
+  document.getElementById("downloadBtn").disabled = true;
+  document.getElementById("downloadAllBtn").disabled = true;
+}
+
+function enableActions(){
+
+  document.getElementById("generateBtn").disabled = false;
+  document.getElementById("downloadBtn").disabled = false;
+  document.getElementById("downloadAllBtn").disabled = false;
+}
+
+ 
+
+async function uploadToSupabase(file){
+
+  try{
+
+    document.getElementById("status").textContent =
+      "...";
+
+    const fileName =
+      Date.now() + "-" + file.name;
+
+    const { data, error } =
+      await window.supabase.storage
+      .from("uploads")
+      .upload(fileName, file);
+
+    if(error){
+
+      uploadSuccess = false;
+
+      document.getElementById("status").textContent =
+        "❌ Upload failed";
+
+      disableActions();
+
+      return;
+    }
+
+    uploadSuccess = true;
+
+    document.getElementById("status").textContent =
+      "✅ Upload success";
+
+    enableActions();
+
+    console.log(data);
+
+  }catch(err){
+
+    uploadSuccess = false;
+
+    disableActions();
+
+    console.error(err);
+
+    document.getElementById("status").textContent =
+      "❌ Upload error";
+  }
+}
 
 
 
-
-	let chunks = [];
-	let currentIndex = 0;
-
+ 
 	const fileInput =
 	document.getElementById("fileInput");
 
-	fileInput.addEventListener(
-	"change",
-	loadFile
-	);
+	disableActions();
+
+fileInput.addEventListener(
+  "change",
+  loadFile
+);
 
 function loadFile(event){
 
@@ -409,6 +426,14 @@ function loadFile(event){
 	  
 async function prepareFiles(){
 
+
+if(!uploadSuccess){
+
+  alert("Upload failed.");
+
+  return;
+}
+
   if(!uploadedFile){
 
     alert("Import file first.");
@@ -464,6 +489,11 @@ async function prepareFiles(){
 }
 	function downloadNext(){
 
+if(!uploadSuccess){
+  alert("Upload failed.");
+  return;
+}
+
 	if(chunks.length===0){
 
 	alert(
@@ -503,6 +533,11 @@ async function prepareFiles(){
 	}
 
 	function downloadAll(){
+
+if(!uploadSuccess){
+  alert("Upload failed.");
+  return;
+}
 
 	if(chunks.length===0){
 
@@ -601,7 +636,13 @@ async function prepareFiles(){
 	}
 
 	function resetAll(){
-	uploadedFile = null;
+	
+	
+	
+	uploadSuccess = false;
+disableActions();
+uploadedFile = null;
+ 
 	chunks = [];
 
 	currentIndex = 0;
