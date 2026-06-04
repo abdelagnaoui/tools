@@ -1,0 +1,636 @@
+	<!DOCTYPE html>
+	<html lang="en">
+
+
+	<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>TXT File Splitter Pro</title>
+	<script type="module">
+	import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+
+	window.supabase = createClient(
+	  'https://qfsxwxgrtrcznrghchsv.supabase.co',
+	  'sb_publishable_naSqwWCnID39eZmDjvuglQ_iwLUPWko'
+	);
+	</script>
+ 
+	<style>
+	*{
+		margin:0;
+		padding:0;
+		box-sizing:border-box;
+	}
+
+	body{
+		font-family:Inter,Segoe UI,sans-serif;
+		background:#0f172a;
+		color:white;
+		min-height:100vh;
+		padding:30px;
+	}
+
+	.container{
+		max-width:1000px;
+		margin:auto;
+	}
+
+	h1{
+		text-align:center;
+		margin-bottom:25px;
+		font-size:2.4rem;
+	}
+
+	.card{
+		background:#1e293b;
+		border-radius:20px;
+		padding:25px;
+		box-shadow:0 10px 35px rgba(0,0,0,.3);
+	}
+
+	.import-box{
+		border:2px dashed #3b82f6;
+		border-radius:15px;
+		padding:30px;
+		text-align:center;
+		cursor:pointer;
+		margin-bottom:20px;
+		transition:.25s;
+	}
+
+	.import-box:hover{
+		background:#172554;
+	}
+
+	.import-box.dragover{
+		background:#1d4ed8;
+	}
+
+	textarea{
+		width:100%;
+		height:300px;
+		resize:vertical;
+		border:none;
+		outline:none;
+		border-radius:15px;
+		background:#0f172a;
+		color:white;
+		padding:15px;
+		font-size:14px;
+	}
+
+	.controls{
+		display:flex;
+		flex-wrap:wrap;
+		gap:15px;
+		margin-top:20px;
+	}
+
+	input[type="number"]{
+		width:180px;
+		padding:12px;
+		border:none;
+		border-radius:12px;
+		background:#0f172a;
+		color:white;
+		font-size:15px;
+	}
+
+	button{
+		border:none;
+		cursor:pointer;
+		border-radius:12px;
+		padding:12px 20px;
+		font-weight:600;
+		transition:.2s;
+	}
+
+	button:hover{
+		transform:translateY(-2px);
+	}
+
+	.generate{
+		background:#3b82f6;
+		color:white;
+	}
+
+	.download{
+		background:#10b981;
+		color:white;
+	}
+
+	.downloadall{
+		background:#8b5cf6;
+		color:white;
+	}
+
+	.reset{
+		background:#ef4444;
+		color:white;
+	}
+
+	.stats{
+		margin-top:25px;
+		background:#0f172a;
+		border-radius:15px;
+		padding:20px;
+	}
+
+	.stat{
+		margin-bottom:12px;
+	}
+
+	.progress-container{
+		height:18px;
+		background:#1e293b;
+		border-radius:999px;
+		overflow:hidden;
+	}
+
+	.progress{
+		width:0%;
+		height:100%;
+		background:linear-gradient(90deg,#10b981,#3b82f6);
+		transition:.3s;
+	}
+
+	.file-info{
+		margin-top:15px;
+		color:#94a3b8;
+	}
+
+	.big{
+		font-size:28px;
+		font-weight:bold;
+		color:#3b82f6;
+	}
+	</style>
+	</head>
+	<body>
+
+	<div class="container">
+
+	<h3>📁 Abdelagnaoui</h3>
+
+	<div class="card">
+
+	<input
+	type="file"
+	id="fileInput"
+	accept=".txt,.csv"
+	style="display:none"
+	>
+
+	<div
+	class="import-box"
+	id="dropZone"
+	onclick="document.getElementById('fileInput').click()"
+	>
+	<h2>📂 Import TXT / CSV File</h2>
+	<p>Click or Drag & Drop File Here</p>
+	<div class="file-info" id="fileName">
+	No file selected
+	</div>
+	</div>
+
+	<textarea
+	id="input"
+	placeholder="Or paste your content here..."
+	></textarea>
+
+	<div class="controls">
+
+	<input
+	type="number"
+	id="chunkSize"
+	value="100"
+	min="1"
+	placeholder="Lines per file"
+	>
+
+	<button
+	class="generate"
+	onclick="prepareFiles()"
+	>
+	⚡ Generate Files
+	</button>
+
+	<button
+	class="download"
+	onclick="downloadNext()"
+	>
+	⬇ Download Next
+	</button>
+
+	<button
+	class="downloadall"
+	onclick="downloadAll()"
+	>
+	🚀 Download All
+	</button>
+
+	<button
+	class="reset"
+	onclick="resetAll()"
+	>
+	🗑 Reset
+	</button>
+
+	</div>
+
+	<div class="stats">
+
+	<div class="stat">
+	Files Generated:
+	<span class="big" id="totalFiles">0</span>
+	</div>
+
+	<div class="stat" id="status">
+	Waiting...
+	</div>
+
+	<div class="progress-container">
+	<div class="progress" id="progress"></div>
+	</div>
+
+	</div>
+
+	</div>
+
+	</div>
+
+	<script>
+
+
+
+	async function uploadToSupabase(file){
+
+	  try{
+
+		document.getElementById("status").textContent =
+		"☁ Uploading to Supabase...";
+
+		const fileName =
+		Date.now() + "-" + file.name;
+
+		const { data, error } =
+		await window.supabase.storage
+		.from("uploads")
+		.upload(fileName, file);
+
+		if(error){
+		  console.error(error);
+
+		  document.getElementById("status").textContent =
+		  "❌ Upload failed";
+
+		  return;
+		}
+
+		document.getElementById("status").textContent =
+		"✅ Uploaded to Supabase";
+
+		console.log(data);
+
+	  }catch(err){
+
+		console.error(err);
+
+		document.getElementById("status").textContent =
+		"❌ Upload error";
+	  }
+	}
+
+
+
+
+
+
+	let chunks = [];
+	let currentIndex = 0;
+
+	const fileInput =
+	document.getElementById("fileInput");
+
+	fileInput.addEventListener(
+	"change",
+	loadFile
+	);
+
+	function loadFile(event){
+
+	const file =
+	event.target.files[0];
+
+	if(!file) return;
+uploadToSupabase(file);
+	document.getElementById(
+	"fileName"
+	).textContent =
+	file.name;
+
+	const reader =
+	new FileReader();
+
+	reader.onload = function(e){
+
+	document.getElementById(
+	"input"
+	).value =
+	e.target.result;
+
+	const count =
+	e.target.result
+	.split(/\r?\n/)
+	.filter(x=>x.trim())
+	.length;
+
+	document.getElementById(
+	"status"
+	).textContent =
+	`📄 Loaded ${count} lines`;
+	};
+
+	reader.readAsText(file);
+	}
+
+	const dropZone =
+	document.getElementById(
+	"dropZone"
+	);
+
+	dropZone.addEventListener(
+	"dragover",
+	e=>{
+	e.preventDefault();
+	dropZone.classList.add(
+	"dragover"
+	);
+	}
+	);
+
+	dropZone.addEventListener(
+	"dragleave",
+	()=>{
+	dropZone.classList.remove(
+	"dragover"
+	);
+	}
+	);
+
+	dropZone.addEventListener(
+	"drop",
+	e=>{
+	e.preventDefault();
+
+	dropZone.classList.remove(
+	"dragover"
+	);
+
+	const file =
+	e.dataTransfer.files[0];
+
+	if(!file) return;
+
+	fileInput.files =
+	e.dataTransfer.files;
+
+	loadFile({
+	target:{
+	files:[file]
+	}
+	});
+	}
+	);
+
+	function prepareFiles(){
+
+	const text =
+	document.getElementById(
+	"input"
+	).value.trim();
+
+	if(!text){
+
+	alert(
+	"Import or paste data first."
+	);
+
+	return;
+	}
+
+	const size =
+	parseInt(
+	document.getElementById(
+	"chunkSize"
+	).value
+	) || 100;
+
+	const lines =
+	text.split(/\r?\n/);
+
+	chunks = [];
+
+	for(
+	let i=0;
+	i<lines.length;
+	i+=size
+	){
+	chunks.push(
+	lines
+	.slice(i,i+size)
+	.join("\n")
+	);
+	}
+
+	currentIndex = 0;
+
+	document.getElementById(
+	"totalFiles"
+	).textContent =
+	chunks.length;
+
+	updateUI();
+
+	document.getElementById(
+	"status"
+	).textContent =
+	`✅ ${chunks.length} files ready`;
+	}
+
+	function downloadNext(){
+
+	if(chunks.length===0){
+
+	alert(
+	"Generate files first."
+	);
+
+	return;
+	}
+
+	if(
+	currentIndex>=chunks.length
+	){
+
+	alert(
+	"All files downloaded."
+	);
+
+	return;
+	}
+
+	downloadChunk(
+	currentIndex
+	);
+
+	currentIndex++;
+
+	updateUI();
+
+	if(
+	currentIndex===chunks.length
+	){
+	document.getElementById(
+	"status"
+	).textContent =
+	"🎉 Finished";
+	}
+	}
+
+	function downloadAll(){
+
+	if(chunks.length===0){
+
+	alert(
+	"Generate files first."
+	);
+
+	return;
+	}
+
+	for(
+	let i=0;
+	i<chunks.length;
+	i++
+	){
+	setTimeout(
+	()=>{
+	downloadChunk(i);
+	},
+	i*300
+	);
+	}
+
+	currentIndex =
+	chunks.length;
+
+	updateUI();
+
+	document.getElementById(
+	"status"
+	).textContent =
+	"🚀 Downloading all files";
+	}
+
+	function downloadChunk(index){
+
+	const blob =
+	new Blob(
+	[chunks[index]],
+	{
+	type:
+	"text/plain"
+	}
+	);
+
+	const url =
+	URL.createObjectURL(
+	blob
+	);
+
+	const a =
+	document.createElement(
+	"a"
+	);
+
+	a.href = url;
+
+	a.download =
+	`Sublist_${
+	index+1
+	}.txt`;
+
+	document.body.appendChild(
+	a
+	);
+
+	a.click();
+
+	document.body.removeChild(
+	a
+	);
+
+	URL.revokeObjectURL(
+	url
+	);
+	}
+
+	function updateUI(){
+
+	const percent =
+	chunks.length===0
+	?0
+	:(currentIndex/
+	chunks.length)
+	*100;
+
+	document.getElementById(
+	"progress"
+	).style.width =
+	percent + "%";
+
+	document.getElementById(
+	"status"
+	).textContent =
+	`Downloaded ${currentIndex} / ${chunks.length}`;
+	}
+
+	function resetAll(){
+
+	chunks = [];
+
+	currentIndex = 0;
+
+	document.getElementById(
+	"input"
+	).value = "";
+
+	document.getElementById(
+	"fileName"
+	).textContent =
+	"No file selected";
+
+	document.getElementById(
+	"totalFiles"
+	).textContent = 0;
+
+	document.getElementById(
+	"status"
+	).textContent =
+	"Waiting...";
+
+	document.getElementById(
+	"progress"
+	).style.width =
+	"0%";
+
+	document.getElementById(
+	"chunkSize"
+	).value =
+	100;
+	}
+	</script>
+
+	</body>
+	</html>
