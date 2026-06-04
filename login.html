@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+
+const supabase = createClient(
+  'https://qfsxwxgrtrcznrghchsv.supabase.co',
+  'sb_publishable_naSqwWCnID39eZmDjvuglQ_iwLUPWko'
+);
+
+window.login = async () => {
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  if(!email || !password){
+    alert("Please fill all fields");
+    return;
+  }
+
+  const { error } =
+    await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  window.location.href =
+    "splitter_Pizzy.html";
+}
+</script>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#0f172a;
+  font-family:Inter,Segoe UI,sans-serif;
+  color:white;
+}
+
+.card{
+  width:400px;
+  background:#1e293b;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 10px 35px rgba(0,0,0,.3);
+}
+
+h1{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:#0f172a;
+  color:white;
+  margin-bottom:15px;
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:#3b82f6;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:.9;
+}
+
+.link{
+  text-align:center;
+  margin-top:15px;
+}
+
+.link a{
+  color:#60a5fa;
+  text-decoration:none;
+}
+</style>
+
+</head>
+<body>
+
+<div class="card">
+
+<h1>Login</h1>
+
+<input
+type="email"
+id="email"
+placeholder="Email">
+
+<input
+type="password"
+id="password"
+placeholder="Password">
+
+<button onclick="login()">
+Login
+</button>
+
+<div class="link">
+Don't have an account?
+<a href="signup.html">Create Account</a>
+</div>
+
+</div>
+
+</body>
+</html>
