@@ -1,119 +1,400 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Multiple Links</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #e6f0ff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Link Opener Tofita</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+    color:#e6ecf5;
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 50% 0%,rgba(41,121,255,.35),transparent 60%),
+      radial-gradient(ellipse at top,#0f5fd8 0%,#0d2240 45%,#050b17 100%);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:1200px;margin:0 auto;padding:32px 20px}
+  .card{
+    border-radius:24px;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(12,22,40,.75);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    box-shadow:0 30px 80px -20px rgba(0,0,0,.7);
+    overflow:hidden;
+  }
+  .top{padding:28px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:16px}
+  .brand{display:flex;align-items:center;gap:16px}
+  .logo{
+    width:48px;height:48px;border-radius:16px;
+    background:linear-gradient(135deg,#22d3ee,#2563eb);
+    display:grid;place-items:center;color:#fff;font-size:22px;
+    box-shadow:0 10px 30px -5px rgba(41,121,255,.6);
+  }
+  h1{margin:0;font-size:26px;letter-spacing:-.01em}
+  h1 span{color:#22d3ee;margin-left:6px}
+  .sub{margin:4px 0 0;font-size:13px;color:#a9b8d0}
+  .status{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 12px;border-radius:999px;font-size:12px;font-weight:600;
+    color:#a5f3fc;border:1px solid rgba(34,211,238,.3);background:rgba(34,211,238,.1);
+  }
+  .dot{position:relative;width:8px;height:8px}
+  .dot::before,.dot::after{content:"";position:absolute;inset:0;border-radius:999px;background:#22d3ee}
+  .dot::before{animation:ping 1.6s ease-out infinite;opacity:.75}
+  @keyframes ping{0%{transform:scale(1);opacity:.75}80%,100%{transform:scale(2.4);opacity:0}}
 
-        .container {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            width: 90%;
-            max-width: 600px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+  label.section{
+    display:flex;align-items:center;gap:8px;
+    font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#c1cee3;
+    margin:22px 0 8px;
+  }
+  label.section .count{margin-left:auto;font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#8ea0bd;text-transform:none;letter-spacing:0}
+  textarea{
+    width:100%;min-height:130px;resize:vertical;
+    border-radius:16px;border:1px solid rgba(255,255,255,.1);
+    background:rgba(11,24,48,.8);color:#e6ecf5;padding:14px;
+    font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.5;
+    box-shadow:inset 0 2px 6px rgba(0,0,0,.3);outline:none;transition:.2s;
+  }
+  textarea:focus{border-color:rgba(34,211,238,.6);box-shadow:0 0 0 3px rgba(34,211,238,.2)}
 
-        h2 {
-            text-align: center;
-            color: #2a5298;
-        }
+  .controls{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;margin-top:18px}
+  .segment{display:inline-flex;gap:4px;padding:4px;border:1px solid rgba(255,255,255,.1);background:rgba(11,24,48,.7);border-radius:12px}
+  .segment button{
+    background:transparent;color:#b7c3da;border:none;padding:7px 14px;
+    border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:.2s;
+  }
+  .segment button:hover{color:#fff}
+  .segment button.active{background:linear-gradient(90deg,#22d3ee,#2563eb);color:#08131f;box-shadow:0 4px 10px -2px rgba(41,121,255,.4)}
+  .segment.icons button{padding:8px}
+  .segment.icons button.active{background:rgba(255,255,255,.1);color:#67e8f9}
+  .segment svg{width:16px;height:16px;display:block}
 
-        textarea {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #c1d3e0;
-            box-sizing: border-box;
-            margin-bottom: 15px;
-            resize: vertical;
-        }
+  .btns{display:flex;flex-wrap:wrap;gap:8px}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;cursor:pointer;
+    padding:10px 16px;border-radius:12px;font-size:13px;font-weight:600;
+    border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:#dbe4f3;
+    transition:.15s;
+  }
+  .btn:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
+  .btn.danger{border-color:rgba(248,113,113,.25);background:rgba(239,68,68,.1);color:#fca5a5}
+  .btn.danger:hover{background:rgba(239,68,68,.2)}
+  .btn.primary{
+    border:none;color:#fff;font-weight:800;padding:11px 22px;
+    background:linear-gradient(90deg,#22d3ee,#38bdf8,#2563eb);
+    box-shadow:0 10px 30px -5px rgba(41,121,255,.6);
+    position:relative;overflow:hidden;
+  }
+  .btn.primary:hover{box-shadow:0 15px 40px -5px rgba(41,121,255,.8)}
+  .btn svg{width:16px;height:16px}
 
-        label {
-            font-size: 14px;
-            margin-right: 10px;
-            color: #2a5298;
-        }
+  .info{display:flex;align-items:center;gap:8px;padding:12px 24px;font-size:12px;color:#9fb0cc;background:rgba(0,0,0,.25);border-bottom:1px solid rgba(255,255,255,.05)}
+  .info svg{width:14px;height:14px;color:#fbbf24;flex:none}
 
-        .checkbox-container {
-            margin-bottom: 15px;
-        }
+  #grid{display:grid;gap:16px;padding:20px}
+  .grid-compact{grid-template-columns:repeat(auto-fill,minmax(320px,1fr))}
+  .grid-comfy{grid-template-columns:repeat(auto-fill,minmax(430px,1fr))}
+  .grid-large{grid-template-columns:repeat(auto-fill,minmax(560px,1fr))}
+  .panel{
+    display:flex;flex-direction:column;overflow:hidden;
+    border-radius:16px;border:1px solid rgba(255,255,255,.1);
+    background:#13233d;box-shadow:0 8px 24px rgba(0,0,0,.3);transition:.2s;
+  }
+  .h-compact{height:320px}.h-comfy{height:420px}.h-large{height:520px}
+  .panel:hover{border-color:rgba(34,211,238,.4);box-shadow:0 10px 40px -10px rgba(41,121,255,.5)}
+  .panel-head{
+    display:flex;align-items:center;gap:8px;padding:8px 12px;
+    background:linear-gradient(90deg,#1d3558,#152a4a);border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .lights{display:flex;gap:6px}
+  .lights span{width:10px;height:10px;border-radius:999px}
+  .lights span:nth-child(1){background:rgba(248,113,113,.7)}
+  .lights span:nth-child(2){background:rgba(251,191,36,.7)}
+  .lights span:nth-child(3){background:rgba(52,211,153,.7)}
+  .p-title{flex:1;font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#c8d3e6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .p-actions{display:flex;gap:2px;opacity:.7;transition:.2s}
+  .panel:hover .p-actions{opacity:1}
+  .p-actions button,.p-actions a{
+    all:unset;cursor:pointer;padding:6px;border-radius:6px;color:#c8d3e6;
+    display:inline-flex;transition:.15s;
+  }
+  .p-actions button:hover,.p-actions a:hover{background:rgba(255,255,255,.1);color:#fff}
+  .p-actions svg{width:14px;height:14px}
+  iframe{flex:1;border:none;background:#fff}
 
-        button {
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.3s ease;
-        }
+  .empty{
+    display:grid;place-items:center;text-align:center;
+    padding:70px 20px;border-radius:16px;
+    border:1px dashed rgba(255,255,255,.12);background:rgba(0,0,0,.2);
+  }
+  .empty .badge{
+    width:56px;height:56px;border-radius:16px;margin-bottom:16px;
+    background:linear-gradient(135deg,rgba(34,211,238,.2),rgba(37,99,235,.2));
+    display:grid;place-items:center;color:#67e8f9;
+    border:1px solid rgba(255,255,255,.1);
+  }
+  .empty h3{margin:0 0 4px;font-size:18px}
+  .empty p{margin:0;color:#8ea0bd;font-size:14px;max-width:420px}
+  .empty strong{color:#67e8f9}
 
-        button:hover {
-            background-color: #0056b3;
-        }
+  .foot{border-top:1px solid rgba(255,255,255,.05);text-align:center;padding:12px;color:#6b7fa1;font-size:11px}
 
-        button:focus {
-            outline: none;
-        }
-    </style>
+  /* Modal */
+  .modal-bg{
+    position:fixed;inset:0;z-index:50;display:none;
+    background:rgba(0,0,0,.8);backdrop-filter:blur(6px);
+    align-items:center;justify-content:center;padding:16px;
+  }
+  .modal-bg.open{display:flex}
+  .modal{
+    width:100%;max-width:1400px;height:92vh;display:flex;flex-direction:column;
+    background:#0b1830;border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.6);
+  }
+  .modal-head{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:10px 14px;background:rgba(0,0,0,.3);border-bottom:1px solid rgba(255,255,255,.1);
+  }
+  .modal-head span{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#c8d3e6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .modal-head button{all:unset;cursor:pointer;padding:6px;border-radius:8px;color:#c8d3e6}
+  .modal-head button:hover{background:rgba(255,255,255,.1);color:#fff}
+  .modal iframe{flex:1;background:#fff}
+
+  @media (max-width:640px){
+    .top{padding:20px}
+    h1{font-size:22px}
+    .controls{flex-direction:column;align-items:stretch}
+    .btns{justify-content:stretch}
+    .btn{flex:1;justify-content:center}
+  }
+</style>
 </head>
 <body>
-
-    <div class="container">
-        <h2>Enter Links and Select Prefix Type:</h2>
-
-        <textarea id="linksTextBox" rows="10" placeholder="Enter one link per line..."></textarea>
-
-        <div class="checkbox-container">
-            <label><input type="checkbox" id="httpsCheckbox"> Add https://</label><br>
-            <label><input type="checkbox" id="httpCheckbox"> Add http://</label><br>
-            <label><input type="checkbox" id="nonHttpCheckbox"> Neither (no http or https)</label>
+<div class="wrap">
+  <div class="card">
+    <!-- Header -->
+    <div class="top">
+      <div class="head">
+        <div class="brand">
+          <div class="logo">🚀</div>
+          <div>
+            <h1>Link Opener<span>Dashboard</span></h1>
+            <p class="sub">Paste one URL per line, then launch a live monitoring grid.</p>
+          </div>
         </div>
+        <div class="status"><span class="dot"></span><span id="statusText">Standing by</span></div>
+      </div>
 
-        <button onclick="processAndOpenLinks()">Process and Open Links</button>
+      <label class="section" for="urls">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+        URLs
+        <span class="count"><span id="validCount">0</span> valid</span>
+      </label>
+      <textarea id="urls" spellcheck="false" placeholder="storage.googleapis.com/...#"></textarea>
+
+      <div class="controls">
+        <div style="display:flex;flex-wrap:wrap;gap:10px">
+          <div class="segment" id="protoSeg">
+            <button data-proto="https" class="active">HTTPS</button>
+            <button data-proto="http" class="">HTTP</button>
+            <button data-proto="none" class="">Keep</button>
+          </div>
+          <div class="segment icons" id="densitySeg">
+            <button data-density="compact" title="Compact">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect></svg>
+            </button>
+            <button data-density="comfy" class="active" title="Comfy">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8"></rect><rect x="13" y="3" width="8" height="8"></rect><rect x="3" y="13" width="8" height="8"></rect><rect x="13" y="13" width="8" height="8"></rect></svg>
+            </button>
+            <button data-density="large" title="Large">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="6"></rect><rect x="3" y="14" width="18" height="6"></rect></svg>
+            </button>
+          </div>
+        </div>
+        <div class="btns">
+          <button class="btn" id="copyBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            Copy
+          </button>
+          <button class="btn" id="tabsBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            Open in tabs
+          </button>
+          <button class="btn danger" id="clearBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6M14 11v6"></path></svg>
+            Clear
+          </button>
+          <button class="btn primary" id="launchBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            GO ->
+          </button>
+        </div>
+      </div>
     </div>
 
-    <script>
-        function processAndOpenLinks() {
-            const linksTextBox = document.getElementById('linksTextBox').value;
-            const links = linksTextBox.split('\n').map(link => link.trim()).filter(link => link.length > 0);
+    <!-- Info -->
+    <div class="info">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"></path><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path></svg>
+      Some sites block embedding via X-Frame-Options / CSP and won't display in a panel. Use "Open in tabs" as a fallback.
+    </div>
 
-            const httpsChecked = document.getElementById('httpsCheckbox').checked;
-            const httpChecked = document.getElementById('httpCheckbox').checked;
-            const nonHttpChecked = document.getElementById('nonHttpCheckbox').checked;
+    <!-- Grid -->
+    <div id="grid" class="grid-comfy"></div>
 
-            const updatedLinks = links.map(link => {
-                if (httpsChecked) {
-                    return 'https://' + link;
-                } else if (httpChecked) {
-                    return 'http://' + link;
-                } else if (nonHttpChecked) {
-                    return link; // No prefix added
-                }
-                return link; // No changes if no box is checked
-            });
+    <div class="foot">Built for speed · No tracking · Runs entirely in your browser</div>
+  </div>
+</div>
 
-            // Open each updated link in a new tab
-            updatedLinks.forEach(link => {
-                window.open(link, '_blank');
-            });
-        }
-    </script>
+<!-- Focus modal -->
+<div class="modal-bg" id="modal">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <span id="modalUrl"></span>
+      <button id="modalClose" title="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    <iframe id="modalFrame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+  </div>
+</div>
 
-</body>
-</html>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const urlsEl = $("urls"), grid = $("grid");
+  let prefix = "https", density = "comfy";
+
+  function parseLinks(){
+    return urlsEl.value.split(/\r?\n/).map(s => {
+      const u = s.trim();
+      if(!u) return "";
+      if(prefix === "none") return u;
+      return prefix + "://" + u.replace(/^https?:\/\//i,"");
+    }).filter(Boolean);
+  }
+
+  function updateCount(){ $("validCount").textContent = parseLinks().length; }
+  urlsEl.addEventListener("input", updateCount);
+
+  // Segmented controls
+  document.querySelectorAll("#protoSeg button").forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll("#protoSeg button").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      prefix = b.dataset.proto;
+      updateCount();
+    };
+  });
+  document.querySelectorAll("#densitySeg button").forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll("#densitySeg button").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      density = b.dataset.density;
+      grid.className = "grid-" + density;
+      document.querySelectorAll(".panel").forEach(p => {
+        p.classList.remove("h-compact","h-comfy","h-large");
+        p.classList.add("h-" + density);
+      });
+    };
+  });
+
+  // Buttons
+  $("copyBtn").onclick = async () => {
+    const links = parseLinks();
+    if(!links.length) return;
+    await navigator.clipboard.writeText(links.join("\n"));
+    flash($("copyBtn"), "Copied!");
+  };
+  $("tabsBtn").onclick = () => {
+    parseLinks().forEach(u => window.open(u, "_blank", "noopener,noreferrer"));
+  };
+  $("clearBtn").onclick = () => { grid.innerHTML = ""; setStatus(0); };
+  $("launchBtn").onclick = launch;
+
+  function flash(btn, txt){
+    const orig = btn.innerHTML;
+    btn.innerHTML = txt;
+    setTimeout(() => btn.innerHTML = orig, 1200);
+  }
+
+  function setStatus(n){
+    $("statusText").textContent = n > 0 ? n + " panels live" : "Standing by";
+  }
+
+  function launch(){
+    const links = parseLinks();
+    grid.innerHTML = "";
+    if(!links.length){ renderEmpty(); return; }
+    links.forEach(url => grid.appendChild(makePanel(url)));
+    setStatus(links.length);
+  }
+
+  function renderEmpty(){
+    grid.innerHTML = `
+      <div class="empty" style="grid-column:1/-1">
+        <div class="badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </div>
+        <h3>Your Tofita is empty</h3>
+        <p>Paste URLs above and hit <strong>Launch Tofita</strong> to load them all as live panels.</p>
+      </div>`;
+  }
+
+  function makePanel(url){
+    const p = document.createElement("div");
+    p.className = "panel h-" + density;
+    p.innerHTML = `
+      <div class="panel-head">
+        <div class="lights"><span></span><span></span><span></span></div>
+        <div class="p-title" title="${url}">${url}</div>
+        <div class="p-actions">
+          <button data-act="reload" title="Reload">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          </button>
+          <button data-act="expand" title="Expand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+          </button>
+          <a href="${url}" target="_blank" rel="noopener noreferrer" title="Open">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+          <button data-act="remove" title="Remove">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <iframe src="${url}" title="${url}" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" loading="lazy"></iframe>
+    `;
+    p.querySelector('[data-act="reload"]').onclick = () => {
+      const f = p.querySelector("iframe"); f.src = f.src;
+    };
+    p.querySelector('[data-act="expand"]').onclick = () => openModal(url);
+    p.querySelector('[data-act="remove"]').onclick = () => {
+      p.remove();
+      setStatus(document.querySelectorAll(".panel").length);
+    };
+    return p;
+  }
+
+  // Modal
+  const modal = $("modal");
+  function openModal(url){
+    $("modalUrl").textContent = url;
+    $("modalFrame").src = url;
+    modal.classList.add("open");
+  }
+  function closeModal(){
+    modal.classList.remove("open");
+    $("modalFrame").src = "about:blank";
+  }
+  $("modalClose").onclick = closeModal;
+  modal.onclick = closeModal;
+  document.addEventListener("keydown", (e) => { if(e.key === "Escape") closeModal(); });
+
+  updateCount();
+</script>
+
+
+</body></html>
