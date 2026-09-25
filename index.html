@@ -2271,153 +2271,289 @@ word-break:break-word;
 	</pre>
 	  <pre id="autoClickScript" style="display:none;">
 
-	  (function () {
-	  const box = document.createElement("div");
-	  box.style.position = "fixed";
-	  box.style.bottom = "20px";
-	  box.style.right = "20px";
-	  box.style.background = "#0f172a";
-	  box.style.color = "#fff";
-	  box.style.padding = "15px";
-	  box.style.borderRadius = "12px";
-	  box.style.zIndex = "9999";
-	  box.style.fontFamily = "Arial";
-	  box.style.boxShadow = "0 8px 25px rgba(0,0,0,0.4)";
-	  box.style.display = "flex";
-	  box.style.flexDirection = "column";
-	  box.style.gap = "10px";
+(function () {
+  // Remove old timer if it already exists
+  const old = document.getElementById("my-auto-timer");
+  if (old) old.remove();
 
+  // ================= UI =================
+  const box = document.createElement("div");
+  box.id = "my-auto-timer";
 
-	  const inputsRow = document.createElement("div");
-	  inputsRow.style.display = "flex";
-	  inputsRow.style.gap = "6px";
+  Object.assign(box.style, {
+    position: "fixed",
+    bottom: "20px",
+    right: "20px",
+    background: "#0f172a",
+    color: "#fff",
+    padding: "15px",
+    borderRadius: "12px",
+    zIndex: "999999",
+    fontFamily: "Arial, sans-serif",
+    boxShadow: "0 8px 25px rgba(0,0,0,0.4)",
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+    minWidth: "190px"
+  });
 
-	  function createInput(ph) {
-		const inp = document.createElement("input");
-		inp.type = "number";
-		inp.placeholder = ph;
-		inp.style.width = "50px";
-		inp.style.padding = "6px";
-		inp.style.borderRadius = "6px";
-		inp.style.border = "1px solid #334155";
-		inp.style.background = "#020617";
-		inp.style.color = "#fff";
-		inp.style.textAlign = "center";
-		return inp;
-	  }
+  // ================= INPUTS =================
+  const inputsRow = document.createElement("div");
 
-	  const h = createInput("HH");
-	  const m = createInput("MM");
-	  const s = createInput("SS");
+  Object.assign(inputsRow.style, {
+    display: "flex",
+    gap: "6px",
+    justifyContent: "center"
+  });
 
-	  inputsRow.append(h, m, s);
+  function createInput(ph) {
+    const input = document.createElement("input");
 
-	  const btnRow = document.createElement("div");
-	  btnRow.style.display = "flex";
-	  btnRow.style.gap = "8px";
+    input.type = "number";
+    input.placeholder = ph;
+    input.min = "0";
 
-	  function createBtn(text, color) {
-		const btn = document.createElement("button");
-		btn.textContent = text;
+    Object.assign(input.style, {
+      width: "50px",
+      padding: "7px 4px",
+      borderRadius: "6px",
+      border: "1px solid #334155",
+      background: "#020617",
+      color: "#fff",
+      textAlign: "center",
+      outline: "none"
+    });
 
-		btn.style.flex = "1";
-		btn.style.padding = "8px";
-		btn.style.border = "none";
-		btn.style.borderRadius = "8px";
-		btn.style.cursor = "pointer";
-		btn.style.fontWeight = "bold";
-		btn.style.background = color;
-		btn.style.color = "#fff";
-		btn.style.transition = "0.2s";
+    return input;
+  }
 
-		btn.onmouseenter = () => {
-		  btn.style.opacity = "0.85";
-		  btn.style.transform = "translateY(-1px)";
-		};
-		btn.onmouseleave = () => {
-		  btn.style.opacity = "1";
-		  btn.style.transform = "none";
-		};
+  const h = createInput("HH");
+  const m = createInput("MM");
+  const s = createInput("SS");
 
-		return btn;
-	  }
+  inputsRow.append(h, m, s);
 
-	  const start = createBtn("▶ Start", "#22c55e");
-	  const stop = createBtn("⏹ Stop", "#ef4444");
+  // ================= COUNTDOWN =================
+  const countdown = document.createElement("div");
 
-	  // text
-	  const txt = document.createElement("div");
-	  txt.style.fontSize = "13px";
-	  txt.style.textAlign = "center";
-	  txt.style.color = "#94a3b8";
+  Object.assign(countdown.style, {
+    textAlign: "center",
+    fontSize: "24px",
+    fontWeight: "bold",
+    color: "#38bdf8",
+    padding: "4px"
+  });
 
-	  // assemble UI
-	  btnRow.append(start, stop);
-	  box.append(inputsRow, btnRow, txt);
-	  document.body.appendChild(box);
+  countdown.textContent = "00:00:00";
 
-	  // ===== TIMER =====
-	  let timer = null;
+  // ================= BUTTONS =================
+  const btnRow = document.createElement("div");
 
-	  function format(t) {
-		const hh = Math.floor(t / 3600);
-		const mm = Math.floor((t % 3600) / 60);
-		const ss = t % 60;
-		return [hh, mm, ss].map(x => String(x).padStart(2, '0')).join(':');
-	  }
+  Object.assign(btnRow.style, {
+    display: "flex",
+    gap: "8px"
+  });
 
-	  function clickSend() {
-		const btn = document.querySelector('input.send');
+  function createBtn(text, color) {
+    const btn = document.createElement("button");
 
-		if (btn) {
-		  btn.click();
-		  return true;
-		}
-		return false;
-	  }
+    btn.textContent = text;
 
-	  start.onclick = () => {
-		let total =
-		  (parseInt(h.value) || 0) * 3600 +
-		  (parseInt(m.value) || 0) * 60 +
-		  (parseInt(s.value) || 0);
+    Object.assign(btn.style, {
+      flex: "1",
+      padding: "8px",
+      border: "none",
+      borderRadius: "8px",
+      cursor: "pointer",
+      fontWeight: "bold",
+      background: color,
+      color: "#fff"
+    });
 
-		if (total <= 0) {
-		  txt.textContent = "❌ invalid time";
-		  txt.style.color = "#ef4444";
-		  return;
-		}
+    return btn;
+  }
 
-		txt.style.color = "#94a3b8";
-		clearInterval(timer);
+  const start = createBtn("▶ Start", "#22c55e");
+  const stop = createBtn("⏹ Stop", "#ef4444");
 
-		timer = setInterval(() => {
-		  if (total <= 0) {
-			clearInterval(timer);
+  // ================= STATUS =================
+  const txt = document.createElement("div");
 
-			const ok = clickSend();
+  Object.assign(txt.style, {
+    fontSize: "12px",
+    textAlign: "center",
+    color: "#94a3b8"
+  });
 
-			txt.textContent = ok
-			  ? "✅ Clicked Send"
-			  : "❌ Button not found";
+  txt.textContent = "Ready";
 
-			txt.style.color = ok ? "#22c55e" : "#ef4444";
-			return;
-		  }
+  // ================= ASSEMBLE =================
+  btnRow.append(start, stop);
 
-		  txt.textContent = "⏳ " + format(total);
-		  total--;
+  box.append(
+    inputsRow,
+    countdown,
+    btnRow,
+    txt
+  );
 
-		}, 1000);
-	  };
+  document.body.appendChild(box);
 
-	  stop.onclick = () => {
-		clearInterval(timer);
-		txt.textContent = "⏹ stopped";
-		txt.style.color = "#94a3b8";
-	  };
+  // ================= TIMER =================
+  let timer = null;
 
-	})();
+  function format(t) {
+    const hh = Math.floor(t / 3600);
+    const mm = Math.floor((t % 3600) / 60);
+    const ss = t % 60;
+
+    return [hh, mm, ss]
+      .map(x => String(x).padStart(2, "0"))
+      .join(":");
+  }
+
+  // ================= ACTION SEQUENCE =================
+  function runSequence() {
+
+    // ---------------------------------
+    // 1. FIND LOOP
+    // ---------------------------------
+    txt.textContent = "🔄 Finding Loop...";
+    txt.style.color = "#38bdf8";
+
+    const loopIcon = document.querySelector(
+      "i.icon.ion-loop"
+    );
+
+    if (!loopIcon) {
+      txt.textContent = "❌ Loop icon not found";
+      txt.style.color = "#ef4444";
+      return;
+    }
+
+    // Find the real clickable element
+    const loopButton =
+      loopIcon.closest(
+        "button, a, [role='button'], input"
+      ) || loopIcon;
+
+    // ---------------------------------
+    // 2. CLICK LOOP
+    // ---------------------------------
+    txt.textContent = "🔄 Clicking Loop...";
+
+    loopButton.click();
+
+    // ---------------------------------
+    // 3. WAIT AFTER LOOP
+    // ---------------------------------
+    setTimeout(() => {
+
+      txt.textContent = "☑️ Finding Select All...";
+
+      const selectAll = document.querySelector(
+        "#selecctall"
+      );
+
+      if (!selectAll) {
+        txt.textContent = "❌ Select All not found";
+        txt.style.color = "#ef4444";
+        return;
+      }
+
+      // ---------------------------------
+      // 4. CLICK SELECT ALL
+      // ---------------------------------
+      txt.textContent = "☑️ Selecting all...";
+
+      selectAll.click();
+
+      // ---------------------------------
+      // 5. WAIT BEFORE SEND
+      // ---------------------------------
+      setTimeout(() => {
+
+        txt.textContent = "📨 Finding Send...";
+
+        const send = document.querySelector(
+          "input.send"
+        );
+
+        if (!send) {
+          txt.textContent = "❌ Send button not found";
+          txt.style.color = "#ef4444";
+          return;
+        }
+
+        // ---------------------------------
+        // 6. CLICK SEND
+        // ---------------------------------
+        txt.textContent = "📨 Sending...";
+
+        send.click();
+
+        txt.textContent =
+          "✅ Loop → Select All → Send";
+
+        txt.style.color = "#22c55e";
+
+      }, 500);
+
+    }, 1000);
+  }
+
+  // ================= START =================
+  start.onclick = () => {
+
+    let total =
+      (parseInt(h.value) || 0) * 3600 +
+      (parseInt(m.value) || 0) * 60 +
+      (parseInt(s.value) || 0);
+
+    if (total <= 0) {
+      txt.textContent = "❌ Enter a valid time";
+      txt.style.color = "#ef4444";
+      return;
+    }
+
+    clearInterval(timer);
+
+    countdown.textContent = format(total);
+
+    txt.textContent = "⏳ Timer running...";
+    txt.style.color = "#94a3b8";
+
+    timer = setInterval(() => {
+
+      total--;
+
+      countdown.textContent =
+        format(Math.max(total, 0));
+
+      if (total <= 0) {
+
+        clearInterval(timer);
+
+        countdown.textContent = "00:00:00";
+
+        runSequence();
+      }
+
+    }, 1000);
+  };
+
+  // ================= STOP =================
+  stop.onclick = () => {
+
+    clearInterval(timer);
+
+    countdown.textContent = "00:00:00";
+
+    txt.textContent = "⏹ Stopped";
+    txt.style.color = "#94a3b8";
+  };
+
+})();
 
 	  </pre>
 
