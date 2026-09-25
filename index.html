@@ -2272,11 +2272,15 @@ word-break:break-word;
 	  <pre id="autoClickScript" style="display:none;">
 
 (function () {
-  // Remove old timer if it already exists
+
+  // Remove previous timer if exists
   const old = document.getElementById("my-auto-timer");
   if (old) old.remove();
 
-  // ================= UI =================
+  // =========================
+  // UI
+  // =========================
+
   const box = document.createElement("div");
   box.id = "my-auto-timer";
 
@@ -2294,10 +2298,13 @@ word-break:break-word;
     display: "flex",
     flexDirection: "column",
     gap: "10px",
-    minWidth: "190px"
+    minWidth: "210px"
   });
 
-  // ================= INPUTS =================
+  // =========================
+  // INPUTS
+  // =========================
+
   const inputsRow = document.createElement("div");
 
   Object.assign(inputsRow.style, {
@@ -2306,11 +2313,12 @@ word-break:break-word;
     justifyContent: "center"
   });
 
-  function createInput(ph) {
+  function createInput(placeholder) {
+
     const input = document.createElement("input");
 
     input.type = "number";
-    input.placeholder = ph;
+    input.placeholder = placeholder;
     input.min = "0";
 
     Object.assign(input.style, {
@@ -2333,20 +2341,26 @@ word-break:break-word;
 
   inputsRow.append(h, m, s);
 
-  // ================= COUNTDOWN =================
+  // =========================
+  // COUNTDOWN DISPLAY
+  // =========================
+
   const countdown = document.createElement("div");
 
   Object.assign(countdown.style, {
     textAlign: "center",
-    fontSize: "24px",
+    fontSize: "26px",
     fontWeight: "bold",
     color: "#38bdf8",
-    padding: "4px"
+    padding: "5px"
   });
 
   countdown.textContent = "00:00:00";
 
-  // ================= BUTTONS =================
+  // =========================
+  // BUTTONS
+  // =========================
+
   const btnRow = document.createElement("div");
 
   Object.assign(btnRow.style, {
@@ -2355,6 +2369,7 @@ word-break:break-word;
   });
 
   function createBtn(text, color) {
+
     const btn = document.createElement("button");
 
     btn.textContent = text;
@@ -2376,7 +2391,10 @@ word-break:break-word;
   const start = createBtn("▶ Start", "#22c55e");
   const stop = createBtn("⏹ Stop", "#ef4444");
 
-  // ================= STATUS =================
+  // =========================
+  // STATUS
+  // =========================
+
   const txt = document.createElement("div");
 
   Object.assign(txt.style, {
@@ -2387,7 +2405,10 @@ word-break:break-word;
 
   txt.textContent = "Ready";
 
-  // ================= ASSEMBLE =================
+  // =========================
+  // ASSEMBLE
+  // =========================
+
   btnRow.append(start, stop);
 
   box.append(
@@ -2399,110 +2420,160 @@ word-break:break-word;
 
   document.body.appendChild(box);
 
-  // ================= TIMER =================
+  // =========================
+  // TIMER
+  // =========================
+
   let timer = null;
 
-  function format(t) {
-    const hh = Math.floor(t / 3600);
-    const mm = Math.floor((t % 3600) / 60);
-    const ss = t % 60;
+  function format(time) {
 
-    return [hh, mm, ss]
+    const hh = Math.floor(time / 3600);
+    const mm = Math.floor((time % 3600) / 60);
+    const ss = time % 60;
+
+    return [
+      hh,
+      mm,
+      ss
+    ]
       .map(x => String(x).padStart(2, "0"))
       .join(":");
   }
 
-  // ================= ACTION SEQUENCE =================
+  // =========================
+  // ACTION SEQUENCE
+  // =========================
+
   function runSequence() {
 
-    // ---------------------------------
-    // 1. FIND LOOP
-    // ---------------------------------
-    txt.textContent = "🔄 Finding Loop...";
-    txt.style.color = "#38bdf8";
+    // Find Refresh button
+    const refreshButton =
+      document.querySelector("a.refreshList");
 
-    const loopIcon = document.querySelector(
-      "i.icon.ion-loop"
-    );
+    if (!refreshButton) {
 
-    if (!loopIcon) {
-      txt.textContent = "❌ Loop icon not found";
+      txt.textContent =
+        "❌ Refresh button not found";
+
       txt.style.color = "#ef4444";
+
       return;
     }
 
-    // Find the real clickable element
-    const loopButton =
-      loopIcon.closest(
-        "button, a, [role='button'], input"
-      ) || loopIcon;
+    // =========================
+    // REFRESH #1
+    // =========================
 
-    // ---------------------------------
-    // 2. CLICK LOOP
-    // ---------------------------------
-    txt.textContent = "🔄 Clicking Loop...";
+    txt.textContent = "🔄 Refresh 1/3...";
+    txt.style.color = "#38bdf8";
 
-    loopButton.click();
+    refreshButton.click();
 
-    // ---------------------------------
-    // 3. WAIT AFTER LOOP
-    // ---------------------------------
+    // =========================
+    // WAIT 5 SECONDS
+    // =========================
+
     setTimeout(() => {
 
-      txt.textContent = "☑️ Finding Select All...";
+      // =========================
+      // REFRESH #2
+      // =========================
 
-      const selectAll = document.querySelector(
-        "#selecctall"
-      );
+      txt.textContent = "🔄 Refresh 2/3...";
 
-      if (!selectAll) {
-        txt.textContent = "❌ Select All not found";
-        txt.style.color = "#ef4444";
-        return;
-      }
+      refreshButton.click();
 
-      // ---------------------------------
-      // 4. CLICK SELECT ALL
-      // ---------------------------------
-      txt.textContent = "☑️ Selecting all...";
+      // =========================
+      // WAIT 5 SECONDS
+      // =========================
 
-      selectAll.click();
-
-      // ---------------------------------
-      // 5. WAIT BEFORE SEND
-      // ---------------------------------
       setTimeout(() => {
 
-        txt.textContent = "📨 Finding Send...";
+        // =========================
+        // REFRESH #3
+        // =========================
 
-        const send = document.querySelector(
-          "input.send"
-        );
+        txt.textContent = "🔄 Refresh 3/3...";
 
-        if (!send) {
-          txt.textContent = "❌ Send button not found";
-          txt.style.color = "#ef4444";
-          return;
-        }
+        refreshButton.click();
 
-        // ---------------------------------
-        // 6. CLICK SEND
-        // ---------------------------------
-        txt.textContent = "📨 Sending...";
+        // =========================
+        // WAIT AFTER LAST REFRESH
+        // =========================
 
-        send.click();
+        setTimeout(() => {
 
-        txt.textContent =
-          "✅ Loop → Select All → Send";
+          // =========================
+          // SELECT ALL
+          // =========================
 
-        txt.style.color = "#22c55e";
+          txt.textContent =
+            "☑️ Selecting all...";
 
-      }, 500);
+          txt.style.color = "#f59e0b";
 
-    }, 1000);
+          const selectAll =
+            document.querySelector("#selecctall");
+
+          if (!selectAll) {
+
+            txt.textContent =
+              "❌ Select All not found";
+
+            txt.style.color = "#ef4444";
+
+            return;
+          }
+
+          selectAll.click();
+
+          // =========================
+          // WAIT 0.5 SECOND
+          // =========================
+
+          setTimeout(() => {
+
+            // =========================
+            // SEND
+            // =========================
+
+            txt.textContent =
+              "📨 Sending...";
+
+            const send =
+              document.querySelector("input.send");
+
+            if (!send) {
+
+              txt.textContent =
+                "❌ Send button not found";
+
+              txt.style.color = "#ef4444";
+
+              return;
+            }
+
+            send.click();
+
+            txt.textContent =
+              "✅ Refresh ×3 → Select All → Send";
+
+            txt.style.color = "#22c55e";
+
+          }, 500);
+
+        }, 1500);
+
+      }, 5000);
+
+    }, 5000);
   }
 
-  // ================= START =================
+  // =========================
+  // START
+  // =========================
+
   start.onclick = () => {
 
     let total =
@@ -2511,18 +2582,29 @@ word-break:break-word;
       (parseInt(s.value) || 0);
 
     if (total <= 0) {
-      txt.textContent = "❌ Enter a valid time";
+
+      txt.textContent =
+        "❌ Enter a valid time";
+
       txt.style.color = "#ef4444";
+
       return;
     }
 
+    // Stop previous timer
     clearInterval(timer);
 
-    countdown.textContent = format(total);
+    // Show immediately
+    countdown.textContent =
+      format(total);
 
-    txt.textContent = "⏳ Timer running...";
-    txt.style.color = "#94a3b8";
+    txt.textContent =
+      "⏳ Timer running...";
 
+    txt.style.color =
+      "#94a3b8";
+
+    // Start countdown
     timer = setInterval(() => {
 
       total--;
@@ -2534,7 +2616,11 @@ word-break:break-word;
 
         clearInterval(timer);
 
-        countdown.textContent = "00:00:00";
+        countdown.textContent =
+          "00:00:00";
+
+        txt.textContent =
+          "🚀 Starting actions...";
 
         runSequence();
       }
@@ -2542,19 +2628,25 @@ word-break:break-word;
     }, 1000);
   };
 
-  // ================= STOP =================
+  // =========================
+  // STOP
+  // =========================
+
   stop.onclick = () => {
 
     clearInterval(timer);
 
-    countdown.textContent = "00:00:00";
+    countdown.textContent =
+      "00:00:00";
 
-    txt.textContent = "⏹ Stopped";
-    txt.style.color = "#94a3b8";
+    txt.textContent =
+      "⏹ Stopped";
+
+    txt.style.color =
+      "#94a3b8";
   };
 
 })();
-
 	  </pre>
 
 	  <pre id="TesTAuto_Mail" style="display:none;">
