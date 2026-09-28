@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>🔐 Base64 Tool</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: rgba(8, 21, 38, 0.42);
+      --border: rgba(255, 255, 255, 0.18);
+      --text: #ffffff;
+      --muted: #dbeafe;
+      --primary1: #0ea5e9;
+      --primary2: #6366f1;
+      --danger1: #ef4444;
+      --danger2: #f97316;
+      --success: #22c55e;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(4, 18, 35, 0.16), rgba(4, 18, 35, 0.34)),
+        url("https://wallpapercave.com/wp/wp3284848.gif") center center / cover fixed no-repeat;
+      padding: 28px 18px 40px;
+    }
+
+    .top-bar {
+      width: 100vw;
+      margin: 0 0 24px;
+      margin-left: calc(50% - 50vw);
+      padding: 0 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    }
+
+
+    /* ===== GIRLS / PINK MODE ===== */
+    body.pink-mode {
+      background:
+        linear-gradient(rgba(60, 8, 45, 0.18), rgba(60, 8, 45, 0.34)),
+        url("https://wallpaperaccess.com/full/12067286.gif") center center / cover fixed no-repeat;
+    }
+
+    .theme-switch {
+      position: relative;
+      width: 62px;
+      height: 32px;
+      flex: 0 0 auto;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      outline: none;
+      background: transparent;
+      box-shadow: none;
+      cursor: pointer;
+    }
+
+    .theme-slider {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      background: #0ea5e9;
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      box-shadow: 0 6px 18px rgba(14, 165, 233, 0.28);
+      transition: 0.35s;
+    }
+
+    .theme-slider::before {
+      content: "";
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      left: 2px;
+      top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #fff;
+      content: "💙";
+      font-size: 14px;
+      line-height: 26px;
+      text-align: center;
+      transition: 0.35s;
+    }
+
+    .theme-switch.is-pink .theme-slider {
+      background: #ff4da6;
+      box-shadow: 0 6px 18px rgba(255, 77, 166, 0.35);
+    }
+
+    .theme-switch.is-pink .theme-slider::before {
+      transform: translateX(30px);
+      content: "🎀";
+    }
+
+    @media (max-width: 700px) {
+      .top-bar {
+        padding: 0 12px;
+      }
+    }
+
+    .page {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+    }
+
+    .title-card,
+    .tool-card,
+    .info-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .title-card {
+      border-radius: 24px;
+      padding: 26px;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .title-card h1 {
+      margin: 0;
+      font-size: clamp(25px, 4vw, 38px);
+      font-weight: 700;
+    }
+
+    .title-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .tool-card {
+      border-radius: 24px;
+      padding: 24px;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .tab-btn,
+    .action-btn {
+      border: 0;
+      border-radius: 13px;
+      padding: 13px 16px;
+      color: #fff;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+
+    .tab-btn {
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--primary1), var(--primary2));
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.30);
+    }
+
+    .tab-btn:hover,
+    .action-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #f8fbff;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 310px;
+      resize: vertical;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 16px;
+      outline: none;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.25);
+      color: #fff;
+      font: 400 14px/1.6 Consolas, Monaco, monospace;
+    }
+
+    textarea::placeholder {
+      color: rgba(255, 255, 255, 0.53);
+    }
+
+    textarea:focus {
+      border-color: rgba(56, 189, 248, 0.75);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .encode-btn {
+      background: linear-gradient(135deg, #0ea5e9, #6366f1);
+      box-shadow: 0 7px 0 rgba(30, 64, 175, 0.85);
+    }
+
+    .copy-btn {
+      background: linear-gradient(135deg, #16a34a, #22c55e);
+      box-shadow: 0 7px 0 rgba(20, 83, 45, 0.8);
+    }
+
+    .clear-btn {
+      background: linear-gradient(135deg, var(--danger1), var(--danger2));
+      box-shadow: 0 7px 0 rgba(127, 29, 29, 0.8);
+    }
+
+    .action-btn:active {
+      transform: translateY(4px);
+      box-shadow: none;
+    }
+
+    .status {
+      min-height: 22px;
+      margin-top: 14px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .status.success {
+      color: #86efac;
+    }
+
+    .status.error {
+      color: #fca5a5;
+    }
+
+    .info-card {
+      border-radius: 20px;
+      margin-top: 18px;
+      padding: 20px 22px;
+    }
+
+    .info-card h2 {
+      margin: 0 0 10px;
+      font-size: 17px;
+    }
+
+    .info-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .footer {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 18px 12px 28px;
+      }
+
+      .top-bar {
+        align-items: flex-start;
+      }
+
+      .brand {
+        font-size: 15px;
+      }
+
+      .tabs,
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .tool-card {
+        padding: 16px;
+      }
+
+      textarea {
+        min-height: 260px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="top-bar">
+    <div class="brand">🛠️ Abelagnaui-Tools®࿐</div>
+
+    <button
+      class="theme-switch"
+      id="themeToggle"
+      type="button"
+      title="Switch theme"
+      aria-label="Switch between normal and girls mode"
+    >
+      <span class="theme-slider"></span>
+    </button>
+  </div>
+
+  <main class="page">
+    <section class="title-card">
+      <h1>🔐 Base64 Tool</h1>
+      <p>Encode and decode text with full UTF-8 support.</p>
+    </section>
+
+    <section class="tool-card">
+      <div class="tabs">
+        <button class="tab-btn active" id="encodeTab" type="button">🔒 Encode</button>
+        <button class="tab-btn" id="decodeTab" type="button">🔓 Decode</button>
+      </div>
+
+      <label for="textInput">Input / Base64</label>
+      <textarea
+        id="textInput"
+        spellcheck="false"
+        placeholder="Write or paste your text here..."
+      ></textarea>
+
+      <div class="actions">
+        <button class="action-btn encode-btn" id="processBtn" type="button">🔒 Encode</button>
+        <button class="action-btn copy-btn" id="copyBtn" type="button">📋 Copy</button>
+        <button class="action-btn clear-btn" id="clearBtn" type="button">🗑️ Clear</button>
+      </div>
+
+      <div class="status" id="status"></div>
+    </section>
+
+    <section class="info-card">
+      <h2>ℹ️ How it works</h2>
+      <p>
+        Encode converts normal UTF-8 text into Base64. Decode converts valid Base64
+        back into the original UTF-8 text. Everything runs directly in your browser;
+        no server or API is required.
+      </p>
+    </section>
+
+    <div class="footer">Base64 Tool • Client-side only • GitHub Pages ready</div>
+  </main>
+
+  <script>
+    (() => {
+      const themeToggle = document.getElementById("themeToggle");
+      const slider = themeToggle.querySelector(".theme-slider");
+
+      function applyTheme(mode) {
+        const pink = mode === "pink";
+
+        document.body.classList.toggle("pink-mode", pink);
+        themeToggle.classList.toggle("is-pink", pink);
+        slider.setAttribute("aria-label", pink ? "Girls mode" : "Normal mode");
+      }
+
+      let savedTheme = "default";
+
+      try {
+        savedTheme = localStorage.getItem("theme") || "default";
+      } catch (error) {
+        savedTheme = "default";
+      }
+
+      applyTheme(savedTheme === "pink" ? "pink" : "default");
+
+      themeToggle.addEventListener("click", () => {
+        const isPink = document.body.classList.toggle("pink-mode");
+        const newMode = isPink ? "pink" : "default";
+
+        themeToggle.classList.toggle("is-pink", isPink);
+
+        try {
+          localStorage.setItem("theme", newMode);
+        } catch (error) {
+          // Visual theme still works when storage is unavailable.
+        }
+      });
+
+      window.addEventListener("storage", (event) => {
+        if (event.key === "theme") {
+          applyTheme(event.newValue === "pink" ? "pink" : "default");
+        }
+      });
+    })();
+  </script>
+
+  <script>
+    (() => {
+      const input = document.getElementById("textInput");
+      const encodeTab = document.getElementById("encodeTab");
+      const decodeTab = document.getElementById("decodeTab");
+      const processBtn = document.getElementById("processBtn");
+      const copyBtn = document.getElementById("copyBtn");
+      const clearBtn = document.getElementById("clearBtn");
+      const status = document.getElementById("status");
+
+      let mode = "encode";
+
+      function setStatus(message, type = "") {
+        status.textContent = message;
+        status.className = "status" + (type ? " " + type : "");
+      }
+
+      function utf8ToBase64(text) {
+        const bytes = new TextEncoder().encode(text);
+        let binary = "";
+
+        const chunkSize = 0x8000;
+
+        for (let i = 0; i < bytes.length; i += chunkSize) {
+          binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+        }
+
+        return btoa(binary);
+      }
+
+      function base64ToUtf8(base64) {
+        const clean = base64.replace(/\s+/g, "");
+
+        if (!clean) {
+          return "";
+        }
+
+        // Basic Base64 validation.
+        if (!/^[A-Za-z0-9+/]*={0,2}$/.test(clean) || clean.length % 4 !== 0) {
+          throw new Error("Invalid Base64 format.");
+        }
+
+        const binary = atob(clean);
+        const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
+
+        return new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+      }
+
+      function processText() {
+        const value = input.value;
+
+        try {
+          if (mode === "encode") {
+            input.value = utf8ToBase64(value);
+            setStatus("✅ Text encoded successfully.", "success");
+          } else {
+            input.value = base64ToUtf8(value);
+            setStatus("✅ Base64 decoded successfully.", "success");
+          }
+        } catch (error) {
+          setStatus("❌ " + (error.message || "Invalid input."), "error");
+        }
+      }
+
+      function switchMode(newMode) {
+        mode = newMode;
+
+        const isEncode = mode === "encode";
+
+        encodeTab.classList.toggle("active", isEncode);
+        decodeTab.classList.toggle("active", !isEncode);
+
+        processBtn.textContent = isEncode ? "🔒 Encode" : "🔓 Decode";
+
+        input.placeholder = isEncode
+          ? "Write or paste your text here..."
+          : "Paste Base64 here...";
+
+        setStatus("");
+      }
+
+      async function copyResult() {
+        const value = input.value;
+
+        if (!value) {
+          setStatus("⚠️ Nothing to copy.", "error");
+          return;
+        }
+
+        try {
+          await navigator.clipboard.writeText(value);
+          setStatus("✅ Copied to clipboard.", "success");
+        } catch {
+          input.select();
+          document.execCommand("copy");
+          input.setSelectionRange(input.value.length, input.value.length);
+          setStatus("✅ Copied to clipboard.", "success");
+        }
+      }
+
+      function clearAll() {
+        input.value = "";
+        setStatus("🗑️ Cleared.");
+        input.focus();
+      }
+
+      encodeTab.addEventListener("click", () => switchMode("encode"));
+      decodeTab.addEventListener("click", () => switchMode("decode"));
+      processBtn.addEventListener("click", processText);
+      copyBtn.addEventListener("click", copyResult);
+      clearBtn.addEventListener("click", clearAll);
+
+      input.addEventListener("keydown", event => {
+        if (event.ctrlKey && event.key === "Enter") {
+          processText();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
