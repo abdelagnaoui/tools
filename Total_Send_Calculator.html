@@ -4,197 +4,467 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Total Send & X-Delay Calculator</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
-    /* Reset & base */
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
     * {
       box-sizing: border-box;
     }
+
+    :root {
+      --panel: rgba(8, 21, 38, 0.44);
+      --panel-soft: rgba(255, 255, 255, 0.07);
+      --border: rgba(255, 255, 255, 0.18);
+      --text: #ffffff;
+      --muted: #dbeafe;
+      --primary1: #0ea5e9;
+      --primary2: #6366f1;
+      --success1: #16a34a;
+      --success2: #22c55e;
+      --danger: #f87171;
+    }
+
+    html,
     body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #4a90e2, #50e3c2);
-      min-height: 100vh;
+      min-height: 100%;
       margin: 0;
-      padding: 2rem;
+      font-family: "Poppins", sans-serif;
+      color: var(--text);
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 26px 18px 40px;
+      background:
+        linear-gradient(rgba(4, 18, 35, 0.16), rgba(4, 18, 35, 0.34)),
+        url("https://wallpapercave.com/wp/wp3284848.gif") center center / cover fixed no-repeat;
+      transition: background 0.35s ease;
+    }
+
+    /* ===== GIRLS / PINK MODE ===== */
+    body.pink-mode {
+      --panel: rgba(58, 12, 49, 0.44);
+      --panel-soft: rgba(255, 205, 233, 0.10);
+      --border: rgba(255, 190, 225, 0.22);
+      --muted: #ffe5f4;
+
+      background:
+        linear-gradient(rgba(60, 8, 45, 0.18), rgba(60, 8, 45, 0.34)),
+        url("https://wallpaperaccess.com/full/12067286.gif") center center / cover fixed no-repeat;
+    }
+
+    /* ===== TOP BAR ===== */
+    .top-bar {
+      width: 100vw;
+      margin: 0 0 18px;
+      margin-left: calc(50% - 50vw);
+      padding: 0 18px;
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      color: #2c3e50;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
     }
 
-    .container {
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-      max-width: 520px;
-      width: 100%;
-      padding: 2.5rem 3rem;
-      transition: box-shadow 0.3s ease;
-    }
-    .container:hover {
-      box-shadow: 0 20px 50px rgba(0,0,0,0.18);
-    }
-
-    h1 {
+    .brand {
+      color: #fff;
+      font-size: 18px;
       font-weight: 700;
-      font-size: 1.9rem;
-      text-align: center;
-      margin-bottom: 2rem;
-      color: #34495e;
+      letter-spacing: 0.3px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
     }
 
-    h2 {
-      font-weight: 600;
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-      color: #34495e;
-      border-bottom: 2px solid #50e3c2;
-      padding-bottom: 0.4rem;
+    .theme-switch {
+      position: relative;
+      width: 62px;
+      height: 32px;
+      flex: 0 0 auto;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      outline: none;
+      background: transparent;
+      box-shadow: none;
+      cursor: pointer;
+    }
+
+    .theme-slider {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: #0ea5e9;
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      box-shadow: 0 6px 18px rgba(14, 165, 233, 0.28);
+      transition: 0.35s;
+    }
+
+    .theme-slider::before {
+      content: "💙";
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      left: 2px;
+      top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #fff;
+      font-size: 14px;
+      line-height: 26px;
+      text-align: center;
+      transition: 0.35s;
+    }
+
+    .theme-switch.is-pink .theme-slider {
+      background: #ff4da6;
+      box-shadow: 0 6px 18px rgba(255, 77, 166, 0.35);
+    }
+
+    .theme-switch.is-pink .theme-slider::before {
+      transform: translateX(30px);
+      content: "🎀";
+    }
+
+    /* ===== MAIN ===== */
+    .page {
+      width: min(900px, 100%);
+      margin: 0 auto;
+    }
+
+    .title-card,
+    .tool-card,
+    .info-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .title-card {
+      border-radius: 24px;
+      padding: 26px;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .title-card h1 {
+      margin: 0;
+      font-size: clamp(25px, 4vw, 38px);
+      font-weight: 700;
+    }
+
+    .title-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .tool-card {
+      border-radius: 24px;
+      padding: 24px;
     }
 
     .section {
-      margin-bottom: 3rem;
+      margin-bottom: 22px;
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--panel-soft);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .section:last-child {
+      margin-bottom: 0;
+    }
+
+    .section h2 {
+      margin: 0 0 16px;
+      font-size: 17px;
+      font-weight: 700;
     }
 
     .row {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
     }
 
     .input-group {
-      flex: 1;
-      min-width: 140px;
+      min-width: 0;
     }
 
     label {
       display: block;
-      font-size: 0.9rem;
-      margin-bottom: 0.35rem;
-      color: #7f8c8d;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #f8fbff;
       user-select: none;
     }
 
     input[type="number"] {
       width: 100%;
-      padding: 0.65rem 1rem;
-      font-size: 1rem;
-      border-radius: 12px;
-      border: 1.8px solid #bdc3c7;
-      transition: border-color 0.3s ease;
-      outline-offset: 2px;
-      color: #2c3e50;
+      min-height: 47px;
+      padding: 12px 14px;
+      border-radius: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(0, 0, 0, 0.25);
+      color: #fff;
+      font: 500 14px "Poppins", sans-serif;
+      outline: none;
+      transition: 0.25s;
+    }
+
+    input[type="number"]::placeholder {
+      color: rgba(255, 255, 255, 0.53);
     }
 
     input[type="number"]:focus {
-      border-color: #50e3c2;
-      box-shadow: 0 0 8px #50e3c2aa;
+      border-color: rgba(56, 189, 248, 0.75);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
     }
 
-    button {
+    .calc-btn {
       width: 100%;
-      padding: 14px 0;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: white;
-      background: linear-gradient(90deg, #50e3c2, #4a90e2);
-      border: none;
-      border-radius: 14px;
+      margin-top: 18px;
+      padding: 13px 16px;
+      border: 0;
+      border-radius: 13px;
       cursor: pointer;
-      box-shadow: 0 8px 20px rgba(80, 227, 194, 0.5);
-      transition: background 0.3s ease, transform 0.15s ease;
-      user-select: none;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary1), var(--primary2));
+      font: 600 14px "Poppins", sans-serif;
+      box-shadow: 0 7px 0 rgba(30, 64, 175, 0.85);
+      transition: 0.25s;
     }
-    button:hover {
-      background: linear-gradient(90deg, #4a90e2, #50e3c2);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 30px rgba(74, 144, 226, 0.7);
+
+    .calc-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(56, 189, 248, 0.28);
     }
-    button:active {
-      transform: translateY(0);
-      box-shadow: 0 6px 15px rgba(74, 144, 226, 0.5);
+
+    .calc-btn:active {
+      transform: translateY(4px);
+      box-shadow: none;
     }
 
     .result {
-      margin-top: 1.5rem;
-      background: #ecf9f8;
-      border-radius: 12px;
-      padding: 1rem 1.25rem;
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: #2c3e50;
-      box-shadow: inset 0 0 8px #50e3c2aa;
-      min-height: 48px;
+      margin-top: 15px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      min-height: 52px;
       display: flex;
       align-items: center;
       justify-content: center;
-      user-select: text;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.20);
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      color: #f8fbff;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
     }
 
     .alert {
-      color: #e74c3c;
+      color: var(--danger);
       font-weight: 600;
-      font-size: 0.9rem;
-      text-align: center;
+      font-size: 13px;
     }
 
-    @media (max-width: 480px) {
-      .row {
-        flex-direction: column;
+    .info-card {
+      border-radius: 20px;
+      margin-top: 18px;
+      padding: 20px 22px;
+    }
+
+    .info-card h2 {
+      margin: 0 0 10px;
+      font-size: 17px;
+    }
+
+    .info-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .footer {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    /* Calculator buttons stay blue in both modes,
+       while the page/background follows the selected theme. */
+
+    @media (max-width: 700px) {
+      body {
+        padding: 18px 12px 28px;
       }
-      .input-group {
-        min-width: 100%;
+
+      .top-bar {
+        padding: 0 12px;
+      }
+
+      .brand {
+        font-size: 15px;
+      }
+
+      .tool-card {
+        padding: 16px;
+      }
+
+      .row {
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>Total Send & X-Delay Calculator</h1>
 
-    <div class="section">
-      <h2>Calculate Total Send</h2>
-      <div class="row">
-        <div class="input-group">
-          <label for="servers">Servers</label>
-          <input type="number" id="servers" min="1" placeholder="e.g. 3" />
-        </div>
-        <div class="input-group">
-          <label for="hours">Hours</label>
-          <input type="number" id="hours" min="1" placeholder="e.g. 5" />
-        </div>
-        <div class="input-group">
-          <label for="xDelay">X-Delay</label>
-          <input type="number" id="xDelay" min="1" placeholder="e.g. 1000" />
-        </div>
-      </div><br><br>
-      <button onclick="calculateTotalSend()">Calculate Total Send</button>
-      <div id="result" class="result"></div>
-    </div>
+  <div class="top-bar">
+    <div class="brand">🛠️ Abelagnaui-Tools®࿐</div>
 
-    <div class="section">
-      <h2>Calculate Required X-Delay</h2>
-      <div class="row">
-        <div class="input-group">
-          <label for="dataAmount2">Data Amount</label>
-          <input type="number" id="dataAmount2" min="1" placeholder="e.g. 1000000" />
-        </div>
-        <div class="input-group">
-          <label for="servers2">Servers</label>
-          <input type="number" id="servers2" min="1" placeholder="e.g. 3" />
-        </div>
-        <div class="input-group">
-          <label for="hours2">Hours</label>
-          <input type="number" id="hours2" min="1" placeholder="e.g. 5" />
-        </div>
-      </div><br><br>
-      <button onclick="calculateXDelay()">Calculate Required X-Delay</button>
-      <div id="xDelayResult" class="result"></div>
-    </div>
+    <button
+      class="theme-switch"
+      id="themeToggle"
+      type="button"
+      title="Switch theme"
+      aria-label="Switch between normal and girls mode"
+    >
+      <span class="theme-slider"></span>
+    </button>
   </div>
 
+  <main class="page">
+
+    <section class="title-card">
+      <h1>📬 Total Send & X-Delay Calculator</h1>
+      <p>Calculate total sending capacity and required x-delay.</p>
+    </section>
+
+    <section class="tool-card">
+
+      <div class="section">
+        <h2>📊 Calculate Total Send</h2>
+
+        <div class="row">
+          <div class="input-group">
+            <label for="servers">Servers</label>
+            <input type="number" id="servers" min="1" placeholder="e.g. 3" />
+          </div>
+
+          <div class="input-group">
+            <label for="hours">Hours</label>
+            <input type="number" id="hours" min="1" placeholder="e.g. 5" />
+          </div>
+
+          <div class="input-group">
+            <label for="xDelay">X-Delay</label>
+            <input type="number" id="xDelay" min="1" placeholder="e.g. 1000" />
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calculateTotalSend()">
+          ⚡ Calculate Total Send
+        </button>
+
+        <div id="result" class="result"></div>
+      </div>
+
+      <div class="section">
+        <h2>⏱️ Calculate Required X-Delay</h2>
+
+        <div class="row">
+          <div class="input-group">
+            <label for="dataAmount2">Data Amount</label>
+            <input type="number" id="dataAmount2" min="1" placeholder="e.g. 1000000" />
+          </div>
+
+          <div class="input-group">
+            <label for="servers2">Servers</label>
+            <input type="number" id="servers2" min="1" placeholder="e.g. 3" />
+          </div>
+
+          <div class="input-group">
+            <label for="hours2">Hours</label>
+            <input type="number" id="hours2" min="1" placeholder="e.g. 5" />
+          </div>
+        </div>
+
+        <button class="calc-btn" onclick="calculateXDelay()">
+          🎯 Calculate Required X-Delay
+        </button>
+
+        <div id="xDelayResult" class="result"></div>
+      </div>
+
+    </section>
+
+    <section class="info-card">
+      <h2>ℹ️ How it works</h2>
+      <p>
+        Enter the required values and use the corresponding calculator.
+        All calculations run locally in your browser without a server.
+      </p>
+    </section>
+
+    <div class="footer">Total Send Calculator • Client-side only • GitHub Pages ready</div>
+
+  </main>
+
   <script>
+    /* ===== SHARED THEME WITH INDEX.HTML ===== */
+    (() => {
+      const themeToggle = document.getElementById("themeToggle");
+      const slider = themeToggle.querySelector(".theme-slider");
+
+      function applyTheme(mode) {
+        const pink = mode === "pink";
+
+        document.body.classList.toggle("pink-mode", pink);
+        themeToggle.classList.toggle("is-pink", pink);
+        slider.setAttribute("aria-label", pink ? "Girls mode" : "Normal mode");
+      }
+
+      let savedTheme = "default";
+
+      try {
+        savedTheme = localStorage.getItem("theme") || "default";
+      } catch (error) {
+        savedTheme = "default";
+      }
+
+      applyTheme(savedTheme === "pink" ? "pink" : "default");
+
+      themeToggle.addEventListener("click", () => {
+        const isPink = document.body.classList.toggle("pink-mode");
+        const newMode = isPink ? "pink" : "default";
+
+        themeToggle.classList.toggle("is-pink", isPink);
+
+        try {
+          localStorage.setItem("theme", newMode);
+        } catch (error) {
+          // Theme still works visually if storage is unavailable.
+        }
+      });
+
+      window.addEventListener("storage", (event) => {
+        if (event.key === "theme") {
+          applyTheme(event.newValue === "pink" ? "pink" : "default");
+        }
+      });
+    })();
+
+    /* ===== ORIGINAL LOGIC ===== */
     function getRatePerMinute(xDelay) {
       return Math.round((50000 / xDelay) * 1000);
     }
@@ -234,5 +504,6 @@
         `To send ${dataAmount.toLocaleString()} units in ${hours} hour(s) using ${servers} server(s), required x-delay is approx: ${xDelay.toLocaleString()} ms.`;
     }
   </script>
+
 </body>
 </html>
