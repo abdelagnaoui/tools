@@ -3,131 +3,452 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Text Comparison - Soft Dark Blue</title>
+<title>Text Comparison Tool</title>
 <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/6/6d/Windows_Settings_app_icon.png" type="image/png" />
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
 
-  /* Reset */
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
   * {
     box-sizing: border-box;
   }
+
+  :root {
+    --panel: rgba(8, 21, 38, 0.44);
+    --panel-soft: rgba(255, 255, 255, 0.07);
+    --border: rgba(255, 255, 255, 0.18);
+    --text: #ffffff;
+    --muted: #dbeafe;
+    --primary1: #0ea5e9;
+    --primary2: #6366f1;
+    --success: #4ade80;
+  }
+
+  html,
   body {
-    font-family: 'Roboto Mono', monospace;
-    background-color: #2c3e50; /* softer dark blue-gray */
-    color: #e0e0e0;
+    min-height: 100%;
     margin: 0;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  }
+
+  body {
     min-height: 100vh;
+    padding: 24px 18px 40px;
+    font-family: "Poppins", sans-serif;
+    color: var(--text);
+    background:
+      linear-gradient(rgba(4, 18, 35, 0.16), rgba(4, 18, 35, 0.34)),
+      url("https://wallpapercave.com/wp/wp3284848.gif") center center / cover fixed no-repeat;
+    transition: background 0.35s ease;
   }
 
-  h2 {
-    font-weight: 700;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: #90caf9;
-    letter-spacing: 0.05em;
+  /* ===== GIRLS / PINK MODE ===== */
+  body.pink-mode {
+    --panel: rgba(58, 12, 49, 0.44);
+    --panel-soft: rgba(255, 205, 233, 0.10);
+    --border: rgba(255, 190, 225, 0.22);
+    --muted: #ffe5f4;
+
+    background:
+      linear-gradient(rgba(60, 8, 45, 0.18), rgba(60, 8, 45, 0.34)),
+      url("https://wallpaperaccess.com/full/12067286.gif") center center / cover fixed no-repeat;
   }
 
-  textarea {
-    width: 320px;
-    max-width: 100%;
-    height: 220px;
-    padding: 1rem;
-    font-size: 1rem;
-    border-radius: 10px;
-    border: 2px solid #333;
-    background-color: #1e1e1e;
-    color: #e0e0e0;
-    resize: vertical;
-    box-shadow: inset 0 0 8px #000000aa;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 1.5rem;
-    font-family: 'Roboto Mono', monospace;
-  }
-  textarea:focus {
-    border-color: #64b5f6;
-    box-shadow: 0 0 12px #64b5f6cc;
-    outline: none;
-  }
-
-  #lineCount {
-    font-weight: 600;
-    color: #81d4fa;
-    margin-bottom: 2rem;
-    font-size: 1rem;
-  }
-
-  .button-group {
+  /* ===== TOP BAR ===== */
+  .top-bar {
+    width: 100%;
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 2rem;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin: 0 0 22px;
+    padding: 0 4px;
   }
 
-  button {
-    background: #64b5f6;
-    border: none;
-    border-radius: 12px;
-    padding: 0.75rem 1.5rem;
-    color: #121212;
+  .brand {
+    color: #fff;
+    font-size: 18px;
     font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: 0 5px 15px #64b5f6aa;
-    transition: background-color 0.25s ease, transform 0.15s ease;
-    user-select: none;
-  }
-  button:hover {
-    background: #42a5f5;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px #42a5f5bb;
-  }
-  button:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 12px #42a5f5aa;
+    letter-spacing: 0.3px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
   }
 
-  #copyMessage {
-    font-weight: 600;
-    color: #64b5f6;
-    min-height: 24px;
+  .theme-switch {
+    position: relative;
+    width: 62px;
+    height: 32px;
+    flex: 0 0 auto;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    box-shadow: none;
+    cursor: pointer;
+  }
+
+  .theme-slider {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: #0ea5e9;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    box-shadow: 0 6px 18px rgba(14, 165, 233, 0.28);
+    transition: 0.35s;
+  }
+
+  .theme-slider::before {
+    content: "💙";
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    left: 2px;
+    top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #fff;
+    font-size: 14px;
+    line-height: 26px;
+    text-align: center;
+    transition: 0.35s;
+  }
+
+  .theme-switch.is-pink .theme-slider {
+    background: #ff4da6;
+    box-shadow: 0 6px 18px rgba(255, 77, 166, 0.35);
+  }
+
+  .theme-switch.is-pink .theme-slider::before {
+    transform: translateX(30px);
+    content: "🎀";
+  }
+
+  .page {
+    width: min(1050px, 100%);
+    margin: 0 auto;
+  }
+
+  .title-card,
+  .tool-card,
+  .info-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .title-card {
+    border-radius: 24px;
+    padding: 26px;
+    margin-bottom: 18px;
     text-align: center;
   }
 
-  @media (max-width: 680px) {
-    textarea {
-      width: 100%;
-      height: 180px;
+  .title-card h1 {
+    margin: 0;
+    font-size: clamp(25px, 4vw, 38px);
+    font-weight: 700;
+  }
+
+  .title-card p {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .tool-card {
+    border-radius: 24px;
+    padding: 24px;
+  }
+
+  .text-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .text-box {
+    width: 100%;
+    padding: 16px;
+    border-radius: 18px;
+    background: var(--panel-soft);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .box-title {
+    margin-bottom: 10px;
+    color: #f8fbff;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  textarea {
+    width: 100%;
+    height: 270px;
+    padding: 15px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(0, 0, 0, 0.25);
+    color: #fff;
+    outline: none;
+    resize: vertical;
+    font-family: "Roboto Mono", monospace;
+    font-size: 13px;
+    line-height: 1.55;
+    transition: 0.25s;
+  }
+
+  textarea::placeholder {
+    color: rgba(255, 255, 255, 0.53);
+  }
+
+  textarea:focus {
+    border-color: rgba(56, 189, 248, 0.75);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+  }
+
+  #lineCount {
+    margin: 18px 0 0;
+    text-align: center;
+    color: #67e8f9;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .button-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .action-btn {
+    border: 0;
+    border-radius: 13px;
+    padding: 13px 16px;
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+
+  .compare-btn {
+    background: linear-gradient(135deg, #0ea5e9, #6366f1);
+    box-shadow: 0 7px 0 rgba(30, 64, 175, 0.85);
+  }
+
+  .copy-btn {
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    box-shadow: 0 7px 0 rgba(20, 83, 45, 0.8);
+  }
+
+  .action-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .action-btn:active {
+    transform: translateY(4px);
+    box-shadow: none;
+  }
+
+  #copyMessage {
+    min-height: 24px;
+    margin: 14px 0 0;
+    text-align: center;
+    color: var(--success);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .info-card {
+    border-radius: 20px;
+    margin-top: 18px;
+    padding: 20px 22px;
+  }
+
+  .info-card h2 {
+    margin: 0 0 10px;
+    font-size: 17px;
+  }
+
+  .info-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .footer {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  /* ===== SWEET GIRLS MODE ===== */
+  body.pink-mode .compare-btn {
+    background: linear-gradient(135deg, #ff69b4, #e879f9);
+    box-shadow: 0 7px 0 #be185d;
+  }
+
+  body.pink-mode .copy-btn {
+    background: linear-gradient(135deg, #ec4899, #c084fc);
+    box-shadow: 0 7px 0 #9333ea;
+  }
+
+  body.pink-mode #lineCount {
+    color: #f9a8d4;
+  }
+
+  @media (max-width: 760px) {
+    body {
+      padding: 18px 12px 28px;
     }
+
+    .brand {
+      font-size: 15px;
+    }
+
     .button-group {
-      flex-direction: column;
-      gap: 0.75rem;
+      grid-template-columns: 1fr;
+    }
+
+    .tool-card {
+      padding: 16px;
+    }
+
+    textarea {
+      height: 220px;
     }
   }
 </style>
 </head>
+
 <body>
 
-  <h2>Text Comparison Tool</h2>
+  <div class="top-bar">
+    <div class="brand">🛠️ Abelagnaui-Tools®࿐</div>
 
-  <textarea id="textarea1" placeholder="Enter texts line by line to compare..."></textarea>
-  <textarea id="textarea2" placeholder="Texts to be compared" oninput="updateLineCount()"></textarea>
-
-  <p id="lineCount">Number of lines: 0</p>
-
-  <div class="button-group">
-    <button onclick="compareAndRemove()">Compare and Remove</button>
-    <button onclick="copyTextarea2()">Copy Text</button>
+    <button
+      class="theme-switch"
+      id="themeToggle"
+      type="button"
+      title="Switch theme"
+      aria-label="Switch between normal and girls mode"
+    >
+      <span class="theme-slider"></span>
+    </button>
   </div>
 
-  <p id="copyMessage"></p>
+  <main class="page">
+
+    <section class="title-card">
+      <h1>📝 Text Comparison Tool</h1>
+      <p>Compare two texts and remove matching lines from the second text.</p>
+    </section>
+
+    <section class="tool-card">
+
+      <div class="text-grid">
+
+        <div class="text-box">
+          <div class="box-title">📄 Text 1 — Compare Against</div>
+          <textarea
+            id="textarea1"
+            placeholder="Enter texts line by line to compare..."
+          ></textarea>
+        </div>
+
+        <div class="text-box">
+          <div class="box-title">📋 Text 2 — Text to Process</div>
+          <textarea
+            id="textarea2"
+            placeholder="Texts to be compared"
+            oninput="updateLineCount()"
+          ></textarea>
+        </div>
+
+      </div>
+
+      <p id="lineCount">Number of lines: 0</p>
+
+      <div class="button-group">
+        <button class="action-btn compare-btn" onclick="compareAndRemove()">
+          🔍 Compare and Remove
+        </button>
+
+        <button class="action-btn copy-btn" onclick="copyTextarea2()">
+          📋 Copy Text
+        </button>
+      </div>
+
+      <p id="copyMessage"></p>
+
+    </section>
+
+    <section class="info-card">
+      <h2>ℹ️ How it works</h2>
+      <p>
+        Lines found in Text 1 are removed from Text 2. The line counter updates
+        automatically, and the remaining Text 2 can be copied with one click.
+      </p>
+    </section>
+
+    <div class="footer">Text Comparison • Client-side only • GitHub Pages ready</div>
+
+  </main>
 
 <script>
+  /* ===== SHARED THEME WITH INDEX.HTML ===== */
+  (() => {
+    const themeToggle = document.getElementById("themeToggle");
+    const slider = themeToggle.querySelector(".theme-slider");
+
+    function applyTheme(mode) {
+      const pink = mode === "pink";
+      document.body.classList.toggle("pink-mode", pink);
+      themeToggle.classList.toggle("is-pink", pink);
+      slider.setAttribute("aria-label", pink ? "Girls mode" : "Normal mode");
+    }
+
+    let savedTheme = "default";
+
+    try {
+      savedTheme = localStorage.getItem("theme") || "default";
+    } catch (error) {
+      savedTheme = "default";
+    }
+
+    applyTheme(savedTheme === "pink" ? "pink" : "default");
+
+    themeToggle.addEventListener("click", () => {
+      const isPink = document.body.classList.toggle("pink-mode");
+      const newMode = isPink ? "pink" : "default";
+
+      themeToggle.classList.toggle("is-pink", isPink);
+
+      try {
+        localStorage.setItem("theme", newMode);
+      } catch (error) {
+        // Theme still works visually if storage is unavailable.
+      }
+    });
+
+    window.addEventListener("storage", (event) => {
+      if (event.key === "theme") {
+        applyTheme(event.newValue === "pink" ? "pink" : "default");
+      }
+    });
+  })();
+
+  /* ===== ORIGINAL LOGIC ===== */
   function updateLineCount() {
     const textarea2 = document.getElementById('textarea2').value;
     const lines = textarea2.split('\n').filter(line => line.trim() !== '').length;
@@ -141,13 +462,14 @@
     textarea2 = textarea2.filter(line => line.trim() !== '' && !textarea1.includes(line.trim()));
 
     document.getElementById('textarea2').value = textarea2.join('\n');
-    updateLineCount(); // Update line count after modification
+    updateLineCount();
     document.getElementById('copyMessage').textContent = '';
   }
 
   function copyTextarea2() {
     const textarea2Content = document.getElementById('textarea2').value;
     const lineCount = textarea2Content.split('\n').filter(line => line.trim() !== '').length;
+
     navigator.clipboard.writeText(textarea2Content).then(() => {
       document.getElementById('copyMessage').textContent = lineCount + ' lines copied to clipboard!';
     }).catch(() => {
