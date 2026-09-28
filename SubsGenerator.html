@@ -2,154 +2,565 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ultimate Subdomain Generator</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-body {
-    font-family: Arial;
-    background: linear-gradient(135deg,#0f172a,#020617);
-    color: white;
-    text-align: center;
-    padding: 40px;
-}
+  * {
+    box-sizing: border-box;
+  }
 
-.container {
-    max-width: 500px;
-    margin: auto;
-    background: #1e293b;
-    padding: 25px;
-    border-radius: 12px;
-}
+  :root {
+    --panel: rgba(8, 21, 38, 0.44);
+    --panel-soft: rgba(255, 255, 255, 0.07);
+    --border: rgba(255, 255, 255, 0.18);
+    --text: #ffffff;
+    --muted: #dbeafe;
+    --green1: #16a34a;
+    --green2: #22c55e;
+  }
 
-input {
-    padding: 10px;
-    width: 80%;
-    border-radius: 8px;
-    border: none;
-}
+  html,
+  body {
+    min-height: 100%;
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    color: var(--text);
+  }
 
-button {
-    padding: 10px 20px;
-    margin: 10px;
-    border-radius: 8px;
-    border: none;
+  body {
+    min-height: 100vh;
+    padding: 26px 18px 38px;
+    background:
+      linear-gradient(rgba(4, 18, 35, 0.16), rgba(4, 18, 35, 0.34)),
+      url("https://wallpapercave.com/wp/wp3284848.gif") center center / cover fixed no-repeat;
+    transition: background 0.35s ease;
+  }
+
+  /* ===== GIRLS / PINK MODE ===== */
+  body.pink-mode {
+    --panel: rgba(58, 12, 49, 0.44);
+    --panel-soft: rgba(255, 205, 233, 0.10);
+    --border: rgba(255, 190, 225, 0.22);
+    --muted: #ffe5f4;
+
+    background:
+      linear-gradient(rgba(60, 8, 45, 0.18), rgba(60, 8, 45, 0.34)),
+      url("https://wallpaperaccess.com/full/12067286.gif") center center / cover fixed no-repeat;
+  }
+
+  /* ===== TOP BAR ===== */
+  .top-bar {
+    width: 100vw;
+    margin: 0 0 18px;
+    margin-left: calc(50% - 50vw);
+    padding: 0 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .brand {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+  }
+
+  .theme-switch {
+    position: relative;
+    width: 62px;
+    height: 32px;
+    flex: 0 0 auto;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    box-shadow: none;
     cursor: pointer;
-    background: #22c55e;
-    color: white;
-}
+  }
 
-.item {
-    background: #020617;
-    margin: 5px;
-    padding: 8px;
-    border-radius: 6px;
-}
+  .theme-slider {
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    background: #0ea5e9;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    box-shadow: 0 6px 18px rgba(14, 165, 233, 0.28);
+    transition: 0.35s;
+  }
+
+  .theme-slider::before {
+    content: "💙";
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    left: 2px;
+    top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #fff;
+    font-size: 14px;
+    line-height: 26px;
+    text-align: center;
+    transition: 0.35s;
+  }
+
+  .theme-switch.is-pink .theme-slider {
+    background: #ff4da6;
+    box-shadow: 0 6px 18px rgba(255, 77, 166, 0.35);
+  }
+
+  .theme-switch.is-pink .theme-slider::before {
+    transform: translateX(30px);
+    content: "🎀";
+  }
+
+  /* ===== MAIN ===== */
+  .page {
+    width: min(850px, 100%);
+    margin: 0 auto;
+  }
+
+  .title-card,
+  .tool-card,
+  .info-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .title-card {
+    border-radius: 24px;
+    padding: 28px 24px;
+    margin-bottom: 18px;
+    text-align: center;
+  }
+
+  .title-card h1 {
+    margin: 0;
+    font-size: clamp(25px, 4vw, 38px);
+    font-weight: 700;
+  }
+
+  .title-card p {
+    margin: 8px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .tool-card {
+    border-radius: 24px;
+    padding: 24px;
+    text-align: center;
+  }
+
+  .field-card {
+    padding: 18px;
+    border-radius: 18px;
+    background: var(--panel-soft);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .field-label {
+    display: block;
+    margin-bottom: 10px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: #f8fbff;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    padding: 14px 15px;
+    border-radius: 13px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(0, 0, 0, 0.25);
+    color: #fff;
+    font: 500 15px "Poppins", sans-serif;
+    outline: none;
+    transition: 0.25s;
+  }
+
+  input[type="number"]::placeholder {
+    color: rgba(255, 255, 255, 0.53);
+  }
+
+  input[type="number"]:focus {
+    border-color: rgba(56, 189, 248, 0.75);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+  }
+
+  .generate-btn {
+    width: 100%;
+    margin-top: 16px;
+    padding: 14px 18px;
+    border: 0;
+    border-radius: 13px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--green1), var(--green2));
+    color: #fff;
+    font: 600 14px "Poppins", sans-serif;
+    box-shadow: 0 7px 0 rgba(20, 83, 45, 0.80);
+    transition: 0.25s;
+  }
+
+  .generate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(34, 197, 94, 0.28);
+  }
+
+  .generate-btn:active {
+    transform: translateY(4px);
+    box-shadow: none;
+  }
+
+  #results {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 480px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  #results::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  #results::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 99px;
+  }
+
+  #results::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.20);
+    border-radius: 99px;
+  }
+
+  .item {
+    background: var(--panel-soft);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    margin: 0;
+    padding: 11px 13px;
+    border-radius: 13px;
+    color: #f8fbff;
+    font: 500 13px/1.5 Consolas, Monaco, monospace;
+    text-align: left;
+    overflow-wrap: anywhere;
+    transition: 0.22s;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .item:hover {
+    transform: translateY(-1px);
+    border-color: rgba(56, 189, 248, 0.38);
+  }
+
+  .item.copied {
+    border-color: rgba(74, 222, 128, 0.65);
+    box-shadow: 0 0 18px rgba(74, 222, 128, 0.18);
+  }
+
+  .copy-status {
+    min-height: 24px;
+    margin-top: 12px;
+    text-align: center;
+    color: #4ade80;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .copy-status.show {
+    opacity: 1;
+  }
+
+  .info-card {
+    border-radius: 20px;
+    margin-top: 18px;
+    padding: 20px 22px;
+  }
+
+  .info-card h2 {
+    margin: 0 0 10px;
+    font-size: 17px;
+  }
+
+  .info-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .footer {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  /* Generate stays green in both modes, like the original. */
+
+  @media (max-width: 700px) {
+    body {
+      padding: 18px 12px 28px;
+    }
+
+    .top-bar {
+      padding: 0 12px;
+    }
+
+    .brand {
+      font-size: 15px;
+    }
+
+    .tool-card {
+      padding: 16px;
+    }
+
+    #results {
+      max-height: 420px;
+    }
+  }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+  <div class="top-bar">
+    <div class="brand">🛠️ Abelagnaui-Tools®࿐</div>
 
-<h2>Subdomains Generator</h2>
+    <button
+      class="theme-switch"
+      id="themeToggle"
+      type="button"
+      title="Switch theme"
+      aria-label="Switch between normal and girls mode"
+    >
+      <span class="theme-slider"></span>
+    </button>
+  </div>
 
-<input type="number" id="count" value="10"><br>
+  <main class="page">
 
-<button onclick="generate()">Generate</button>
+    <section class="title-card">
+      <h1>🌐 Subdomains Generator</h1>
+      <p>Generate unique subdomains from the built-in word and domain lists.</p>
+    </section>
 
-<div id="results"></div>
+    <section class="tool-card">
 
-</div>
+      <div class="field-card">
+        <label class="field-label" for="count">🔢 Number of subdomains</label>
+        <input type="number" id="count" value="10" min="1" placeholder="Enter count">
+      </div>
+
+      <button class="generate-btn" onclick="generate()">🚀 Generate</button>
+
+      <div id="results"></div>
+      <div id="copyStatus" class="copy-status"></div>
+
+    </section>
+
+    <section class="info-card">
+      <h2>ℹ️ How it works</h2>
+      <p>
+        The generator combines words with domain names and TLDs, avoids duplicates
+        using localStorage, and displays the newly generated subdomains below.
+      </p>
+    </section>
+
+    <div class="footer">Subdomain Generator • Client-side only • GitHub Pages ready</div>
+
+  </main>
 
 <script>
- 
-let used = JSON.parse(localStorage.getItem("ALL_SUBS")) || [];
+  /* ===== SHARED THEME WITH INDEX.HTML ===== */
+  (() => {
+    const themeToggle = document.getElementById("themeToggle");
+    const slider = themeToggle.querySelector(".theme-slider");
 
-// words--
-const base = [
-"autonomy","cognition","inference","model","agent","reasoning","synthesis","abstraction","learning","training","finetune","embedding","transformer","attention","diffusion",
-"classifier","regression","labeling","dataset","feature","vectorization","hyperparameter","evaluation","benchmark","microservice","container","virtualization","orchestration","serverless","function",
-"api","endpoint","webhook","sdk","library","framework","plugin","extension","module","package",
-"repository","registry","build","deploy","release","version","commit","branch","merge","diff",
-"patch","review","testing","unit","integration","e2e","staging","production","sandbox",
-"encryption","decryption","hashing","indexing","search","ranking","recommendation","analytics","telemetry","observability",
-"logging","tracing","event","streaming","batch","realtime","latency","throughput",
-"scalability","resilience","redundancy","failover","backup","restore","compliance","governance","policy",
-"identity","access","authentication","authorization","session","token","automation","devops","mlops",
-"aiops","simulation","digitaltwin","workflow","jobscheduling","autonomy","cognition","inference","model",
-"agent","reasoning","synthesis","abstraction","learning","training","finetune","embedding","transformer","attention","diffusion","classifier","regression","labeling","dataset","feature",
-"simulation","digitaltwin","workflow","jobscheduling"
+    function applyTheme(mode) {
+      const pink = mode === "pink";
 
-];
-
-//  doms
-const domainNames = [
-"cloudcore","cloudforge","cloudpulse","cloudgrid","cloudstack","cloudhub","cloudnode","cloudvault","cloudbridge","cloudstream",
-"techflow","techcore","techgrid","techvault","techpulse","techhub","techforge","techstack","techbridge","techstream",
-"datapulse","datacore","datagrid","datavault","datastream","databridge","datalab","datanode","datasync","datamind",
-"webstack","webcore","webflow","webgrid","webvault","webhub","webforge","webpulse","weblink","webnode",
-"netcraft","netcore","netgrid","netflow","netvault","nethub","netnode","netbridge","netpulse","netstack",
-"devpoint","devcore","devgrid","devflow","devvault","devhub","devstack","devbridge","devpulse","devlab",
-"aicore","aihub","aigrid","aivault","aipulse","aiforge","aistream","ainode","aibridge","aistack",
-"cybercore","cyberhub","cybervault","cybergrid","cyberpulse","cyberforge","cyberlink","cybernode","cyberbridge","cyberstack",
-"classroom","examoffice","virtualcourt","newspulse","newsgrid","newscore","reviewhub","reviewstack","reviewpulse","academycore",
-"skillforge","learnhub","studycore","codeforge","logiclane","neuralnest","systembridge","pixelshift","quantalab",
-"hostzone","cloudcore","baracademy","webstack","datapulse","nextgrid","hostzone","netcraft",
-"skyhub","devpoint","barnews","barreview","classroom","examoffice","virtualcourt"
-
-];
-
-// extensions
-const tlds = [
-".com",".net",".org"
-];
-
-function rand(arr){
-    return arr[Math.floor(Math.random()*arr.length)];
-}
-
-function generate(){
-
-    let count = parseInt(document.getElementById("count").value);
-    let results = document.getElementById("results");
-
-    results.innerHTML = "";
-
-    let newList = [];
-    let tries = 0;
-
-    while(newList.length < count && tries < 10000){
-
-        let name = rand(base) + "-" + rand(base);
-
-        if(Math.random() > 0.5){
-            name += "-" + rand(base);
-        }
-
-        let domain = rand(domainNames) + rand(tlds);
-        let full = name + "." + domain;
-
-        //  duplicate
-        if(!used.includes(full)){
-            used.push(full);
-            newList.push(full);
-        }
-
-        tries++;
+      document.body.classList.toggle("pink-mode", pink);
+      themeToggle.classList.toggle("is-pink", pink);
+      slider.setAttribute("aria-label", pink ? "Girls mode" : "Normal mode");
     }
 
-    localStorage.setItem("ALL_SUBS", JSON.stringify(used));
+    let savedTheme = "default";
 
-    newList.forEach(d=>{
-        let div = document.createElement("div");
-        div.className = "item";
-        div.textContent = d;
-        results.appendChild(div);
+    try {
+      savedTheme = localStorage.getItem("theme") || "default";
+    } catch (error) {
+      savedTheme = "default";
+    }
+
+    applyTheme(savedTheme === "pink" ? "pink" : "default");
+
+    themeToggle.addEventListener("click", () => {
+      const isPink = document.body.classList.toggle("pink-mode");
+      const newMode = isPink ? "pink" : "default";
+
+      themeToggle.classList.toggle("is-pink", isPink);
+
+      try {
+        localStorage.setItem("theme", newMode);
+      } catch (error) {
+        // Theme still works visually if storage is unavailable.
+      }
     });
-}
 
- 
+    window.addEventListener("storage", (event) => {
+      if (event.key === "theme") {
+        applyTheme(event.newValue === "pink" ? "pink" : "default");
+      }
+    });
+  })();
 
+  /* ===== ORIGINAL LOGIC ===== */
+  let used = JSON.parse(localStorage.getItem("ALL_SUBS")) || [];
+
+  // words--
+  const base = [
+  "autonomy","cognition","inference","model","agent","reasoning","synthesis","abstraction","learning","training","finetune","embedding","transformer","attention","diffusion",
+  "classifier","regression","labeling","dataset","feature","vectorization","hyperparameter","evaluation","benchmark","microservice","container","virtualization","orchestration","serverless","function",
+  "api","endpoint","webhook","sdk","library","framework","plugin","extension","module","package",
+  "repository","registry","build","deploy","release","version","commit","branch","merge","diff",
+  "patch","review","testing","unit","integration","e2e","staging","production","sandbox",
+  "encryption","decryption","hashing","indexing","search","ranking","recommendation","analytics","telemetry","observability",
+  "logging","tracing","event","streaming","batch","realtime","latency","throughput",
+  "scalability","resilience","redundancy","failover","backup","restore","compliance","governance","policy",
+  "identity","access","authentication","authorization","session","token","automation","devops","mlops",
+  "aiops","simulation","digitaltwin","workflow","jobscheduling","autonomy","cognition","inference","model",
+  "agent","reasoning","synthesis","abstraction","learning","training","finetune","embedding","transformer","attention","diffusion","classifier","regression","labeling","dataset","feature",
+  "simulation","digitaltwin","workflow","jobscheduling"
+  ];
+
+  //  doms
+  const domainNames = [
+  "cloudcore","cloudforge","cloudpulse","cloudgrid","cloudstack","cloudhub","cloudnode","cloudvault","cloudbridge","cloudstream",
+  "techflow","techcore","techgrid","techvault","techpulse","techhub","techforge","techstack","techbridge","techstream",
+  "datapulse","datacore","datagrid","datavault","datastream","databridge","datalab","datanode","datasync","datamind",
+  "webstack","webcore","webflow","webgrid","webvault","webhub","webforge","webpulse","weblink","webnode",
+  "netcraft","netcore","netgrid","netflow","netvault","nethub","netnode","netbridge","netpulse","netstack",
+  "devpoint","devcore","devgrid","devflow","devvault","devhub","devstack","devbridge","devpulse","devlab",
+  "aicore","aihub","aigrid","aivault","aipulse","aiforge","aistream","ainode","aibridge","aistack",
+  "cybercore","cyberhub","cybervault","cybergrid","cyberpulse","cyberforge","cyberlink","cybernode","cyberbridge","cyberstack",
+  "classroom","examoffice","virtualcourt","newspulse","newsgrid","newscore","reviewhub","reviewstack","reviewpulse","academycore",
+  "skillforge","learnhub","studycore","codeforge","logiclane","neuralnest","systembridge","pixelshift","quantalab",
+  "hostzone","cloudcore","baracademy","webstack","datapulse","nextgrid","hostzone","netcraft",
+  "skyhub","devpoint","barnews","barreview","classroom","examoffice","virtualcourt"
+  ];
+
+  // extensions
+  const tlds = [
+  ".com",".net",".org"
+  ];
+
+  function rand(arr){
+      return arr[Math.floor(Math.random()*arr.length)];
+  }
+
+  async function copySubdomain(text, element) {
+      const status = document.getElementById("copyStatus");
+
+      try {
+          await navigator.clipboard.writeText(text);
+      } catch (error) {
+          const temp = document.createElement("textarea");
+          temp.value = text;
+          temp.style.position = "fixed";
+          temp.style.left = "-999999px";
+          document.body.appendChild(temp);
+          temp.select();
+          document.execCommand("copy");
+          temp.remove();
+      }
+
+      document.querySelectorAll(".item.copied").forEach(el => {
+          el.classList.remove("copied");
+          if (el.dataset.originalText) {
+              el.textContent = el.dataset.originalText;
+          }
+      });
+
+      element.dataset.originalText = text;
+      element.classList.add("copied");
+      element.textContent = "✅ Copied! " + text;
+
+      status.textContent = "✅ Subdomain copied to clipboard!";
+      status.classList.add("show");
+
+      clearTimeout(window.subdomainCopyTimer);
+      window.subdomainCopyTimer = setTimeout(() => {
+          status.classList.remove("show");
+          element.classList.remove("copied");
+
+          if (element.dataset.originalText) {
+              element.textContent = element.dataset.originalText;
+          }
+      }, 1500);
+  }
+
+  function generate(){
+
+      let count = parseInt(document.getElementById("count").value);
+      let results = document.getElementById("results");
+
+      results.innerHTML = "";
+
+      let newList = [];
+      let tries = 0;
+
+      while(newList.length < count && tries < 10000){
+
+          let name = rand(base) + "-" + rand(base);
+
+          if(Math.random() > 0.5){
+              name += "-" + rand(base);
+          }
+
+          let domain = rand(domainNames) + rand(tlds);
+          let full = name + "." + domain;
+
+          //  duplicate
+          if(!used.includes(full)){
+              used.push(full);
+              newList.push(full);
+          }
+
+          tries++;
+      }
+
+      localStorage.setItem("ALL_SUBS", JSON.stringify(used));
+
+      newList.forEach(d=>{
+          let div = document.createElement("div");
+          div.className = "item";
+          div.textContent = d;
+          div.title = "Click to copy";
+          div.addEventListener("click", () => copySubdomain(d, div));
+          results.appendChild(div);
+      });
+  }
 </script>
 
 </body>
