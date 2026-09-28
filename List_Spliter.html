@@ -3,202 +3,623 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Split List into Custom Chunks</title>
+    <title>✂️ Split List into Custom Chunks</title>
     <link rel="icon" href="https://via.placeholder.com/16/007BFF/FFFFFF?text=S" type="image/png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      :root {
+        --panel: rgba(8, 21, 38, 0.44);
+        --panel-soft: rgba(255, 255, 255, 0.07);
+        --border: rgba(255, 255, 255, 0.18);
+        --text: #ffffff;
+        --muted: #dbeafe;
+        --primary1: #0ea5e9;
+        --primary2: #6366f1;
+        --success: #4ade80;
+        --danger1: #ef4444;
+        --danger2: #f97316;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        color: var(--text);
+      }
+
+      body {
+        min-height: 100vh;
+        background:
+          linear-gradient(rgba(4, 18, 35, 0.16), rgba(4, 18, 35, 0.34)),
+          url("https://wallpapercave.com/wp/wp3284848.gif") center center / cover fixed no-repeat;
+        padding: 26px 18px 38px;
+        transition: background 0.35s ease;
+      }
+
+      /* ===== GIRLS / PINK MODE ===== */
+      body.pink-mode {
+        --panel: rgba(58, 12, 49, 0.44);
+        --panel-soft: rgba(255, 205, 233, 0.10);
+        --border: rgba(255, 190, 225, 0.22);
+        --muted: #ffe5f4;
+
+        background:
+          linear-gradient(rgba(60, 8, 45, 0.18), rgba(60, 8, 45, 0.34)),
+          url("https://wallpaperaccess.com/full/12067286.gif") center center / cover fixed no-repeat;
+      }
+
+      .top-bar {
+        width: min(1400px, 100%);
+        margin: 0 auto 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .brand {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+      }
+
+      .theme-switch {
+        position: relative;
+        width: 62px;
+        height: 32px;
+        flex: 0 0 auto;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .theme-slider {
+        position: absolute;
+        inset: 0;
+        cursor: pointer;
+        border-radius: 999px;
+        background: #0ea5e9;
+        border: 1px solid rgba(255, 255, 255, 0.20);
+        box-shadow: 0 6px 18px rgba(14, 165, 233, 0.28);
+        transition: 0.35s;
+      }
+
+      .theme-slider::before {
+        content: "💙";
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        left: 2px;
+        top: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #fff;
+        font-size: 14px;
+        line-height: 26px;
+        text-align: center;
+        transition: 0.35s;
+      }
+
+      .theme-switch.is-pink .theme-slider {
+        background: #ff4da6;
+        box-shadow: 0 6px 18px rgba(255, 77, 166, 0.35);
+      }
+
+      .theme-switch.is-pink .theme-slider::before {
+        transform: translateX(30px);
+        content: "🎀";
+      }
+
+      .page {
+        width: min(1400px, 100%);
+        margin: 0 auto;
+      }
+
+      .title-card,
+      .tool-card,
+      .info-card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+
+      .title-card {
+        border-radius: 24px;
+        padding: 26px;
+        margin-bottom: 18px;
+        text-align: center;
+      }
+
+      .title-card h1 {
+        margin: 0;
+        font-size: clamp(25px, 4vw, 38px);
+        font-weight: 700;
+      }
+
+      .title-card p {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .tool-card {
+        border-radius: 24px;
+        padding: 24px;
+      }
+
+      .input-label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #f8fbff;
+      }
+
+      .main-input {
+        width: 100%;
+        padding: 15px 16px;
+        margin: 0 0 14px;
+        font: 400 14px/1.6 Consolas, Monaco, monospace;
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        color: #fff;
+        border-radius: 16px;
+        outline: none;
+        transition: 0.25s;
+      }
+
+      textarea.main-input {
+        min-height: 250px;
+        resize: vertical;
+      }
+
+      .main-input::placeholder {
+        color: rgba(255, 255, 255, 0.53);
+      }
+
+      .main-input:focus {
+        border-color: rgba(56, 189, 248, 0.75);
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+      }
+
+      .controls {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+
+      .chunk-input {
+        width: 280px;
+        padding: 13px 14px;
+        font: 500 14px "Poppins", sans-serif;
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        color: #fff;
+        border-radius: 13px;
+        outline: none;
+        transition: 0.25s;
+      }
+
+      .chunk-input:focus {
+        border-color: rgba(56, 189, 248, 0.75);
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+      }
+
+      .chunk-input::placeholder {
+        color: rgba(255, 255, 255, 0.53);
+      }
+
+      .action-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        max-width: 560px;
+        margin-bottom: 18px;
+      }
+
+      button {
+        border: 0;
+        border-radius: 13px;
+        color: #fff;
+        font: 600 14px "Poppins", sans-serif;
+        cursor: pointer;
+        transition: 0.25s;
+      }
+
+      .main-btn {
+        padding: 13px 16px;
+        background: linear-gradient(135deg, var(--primary1), var(--primary2));
+        box-shadow: 0 7px 0 rgba(30, 64, 175, 0.85);
+      }
+
+      .secondary-btn {
+        padding: 13px 16px;
+        background: linear-gradient(135deg, #475569, #334155);
+        box-shadow: 0 7px 0 rgba(15, 23, 42, 0.85);
+      }
+
+      .main-btn:hover,
+      .secondary-btn:hover {
+        transform: translateY(-2px);
+      }
+
+      .main-btn:active,
+      .secondary-btn:active {
+        transform: translateY(4px);
+        box-shadow: none;
+      }
+
+      #copyMessage {
+        min-height: 24px;
+        margin: 0 0 6px;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--success);
+        opacity: 0;
+        transition: opacity 0.5s ease;
+      }
+
+      #copyCounter {
+        margin-bottom: 18px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #67e8f9;
+      }
+
+      .chunks-wrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        gap: 16px;
+        width: 100%;
+      }
+
+      .chunk-container {
+        width: 100%;
+        text-align: left;
+        background: var(--panel-soft);
+        padding: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.13);
+        border-radius: 17px;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.13);
+        transition: 0.22s;
+      }
+
+      .chunk-container:hover {
+        transform: translateY(-2px);
+        border-color: rgba(56, 189, 248, 0.38);
+      }
+
+      .chunk-title {
+        font-weight: 700;
+        margin-bottom: 9px;
+        color: #7dd3fc;
+        font-size: 14px;
+      }
+
+      .chunk-container textarea {
+        width: 100%;
+        min-height: 170px;
+        padding: 12px;
+        margin: 0 0 9px;
+        resize: vertical;
+        font: 400 12px/1.55 Consolas, Monaco, monospace;
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #fff;
+        border-radius: 12px;
+        outline: none;
+      }
+
+      .chunk-container textarea:focus {
+        border-color: rgba(56, 189, 248, 0.65);
+      }
+
+      .chunk-container button {
+        width: 100%;
+        padding: 10px 13px;
+        background: linear-gradient(135deg, #0ea5e9, #6366f1);
+        box-shadow: 0 5px 0 rgba(30, 64, 175, 0.80);
+      }
+
+      .chunk-container button:hover {
+        transform: translateY(-1px);
+      }
+
+      .copy-status {
+        min-height: 21px;
+        font-size: 13px;
+        color: var(--success);
+        margin-top: 7px;
+        font-weight: 600;
+      }
+
+      .info-card {
+        border-radius: 20px;
+        margin-top: 18px;
+        padding: 20px 22px;
+      }
+
+      .info-card h2 {
+        margin: 0 0 10px;
+        font-size: 17px;
+      }
+
+      .info-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      .footer {
+        margin-top: 18px;
+        text-align: center;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.65);
+      }
+
+      /* ===== SWEET GIRLS MODE ===== */
+      body.pink-mode .main-btn {
+        background: linear-gradient(135deg, #ff69b4, #e879f9);
+        box-shadow: 0 7px 0 #be185d;
+      }
+
+      body.pink-mode .secondary-btn {
+        background: linear-gradient(135deg, #a855f7, #ec4899);
+        box-shadow: 0 7px 0 #9333ea;
+      }
+
+      body.pink-mode .chunk-container button {
+        background: linear-gradient(135deg, #ff69b4, #e879f9);
+        box-shadow: 0 5px 0 #be185d;
+      }
+
+      body.pink-mode #copyCounter {
+        color: #f9a8d4;
+      }
+
+      body.pink-mode .chunk-title {
+        color: #f9a8d4;
+      }
+
+      @media (max-width: 760px) {
         body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f2f5; /* light blue-gray background */
-  color: #333333; /* dark text for better contrast */
-  margin: 20px;
-  text-align: center;
-}
+          padding: 18px 12px 28px;
+        }
 
-textarea, input {
-  width: 50%;
-  padding: 10px;
-  margin: 10px 0;
-  font-size: 16px;
-  background-color: #ffffff; /* white inputs for clean look */
-  border: 1px solid #ccc; /* light gray border */
-  color: #333333;
-  border-radius: 6px;
-  transition: border-color 0.3s ease;
-}
+        .brand {
+          font-size: 15px;
+        }
 
-textarea:focus, input:focus {
-  border-color: #007acc; /* blue highlight on focus */
-  outline: none;
-}
+        .tool-card {
+          padding: 16px;
+        }
 
-button {
-  margin: 10px;
-  padding: 12px 24px;
-  font-size: 16px;
-  background-color: #007acc;  /* blue theme button */
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.2s, transform 0.1s;
-  box-shadow: 0 2px 6px rgba(0, 122, 204, 0.5);
-}
+        .controls {
+          flex-direction: column;
+          align-items: stretch;
+        }
 
-button:hover {
-  background-color: #005fa3;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 95, 163, 0.6);
-}
+        .chunk-input {
+          width: 100%;
+        }
 
-.chunks-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-}
+        .action-row {
+          grid-template-columns: 1fr;
+          max-width: none;
+        }
 
-.chunk-container {
-  width: 15%;
-  text-align: left;
-  background-color: #ffffff; /* white containers */
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-.chunk-title {
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #007acc; /* blue headings */
-}
-
-.copy-status {
-  font-size: 14px;
-  color: #4CAF50; /* keep green success */
-  margin-top: 5px;
-}
-
-#copyMessage {
-  margin-bottom: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #4CAF50;
-  height: 24px;
-  transition: opacity 0.5s ease;
-}
-
-#copyCounter {
-  margin-bottom: 20px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #00BCD4;
-}
-
-
+        .chunks-wrapper {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
 </head>
+
 <body>
-    <h1>Split List into Custom Chunks</h1>
 
-    <!-- Success Message Area -->
-    <div id="copyMessage"></div>
+  <div class="top-bar">
+    <div class="brand">🛠️ Abelagnaui-Tools®࿐</div>
 
-    <!-- Counter for copied chunks -->
-    <div id="copyCounter">Copied 0 of 0 chunks</div>
+    <button class="theme-switch" id="themeToggle" type="button" title="Switch theme" aria-label="Switch between normal and girls mode">
+      <span class="theme-slider"></span>
+    </button>
+  </div>
 
-    <textarea id="input" placeholder="Paste your long list here..."></textarea>
-    <input type="number" id="chunkSize" placeholder="Enter number of lines per chunk" value="100">
-    <div>
-        <button onclick="splitList()">Split List</button>
-        <button onclick="startOver()">Start Over</button>
-    </div>
-    <div id="output" class="chunks-wrapper"></div>
+  <main class="page">
+    <section class="title-card">
+      <h1>✂️ Split List into Custom Chunks</h1>
+      <p>Split a long list into smaller sublists and copy each chunk individually.</p>
+    </section>
+
+    <section class="tool-card">
+
+      <div id="copyMessage"></div>
+
+      <div id="copyCounter">Copied 0 of 0 chunks</div>
+
+      <label class="input-label" for="input">Paste Your List</label>
+      <textarea
+        id="input"
+        class="main-input"
+        placeholder="Paste your long list here..."
+      ></textarea>
+
+      <div class="controls">
+        <input
+          type="number"
+          id="chunkSize"
+          class="chunk-input"
+          placeholder="Enter number of lines per chunk"
+          value="100"
+          min="1"
+        >
+      </div>
+
+      <div class="action-row">
+        <button class="main-btn" onclick="splitList()">✂️ Split List</button>
+        <button class="secondary-btn" onclick="startOver()">🔄 Start Over</button>
+      </div>
+
+      <div id="output" class="chunks-wrapper"></div>
+    </section>
+
+    <section class="info-card">
+      <h2>ℹ️ How it works</h2>
+      <p>
+        Paste your list, choose the number of lines per chunk, then split it.
+        Each generated sublist has its own Copy button. Copied chunks are moved to the bottom,
+        while the counter tracks how many chunks have been copied.
+      </p>
+    </section>
+
+    <div class="footer">List Splitter • Client-side only • GitHub Pages ready</div>
+  </main>
 
     <script>
-        let copiedChunks = new Set();
-        let totalChunks = 0;
+      /* ===== SHARED THEME WITH INDEX.HTML ===== */
+      (() => {
+        const themeToggle = document.getElementById("themeToggle");
+        const slider = themeToggle.querySelector(".theme-slider");
 
-        function splitList() {
-            const input = document.getElementById('input').value;
-            const lines = input.split('\n');
-            const chunkSize = parseInt(document.getElementById('chunkSize').value, 10) || 100;
-            const output = document.getElementById('output');
-            output.innerHTML = '';
-            copiedChunks.clear();
-
-            let chunkCount = 1;
-            totalChunks = Math.ceil(lines.length / chunkSize);
-            updateCopyCounter();
-
-            for (let i = 0; i < lines.length; i += chunkSize) {
-                const chunk = lines.slice(i, i + chunkSize).join('\n');
-                const chunkContainer = document.createElement('div');
-                chunkContainer.className = 'chunk-container';
-
-                const chunkTitle = document.createElement('div');
-                chunkTitle.className = 'chunk-title';
-                chunkTitle.textContent = `Sublist ${chunkCount} (${Math.min(chunkSize, lines.length - i)} lines)`;
-
-                const textarea = document.createElement('textarea');
-                textarea.value = chunk;
-                textarea.readOnly = true;
-
-                const copyButton = document.createElement('button');
-                copyButton.textContent = 'Copy';
-
-                const copyStatus = document.createElement('div');
-                copyStatus.className = 'copy-status';
-
-                const currentChunk = chunkCount;
-
-                copyButton.onclick = () => {
-                    textarea.select();
-                    document.execCommand('copy');
-                    copyStatus.textContent = 'Copied!';
-                    copiedChunks.add(currentChunk);
-                    updateCopyCounter();
-
-                    // Move to bottom
-                    output.removeChild(chunkContainer);
-                    output.appendChild(chunkContainer);
-
-                    // Show success message at top
-                    showCopyMessage("✅ Sublist copied successfully!");
-                };
-
-                chunkContainer.appendChild(chunkTitle);
-                chunkContainer.appendChild(textarea);
-                chunkContainer.appendChild(copyButton);
-                chunkContainer.appendChild(copyStatus);
-                output.appendChild(chunkContainer);
-                chunkCount++;
-            }
+        function applyTheme(mode) {
+          const pink = mode === "pink";
+          document.body.classList.toggle("pink-mode", pink);
+          themeToggle.classList.toggle("is-pink", pink);
+          slider.setAttribute("aria-label", pink ? "Girls mode" : "Normal mode");
         }
 
-        function startOver() {
-            document.getElementById('input').value = '';
-            document.getElementById('chunkSize').value = 100;
-            document.getElementById('output').innerHTML = '';
-            document.getElementById('copyMessage').textContent = '';
-            document.getElementById('copyCounter').textContent = 'Copied 0 of 0 chunks';
-            copiedChunks.clear();
-            totalChunks = 0;
+        let savedTheme = "default";
+
+        try {
+          savedTheme = localStorage.getItem("theme") || "default";
+        } catch (error) {
+          savedTheme = "default";
         }
 
-        function updateCopyCounter() {
-            document.getElementById('copyCounter').textContent =
-                `Copied ${copiedChunks.size} of ${totalChunks} chunks`;
-        }
+        applyTheme(savedTheme === "pink" ? "pink" : "default");
 
-        function showCopyMessage(message) {
-            const msgDiv = document.getElementById('copyMessage');
-            msgDiv.textContent = message;
-            msgDiv.style.opacity = '1';
-            setTimeout(() => {
-                msgDiv.style.opacity = '0';
-            }, 2000);
-        }
+        themeToggle.addEventListener("click", () => {
+          const isPink = document.body.classList.toggle("pink-mode");
+          const newMode = isPink ? "pink" : "default";
+
+          themeToggle.classList.toggle("is-pink", isPink);
+
+          try {
+            localStorage.setItem("theme", newMode);
+          } catch (error) {
+            // Theme still works visually even when storage is unavailable.
+          }
+        });
+
+        window.addEventListener("storage", (event) => {
+          if (event.key === "theme") {
+            applyTheme(event.newValue === "pink" ? "pink" : "default");
+          }
+        });
+      })();
+
+      /* ===== ORIGINAL LOGIC ===== */
+      let copiedChunks = new Set();
+      let totalChunks = 0;
+
+      function splitList() {
+          const input = document.getElementById('input').value;
+          const lines = input.split('\n');
+          const chunkSize = parseInt(document.getElementById('chunkSize').value, 10) || 100;
+          const output = document.getElementById('output');
+          output.innerHTML = '';
+          copiedChunks.clear();
+
+          let chunkCount = 1;
+          totalChunks = Math.ceil(lines.length / chunkSize);
+          updateCopyCounter();
+
+          for (let i = 0; i < lines.length; i += chunkSize) {
+              const chunk = lines.slice(i, i + chunkSize).join('\n');
+              const chunkContainer = document.createElement('div');
+              chunkContainer.className = 'chunk-container';
+
+              const chunkTitle = document.createElement('div');
+              chunkTitle.className = 'chunk-title';
+              chunkTitle.textContent = `Sublist ${chunkCount} (${Math.min(chunkSize, lines.length - i)} lines)`;
+
+              const textarea = document.createElement('textarea');
+              textarea.value = chunk;
+              textarea.readOnly = true;
+
+              const copyButton = document.createElement('button');
+              copyButton.textContent = 'Copy';
+
+              const copyStatus = document.createElement('div');
+              copyStatus.className = 'copy-status';
+
+              const currentChunk = chunkCount;
+
+              copyButton.onclick = () => {
+                  textarea.select();
+                  document.execCommand('copy');
+                  copyStatus.textContent = 'Copied!';
+                  copiedChunks.add(currentChunk);
+                  updateCopyCounter();
+
+                  // Move to bottom
+                  output.removeChild(chunkContainer);
+                  output.appendChild(chunkContainer);
+
+                  // Show success message at top
+                  showCopyMessage("✅ Sublist copied successfully!");
+              };
+
+              chunkContainer.appendChild(chunkTitle);
+              chunkContainer.appendChild(textarea);
+              chunkContainer.appendChild(copyButton);
+              chunkContainer.appendChild(copyStatus);
+              output.appendChild(chunkContainer);
+              chunkCount++;
+          }
+      }
+
+      function startOver() {
+          document.getElementById('input').value = '';
+          document.getElementById('chunkSize').value = 100;
+          document.getElementById('output').innerHTML = '';
+          document.getElementById('copyMessage').textContent = '';
+          document.getElementById('copyCounter').textContent = 'Copied 0 of 0 chunks';
+          copiedChunks.clear();
+          totalChunks = 0;
+      }
+
+      function updateCopyCounter() {
+          document.getElementById('copyCounter').textContent =
+              `Copied ${copiedChunks.size} of ${totalChunks} chunks`;
+      }
+
+      function showCopyMessage(message) {
+          const msgDiv = document.getElementById('copyMessage');
+          msgDiv.textContent = message;
+          msgDiv.style.opacity = '1';
+          setTimeout(() => {
+              msgDiv.style.opacity = '0';
+          }, 2000);
+      }
     </script>
 </body>
 </html>
