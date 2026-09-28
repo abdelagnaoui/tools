@@ -1,119 +1,424 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Multiple Links</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #e6f0ff;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌐 Open Multiple Links</title>
 
-        .container {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            width: 90%;
-            max-width: 600px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        h2 {
-            text-align: center;
-            color: #2a5298;
-        }
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-        textarea {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #c1d3e0;
-            box-sizing: border-box;
-            margin-bottom: 15px;
-            resize: vertical;
-        }
+    :root {
+      --panel: rgba(8, 21, 38, 0.44);
+      --border: rgba(255, 255, 255, 0.18);
+      --text: #ffffff;
+      --muted: #dbeafe;
+      --primary1: #0ea5e9;
+      --primary2: #6366f1;
+      --shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+    }
 
-        label {
-            font-size: 14px;
-            margin-right: 10px;
-            color: #2a5298;
-        }
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      color: var(--text);
+    }
 
-        .checkbox-container {
-            margin-bottom: 15px;
-        }
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(4, 18, 35, 0.16), rgba(4, 18, 35, 0.34)),
+        url("https://wallpapercave.com/wp/wp3284848.gif") center center / cover fixed no-repeat;
+      padding: 28px 18px 40px;
+      transition: background 0.35s ease;
+    }
 
-        button {
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.3s ease;
-        }
+    /* ===== GIRLS / PINK MODE ===== */
+    body.pink-mode {
+      --panel: rgba(58, 12, 49, 0.44);
+      --border: rgba(255, 190, 225, 0.22);
+      --muted: #ffe5f4;
 
-        button:hover {
-            background-color: #0056b3;
-        }
+      background:
+        linear-gradient(rgba(60, 8, 45, 0.18), rgba(60, 8, 45, 0.34)),
+        url("https://wallpaperaccess.com/full/12067286.gif") center center / cover fixed no-repeat;
+    }
 
-        button:focus {
-            outline: none;
-        }
-    </style>
+    .top-bar {
+      width: min(900px, 100%);
+      margin: 0 auto 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    }
+
+    .theme-switch {
+      position: relative;
+      width: 62px;
+      height: 32px;
+      flex: 0 0 auto;
+    }
+
+    .theme-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .theme-slider {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      background: #0ea5e9;
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      box-shadow: 0 6px 18px rgba(14, 165, 233, 0.28);
+      transition: 0.35s;
+    }
+
+    .theme-slider::before {
+      content: "💙";
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      left: 2px;
+      top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #fff;
+      font-size: 14px;
+      line-height: 26px;
+      text-align: center;
+      transition: 0.35s;
+    }
+
+    .theme-switch input:checked + .theme-slider {
+      background: #ff4da6;
+      box-shadow: 0 6px 18px rgba(255, 77, 166, 0.35);
+    }
+
+    .theme-switch input:checked + .theme-slider::before {
+      transform: translateX(30px);
+      content: "🎀";
+    }
+
+    .page {
+      width: min(900px, 100%);
+      margin: 0 auto;
+    }
+
+    .title-card,
+    .tool-card,
+    .info-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .title-card {
+      border-radius: 24px;
+      padding: 26px;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .title-card h1 {
+      margin: 0;
+      font-size: clamp(25px, 4vw, 38px);
+      font-weight: 700;
+    }
+
+    .title-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .tool-card {
+      border-radius: 24px;
+      padding: 24px;
+    }
+
+    .input-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #f8fbff;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 310px;
+      resize: vertical;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 16px;
+      outline: none;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.25);
+      color: #fff;
+      font: 400 14px/1.6 Consolas, Monaco, monospace;
+    }
+
+    textarea::placeholder {
+      color: rgba(255, 255, 255, 0.53);
+    }
+
+    textarea:focus {
+      border-color: rgba(56, 189, 248, 0.75);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+    }
+
+    .checkbox-container {
+      margin: 16px 0 18px;
+      padding: 15px 16px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.17);
+      border: 1px solid rgba(255, 255, 255, 0.11);
+    }
+
+    .checkbox-title {
+      margin-bottom: 11px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin: 9px 0;
+      color: #f8fbff;
+      font-size: 13px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .check-row input {
+      width: 17px;
+      height: 17px;
+      margin: 0;
+      accent-color: #0ea5e9;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .process-btn {
+      width: 100%;
+      border: 0;
+      border-radius: 13px;
+      padding: 14px 18px;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--primary1), var(--primary2));
+      color: #fff;
+      font: 600 14px "Poppins", sans-serif;
+      box-shadow: 0 7px 0 rgba(30, 64, 175, 0.85);
+      transition: 0.25s;
+    }
+
+    .process-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(56, 189, 248, 0.28);
+    }
+
+    .process-btn:active {
+      transform: translateY(4px);
+      box-shadow: none;
+    }
+
+    .info-card {
+      border-radius: 20px;
+      margin-top: 18px;
+      padding: 20px 22px;
+    }
+
+    .info-card h2 {
+      margin: 0 0 10px;
+      font-size: 17px;
+    }
+
+    .info-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .footer {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    /* ===== SWEET GIRLS MODE BUTTON ===== */
+    body.pink-mode .process-btn {
+      background: linear-gradient(135deg, #ff69b4, #e879f9);
+      box-shadow: 0 7px 0 #be185d;
+    }
+
+    body.pink-mode .check-row input {
+      accent-color: #ff69b4;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 18px 12px 28px;
+      }
+
+      .top-bar {
+        align-items: center;
+      }
+
+      .brand {
+        font-size: 15px;
+      }
+
+      .tool-card {
+        padding: 16px;
+      }
+
+      textarea {
+        min-height: 250px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-    <div class="container">
-        <h2>Enter Links and Select Prefix Type:</h2>
+  <div class="top-bar">
+    <div class="brand">🛠️ Abelagnaui-Tools®࿐</div>
 
-        <textarea id="linksTextBox" rows="10" placeholder="Enter one link per line..."></textarea>
+    <label class="theme-switch" title="Switch theme">
+      <input type="checkbox" id="themeToggle" aria-label="Switch between normal and girls mode">
+      <span class="theme-slider"></span>
+    </label>
+  </div>
 
-        <div class="checkbox-container">
-            <label><input type="checkbox" id="httpsCheckbox"> Add https://</label><br>
-            <label><input type="checkbox" id="httpCheckbox"> Add http://</label><br>
-            <label><input type="checkbox" id="nonHttpCheckbox"> Neither (no http or https)</label>
-        </div>
+  <main class="page">
+    <section class="title-card">
+      <h1>🌐 Open Multiple Links</h1>
+      <p>Process your links and open them in separate tabs.</p>
+    </section>
 
-        <button onclick="processAndOpenLinks()">Process and Open Links</button>
-    </div>
+    <section class="tool-card">
+      <label class="input-label" for="linksTextBox">Enter Links</label>
 
-    <script>
-        function processAndOpenLinks() {
-            const linksTextBox = document.getElementById('linksTextBox').value;
-            const links = linksTextBox.split('\n').map(link => link.trim()).filter(link => link.length > 0);
+      <textarea
+        id="linksTextBox"
+        rows="10"
+        placeholder="Enter one link per line..."
+      ></textarea>
 
-            const httpsChecked = document.getElementById('httpsCheckbox').checked;
-            const httpChecked = document.getElementById('httpCheckbox').checked;
-            const nonHttpChecked = document.getElementById('nonHttpCheckbox').checked;
+      <div class="checkbox-container">
+        <div class="checkbox-title">🔗 Select Prefix Type</div>
 
-            const updatedLinks = links.map(link => {
-                if (httpsChecked) {
-                    return 'https://' + link;
-                } else if (httpChecked) {
-                    return 'http://' + link;
-                } else if (nonHttpChecked) {
-                    return link; // No prefix added
-                }
-                return link; // No changes if no box is checked
-            });
+        <label class="check-row">
+          <input type="checkbox" id="httpsCheckbox">
+          <span>Add https://</span>
+        </label>
 
-            // Open each updated link in a new tab
-            updatedLinks.forEach(link => {
-                window.open(link, '_blank');
-            });
+        <label class="check-row">
+          <input type="checkbox" id="httpCheckbox">
+          <span>Add http://</span>
+        </label>
+
+        <label class="check-row">
+          <input type="checkbox" id="nonHttpCheckbox">
+          <span>Neither (no http or https)</span>
+        </label>
+      </div>
+
+      <button class="process-btn" onclick="processAndOpenLinks()">
+        🚀 Process and Open Links
+      </button>
+    </section>
+
+    <section class="info-card">
+      <h2>ℹ️ How it works</h2>
+      <p>
+        Enter one link per line, choose the prefix you want, then click the button.
+        Each processed link is opened in a new browser tab.
+      </p>
+    </section>
+
+    <div class="footer">Open Multiple Links • Client-side only • GitHub Pages ready</div>
+  </main>
+
+  <script>
+    /* ===== SHARED THEME WITH INDEX.HTML ===== */
+    (() => {
+      const themeToggle = document.getElementById("themeToggle");
+
+      function applyTheme(mode) {
+        const pink = mode === "pink";
+        document.body.classList.toggle("pink-mode", pink);
+        themeToggle.checked = pink;
+      }
+
+      const savedTheme = localStorage.getItem("theme");
+      applyTheme(savedTheme === "pink" ? "pink" : "default");
+
+      themeToggle.addEventListener("change", () => {
+        const newMode = themeToggle.checked ? "pink" : "default";
+        localStorage.setItem("theme", newMode);
+        applyTheme(newMode);
+      });
+
+      window.addEventListener("storage", (event) => {
+        if (event.key === "theme") {
+          applyTheme(event.newValue === "pink" ? "pink" : "default");
         }
-    </script>
+      });
+    })();
+
+    /* ===== ORIGINAL FUNCTION / LOGIC ===== */
+    function processAndOpenLinks() {
+      const linksTextBox = document.getElementById('linksTextBox').value;
+      const links = linksTextBox.split('\n').map(link => link.trim()).filter(link => link.length > 0);
+
+      const httpsChecked = document.getElementById('httpsCheckbox').checked;
+      const httpChecked = document.getElementById('httpCheckbox').checked;
+      const nonHttpChecked = document.getElementById('nonHttpCheckbox').checked;
+
+      const updatedLinks = links.map(link => {
+        if (httpsChecked) {
+          return 'https://' + link;
+        } else if (httpChecked) {
+          return 'http://' + link;
+        } else if (nonHttpChecked) {
+          return link; // No prefix added
+        }
+        return link; // No changes if no box is checked
+      });
+
+      // Open each updated link in a new tab
+      updatedLinks.forEach(link => {
+        window.open(link, '_blank');
+      });
+    }
+  </script>
 
 </body>
 </html>
