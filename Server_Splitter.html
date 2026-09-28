@@ -2,190 +2,574 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Server Splitter Tool</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🖥️ Server Splitter Tool</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f2f5;
-      color: #333;
-      margin: 20px auto;
-      max-width: 1200px;
-    }
-    label {
-      font-weight: 600;
-      display: block;
-      margin-bottom: 6px;
-      color: #555;
-    }
-    textarea, select {
-      width: 100%;
-      background-color: #fff;
-      color: #333;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 14px;
+    * {
       box-sizing: border-box;
-      margin-bottom: 15px;
-      min-height: 120px;
     }
-    select {
-      height: 38px;
-      padding: 5px 10px;
-      min-height: unset;
-      cursor: pointer;
+
+    :root {
+      --panel: rgba(8, 21, 38, 0.44);
+      --panel-soft: rgba(255, 255, 255, 0.07);
+      --border: rgba(255, 255, 255, 0.18);
+      --text: #ffffff;
+      --muted: #dbeafe;
+      --primary1: #0ea5e9;
+      --primary2: #6366f1;
+      --success1: #16a34a;
+      --success2: #22c55e;
+      --danger1: #ef4444;
+      --danger2: #f97316;
     }
-    textarea:focus, select:focus {
-      border-color: #007acc;
-      outline: none;
-      background-color: #e8f0fe;
+
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      color: var(--text);
     }
-    button {
-      padding: 12px 20px;
-      background-color: #007acc;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 15px;
-      margin-bottom: 20px;
-      font-weight: 600;
-      transition: background-color 0.2s, transform 0.2s;
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(4, 18, 35, 0.16), rgba(4, 18, 35, 0.34)),
+        url("https://wallpapercave.com/wp/wp3284848.gif") center center / cover fixed no-repeat;
+      padding: 26px 18px 38px;
+      transition: background 0.35s ease;
     }
-    button:hover {
-      background-color: #005fa3;
-      transform: translateY(-1px);
+
+    /* ===== GIRLS / PINK MODE ===== */
+    body.pink-mode {
+      --panel: rgba(58, 12, 49, 0.44);
+      --panel-soft: rgba(255, 205, 233, 0.10);
+      --border: rgba(255, 190, 225, 0.22);
+      --muted: #ffe5f4;
+
+      background:
+        linear-gradient(rgba(60, 8, 45, 0.18), rgba(60, 8, 45, 0.34)),
+        url("https://wallpaperaccess.com/full/12067286.gif") center center / cover fixed no-repeat;
     }
-    .groups-inputs, .groups-textareas, .container {
+
+    /* ===== TOP BAR ===== */
+    .top-bar {
+      width: 100vw;
+      margin: 0 0 18px;
+      margin-left: calc(50% - 50vw);
+      padding: 0 18px;
       display: flex;
-      gap: 30px;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
     }
-    .group-input, .group-textarea, .group-box {
-      flex: 1;
-      min-width: 280px;
+
+    .brand {
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
     }
-    .group-box {
-      background-color: #fff;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      padding: 15px;
+
+    .theme-switch {
+      position: relative;
+      width: 62px;
+      height: 32px;
+      flex: 0 0 auto;
+      padding: 0;
+      margin: 0;
+      border: 0;
+      outline: none;
+      background: transparent;
+      box-shadow: none;
+      cursor: pointer;
     }
-    .group-box h3 {
-      margin: 0 0 10px;
-      color: #555;
+
+    .theme-slider {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: #0ea5e9;
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      box-shadow: 0 6px 18px rgba(14, 165, 233, 0.28);
+      transition: 0.35s;
+    }
+
+    .theme-slider::before {
+      content: "💙";
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      left: 2px;
+      top: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #fff;
+      font-size: 14px;
+      line-height: 26px;
+      text-align: center;
+      transition: 0.35s;
+    }
+
+    .theme-switch.is-pink .theme-slider {
+      background: #ff4da6;
+      box-shadow: 0 6px 18px rgba(255, 77, 166, 0.35);
+    }
+
+    .theme-switch.is-pink .theme-slider::before {
+      transform: translateX(30px);
+      content: "🎀";
+    }
+
+    /* ===== MAIN ===== */
+    .page {
+      width: min(1450px, 100%);
+      margin: 0 auto;
+    }
+
+    .title-card,
+    .tool-card,
+    .info-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .title-card {
+      border-radius: 24px;
+      padding: 26px;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .title-card h1 {
+      margin: 0;
+      font-size: clamp(25px, 4vw, 38px);
       font-weight: 700;
     }
-    .group-box button {
-      width: 100%;
-      margin-bottom: 10px;
-    }
-    pre {
-      background: #fff;
-      border-radius: 8px;
-      padding: 12px;
-      white-space: pre-wrap;
-      color: #333;
-      height: 250px;
-      overflow-y: auto;
-      font-family: 'Courier New', monospace;
+
+    .title-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
       font-size: 14px;
     }
-/* 🔥 NEW INPUT STYLE (modern) */
-input[type="text"] {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  background: #f9fafb;
-  font-size: 14px;
-  color: #333;
-  outline: none;
-  transition: all 0.3s ease;
-}
 
-/* focus */
-input[type="text"]:focus {
-  border-color: #59c3a6;
-  box-shadow: 0 0 12px rgba(89,195,166,0.4);
-  background: #ffffff;
-}
+    .tool-card {
+      border-radius: 24px;
+      padding: 24px;
+    }
 
-/* hover */
-input[type="text"]:hover {
-  border-color: #4f8cc9;
-}
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #f8fbff;
+    }
 
-/* placeholder */
-input[type="text"]::placeholder {
-  color: #999;
-}
+    textarea,
+    input[type="text"],
+    select {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.25);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 14px;
+      padding: 13px 14px;
+      font-size: 14px;
+      outline: none;
+      transition: 0.25s;
+      font-family: "Poppins", sans-serif;
+    }
 
-/* spacing fix */
-.group-input input {
-  margin-top: 5px;
-}
+    textarea {
+      min-height: 145px;
+      resize: vertical;
+      line-height: 1.55;
+      font-family: Consolas, Monaco, monospace;
+    }
+
+    textarea::placeholder,
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.53);
+    }
+
+    textarea:focus,
+    input[type="text"]:focus,
+    select:focus {
+      border-color: rgba(56, 189, 248, 0.75);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+    }
+
+    select {
+      min-height: 48px;
+      cursor: pointer;
+    }
+
+    .section {
+      margin-bottom: 18px;
+    }
+
+    .names-grid,
+    .specific-grid,
+    .output-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .field-card {
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--panel-soft);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .field-card h3 {
+      margin: 0 0 12px;
+      font-size: 14px;
+      color: #f8fbff;
+    }
+
+    .main-btn {
+      width: 100%;
+      border: 0;
+      border-radius: 13px;
+      padding: 14px 18px;
+      cursor: pointer;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary1), var(--primary2));
+      font: 600 14px "Poppins", sans-serif;
+      box-shadow: 0 7px 0 rgba(30, 64, 175, 0.85);
+      transition: 0.25s;
+      margin: 2px 0 20px;
+    }
+
+    .main-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(56, 189, 248, 0.28);
+    }
+
+    .main-btn:active {
+      transform: translateY(4px);
+      box-shadow: none;
+    }
+
+    .group-box {
+      min-width: 0;
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--panel-soft);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.13);
+      transition: 0.22s;
+    }
+
+    .group-box:hover {
+      transform: translateY(-2px);
+      border-color: rgba(56, 189, 248, 0.38);
+    }
+
+    .group-box h3 {
+      margin: 0 0 10px;
+      color: #7dd3fc;
+      font-weight: 700;
+      font-size: 16px;
+      overflow-wrap: anywhere;
+    }
+
+    .group-box button {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 14px;
+      color: #fff;
+      background: linear-gradient(135deg, #16a34a, #22c55e);
+      font: 600 13px "Poppins", sans-serif;
+      cursor: pointer;
+      transition: 0.25s;
+      box-shadow: 0 6px 0 rgba(20, 83, 45, 0.8);
+      margin-bottom: 10px;
+    }
+
+    .group-box button:hover {
+      transform: translateY(-2px);
+    }
+
+    .group-box button:active {
+      transform: translateY(4px);
+      box-shadow: none;
+    }
+
+    pre {
+      width: 100%;
+      min-height: 260px;
+      max-height: 520px;
+      overflow-y: auto;
+      margin: 0;
+      padding: 13px;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      color: #f8fbff;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.11);
+      border-radius: 13px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    pre::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    pre::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 99px;
+    }
+
+    pre::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.20);
+      border-radius: 99px;
+    }
+
+    .info-card {
+      border-radius: 20px;
+      margin-top: 18px;
+      padding: 20px 22px;
+    }
+
+    .info-card h2 {
+      margin: 0 0 10px;
+      font-size: 17px;
+    }
+
+    .info-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .footer {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    /* ===== SWEET GIRLS MODE ===== */
+    body.pink-mode .main-btn {
+      background: linear-gradient(135deg, #ff69b4, #e879f9);
+      box-shadow: 0 7px 0 #be185d;
+    }
+
+    body.pink-mode .group-box h3 {
+      color: #f9a8d4;
+    }
+
+    @media (max-width: 900px) {
+      .names-grid,
+      .specific-grid,
+      .output-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 18px 12px 28px;
+      }
+
+      .top-bar {
+        padding: 0 12px;
+      }
+
+      .brand {
+        font-size: 15px;
+      }
+
+      .tool-card {
+        padding: 16px;
+      }
+
+      textarea {
+        min-height: 125px;
+      }
+
+      pre {
+        min-height: 220px;
+      }
+    }
   </style>
 </head>
+
 <body>
 
-  <h1>Server Splitter Tool</h1>
+  <div class="top-bar">
+    <div class="brand">🛠️ Abelagnaui-Tools®࿐</div>
 
-  <label for="allServers">All Servers (one per line):</label>
-  <textarea id="allServers" placeholder="past All serv"></textarea>
-
-  <div class="groups-inputs">
-    <div class="group-input">
-     <label for="groupAName">Name A:</label>
-<input type="text" id="groupAName" placeholder="name mailer 1">
-    </div>
-    <div class="group-input">
-      <label for="groupBName">Name B:</label>
-<input type="text" id="groupBName" placeholder="name mailer 2">
-    </div>
-    <div class="group-input">
-      <label for="groupCName">Name C:</label>
-<input type="text" id="groupCName" placeholder="name mailer 3">
-    </div>
+    <button
+      class="theme-switch"
+      id="themeToggle"
+      type="button"
+      title="Switch theme"
+      aria-label="Switch between normal and girls mode"
+    >
+      <span class="theme-slider"></span>
+    </button>
   </div>
 
-  <div class="groups-textareas">
-    <div class="group-textarea">
-      <label for="groupA">Group A Specific Servers:</label>
-      <textarea id="groupA" placeholder=" srv mailer 1"></textarea>
-    </div>
-    <div class="group-textarea">
-      <label for="groupB">Group B Specific Servers:</label>
-      <textarea id="groupB" placeholder="srv mailer 2"></textarea>
-    </div>
-    <div class="group-textarea">
-      <label for="groupC">Group C Specific Servers:</label>
-      <textarea id="groupC" placeholder="srv mailer 3"></textarea>
-    </div>
-  </div>
+  <main class="page">
 
-  <button onclick="splitServers()">Split Servers</button>
+    <section class="title-card">
+      <h1>🖥️ Server Splitter Tool</h1>
+      <p>Split server lists fairly between your mailer groups.</p>
+    </section>
 
-  <div class="container">
-    <div class="group-box">
-      <h3 id="titleA">Group A</h3>
-      <button onclick="copyToClipboard('outputA')">📋 Copy Group A</button>
-      <pre id="outputA"></pre>
-    </div>
-    <div class="group-box">
-      <h3 id="titleB">Group B</h3>
-      <button onclick="copyToClipboard('outputB')">📋 Copy Group B</button>
-      <pre id="outputB"></pre>
-    </div>
-    <div class="group-box" id="groupCBox">
-      <h3 id="titleC">Group C</h3>
-      <button onclick="copyToClipboard('outputC')">📋 Copy Group C</button>
-      <pre id="outputC"></pre>
-    </div>
-  </div>
+    <section class="tool-card">
+
+      <div class="section">
+        <label for="allServers">All Servers (one per line):</label>
+        <textarea id="allServers" placeholder="past All serv"></textarea>
+      </div>
+
+      <div class="section">
+        <div class="names-grid">
+
+          <div class="field-card">
+            <h3>🏷️ Name A</h3>
+            <input type="text" id="groupAName" placeholder="name mailer 1">
+          </div>
+
+          <div class="field-card">
+            <h3>🏷️ Name B</h3>
+            <input type="text" id="groupBName" placeholder="name mailer 2">
+          </div>
+
+          <div class="field-card">
+            <h3>🏷️ Name C</h3>
+            <input type="text" id="groupCName" placeholder="name mailer 3">
+          </div>
+
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="specific-grid">
+
+          <div class="field-card">
+            <h3>📌 Group A Specific Servers</h3>
+            <textarea id="groupA" placeholder="srv mailer 1"></textarea>
+          </div>
+
+          <div class="field-card">
+            <h3>📌 Group B Specific Servers</h3>
+            <textarea id="groupB" placeholder="srv mailer 2"></textarea>
+          </div>
+
+          <div class="field-card">
+            <h3>📌 Group C Specific Servers</h3>
+            <textarea id="groupC" placeholder="srv mailer 3"></textarea>
+          </div>
+
+        </div>
+      </div>
+
+      <button class="main-btn" onclick="splitServers()">⚡ Split Servers</button>
+
+      <div class="output-grid">
+
+        <div class="group-box">
+          <h3 id="titleA">Group A</h3>
+          <button onclick="copyToClipboard('outputA')">📋 Copy Group A</button>
+          <pre id="outputA"></pre>
+        </div>
+
+        <div class="group-box">
+          <h3 id="titleB">Group B</h3>
+          <button onclick="copyToClipboard('outputB')">📋 Copy Group B</button>
+          <pre id="outputB"></pre>
+        </div>
+
+        <div class="group-box" id="groupCBox">
+          <h3 id="titleC">Group C</h3>
+          <button onclick="copyToClipboard('outputC')">📋 Copy Group C</button>
+          <pre id="outputC"></pre>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="info-card">
+      <h2>ℹ️ How it works</h2>
+      <p>
+        Add your full server list, enter the names of your groups, optionally add
+        specific servers to each group, then split the remaining pool using the
+        same smart fair-split logic from the original tool.
+      </p>
+    </section>
+
+    <div class="footer">Server Splitter • Client-side only • GitHub Pages ready</div>
+
+  </main>
 
   <script>
+    /* ===== SHARED THEME WITH INDEX.HTML ===== */
+    (() => {
+      const themeToggle = document.getElementById("themeToggle");
+      const slider = themeToggle.querySelector(".theme-slider");
+
+      function applyTheme(mode) {
+        const pink = mode === "pink";
+
+        document.body.classList.toggle("pink-mode", pink);
+        themeToggle.classList.toggle("is-pink", pink);
+        slider.setAttribute("aria-label", pink ? "Girls mode" : "Normal mode");
+      }
+
+      let savedTheme = "default";
+
+      try {
+        savedTheme = localStorage.getItem("theme") || "default";
+      } catch (error) {
+        savedTheme = "default";
+      }
+
+      applyTheme(savedTheme === "pink" ? "pink" : "default");
+
+      themeToggle.addEventListener("click", () => {
+        const isPink = document.body.classList.toggle("pink-mode");
+        const newMode = isPink ? "pink" : "default";
+
+        themeToggle.classList.toggle("is-pink", isPink);
+
+        try {
+          localStorage.setItem("theme", newMode);
+        } catch (error) {
+          // Theme still works visually if storage is unavailable.
+        }
+      });
+
+      window.addEventListener("storage", (event) => {
+        if (event.key === "theme") {
+          applyTheme(event.newValue === "pink" ? "pink" : "default");
+        }
+      });
+    })();
+
+    /* ===== ORIGINAL LOGIC ===== */
     function splitServers() {
       const groupAName = document.getElementById("groupAName").value.trim();
       const groupBName = document.getElementById("groupBName").value.trim();
@@ -211,36 +595,31 @@ input[type="text"]::placeholder {
 
       const numGroups = groupCName ? 3 : 2;
 
- 
-// 🔥 SMART FAIR SPLIT
-const groups = [
-  { name: "A", list: groupA },
-  { name: "B", list: groupB }
-];
+      // 🔥 SMART FAIR SPLIT
+      const groups = [
+        { name: "A", list: groupA },
+        { name: "B", list: groupB }
+      ];
 
-if (groupCName) {
-  groups.push({ name: "C", list: groupC });
-}
+      if (groupCName) {
+        groups.push({ name: "C", list: groupC });
+      }
 
- 
-let minSize = Math.min(...groups.map(g => g.list.length));
+      let minSize = Math.min(...groups.map(g => g.list.length));
+      let activeGroups = groups.filter(g => g.list.length === minSize);
+      let index = 0;
 
- 
-let activeGroups = groups.filter(g => g.list.length === minSize);
+      while (index < pool.length) {
+        for (let g of activeGroups) {
+          if (index < pool.length) {
+            g.list.push(pool[index]);
+            index++;
+          }
+        }
 
-let index = 0;
-
-while (index < pool.length) {
-  for (let g of activeGroups) {
-    if (index < pool.length) {
-      g.list.push(pool[index]);
-      index++;
-    }
-  }
- 
-  minSize = Math.min(...groups.map(g => g.list.length));
-  activeGroups = groups.filter(g => g.list.length === minSize);
-}
+        minSize = Math.min(...groups.map(g => g.list.length));
+        activeGroups = groups.filter(g => g.list.length === minSize);
+      }
 
       // Update group titles and output
       document.getElementById("titleA").textContent = groupAName;
@@ -249,6 +628,7 @@ while (index < pool.length) {
       document.getElementById("outputB").textContent = `${groupBName}\n` + groupB.join("\n");
 
       const groupCBox = document.getElementById("groupCBox");
+
       if (!groupCName) {
         groupCBox.style.display = "none";
         document.getElementById("outputC").textContent = "";
@@ -261,9 +641,10 @@ while (index < pool.length) {
 
     function copyToClipboard(id) {
       const text = document.getElementById(id).textContent;
+
       navigator.clipboard.writeText(text)
-        .then(() => alert('Copied to clipboard!'))
-        .catch(() => alert('Failed to copy.'));
+        .then(() => alert("Copied to clipboard!"))
+        .catch(() => alert("Failed to copy."));
     }
   </script>
 
