@@ -3613,18 +3613,21 @@ unsubscribe
 	});
 	</script>
 
-	<script>
+	 <script>
+/* ===== AUTO REFRESH EVERY 10 MIN ===== */
 
-	/* ===== AUTO REFRESH EVERY 10 MIN ===== */
+setInterval(() => {
 
-	setInterval(() => {
+    const url = new URL(window.location.href);
 
-	  location.reload();
+    
+    url.searchParams.set("_refresh", Date.now());
 
-	}, 30 * 60 * 1000);
+    window.location.replace(url.toString());
 
-	</script>
- 
+}, 10 * 60 * 1000);
+</script>
+		
 <a href="https://t.me/Abdelagnaoui"
    target="_blank"
    class="telegram-btn">
