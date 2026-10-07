@@ -511,6 +511,29 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 	  from{opacity:0.4;}
 	  to{opacity:1;}
 	}
+        
+        
+        /* ===== SIMPLE CLOCK ===== */
+#simpleClock {
+    position: fixed;
+    bottom: 18px;
+    right: 25px;
+
+    font-family: "Poppins", sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+
+    color: white;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+
+    z-index: 99999;
+    pointer-events: none;
+}
 	  </style>
 
 	</head>
@@ -3768,5 +3791,38 @@ setInterval(() => {
    class="telegram-btn">
    <i class="fab fa-telegram-plane"></i>
 </a>
+
+<div id="simpleClock"></div>
+<script>
+function updateClock() {
+    const now = new Date();
+
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+
+    document.getElementById("simpleClock").textContent =
+        `${hours}:${minutes}:${seconds}`;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+<script>
+function updateClock() {
+    const now = new Date();
+
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const seconds = String(now.getSeconds()).padStart(2, "0");
+
+    document.getElementById("simpleClock").textContent =
+        `${hours}:${minutes}:${seconds}`;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+
 </body>
 </html>
