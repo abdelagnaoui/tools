@@ -12,7 +12,6 @@
 
 <title>Open Multiple Links</title>
 
-
 <style>
 
 /* =========================================================
@@ -44,13 +43,9 @@ body {
 
 .container {
     background-color: #ffffff;
-
     border-radius: 8px;
-
     padding: 20px;
-
     max-width: 600px;
-
     margin: 0 auto;
 
     box-shadow:
@@ -64,9 +59,7 @@ body {
 
 h2 {
     text-align: center;
-
     color: #2a5298;
-
     margin-top: 0;
 }
 
@@ -77,23 +70,19 @@ h2 {
 
 textarea {
     width: 100%;
-
     min-height: 180px;
 
     padding: 10px;
 
     font-size: 13px;
-
     font-family: Consolas, Monaco, monospace;
 
     border-radius: 5px;
-
     border: 1px solid #c1d3e0;
 
     margin-bottom: 15px;
 
     resize: vertical;
-
     outline: none;
 }
 
@@ -108,19 +97,14 @@ textarea:focus {
 
 .options {
     display: flex;
-
     flex-wrap: wrap;
-
     gap: 14px;
-
     margin-bottom: 10px;
 }
 
 .options label {
     font-size: 14px;
-
     color: #2a5298;
-
     cursor: pointer;
 }
 
@@ -133,7 +117,6 @@ textarea:focus {
     width: 100%;
 
     background-color: #007bff;
-
     color: white;
 
     font-size: 15px;
@@ -141,7 +124,6 @@ textarea:focus {
     padding: 10px;
 
     border: none;
-
     border-radius: 5px;
 
     cursor: pointer;
@@ -192,7 +174,6 @@ textarea:focus {
     border-radius: 5px;
 
     background: #fff3cd;
-
     border: 1px solid #ffeeba;
 
     color: #856404;
@@ -264,7 +245,6 @@ textarea:focus {
     color: #ffffff;
 
     padding-left: 8px;
-
     padding-right: 5px;
 }
 
@@ -315,11 +295,9 @@ textarea:focus {
 .frameButton {
 
     width: 27px;
-
     height: 26px;
 
     padding: 0;
-
     margin: 0;
 
     border: none;
@@ -391,9 +369,7 @@ textarea:focus {
     position: absolute;
 
     left: 10px;
-
     right: 10px;
-
     bottom: 10px;
 
     padding: 8px;
@@ -421,7 +397,6 @@ textarea:focus {
     }
 
 }
-
 
 @media (max-width: 500px) {
 
@@ -516,9 +491,9 @@ textarea:focus {
         id="warning"
         class="warning"
     >
-        GitHub Pages uses HTTPS. HTTP iframe URLs can be
-        blocked as mixed content, so HTTP links are upgraded
-        to HTTPS when this page is running over HTTPS.
+        GitHub Pages uses HTTPS. HTTP iframe URLs cannot be
+        loaded as insecure frames, so HTTP links are automatically
+        converted to HTTPS.
     </div>
 
 
@@ -557,34 +532,25 @@ textarea:focus {
 
 <script>
 
-
 /* =========================================================
    ELEMENTS
 ========================================================= */
 
 const textarea =
-    document.getElementById(
-        "linksTextBox"
-    );
+    document.getElementById("linksTextBox");
 
 const framesContainer =
-    document.getElementById(
-        "framesContainer"
-    );
+    document.getElementById("framesContainer");
 
 const counter =
-    document.getElementById(
-        "counter"
-    );
+    document.getElementById("counter");
 
 const warning =
-    document.getElementById(
-        "warning"
-    );
+    document.getElementById("warning");
 
 
 /* =========================================================
-   IS CURRENT PAGE HTTPS?
+   CURRENT PAGE HTTPS
 ========================================================= */
 
 const currentPageIsHTTPS =
@@ -592,7 +558,7 @@ const currentPageIsHTTPS =
 
 
 /* =========================================================
-   GET PREFIX
+   GET SELECTED PREFIX
 ========================================================= */
 
 function getPrefix() {
@@ -603,13 +569,10 @@ function getPrefix() {
         );
 
     if (!selected) {
-
         return "https";
-
     }
 
     return selected.value;
-
 }
 
 
@@ -619,26 +582,43 @@ function getPrefix() {
 
 function normalizeURL(value) {
 
-    let url =
-        value.trim();
-
+    let url = value.trim();
 
     if (!url) {
-
         return null;
-
     }
 
 
     /*
-     * Remove whitespace.
+     * Remove spaces
      */
 
-    url =
-        url.replace(
-            /\s+/g,
-            ""
+    url = url.replace(/\s+/g, "");
+
+
+    /*
+     * =====================================================
+     * HTTP
+     *
+     * IMPORTANT:
+     *
+     * GitHub Pages is HTTPS.
+     *
+     * iframe HTTP = Mixed Content.
+     *
+     * Therefore we ALWAYS convert HTTP to HTTPS.
+     * =====================================================
+     */
+
+    if (/^http:\/\//i.test(url)) {
+
+        warning.style.display = "block";
+
+        return (
+            "https://" +
+            url.substring(7)
         );
+    }
 
 
     /*
@@ -647,123 +627,41 @@ function normalizeURL(value) {
      * =====================================================
      */
 
-    if (
-        /^https:\/\//i.test(url)
-    ) {
+    if (/^https:\/\//i.test(url)) {
 
         return url;
-
     }
 
 
     /*
      * =====================================================
-     * ALREADY HTTP
-     * =====================================================
-     */
-
-    if (
-        /^http:\/\//i.test(url)
-    ) {
-
-        /*
-         * If GitHub Pages is HTTPS,
-         * don't create mixed content.
-         */
-
-        if (currentPageIsHTTPS) {
-
-            warning.style.display =
-                "block";
-
-            return (
-                "https://" +
-                url.substring(7)
-            );
-
-        }
-
-
-        return url;
-
-    }
-
-
-    /*
-     * =====================================================
-     * PREFIX
-     * =====================================================
-     */
-
-    const prefix =
-        getPrefix();
-
-
-    /*
-     * HTTPS
-     */
-
-    if (
-        prefix === "https"
-    ) {
-
-        return (
-            "https://" +
-            url
-        );
-
-    }
-
-
-    /*
-     * HTTP
-     */
-
-    if (
-        prefix === "http"
-    ) {
-
-        /*
-         * GitHub Pages is HTTPS.
-         *
-         * HTTP iframe can be blocked as
-         * mixed content.
-         */
-
-        if (currentPageIsHTTPS) {
-
-            warning.style.display =
-                "block";
-
-            return (
-                "https://" +
-                url
-            );
-
-        }
-
-
-        return (
-            "http://" +
-            url
-        );
-
-    }
-
-
-    /*
-     * NEITHER
+     * PROTOCOL-RELATIVE URL
      *
-     * Bare external URLs need a scheme.
+     * Example:
      *
-     * Use HTTPS as the safe default.
+     * //example.com/page
+     * =====================================================
      */
 
-    return (
-        "https://" +
-        url
-    );
+    if (url.startsWith("//")) {
 
+        return "https:" + url;
+    }
+
+
+    /*
+     * =====================================================
+     * BARE DOMAIN / URL
+     *
+     * Example:
+     *
+     * storage.googleapis.com/file.html
+     *
+     * Always use HTTPS.
+     * =====================================================
+     */
+
+    return "https://" + url;
 }
 
 
@@ -776,15 +674,10 @@ function getLinks() {
     const lines =
         textarea.value
         .split(/\r?\n/)
-        .map(
-            normalizeURL
-        )
-        .filter(
-            Boolean
-        );
+        .map(normalizeURL)
+        .filter(Boolean);
 
     return lines;
-
 }
 
 
@@ -801,7 +694,6 @@ function updateCounter(number) {
                 ? " link"
                 : " links"
         );
-
 }
 
 
@@ -816,7 +708,6 @@ function openNewTab(url) {
         "_blank",
         "noopener,noreferrer"
     );
-
 }
 
 
@@ -834,9 +725,7 @@ function createFrameBox(url, index) {
      */
 
     const box =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     box.className =
         "frameBox";
@@ -849,22 +738,20 @@ function createFrameBox(url, index) {
      */
 
     const header =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     header.className =
         "frameHeader";
 
 
     /*
+     * =====================================================
      * URL TEXT
+     * =====================================================
      */
 
     const urlText =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     urlText.className =
         "frameUrl";
@@ -883,22 +770,20 @@ function createFrameBox(url, index) {
      */
 
     const actions =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     actions.className =
         "frameActions";
 
 
     /*
+     * =====================================================
      * OPEN NEW TAB
+     * =====================================================
      */
 
     const openButton =
-        document.createElement(
-            "button"
-        );
+        document.createElement("button");
 
     openButton.type =
         "button";
@@ -915,21 +800,19 @@ function createFrameBox(url, index) {
     openButton.onclick =
         function() {
 
-            openNewTab(
-                url
-            );
+            openNewTab(url);
 
         };
 
 
     /*
+     * =====================================================
      * RELOAD
+     * =====================================================
      */
 
     const reloadButton =
-        document.createElement(
-            "button"
-        );
+        document.createElement("button");
 
     reloadButton.type =
         "button";
@@ -945,13 +828,13 @@ function createFrameBox(url, index) {
 
 
     /*
+     * =====================================================
      * MENU
+     * =====================================================
      */
 
     const menuButton =
-        document.createElement(
-            "button"
-        );
+        document.createElement("button");
 
     menuButton.type =
         "button";
@@ -968,33 +851,27 @@ function createFrameBox(url, index) {
     menuButton.onclick =
         function() {
 
-            openNewTab(
-                url
-            );
+            openNewTab(url);
 
         };
 
 
-    actions.appendChild(
-        openButton
-    );
+    /*
+     * =====================================================
+     * APPEND BUTTONS
+     * =====================================================
+     */
 
-    actions.appendChild(
-        reloadButton
-    );
+    actions.appendChild(openButton);
 
-    actions.appendChild(
-        menuButton
-    );
+    actions.appendChild(reloadButton);
+
+    actions.appendChild(menuButton);
 
 
-    header.appendChild(
-        urlText
-    );
+    header.appendChild(urlText);
 
-    header.appendChild(
-        actions
-    );
+    header.appendChild(actions);
 
 
     /*
@@ -1004,9 +881,7 @@ function createFrameBox(url, index) {
      */
 
     const frameContent =
-        document.createElement(
-            "div"
-        );
+        document.createElement("div");
 
     frameContent.className =
         "frameContent";
@@ -1019,28 +894,15 @@ function createFrameBox(url, index) {
      */
 
     const iframe =
-        document.createElement(
-            "iframe"
-        );
+        document.createElement("iframe");
 
 
     /*
-     * DIRECT URL
+     * IMPORTANT:
      *
-     * We DON'T use fetch().
+     * URL has already been normalized.
      *
-     * We DON'T manually follow redirects.
-     *
-     * We DON'T use window.location.
-     *
-     * The browser handles the iframe navigation:
-     *
-     * iframe
-     *   ↓
-     * redirect
-     *   ↓
-     * final URL
-     *
+     * HTTP URLs were converted to HTTPS.
      */
 
     iframe.src =
@@ -1048,8 +910,7 @@ function createFrameBox(url, index) {
 
 
     iframe.title =
-        "Link " +
-        index;
+        "Link " + index;
 
 
     iframe.loading =
@@ -1057,9 +918,7 @@ function createFrameBox(url, index) {
 
 
     /*
-     * IMPORTANT FIX
-     *
-     * Do not send GitHub Pages as Referer.
+     * Don't send GitHub Pages as Referer.
      */
 
     iframe.referrerPolicy =
@@ -1067,19 +926,11 @@ function createFrameBox(url, index) {
 
 
     /*
-     * IMPORTANT:
+     * NO SANDBOX
      *
-     * NO sandbox.
-     */
-
-    /*
-     * We deliberately don't add:
-     *
-     * sandbox=""
-     *
-     * because sandbox restrictions can affect
-     * navigation, scripts and redirects inside
-     * an iframe.
+     * We intentionally don't use sandbox because
+     * redirects/scripts inside the iframe may require
+     * normal iframe permissions.
      */
 
 
@@ -1092,17 +943,9 @@ function createFrameBox(url, index) {
     reloadButton.onclick =
         function() {
 
-            /*
-             * Reset frame.
-             */
-
             iframe.src =
                 "about:blank";
 
-
-            /*
-             * Load original URL again.
-             */
 
             setTimeout(
                 function() {
@@ -1111,7 +954,7 @@ function createFrameBox(url, index) {
                         url;
 
                 },
-                80
+                100
             );
 
         };
@@ -1119,7 +962,7 @@ function createFrameBox(url, index) {
 
     /*
      * =====================================================
-     * APPEND
+     * APPEND IFRAME
      * =====================================================
      */
 
@@ -1149,7 +992,15 @@ function createFrameBox(url, index) {
 function processAndOpenLinks() {
 
     /*
-     * Get links
+     * Reset warning
+     */
+
+    warning.style.display =
+        "none";
+
+
+    /*
+     * Get normalized links
      */
 
     const links =
@@ -1165,15 +1016,7 @@ function processAndOpenLinks() {
 
 
     /*
-     * Reset warning
-     */
-
-    warning.style.display =
-        "none";
-
-
-    /*
-     * Counter
+     * Update counter
      */
 
     updateCounter(
@@ -1185,9 +1028,7 @@ function processAndOpenLinks() {
      * No links
      */
 
-    if (
-        links.length === 0
-    ) {
+    if (links.length === 0) {
 
         return;
 
@@ -1195,7 +1036,7 @@ function processAndOpenLinks() {
 
 
     /*
-     * Save
+     * Save normalized HTTPS links
      */
 
     localStorage.setItem(
@@ -1216,6 +1057,7 @@ function processAndOpenLinks() {
                     url,
                     index + 1
                 );
+
 
             framesContainer.appendChild(
                 frame
@@ -1272,6 +1114,7 @@ window.addEventListener(
             textarea.value =
                 saved;
 
+
             updateCounter(
                 getLinks().length
             );
@@ -1298,7 +1141,6 @@ textarea.addEventListener(
 );
 
 </script>
-
 
 </body>
 </html>
