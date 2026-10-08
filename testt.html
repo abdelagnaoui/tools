@@ -2,426 +2,442 @@
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Open Links</title>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Open Multiple Links</title>
+
 
 <style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
 
 * {
     box-sizing: border-box;
 }
 
+html,
 body {
     margin: 0;
     padding: 0;
-    background: #e7f0ff;
-    font-family: Arial, Helvetica, sans-serif;
-    color: #222;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e6f0ff;
+    padding: 20px;
 }
 
 
-/* =====================================================
+/* =========================================================
    CONTROL PANEL
-===================================================== */
+========================================================= */
 
-.control-panel {
-    width: 500px;
-    max-width: calc(100% - 30px);
-
-    margin: 25px auto 22px auto;
-
-    padding: 20px 16px 16px 16px;
-
-    background: #ffffff;
+.container {
+    background-color: #ffffff;
 
     border-radius: 8px;
 
+    padding: 20px;
+
+    max-width: 600px;
+
+    margin: 0 auto;
+
     box-shadow:
-        0 3px 14px rgba(0,0,0,0.12);
+        0 4px 12px rgba(0, 0, 0, 0.10);
 }
 
 
-.control-panel h2 {
-    margin: 8px 0 16px 0;
+/* =========================================================
+   TITLE
+========================================================= */
 
+h2 {
     text-align: center;
 
-    font-size: 20px;
+    color: #2a5298;
 
-    color: #16458b;
+    margin-top: 0;
 }
 
 
-/* =====================================================
+/* =========================================================
    TEXTAREA
-===================================================== */
+========================================================= */
 
-#links {
+textarea {
     width: 100%;
 
-    height: 130px;
-
-    resize: vertical;
+    min-height: 180px;
 
     padding: 10px;
 
-    border: 1px solid #c7d1dc;
+    font-size: 13px;
+
+    font-family: Consolas, Monaco, monospace;
 
     border-radius: 5px;
 
+    border: 1px solid #c1d3e0;
+
+    margin-bottom: 15px;
+
+    resize: vertical;
+
     outline: none;
+}
 
-    font-family: monospace;
-
-    font-size: 13px;
-
-    color: #111;
-
-    background: #ffffff;
+textarea:focus {
+    border-color: #007bff;
 }
 
 
-#links:focus {
-    border-color: #1683ff;
-
-    box-shadow:
-        0 0 0 2px rgba(22,131,255,0.12);
-}
-
-
-/* =====================================================
-   OPTIONS
-===================================================== */
+/* =========================================================
+   PREFIX OPTIONS
+========================================================= */
 
 .options {
-    margin-top: 10px;
+    display: flex;
 
-    text-align: left;
+    flex-wrap: wrap;
 
-    font-size: 13px;
+    gap: 14px;
+
+    margin-bottom: 10px;
 }
-
 
 .options label {
-    display: block;
+    font-size: 14px;
 
-    margin: 5px 0;
-
-    cursor: pointer;
-}
-
-
-.options input {
-    margin-right: 5px;
+    color: #2a5298;
 
     cursor: pointer;
 }
 
 
-/* =====================================================
+/* =========================================================
    BUTTONS
-===================================================== */
+========================================================= */
 
 .main-button {
     width: 100%;
 
-    height: 31px;
+    background-color: #007bff;
 
-    margin-top: 8px;
+    color: white;
+
+    font-size: 15px;
+
+    padding: 10px;
 
     border: none;
 
-    border-radius: 4px;
-
-    background: #087df5;
-
-    color: #ffffff;
-
-    font-size: 14px;
+    border-radius: 5px;
 
     cursor: pointer;
+
+    margin-top: 8px;
 }
 
-
 .main-button:hover {
-    background: #006fe6;
+    background-color: #0069d9;
 }
 
 
 .clear-button {
-    width: 100%;
-
-    height: 31px;
-
-    margin-top: 8px;
-
-    border: none;
-
-    border-radius: 4px;
-
-    background: #087df5;
-
-    color: #ffffff;
-
-    font-size: 14px;
-
-    cursor: pointer;
+    background-color: #777777;
 }
-
 
 .clear-button:hover {
-    background: #006fe6;
+    background-color: #555555;
 }
 
 
-/* =====================================================
-   LINKS GRID
-===================================================== */
+/* =========================================================
+   COUNTER
+========================================================= */
 
-#linksContainer {
+.counter {
+    text-align: center;
 
-    width: 100%;
+    margin-top: 10px;
 
-    padding: 0 15px 30px 15px;
+    color: #555;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   WARNING
+========================================================= */
+
+.warning {
+    display: none;
+
+    margin-top: 12px;
+
+    padding: 10px;
+
+    border-radius: 5px;
+
+    background: #fff3cd;
+
+    border: 1px solid #ffeeba;
+
+    color: #856404;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   FRAMES GRID
+========================================================= */
+
+#framesContainer {
 
     display: grid;
 
     grid-template-columns:
-        repeat(auto-fill, minmax(320px, 1fr));
+        repeat(
+            auto-fill,
+            minmax(400px, 1fr)
+        );
 
-    gap: 12px;
+    gap: 15px;
+
+    margin-top: 30px;
+
+    width: 100%;
 }
 
 
-/* =====================================================
-   LINK BOX
-===================================================== */
+/* =========================================================
+   FRAME BOX
+========================================================= */
 
-.link-box {
+.frameBox {
 
-    height: 195px;
+    width: 100%;
+
+    min-width: 0;
 
     background: #ffffff;
 
-    border: 1px solid #ff3030;
+    border: 2px solid red;
 
-    border-radius: 5px;
+    border-radius: 6px;
 
     overflow: hidden;
-
-    position: relative;
 }
 
 
-/* =====================================================
-   HEADER
-===================================================== */
+/* =========================================================
+   FRAME HEADER
+========================================================= */
 
-.link-header {
+.frameHeader {
 
-    height: 62px;
+    width: 100%;
 
-    padding: 0 12px;
-
-    background: #1d1d1d;
+    height: 34px;
 
     display: flex;
 
     align-items: center;
 
-    justify-content: space-between;
+    background: #171717;
 
-    gap: 10px;
+    color: #ffffff;
+
+    padding-left: 8px;
+
+    padding-right: 5px;
 }
 
 
-.link-title {
+/* =========================================================
+   URL
+========================================================= */
+
+.frameUrl {
 
     flex: 1;
 
     min-width: 0;
 
-    color: #ff4141;
-
-    font-family: cursive;
-
-    font-size: 17px;
-
-    font-weight: bold;
+    overflow: hidden;
 
     white-space: nowrap;
 
-    overflow: hidden;
-
     text-overflow: ellipsis;
-}
 
+    font-family:
+        Consolas,
+        Monaco,
+        monospace;
 
-.link-menu {
+    font-size: 10px;
 
     color: #ffffff;
-
-    font-size: 17px;
-
-    flex-shrink: 0;
 }
 
 
-/* =====================================================
-   IFRAME
-===================================================== */
+/* =========================================================
+   FRAME ACTIONS
+========================================================= */
 
-.link-frame {
-
-    display: block;
-
-    width: 100%;
-
-    height: calc(100% - 62px);
-
-    border: 0;
-
-    background: #ffffff;
-}
-
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-.loading {
-
-    position: absolute;
-
-    top: 62px;
-
-    left: 0;
-
-    right: 0;
-
-    bottom: 0;
-
-    background: #ffffff;
+.frameActions {
 
     display: flex;
 
     align-items: center;
 
-    justify-content: center;
+    gap: 4px;
 
-    color: #777;
-
-    font-size: 13px;
-
-    z-index: 2;
+    margin-left: 5px;
 }
 
 
-.loading.hidden {
-    display: none;
-}
+.frameButton {
 
+    width: 27px;
 
-/* =====================================================
-   FALLBACK
-===================================================== */
+    height: 26px;
 
-.frame-fallback {
+    padding: 0;
 
-    position: absolute;
-
-    top: 62px;
-
-    left: 0;
-
-    right: 0;
-
-    bottom: 0;
-
-    background: #ffffff;
-
-    display: none;
-
-    align-items: center;
-
-    justify-content: center;
-
-    flex-direction: column;
-
-    gap: 10px;
-
-    padding: 15px;
-
-    text-align: center;
-
-    z-index: 3;
-}
-
-
-.frame-fallback.show {
-    display: flex;
-}
-
-
-.frame-fallback-title {
-    color: #e53935;
-
-    font-size: 14px;
-
-    font-weight: bold;
-}
-
-
-.frame-fallback-text {
-    color: #777;
-
-    font-size: 11px;
-
-    line-height: 16px;
-}
-
-
-.open-new-tab {
-
-    padding: 7px 14px;
+    margin: 0;
 
     border: none;
 
     border-radius: 4px;
 
-    background: #087df5;
+    background: #333333;
 
     color: #ffffff;
 
-    text-decoration: none;
-
-    font-size: 12px;
-
     cursor: pointer;
+
+    font-size: 13px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.frameButton:hover {
+    background: #555555;
 }
 
 
-/* =====================================================
+/* =========================================================
+   IFRAME AREA
+========================================================= */
+
+.frameContent {
+
+    width: 100%;
+
+    height: 600px;
+
+    background: #ffffff;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   IFRAME
+========================================================= */
+
+.frameContent iframe {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    border: none;
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   ERROR / INFO
+========================================================= */
+
+.frameInfo {
+
+    display: none;
+
+    position: absolute;
+
+    left: 10px;
+
+    right: 10px;
+
+    bottom: 10px;
+
+    padding: 8px;
+
+    background: rgba(0, 0, 0, 0.85);
+
+    color: #ffffff;
+
+    border-radius: 5px;
+
+    font-size: 11px;
+
+    z-index: 10;
+}
+
+
+/* =========================================================
    MOBILE
-===================================================== */
+========================================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
 
-    #linksContainer {
+    #framesContainer {
         grid-template-columns: 1fr;
-
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
-    .control-panel {
-        width: calc(100% - 20px);
     }
 
 }
 
+
+@media (max-width: 500px) {
+
+    body {
+        padding: 8px;
+    }
+
+    .container {
+        padding: 12px;
+    }
+
+    .frameContent {
+        height: 550px;
+    }
+
+}
 
 </style>
 
@@ -431,11 +447,11 @@ body {
 <body>
 
 
-<!-- =====================================================
+<!-- =======================================================
      CONTROL PANEL
-===================================================== -->
+======================================================== -->
 
-<div class="control-panel">
+<div class="container">
 
     <h2>
         Enter Links and Select Prefix Type:
@@ -443,174 +459,259 @@ body {
 
 
     <textarea
-        id="links"
-        placeholder="example.com/page1
-example.com/page2
-https://example.com/page3"
+        id="linksTextBox"
+        rows="8"
+        placeholder="Enter one link per line..."
     ></textarea>
 
 
     <div class="options">
 
         <label>
+
             <input
-                type="checkbox"
-                id="httpsPrefix"
+                type="radio"
+                name="prefix"
+                id="httpsRadio"
+                value="https"
                 checked
             >
+
             Add https://
+
         </label>
 
 
         <label>
+
             <input
-                type="checkbox"
-                id="httpPrefix"
+                type="radio"
+                name="prefix"
+                id="httpRadio"
+                value="http"
             >
+
             Add http://
+
         </label>
 
 
         <label>
+
             <input
-                type="checkbox"
-                id="noPrefix"
+                type="radio"
+                name="prefix"
+                id="neitherRadio"
+                value="neither"
             >
+
             Neither
+
         </label>
 
     </div>
 
 
+    <div
+        id="warning"
+        class="warning"
+    >
+        GitHub Pages uses HTTPS. HTTP iframe URLs can be
+        blocked as mixed content, so HTTP links are upgraded
+        to HTTPS when this page is running over HTTPS.
+    </div>
+
+
     <button
         class="main-button"
-        id="openBtn"
+        onclick="processAndOpenLinks()"
     >
         Open Inside Page
     </button>
 
 
     <button
-        class="clear-button"
-        id="clearBtn"
+        class="main-button clear-button"
+        onclick="clearLinks()"
     >
         Clear
     </button>
 
+
+    <div
+        id="counter"
+        class="counter"
+    >
+        0 links
+    </div>
+
 </div>
 
 
+<!-- =======================================================
+     IFRAMES
+======================================================== -->
 
-<!-- =====================================================
-     LINKS
-===================================================== -->
-
-<div id="linksContainer"></div>
-
+<div id="framesContainer"></div>
 
 
 <script>
 
-/* =====================================================
+
+/* =========================================================
    ELEMENTS
-===================================================== */
+========================================================= */
 
-const linksInput =
-    document.getElementById("links");
+const textarea =
+    document.getElementById(
+        "linksTextBox"
+    );
 
-const linksContainer =
-    document.getElementById("linksContainer");
+const framesContainer =
+    document.getElementById(
+        "framesContainer"
+    );
 
-const openBtn =
-    document.getElementById("openBtn");
+const counter =
+    document.getElementById(
+        "counter"
+    );
 
-const clearBtn =
-    document.getElementById("clearBtn");
-
-const httpsPrefix =
-    document.getElementById("httpsPrefix");
-
-const httpPrefix =
-    document.getElementById("httpPrefix");
-
-const noPrefix =
-    document.getElementById("noPrefix");
+const warning =
+    document.getElementById(
+        "warning"
+    );
 
 
-/* =====================================================
-   PREFIX CHECKBOXES
-===================================================== */
+/* =========================================================
+   IS CURRENT PAGE HTTPS?
+========================================================= */
 
-httpsPrefix.addEventListener("change", function () {
+const currentPageIsHTTPS =
+    window.location.protocol === "https:";
 
-    if (this.checked) {
 
-        httpPrefix.checked = false;
+/* =========================================================
+   GET PREFIX
+========================================================= */
 
-        noPrefix.checked = false;
+function getPrefix() {
+
+    const selected =
+        document.querySelector(
+            'input[name="prefix"]:checked'
+        );
+
+    if (!selected) {
+
+        return "https";
+
     }
 
-});
+    return selected.value;
+
+}
 
 
-httpPrefix.addEventListener("change", function () {
+/* =========================================================
+   NORMALIZE URL
+========================================================= */
 
-    if (this.checked) {
+function normalizeURL(value) {
 
-        httpsPrefix.checked = false;
-
-        noPrefix.checked = false;
-    }
-
-});
-
-
-noPrefix.addEventListener("change", function () {
-
-    if (this.checked) {
-
-        httpsPrefix.checked = false;
-
-        httpPrefix.checked = false;
-    }
-
-});
-
-
-/* =====================================================
-   PREPARE URL
-===================================================== */
-
-function prepareUrl(rawUrl) {
-
-    let url = rawUrl.trim();
+    let url =
+        value.trim();
 
 
     if (!url) {
+
         return null;
+
     }
 
 
     /*
-     * Already has protocol
+     * Remove whitespace.
+     */
+
+    url =
+        url.replace(
+            /\s+/g,
+            ""
+        );
+
+
+    /*
+     * =====================================================
+     * ALREADY HTTPS
+     * =====================================================
      */
 
     if (
-        url.startsWith("https://") ||
-        url.startsWith("http://")
+        /^https:\/\//i.test(url)
     ) {
 
         return url;
+
     }
+
+
+    /*
+     * =====================================================
+     * ALREADY HTTP
+     * =====================================================
+     */
+
+    if (
+        /^http:\/\//i.test(url)
+    ) {
+
+        /*
+         * If GitHub Pages is HTTPS,
+         * don't create mixed content.
+         */
+
+        if (currentPageIsHTTPS) {
+
+            warning.style.display =
+                "block";
+
+            return (
+                "https://" +
+                url.substring(7)
+            );
+
+        }
+
+
+        return url;
+
+    }
+
+
+    /*
+     * =====================================================
+     * PREFIX
+     * =====================================================
+     */
+
+    const prefix =
+        getPrefix();
 
 
     /*
      * HTTPS
      */
 
-    if (httpsPrefix.checked) {
+    if (
+        prefix === "https"
+    ) {
 
-        return "https://" + url;
+        return (
+            "https://" +
+            url
+        );
+
     }
 
 
@@ -618,350 +719,580 @@ function prepareUrl(rawUrl) {
      * HTTP
      */
 
-    if (httpPrefix.checked) {
+    if (
+        prefix === "http"
+    ) {
 
-        return "http://" + url;
+        /*
+         * GitHub Pages is HTTPS.
+         *
+         * HTTP iframe can be blocked as
+         * mixed content.
+         */
+
+        if (currentPageIsHTTPS) {
+
+            warning.style.display =
+                "block";
+
+            return (
+                "https://" +
+                url
+            );
+
+        }
+
+
+        return (
+            "http://" +
+            url
+        );
+
     }
 
 
     /*
-     * Neither
+     * NEITHER
+     *
+     * Bare external URLs need a scheme.
+     *
+     * Use HTTPS as the safe default.
      */
 
-    return url;
+    return (
+        "https://" +
+        url
+    );
+
 }
 
 
-/* =====================================================
-   CREATE LINK BOX
-===================================================== */
+/* =========================================================
+   GET LINKS
+========================================================= */
 
-function createLinkBox(url, index) {
+function getLinks() {
 
-    /* ===============================
-       BOX
-    =============================== */
+    const lines =
+        textarea.value
+        .split(/\r?\n/)
+        .map(
+            normalizeURL
+        )
+        .filter(
+            Boolean
+        );
+
+    return lines;
+
+}
+
+
+/* =========================================================
+   UPDATE COUNTER
+========================================================= */
+
+function updateCounter(number) {
+
+    counter.textContent =
+        number +
+        (
+            number === 1
+                ? " link"
+                : " links"
+        );
+
+}
+
+
+/* =========================================================
+   OPEN NEW TAB
+========================================================= */
+
+function openNewTab(url) {
+
+    window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+    );
+
+}
+
+
+/* =========================================================
+   CREATE IFRAME BOX
+========================================================= */
+
+function createFrameBox(url, index) {
+
+
+    /*
+     * =====================================================
+     * BOX
+     * =====================================================
+     */
 
     const box =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     box.className =
-        "link-box";
+        "frameBox";
 
 
-    /* ===============================
-       HEADER
-    =============================== */
+    /*
+     * =====================================================
+     * HEADER
+     * =====================================================
+     */
 
     const header =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     header.className =
-        "link-header";
+        "frameHeader";
 
 
-    const title =
-        document.createElement("div");
+    /*
+     * URL TEXT
+     */
 
-    title.className =
-        "link-title";
+    const urlText =
+        document.createElement(
+            "div"
+        );
 
-    title.textContent =
+    urlText.className =
+        "frameUrl";
+
+    urlText.textContent =
+        url;
+
+    urlText.title =
         url;
 
 
-    title.title =
-        url;
+    /*
+     * =====================================================
+     * ACTIONS
+     * =====================================================
+     */
+
+    const actions =
+        document.createElement(
+            "div"
+        );
+
+    actions.className =
+        "frameActions";
 
 
-    const menu =
-        document.createElement("div");
+    /*
+     * OPEN NEW TAB
+     */
 
-    menu.className =
-        "link-menu";
+    const openButton =
+        document.createElement(
+            "button"
+        );
 
-    menu.textContent =
+    openButton.type =
+        "button";
+
+    openButton.className =
+        "frameButton";
+
+    openButton.textContent =
+        "↗";
+
+    openButton.title =
+        "Open in new tab";
+
+    openButton.onclick =
+        function() {
+
+            openNewTab(
+                url
+            );
+
+        };
+
+
+    /*
+     * RELOAD
+     */
+
+    const reloadButton =
+        document.createElement(
+            "button"
+        );
+
+    reloadButton.type =
+        "button";
+
+    reloadButton.className =
+        "frameButton";
+
+    reloadButton.textContent =
+        "↻";
+
+    reloadButton.title =
+        "Reload";
+
+
+    /*
+     * MENU
+     */
+
+    const menuButton =
+        document.createElement(
+            "button"
+        );
+
+    menuButton.type =
+        "button";
+
+    menuButton.className =
+        "frameButton";
+
+    menuButton.textContent =
         "☰";
 
+    menuButton.title =
+        "Open in new tab";
 
-    header.appendChild(title);
+    menuButton.onclick =
+        function() {
 
-    header.appendChild(menu);
+            openNewTab(
+                url
+            );
 
-
-    /* ===============================
-       LOADING
-    =============================== */
-
-    const loading =
-        document.createElement("div");
-
-    loading.className =
-        "loading";
-
-    loading.textContent =
-        "Loading...";
+        };
 
 
-    /* ===============================
-       IFRAME
-    =============================== */
+    actions.appendChild(
+        openButton
+    );
+
+    actions.appendChild(
+        reloadButton
+    );
+
+    actions.appendChild(
+        menuButton
+    );
+
+
+    header.appendChild(
+        urlText
+    );
+
+    header.appendChild(
+        actions
+    );
+
+
+    /*
+     * =====================================================
+     * IFRAME CONTAINER
+     * =====================================================
+     */
+
+    const frameContent =
+        document.createElement(
+            "div"
+        );
+
+    frameContent.className =
+        "frameContent";
+
+
+    /*
+     * =====================================================
+     * IFRAME
+     * =====================================================
+     */
 
     const iframe =
-        document.createElement("iframe");
+        document.createElement(
+            "iframe"
+        );
 
-    iframe.className =
-        "link-frame";
+
+    /*
+     * DIRECT URL
+     *
+     * We DON'T use fetch().
+     *
+     * We DON'T manually follow redirects.
+     *
+     * We DON'T use window.location.
+     *
+     * The browser handles the iframe navigation:
+     *
+     * iframe
+     *   ↓
+     * redirect
+     *   ↓
+     * final URL
+     *
+     */
 
     iframe.src =
         url;
 
+
+    iframe.title =
+        "Link " +
+        index;
+
+
     iframe.loading =
         "eager";
 
-    iframe.referrerPolicy =
-        "no-referrer-when-downgrade";
 
-    iframe.setAttribute(
-        "allowfullscreen",
-        ""
-    );
+    /*
+     * IMPORTANT FIX
+     *
+     * Do not send GitHub Pages as Referer.
+     */
+
+    iframe.referrerPolicy =
+        "no-referrer";
 
 
     /*
      * IMPORTANT:
      *
-     * No sandbox.
+     * NO sandbox.
+     */
+
+    /*
+     * We deliberately don't add:
      *
-     * No sandbox="allow-scripts".
+     * sandbox=""
      *
-     * No sandbox at all.
-     *
-     * This gives the iframe the normal browser
-     * permissions allowed by the target website.
+     * because sandbox restrictions can affect
+     * navigation, scripts and redirects inside
+     * an iframe.
      */
 
 
-    /* ===============================
-       FALLBACK
-    =============================== */
+    /*
+     * =====================================================
+     * RELOAD
+     * =====================================================
+     */
 
-    const fallback =
-        document.createElement("div");
+    reloadButton.onclick =
+        function() {
 
-    fallback.className =
-        "frame-fallback";
+            /*
+             * Reset frame.
+             */
 
-
-    const fallbackTitle =
-        document.createElement("div");
-
-    fallbackTitle.className =
-        "frame-fallback-title";
-
-    fallbackTitle.textContent =
-        "This page cannot be displayed here";
+            iframe.src =
+                "about:blank";
 
 
-    const fallbackText =
-        document.createElement("div");
+            /*
+             * Load original URL again.
+             */
 
-    fallbackText.className =
-        "frame-fallback-text";
+            setTimeout(
+                function() {
 
-    fallbackText.textContent =
-        "The website may block iframe embedding.";
+                    iframe.src =
+                        url;
 
-
-    const newTab =
-        document.createElement("a");
-
-    newTab.className =
-        "open-new-tab";
-
-    newTab.href =
-        url;
-
-    newTab.target =
-        "_blank";
-
-    newTab.rel =
-        "noopener noreferrer";
-
-    newTab.textContent =
-        "Open in New Tab";
-
-
-    fallback.appendChild(
-        fallbackTitle
-    );
-
-    fallback.appendChild(
-        fallbackText
-    );
-
-    fallback.appendChild(
-        newTab
-    );
-
-
-    /* ===============================
-       APPEND
-    =============================== */
-
-    box.appendChild(header);
-
-    box.appendChild(iframe);
-
-    box.appendChild(loading);
-
-    box.appendChild(fallback);
-
-    linksContainer.appendChild(box);
-
-
-    /* ===============================
-       IFRAME LOAD
-    =============================== */
-
-    iframe.addEventListener(
-        "load",
-        function () {
-
-            loading.classList.add(
-                "hidden"
+                },
+                80
             );
 
-        }
+        };
+
+
+    /*
+     * =====================================================
+     * APPEND
+     * =====================================================
+     */
+
+    frameContent.appendChild(
+        iframe
     );
 
 
-    /*
-     * IMPORTANT:
-     *
-     * We cannot reliably read the HTTP status
-     * or iframe content of another domain because
-     * of browser same-origin security.
-     *
-     * So we don't try to inspect the iframe.
-     */
+    box.appendChild(
+        header
+    );
 
-
-    /*
-     * After a few seconds, remove loading.
-     * If the browser shows a blocked-frame page,
-     * the fallback can be used manually.
-     */
-
-    setTimeout(function () {
-
-        loading.classList.add(
-            "hidden"
-        );
-
-    }, 5000);
+    box.appendChild(
+        frameContent
+    );
 
 
     return box;
+
 }
 
 
-/* =====================================================
-   OPEN LINKS
-===================================================== */
+/* =========================================================
+   PROCESS LINKS
+========================================================= */
 
-openBtn.addEventListener(
-    "click",
-    function () {
+function processAndOpenLinks() {
 
-        /*
-         * Remove previous boxes
-         */
+    /*
+     * Get links
+     */
 
-        linksContainer.innerHTML =
-            "";
+    const links =
+        getLinks();
 
 
-        /*
-         * Get lines
-         */
+    /*
+     * Remove previous frames
+     */
 
-        const lines =
-            linksInput.value
-            .split(/\r?\n/)
-            .map(line => line.trim())
-            .filter(line => line.length > 0);
+    framesContainer.innerHTML =
+        "";
 
 
-        if (lines.length === 0) {
+    /*
+     * Reset warning
+     */
 
-            alert(
-                "Please enter at least one link."
-            );
-
-            return;
-        }
+    warning.style.display =
+        "none";
 
 
-        /*
-         * Create boxes
-         */
+    /*
+     * Counter
+     */
 
-        lines.forEach(
-            function (rawUrl, index) {
-
-                const url =
-                    prepareUrl(rawUrl);
+    updateCounter(
+        links.length
+    );
 
 
-                if (!url) {
-                    return;
-                }
+    /*
+     * No links
+     */
+
+    if (
+        links.length === 0
+    ) {
+
+        return;
+
+    }
 
 
-                createLinkBox(
+    /*
+     * Save
+     */
+
+    localStorage.setItem(
+        "myLinks",
+        links.join("\n")
+    );
+
+
+    /*
+     * Create frames
+     */
+
+    links.forEach(
+        function(url, index) {
+
+            const frame =
+                createFrameBox(
                     url,
-                    index
+                    index + 1
                 );
 
-            }
-        );
+            framesContainer.appendChild(
+                frame
+            );
 
-    }
-);
-
-
-/* =====================================================
-   CLEAR
-===================================================== */
-
-clearBtn.addEventListener(
-    "click",
-    function () {
-
-        linksInput.value = "";
-
-        linksContainer.innerHTML = "";
-
-    }
-);
-
-
-/* =====================================================
-   CTRL + ENTER
-===================================================== */
-
-linksInput.addEventListener(
-    "keydown",
-    function (event) {
-
-        if (
-            event.ctrlKey &&
-            event.key === "Enter"
-        ) {
-
-            openBtn.click();
         }
+    );
+
+}
+
+
+/* =========================================================
+   CLEAR
+========================================================= */
+
+function clearLinks() {
+
+    localStorage.removeItem(
+        "myLinks"
+    );
+
+    textarea.value =
+        "";
+
+    framesContainer.innerHTML =
+        "";
+
+    warning.style.display =
+        "none";
+
+    updateCounter(
+        0
+    );
+
+}
+
+
+/* =========================================================
+   LOAD SAVED LINKS
+========================================================= */
+
+window.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const saved =
+            localStorage.getItem(
+                "myLinks"
+            );
+
+
+        if (saved) {
+
+            textarea.value =
+                saved;
+
+            updateCounter(
+                getLinks().length
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   LIVE COUNTER
+========================================================= */
+
+textarea.addEventListener(
+    "input",
+    function() {
+
+        updateCounter(
+            getLinks().length
+        );
 
     }
 );
