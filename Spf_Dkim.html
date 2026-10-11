@@ -6,80 +6,68 @@
 <title>Batch Server Dashboard</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    font-family:Arial;
+*{box-sizing:border-box}
+:root{
+ --panel:rgba(8,21,38,.44);
+ --panel-soft:rgba(255,255,255,.07);
+ --border:rgba(255,255,255,.18);
+ --text:#fff;--muted:#dbeafe;
+ --primary1:#0ea5e9;--primary2:#6366f1;
 }
-
+html,body{min-height:100%;margin:0}
 body{
-    margin:0;
-    padding:30px;
-    background:#f5f5f5;
+ min-height:100vh;padding:22px 18px 36px;
+ font-family:"Poppins","Segoe UI",Arial,sans-serif;color:var(--text);
+ background:linear-gradient(rgba(4,18,35,.16),rgba(4,18,35,.34)),url("https://wallpapercave.com/wp/wp3284848.gif") center center/cover fixed no-repeat;
+ transition:background .35s ease,color .25s ease;
 }
-
-.container{
-    max-width:1600px;
-    margin:auto;
-
-    display:grid;
-    grid-template-columns:260px 1fr;
-
-    gap:20px;
+body.pink-mode{
+ --panel:rgba(58,12,49,.44);--panel-soft:rgba(255,205,233,.10);
+ --border:rgba(255,190,225,.22);--muted:#ffe5f4;
+ --primary1:#ec4899;--primary2:#a855f7;
+ background:linear-gradient(rgba(60,8,45,.18),rgba(60,8,45,.34)),url("https://wallpaperaccess.com/full/12067286.gif") center center/cover fixed no-repeat;
 }
-
-.left,
-.right{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-}
-
+.container{width:min(1400px,100%);margin:0 auto;display:grid;grid-template-columns:minmax(240px,300px) minmax(0,1fr);gap:20px}
+.left,.right{display:flex;flex-direction:column;gap:20px;min-width:0}
 .card{
-    background:white;
-    padding:18px;
-
-    border-radius:20px;
-
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
+ background:var(--panel);padding:20px;border-radius:22px;
+ border:1px solid var(--border);box-shadow:0 18px 45px #0005;
+ backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+ min-width:0;
 }
-
 textarea{
-    width:100%;
-    resize:none;
-
-    padding:14px;
-
-    border:1px solid #ccc;
-
-    border-radius:12px;
-
-    font-size:14px;
+ width:100%;resize:vertical;min-width:0;padding:14px;
+ border:1px solid var(--border);border-radius:13px;
+ background:var(--panel-soft);color:var(--text);
+ font:400 14px/1.55 "Poppins","Segoe UI",Arial,sans-serif;
+ outline:none;transition:border-color .2s,box-shadow .2s;
 }
-
+textarea::placeholder{color:var(--muted);opacity:.8}
+textarea:focus{border-color:var(--primary1);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary1) 22%,transparent)}
+textarea[readonly]{background:rgba(0,0,0,.12)}
 button{
-    border:none;
-    cursor:pointer;
-
-    background:black;
-    color:white;
-
-    padding:12px 20px;
-
-    border-radius:12px;
-
-    margin-top:15px;
+ border:1px solid rgba(255,255,255,.18);cursor:pointer;
+ background:linear-gradient(135deg,var(--primary1),var(--primary2));
+ color:white;padding:12px 18px;border-radius:12px;margin-top:15px;
+ font:600 14px "Poppins","Segoe UI",Arial,sans-serif;
+ box-shadow:0 8px 20px color-mix(in srgb,var(--primary1) 25%,transparent);
+ transition:transform .2s,filter .2s,box-shadow .2s;
 }
-
-.row{
-    display:grid;
-
-    grid-template-columns:1fr 1fr;
-
-    gap:20px;
+button:hover{transform:translateY(-1px);filter:brightness(1.08);box-shadow:0 10px 25px #0003}
+button:active{transform:translateY(0)}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+h2{margin:0 0 14px;color:#fff;font-size:20px;font-weight:700}
+h3{color:var(--muted);font-size:15px;margin:18px 0 10px}
+@media(max-width:850px){
+ body{padding:16px 12px 28px}
+ .container{grid-template-columns:1fr}
+ .left,.right{gap:15px}
+ .card{padding:16px}
 }
-
-h2{
-    margin-top:0;
+@media(max-width:560px){
+ .row{grid-template-columns:1fr}
+ textarea{font-size:13px}
+ h2{font-size:18px}
 }
 </style>
 </head>
