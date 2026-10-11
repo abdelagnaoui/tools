@@ -534,7 +534,26 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     z-index: 99999;
     pointer-events: none;
 }
-	  </style>
+	  
+/* Compact dropdown for optional extra categories; original home layout remains unchanged */
+.more-tools-menu{position:relative;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px;margin:10px auto 14px;z-index:2}
+.more-tools-trigger{display:inline-flex;align-items:center;gap:9px;width:auto;margin:0;padding:9px 17px;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:rgba(255,255,255,.12);backdrop-filter:blur(12px);color:#fff;font:500 13px Poppins,sans-serif;box-shadow:0 5px 18px rgba(0,0,0,.12);transition:.2s}
+.more-tools-trigger:hover{transform:translateY(-2px);background:rgba(14,165,233,.35)}
+.menu-chevron{font-size:16px;transition:transform .2s}
+.more-tools-trigger[aria-expanded="true"] .menu-chevron{transform:rotate(180deg)}
+.more-tools-dropdown{display:none!important}
+.more-tools-dropdown[hidden],.extra-tool-panel[hidden]{display:none!important}
+.more-tool-link{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:10px 14px;border:1px solid rgba(255,255,255,.14);border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#6366f1);color:#fff;text-decoration:none;text-align:center;white-space:nowrap;font:500 13px Poppins,sans-serif;box-shadow:none;transition:.2s}
+.more-tool-link:hover{transform:translateY(-1px);box-shadow:0 0 14px rgba(56,189,248,.3);color:#fff}
+body.pink-mode .more-tool-link{background:linear-gradient(135deg,#ff4da6,#ff66cc)}
+.extra-tool-panel{width:min(360px,calc(100% - 24px));margin:14px auto 30px;animation:extraPanelIn .22s ease-out}
+.extra-tool-card{width:100%;max-width:none;min-height:0}
+@keyframes extraPanelIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+
+.tool-icon{width:26px;height:26px;object-fit:contain;display:inline-block;vertical-align:-3px;margin-right:3px}
+
+</style>
 
 	</head>
 	<body>
@@ -579,43 +598,49 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 	  </div>
 
-	  <div class="container">
-		<div class="category">
-		  <h2>📧 Email Tools</h2>
-		  <ul>
-			<li class="tool-item"><a class="tool-button" href="return-paths_Maker.html" target="_blank">📨 Return Paths Maker</a></li>
+      <div class="more-tools-menu more-tools-always-visible" aria-label="Additional tools">
+        <a class="more-tool-link" href="clean_sub_domains_themed_final.html" target="_blank"><img src="images/domaine-web.png" alt="CSS3" class="tool-icon"> Clean Sub-Domains</a>
+        <a class="more-tool-link" href="extract_domains_themed_final.html" target="_blank"><img src="images/extraxt.png" alt="CSS3" class="tool-icon"> Extract Domains</a>
+        <a class="more-tool-link" href="html_css_live_editor_themed_final.html" target="_blank"><img src="images/css3-alt.png" alt="CSS3" class="tool-icon"> HTML &amp; CSS Live Editor</a>
+      </div>
 
-			<li class="tool-item"><a class="tool-button" href="Total_Send_Calculator.html" target="_blank">📬 Total Send Calculator</a></li>
-			<li class="tool-item"><a class="tool-button" href="remove_RPS_BOUNCE.html" target="_blank">📂 Remove Rps Bounce</a></li>
-            	<li class="tool-item"><a class="tool-button" href="decode.html" target="_blank">🔐 Base64 Encode/Decode</a></li>
+	  <div class="container">
+		<div class="category" id="email-tools">
+		  <h2> Email Tools</h2>
+		  <ul>
+			<li class="tool-item"><a class="tool-button" href="return-paths_Maker.html" target="_blank"><img src="dns.png" alt="CSS3" class="tool-icon">  Return Paths Maker</a></li>
+
+			<li class="tool-item"><a class="tool-button" href="Total_Send_Calculator.html" target="_blank"><img src="images/calculatrice.png" alt="CSS3" class="tool-icon">  Total Send Calculator</a></li>
+			<li class="tool-item"><a class="tool-button" href="remove_RPS_BOUNCE.html" target="_blank"><img src="images/supprimer-le-fichier.png" alt="CSS3" class="tool-icon">  Remove Rps Bounce</a></li>
+            	<li class="tool-item"><a class="tool-button" href="decode.html" target="_blank"><img src="images/navigateur.png" alt="CSS3" class="tool-icon"> Base64 Encode/Decode</a></li>
             	<!--<li class="tool-item"><a class="tool-button" href="https://lagnaoui.great-site.net/page/?i=1" target="_blank">⚡Test Link Speed </a></li>-->
 		  </ul>
 		</div>
 
-		<div class="category">
-		  <h2>💻 Server Tools</h2>
+		<div class="category" id="server-tools">
+		  <h2>  Server Tools</h2>
 		  <ul>
-		  <li class="tool-item"><a class="tool-button" href="Spf_Dkim.html" target="_blank">SPF & DKIM</a></li>
-			<li class="tool-item"><a class="tool-button" href="Server_Manager.html" target="_blank">🛡 Server Manager</a></li>
-			<li class="tool-item"><a class="tool-button" href="Server_Splitter.html" target="_blank">🔗 Server Splitter</a></li>
+		  <li class="tool-item"><a class="tool-button" href="Spf_Dkim.html" target="_blank"><img src="images/protection.png" alt="CSS3" class="tool-icon"> SPF & DKIM</a></li>
+			<li class="tool-item"><a class="tool-button" href="Server_Manager.html" target="_blank"><img src="images/serveur-dedie.png" alt="CSS3" class="tool-icon"> Server Manager</a></li>
+			<li class="tool-item"><a class="tool-button" href="Server_Splitter.html" target="_blank"><img src="images/dive.png" alt="CSS3" class="tool-icon">  Server Splitter</a></li>
 		 <li class="tool-item"><a class="tool-button" href="cnam_checker.html" target="_blank">🛰Cnam Checker</a></li>
 		<li class="tool-item"><a class="tool-button" href="Domains_Checker.html" target="_blank">🛒Domains Checker</a></li>
 		  </ul>
 		</div>
 
-		<div class="category">
-		  <h2>👾 Utilities</h2>
+		<div class="category" id="utilities-tools">
+		  <h2>  Utilities</h2>
 		  <ul>
-			 <li class="tool-item"><a class="tool-button" href="SubsGenerator.html" target="_blank">⚙️Subs Generator</a></li>
-			 <li class="tool-item"><a class="tool-button" href="Boit_Gmail.html" target="_blank">Boit Gmail for test Auto</a></li>
-			<li class="tool-item"><a class="tool-button" href="List_Spliter.html" target="_blank">🔍 List Splitter</a></li>
-			<li class="tool-item"><a class="tool-button" href="Link_Opener.html" target="_blank">🌐 Link Opener</a></li>
-			<li class="tool-item"><a class="tool-button" href="offers_.html" target="_blank">🎯 Offer Manager</a></li>
+			 <li class="tool-item"><a class="tool-button" href="SubsGenerator.html" target="_blank"><img src="images/parametres.png" alt="CSS3" class="tool-icon"> Subs Generator</a></li>
+			 <li class="tool-item"><a class="tool-button" href="Boit_Gmail.html" target="_blank"><img src="images/alerte-de-spam.png" alt="CSS3" class="tool-icon"> Boit Gmail for test Auto</a></li>
+			<li class="tool-item"><a class="tool-button" href="List_Spliter.html" target="_blank"><img src="images/diviser.png" alt="CSS3" class="tool-icon"> List Splitter</a></li>
+			<li class="tool-item"><a class="tool-button" href="Link_Opener.html" target="_blank"><img src="images/open-source.png" alt="CSS3" class="tool-icon">  Link Opener</a></li>
+			<li class="tool-item"><a class="tool-button" href="offers_.html" target="_blank"><img src="images/etiquette-de-prix.png" alt="CSS3" class="tool-icon"> Offer Manager</a></li>
 		  </ul>
 		</div>
 
-		 <div class="category console-category">
-	  <h2>📟 Console Scripts</h2>
+		 <div class="category console-category" id="console-tools">
+	  <h2>  Console Scripts</h2>
 
 	  <div class="console-grid">
 
@@ -623,12 +648,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 		<ul>
 
 		  <li class="tool-item">
-			<button class="tool-button" data-script="autoCleanScript">🧹 Auto Clean (Pmta Manager)</button>
+			<button class="tool-button" data-script="autoCleanScript"><img src="images/balais.png" alt="CSS3" class="tool-icon"> Auto Clean (Pmta Manager)</button>
 			<div class="copied-msg">NaaaDii✔️</div>
 		  </li>
 
 		  <li class="tool-item">
-			<button class="tool-button" data-script="autoScheduleScript">🕜 Auto Schedule (Pmta Manager)</button>
+			<button class="tool-button" data-script="autoScheduleScript"><img src="images/time-and-calendar.png" alt="CSS3" class="tool-icon">  Auto Schedule (Pmta Manager)</button>
 			<div class="copied-msg">NaaaDii✔️</div>
 		  </li>
 
@@ -636,13 +661,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 
 		   <li class="tool-item">
-			<button class="tool-button" data-script="TesTAuto_Mail">✉️ Test Auto/Mail </button>
+			<button class="tool-button" data-script="TesTAuto_Mail"><img src="images/test.png" alt="CSS3" class="tool-icon">  Test Auto/Mail </button>
 			<div class="copied-msg">NaaaDii✔️</div>
 		  </li>
 
 
 		   <li class="tool-item">
-			<button class="tool-button" data-script="autoClickScript">🚀 Auto Send Drop</button>
+			<button class="tool-button" data-script="autoClickScript"><img src="images/envoyer.png" alt="CSS3" class="tool-icon"> Auto Send Drop</button>
 			<div class="copied-msg">NaaaDii✔️</div>
 		  </li>
 
@@ -657,13 +682,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 		<!-- COLUMN 2 -->
 		<ul>
 		  <li class="tool-item">
-			<button class="tool-button" data-script="CopyScript">📋 Copy Subj & Ips from mail</button>
+			<button class="tool-button" data-script="CopyScript"><img src="images/papier.png" alt="CSS3" class="tool-icon"> Copy Subj & Ips from mail</button>
 			<div class="copied-msg">NaaaDii✔️</div>
 		  </li>
 
 
 		   <li class="tool-item">
-			<button class="tool-button" data-script="AutoPauseRPS">⏸️ Auto Pause RPS (Pmta Manager)</button>
+			<button class="tool-button" data-script="AutoPauseRPS"><img src="images/pause.png" alt="CSS3" class="tool-icon"> Auto Pause RPS (Pmta Manager)</button>
 			<div class="copied-msg">NaaaDii✔️</div>
 		  </li>
 
@@ -686,8 +711,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 	  </div>
 	  </div>
-
-	  <!-- Hidden scripts for copy -->
+<!-- Hidden scripts for copy -->
 	  <pre id="rdns_check" style="display:none;">
 (function(){
 
@@ -3823,6 +3847,9 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000);
 </script>
+
+
+
 
 </body>
 </html>
