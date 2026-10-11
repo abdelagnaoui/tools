@@ -553,6 +553,24 @@ body.pink-mode .more-tool-link{background:linear-gradient(135deg,#ff4da6,#ff66cc
 
 .tool-icon{width:26px;height:26px;object-fit:contain;display:inline-block;vertical-align:-3px;margin-right:3px}
 
+
+/* Same-page slide view: added without changing the existing dashboard design */
+#toolPageOverlay{position:fixed;inset:0;z-index:1000000;background:rgba(2,6,23,.88);backdrop-filter:blur(10px);display:none;overflow:hidden}
+#toolPageOverlay.is-open{display:block}
+#toolPageFrame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;transform:translateX(-100%);transition:transform .38s cubic-bezier(.22,.8,.25,1)}
+#toolPageOverlay.is-open #toolPageFrame{transform:translateX(0)}
+#toolPageBack{position:absolute;top:14px;left:14px;z-index:2;padding:10px 16px;border:1px solid rgba(255,255,255,.3);border-radius:12px;background:rgba(15,23,42,.92);color:#fff;font:500 14px Poppins,sans-serif;cursor:pointer;box-shadow:0 5px 18px rgba(0,0,0,.25)}
+body.pink-mode #toolPageBack{background:#c02678}
+#toolPageBack:hover{transform:translateX(-2px)}
+#dashboardName{width:160px;max-width:75vw;min-width:0;text-align:right;background:transparent;border:0;border-bottom:1px solid transparent;border-radius:0;padding:2px 4px;color:white;font:inherit;font-size:inherit;font-weight:inherit;outline:none;box-shadow:none;transition:border-color .2s,opacity .2s}
+#dashboardName::placeholder{color:rgba(255,255,255,.48);opacity:1;font-size:15px;font-weight:400}
+#dashboardName:focus{border-bottom-color:rgba(255,255,255,.55)!important}
+#saveDashboardName{display:inline-flex;align-items:center;justify-content:center;width:23px;height:23px;margin-left:5px;padding:0;border:0;background:transparent;color:#fff;cursor:pointer;vertical-align:middle;opacity:.85}
+#saveDashboardName:hover{opacity:1;transform:scale(1.08)}
+#saveDashboardName svg{width:23px;height:23px;display:block}
+#dashboardNameRow{display:flex;align-items:center;justify-content:center;gap:2px}
+#dashboardName.is-saved{width:auto;max-width:90%;text-align:center;border-bottom-color:transparent!important;cursor:pointer}
+
 </style>
 
 	</head>
@@ -586,7 +604,7 @@ body.pink-mode .more-tool-link{background:linear-gradient(135deg,#ff4da6,#ff66cc
 	</header>
 	<br> <div class="search-bar" style="font-size:25px">
 		<b>
-		  <center style="color:White" > Tools®࿐</center>
+		  <center style="color:White"><span id="dashboardNameRow"><input id="dashboardName" type="text" placeholder="Tap your name" aria-label="Your name" maxlength="40" autocomplete="off" /><button id="saveDashboardName" type="button" aria-label="Confirm name" title="Confirm name"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></button></span></center>
 		</b>
 				  </div>                                                
 
@@ -599,48 +617,48 @@ body.pink-mode .more-tool-link{background:linear-gradient(135deg,#ff4da6,#ff66cc
 	  </div>
 
       <div class="more-tools-menu more-tools-always-visible" aria-label="Additional tools">
-        <a class="more-tool-link" href="clean_sub_domains_themed_final.html" target="_blank"><img src="images/domaine-web.png" alt="CSS3" class="tool-icon"> Clean Sub-Domains</a>
-        <a class="more-tool-link" href="extract_domains_themed_final.html" target="_blank"><img src="images/extraxt.png" alt="CSS3" class="tool-icon"> Extract Domains</a>
-        <a class="more-tool-link" href="html_css_live_editor_themed_final.html" target="_blank"><img src="images/css3-alt.png" alt="CSS3" class="tool-icon"> HTML &amp; CSS Live Editor</a>
+        <a class="more-tool-link" href="clean_sub_domains_themed_final.html" target="_blank"><img src="domaine-web.png" alt="CSS3" class="tool-icon"> Clean Sub-Domains</a>
+        <a class="more-tool-link" href="extract_domains_themed_final.html" target="_blank"><img src="extraxt.png" alt="CSS3" class="tool-icon"> Extract Domains</a>
+        <a class="more-tool-link" href="html_css_live_editor_themed_final.html" target="_blank"><img src="css3-alt.png" alt="CSS3" class="tool-icon"> HTML &amp; CSS Live Editor</a>
       </div>
 
 	  <div class="container">
 		<div class="category" id="email-tools">
-		  <h2> Email Tools</h2>
+		  <h2>📧 Email Tools</h2>
 		  <ul>
 			<li class="tool-item"><a class="tool-button" href="return-paths_Maker.html" target="_blank"><img src="dns.png" alt="CSS3" class="tool-icon">  Return Paths Maker</a></li>
 
-			<li class="tool-item"><a class="tool-button" href="Total_Send_Calculator.html" target="_blank"><img src="images/calculatrice.png" alt="CSS3" class="tool-icon">  Total Send Calculator</a></li>
-			<li class="tool-item"><a class="tool-button" href="remove_RPS_BOUNCE.html" target="_blank"><img src="images/supprimer-le-fichier.png" alt="CSS3" class="tool-icon">  Remove Rps Bounce</a></li>
-            	<li class="tool-item"><a class="tool-button" href="decode.html" target="_blank"><img src="images/navigateur.png" alt="CSS3" class="tool-icon"> Base64 Encode/Decode</a></li>
+			<li class="tool-item"><a class="tool-button" href="Total_Send_Calculator.html" target="_blank"><img src="calculatrice.png" alt="CSS3" class="tool-icon">  Total Send Calculator</a></li>
+			<li class="tool-item"><a class="tool-button" href="remove_RPS_BOUNCE.html" target="_blank"><img src="supprimer-le-fichier.png" alt="CSS3" class="tool-icon">  Remove Rps Bounce</a></li>
+            	<li class="tool-item"><a class="tool-button" href="decode.html" target="_blank"><img src="navigateur.png" alt="CSS3" class="tool-icon"> Base64 Encode/Decode</a></li>
             	<!--<li class="tool-item"><a class="tool-button" href="https://lagnaoui.great-site.net/page/?i=1" target="_blank">⚡Test Link Speed </a></li>-->
 		  </ul>
 		</div>
 
 		<div class="category" id="server-tools">
-		  <h2>  Server Tools</h2>
+		  <h2>💻 Server Tools</h2>
 		  <ul>
-		  <li class="tool-item"><a class="tool-button" href="Spf_Dkim.html" target="_blank"><img src="images/protection.png" alt="CSS3" class="tool-icon"> SPF & DKIM</a></li>
-			<li class="tool-item"><a class="tool-button" href="Server_Manager.html" target="_blank"><img src="images/serveur-dedie.png" alt="CSS3" class="tool-icon"> Server Manager</a></li>
-			<li class="tool-item"><a class="tool-button" href="Server_Splitter.html" target="_blank"><img src="images/dive.png" alt="CSS3" class="tool-icon">  Server Splitter</a></li>
+		  <li class="tool-item"><a class="tool-button" href="Spf_Dkim.html" target="_blank"><img src="protection.png" alt="CSS3" class="tool-icon"> SPF & DKIM</a></li>
+			<li class="tool-item"><a class="tool-button" href="Server_Manager.html" target="_blank"><img src="serveur-dedie.png" alt="CSS3" class="tool-icon"> Server Manager</a></li>
+			<li class="tool-item"><a class="tool-button" href="Server_Splitter.html" target="_blank"><img src="dive.png" alt="CSS3" class="tool-icon">  Server Splitter</a></li>
 		 <li class="tool-item"><a class="tool-button" href="cnam_checker.html" target="_blank">🛰Cnam Checker</a></li>
 		<li class="tool-item"><a class="tool-button" href="Domains_Checker.html" target="_blank">🛒Domains Checker</a></li>
 		  </ul>
 		</div>
 
 		<div class="category" id="utilities-tools">
-		  <h2>  Utilities</h2>
+		  <h2>👾 Utilities</h2>
 		  <ul>
-			 <li class="tool-item"><a class="tool-button" href="SubsGenerator.html" target="_blank"><img src="images/parametres.png" alt="CSS3" class="tool-icon"> Subs Generator</a></li>
-			 <li class="tool-item"><a class="tool-button" href="Boit_Gmail.html" target="_blank"><img src="images/alerte-de-spam.png" alt="CSS3" class="tool-icon"> Boit Gmail for test Auto</a></li>
-			<li class="tool-item"><a class="tool-button" href="List_Spliter.html" target="_blank"><img src="images/diviser.png" alt="CSS3" class="tool-icon"> List Splitter</a></li>
-			<li class="tool-item"><a class="tool-button" href="Link_Opener.html" target="_blank"><img src="images/open-source.png" alt="CSS3" class="tool-icon">  Link Opener</a></li>
-			<li class="tool-item"><a class="tool-button" href="offers_.html" target="_blank"><img src="images/etiquette-de-prix.png" alt="CSS3" class="tool-icon"> Offer Manager</a></li>
+			 <li class="tool-item"><a class="tool-button" href="SubsGenerator.html" target="_blank"><img src="parametres.png" alt="CSS3" class="tool-icon"> Subs Generator</a></li>
+			 <li class="tool-item"><a class="tool-button" href="Boit_Gmail.html" target="_blank"><img src="alerte-de-spam.png" alt="CSS3" class="tool-icon"> Boit Gmail for test Auto</a></li>
+			<li class="tool-item"><a class="tool-button" href="List_Spliter.html" target="_blank"><img src="diviser.png" alt="CSS3" class="tool-icon"> List Splitter</a></li>
+			<li class="tool-item"><a class="tool-button" href="Link_Opener.html" target="_blank"><img src="open-source.png" alt="CSS3" class="tool-icon">  Link Opener</a></li>
+			<li class="tool-item"><a class="tool-button" href="offers_.html" target="_blank"><img src="etiquette-de-prix.png" alt="CSS3" class="tool-icon"> Offer Manager</a></li>
 		  </ul>
 		</div>
 
 		 <div class="category console-category" id="console-tools">
-	  <h2>  Console Scripts</h2>
+	  <h2>📟 Console Scripts</h2>
 
 	  <div class="console-grid">
 
@@ -648,12 +666,12 @@ body.pink-mode .more-tool-link{background:linear-gradient(135deg,#ff4da6,#ff66cc
 		<ul>
 
 		  <li class="tool-item">
-			<button class="tool-button" data-script="autoCleanScript"><img src="images/balais.png" alt="CSS3" class="tool-icon"> Auto Clean (Pmta Manager)</button>
+			<button class="tool-button" data-script="autoCleanScript"><img src="balais.png" alt="CSS3" class="tool-icon"> Auto Clean (Pmta Manager)</button>
 			<div class="copied-msg">NaaaDii✔️</div>
 		  </li>
 
 		  <li class="tool-item">
-			<button class="tool-button" data-script="autoScheduleScript"><img src="images/time-and-calendar.png" alt="CSS3" class="tool-icon">  Auto Schedule (Pmta Manager)</button>
+			<button class="tool-button" data-script="autoScheduleScript"><img src="time-and-calendar.png" alt="CSS3" class="tool-icon">  Auto Schedule (Pmta Manager)</button>
 			<div class="copied-msg">NaaaDii✔️</div>
 		  </li>
 
@@ -661,13 +679,13 @@ body.pink-mode .more-tool-link{background:linear-gradient(135deg,#ff4da6,#ff66cc
 
 
 		   <li class="tool-item">
-			<button class="tool-button" data-script="TesTAuto_Mail"><img src="images/test.png" alt="CSS3" class="tool-icon">  Test Auto/Mail </button>
+			<button class="tool-button" data-script="TesTAuto_Mail"><img src="test.png" alt="CSS3" class="tool-icon">  Test Auto/Mail </button>
 			<div class="copied-msg">NaaaDii✔️</div>
 		  </li>
 
 
 		   <li class="tool-item">
-			<button class="tool-button" data-script="autoClickScript"><img src="images/envoyer.png" alt="CSS3" class="tool-icon"> Auto Send Drop</button>
+			<button class="tool-button" data-script="autoClickScript"><img src="envoyer.png" alt="CSS3" class="tool-icon"> Auto Send Drop</button>
 			<div class="copied-msg">NaaaDii✔️</div>
 		  </li>
 
@@ -682,13 +700,13 @@ body.pink-mode .more-tool-link{background:linear-gradient(135deg,#ff4da6,#ff66cc
 		<!-- COLUMN 2 -->
 		<ul>
 		  <li class="tool-item">
-			<button class="tool-button" data-script="CopyScript"><img src="images/papier.png" alt="CSS3" class="tool-icon"> Copy Subj & Ips from mail</button>
+			<button class="tool-button" data-script="CopyScript"><img src="papier.png" alt="CSS3" class="tool-icon"> Copy Subj & Ips from mail</button>
 			<div class="copied-msg">NaaaDii✔️</div>
 		  </li>
 
 
 		   <li class="tool-item">
-			<button class="tool-button" data-script="AutoPauseRPS"><img src="images/pause.png" alt="CSS3" class="tool-icon"> Auto Pause RPS (Pmta Manager)</button>
+			<button class="tool-button" data-script="AutoPauseRPS"><img src="pause.png" alt="CSS3" class="tool-icon"> Auto Pause RPS (Pmta Manager)</button>
 			<div class="copied-msg">NaaaDii✔️</div>
 		  </li>
 
@@ -3850,6 +3868,121 @@ setInterval(updateClock, 1000);
 
 
 
+
+
+<!-- Same-page tool viewer -->
+<div id="toolPageOverlay" aria-hidden="true">
+  <button id="toolPageBack" type="button">← Back</button>
+  <iframe id="toolPageFrame" title="Tool page" allow="clipboard-read; clipboard-write"></iframe>
+</div>
+<script>
+(function(){
+  const overlay = document.getElementById('toolPageOverlay');
+  const frame = document.getElementById('toolPageFrame');
+  const back = document.getElementById('toolPageBack');
+  let previousFocus = null;
+
+  function applyThemeToTool(){
+    try {
+      const doc = frame.contentDocument;
+      if (!doc || !doc.body) return;
+      const pink = localStorage.getItem('theme') === 'pink';
+      doc.body.classList.toggle('pink-mode', pink);
+      const childToggle = doc.getElementById('toggleTheme');
+      if (childToggle && childToggle.checked !== pink) {
+        childToggle.checked = pink;
+        childToggle.dispatchEvent(new Event('change', {bubbles:true}));
+      }
+    } catch(e) {
+      // Cross-origin pages cannot be styled from the dashboard.
+    }
+  }
+  function openTool(url){
+    previousFocus = document.activeElement;
+    overlay.classList.add('is-open');
+    overlay.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    frame.src = url;
+    back.focus();
+  }
+  function closeTool(){
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    frame.src = 'about:blank';
+    if(previousFocus && previousFocus.focus) previousFocus.focus();
+  }
+  frame.addEventListener('load', applyThemeToTool);
+  back.addEventListener('click', closeTool);
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && overlay.classList.contains('is-open')) closeTool();
+  });
+  // Intercept local HTML tool links only. External links keep their original behavior.
+  document.addEventListener('click', function(e){
+    const a = e.target.closest('a.tool-button, a.more-tool-link');
+    if(!a || e.defaultPrevented || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+    const raw = a.getAttribute('href');
+    if(!raw || raw.startsWith('#') || /^(https?:|mailto:|tel:|javascript:|data:)/i.test(raw)) return;
+    let url;
+    try { url = new URL(raw, document.baseURI); } catch(_) { return; }
+    if(url.origin !== location.origin || !/\.html?$/i.test(url.pathname)) return;
+    e.preventDefault();
+    openTool(url.href);
+  });
+
+  // Keep the opened local page in sync if the dashboard's theme changes.
+  const themeToggle = document.getElementById('toggleTheme');
+  if(themeToggle) themeToggle.addEventListener('change', function(){
+    if(overlay.classList.contains('is-open')) applyThemeToTool();
+  });
+  window.addEventListener('storage', function(e){
+    if(e.key === 'theme' && overlay.classList.contains('is-open')) applyThemeToTool();
+  });
+
+  // Dashboard name: enter it, confirm with the check icon, and keep it after refresh.
+  const nameInput = document.getElementById('dashboardName');
+  const saveNameButton = document.getElementById('saveDashboardName');
+  if(nameInput && saveNameButton){
+    const savedName = localStorage.getItem('dashboard_custom_name');
+    if(savedName){
+      nameInput.value = 'Welcome ' + savedName;
+      nameInput.classList.add('is-saved');
+      nameInput.readOnly = true;
+    } else {
+      nameInput.value = '';
+      nameInput.placeholder = 'Tap your name';
+    }
+    function confirmDashboardName(){
+      const value = nameInput.value.trim();
+      if(!value){
+        nameInput.focus();
+        return;
+      }
+      localStorage.setItem('dashboard_custom_name', value);
+      nameInput.value = 'Welcome ' + value;
+      nameInput.classList.add('is-saved');
+      nameInput.readOnly = true;
+      nameInput.blur();
+    }
+    saveNameButton.addEventListener('click', confirmDashboardName);
+    nameInput.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){
+        e.preventDefault();
+        confirmDashboardName();
+      }
+    });
+    nameInput.addEventListener('click', function(){
+      if(nameInput.readOnly){
+        nameInput.value = localStorage.getItem('dashboard_custom_name') || '';
+        nameInput.readOnly = false;
+        nameInput.classList.remove('is-saved');
+        nameInput.focus();
+        nameInput.select();
+      }
+    });
+  }
+})();
+</script>
 
 </body>
 </html>
