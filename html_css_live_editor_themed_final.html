@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HTML & CSS Live Editor</title>
+<style>
+:root{color-scheme:dark;--bg:#111318;--panel:#191c23;--panel2:#222630;--line:#303642;--text:#e8eaf0;--muted:#9aa3b2;--accent:#7c5cff}
+*{box-sizing:border-box}html,body{height:100%;margin:0}body{font:14px system-ui,Segoe UI,Arial;background:var(--bg);color:var(--text);overflow:hidden}button{font:inherit;cursor:pointer;border:1px solid var(--line);border-radius:7px;background:var(--panel2);color:var(--text);padding:8px 11px}button:hover{border-color:var(--accent)}button.primary{background:var(--accent);border-color:var(--accent);color:white}
+.app{height:100%;display:flex;flex-direction:column}.top{height:58px;flex-shrink:0;display:flex;align-items:center;gap:12px;padding:0 16px;background:#15171d;border-bottom:1px solid var(--line)}.logo{display:grid;place-items:center;width:31px;height:31px;border-radius:9px;background:linear-gradient(135deg,#9d83ff,#6041e8);font-weight:800}.brand{display:flex;align-items:center;gap:10px;font-weight:750}.brand small{display:block;font-size:11px;font-weight:400;color:var(--muted)}.actions{margin-left:auto;display:flex;gap:8px;align-items:center}.status{font-size:12px;color:var(--muted)}
+.workspace{flex:1;min-height:0;display:grid;grid-template-columns:minmax(260px,1fr) 6px minmax(300px,1fr);padding:12px}.pane{min-width:0;min-height:0;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);overflow:hidden}.editor{border-radius:9px 0 0 9px}.preview{border-radius:0 9px 9px 0}.panehead{height:48px;flex-shrink:0;display:flex;align-items:center;gap:8px;padding:0 12px;background:#1c1f27;border-bottom:1px solid var(--line)}.sub{color:var(--muted);font-size:11px}.tabs{display:flex;gap:4px;margin-left:8px}.tab{border:0;background:transparent;color:var(--muted);font-size:12px;padding:7px 10px}.tab.active{background:#302b48;color:#c9bdff}.mini{margin-left:auto;display:flex;gap:6px}.mini button{padding:6px 8px;font-size:12px}
+.codearea{flex:1;min-height:0;display:flex;background:#111318}.numbers{flex:0 0 42px;overflow:hidden;padding:14px 8px 14px 0;text-align:right;color:#596171;background:#15171d;border-right:1px solid #282d37;font:13px/1.65 ui-monospace,Consolas,monospace;white-space:pre;user-select:none}textarea{flex:1;width:100%;height:100%;resize:none;border:0;outline:none;padding:14px;background:#111318;color:#d9def0;font:13px/1.65 ui-monospace,Consolas,monospace;tab-size:2;white-space:pre;overflow:auto}textarea::selection{background:#4c3d80}.drag{cursor:col-resize;position:relative}.drag:after{content:"";position:absolute;left:2px;top:42%;height:70px;width:2px;background:#454b58;border-radius:2px}.drag:hover:after{background:#a18cff}.framewrap{flex:1;min-height:0;background:white}iframe{width:100%;height:100%;border:0;background:white}.helperbar{display:flex;align-items:center;gap:8px;padding:8px 10px;background:#191c23;border-top:1px solid var(--line);flex-shrink:0}.helperbar button{font-size:12px;padding:6px 10px}.helperhint{font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.count{display:inline-block;margin-left:3px;padding:1px 5px;border-radius:10px;background:#343047;color:#d4caff}.modalback{position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;padding:18px;z-index:20}.modalback.show{display:flex}.modal{width:min(640px,100%);max-height:min(85vh,760px);display:flex;flex-direction:column;background:#20242b;border:1px solid #414754;border-radius:12px;box-shadow:0 24px 80px #0008;overflow:hidden}.modalhead{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:linear-gradient(110deg,#6d28d9,#9b87f5);color:white;font-size:16px;font-weight:750}.modalhead button{background:transparent;border:0;color:white;font-size:22px;padding:0 4px}.modalbody{padding:14px 16px;overflow:auto}.notice{background:#171a24;border-radius:7px;padding:10px;font-size:12px;color:#c8cbd4;margin-bottom:14px}.fieldrow{display:grid;grid-template-columns:90px minmax(0,1fr);gap:10px;align-items:center;margin:10px 0}.fieldrow label{font-size:12px;color:#c7cbd4}.fieldrow input[type=text],.hexinput{width:100%;min-width:0;background:#343a44;color:#f2f4f8;border:1px solid #4b5360;border-radius:6px;padding:10px;font:13px ui-monospace,Consolas,monospace}.colorline{display:flex;align-items:center;gap:10px;margin:8px 0 14px}.colorline input[type=color]{width:58px;height:42px;padding:3px;background:#343a44;border:1px solid #4b5360;border-radius:7px;cursor:pointer}.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(28px,1fr));gap:5px;margin:12px 0}.swatch{height:28px;min-width:0;padding:0;border-radius:5px;border:1px solid #ffffff44}.modalfoot{display:flex;justify-content:flex-end;gap:8px;padding:12px 16px;border-top:1px solid #414754}.empty{font-size:13px;color:var(--muted);padding:12px 0}.foot{height:28px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 14px;color:var(--muted);background:#15171d;border-top:1px solid var(--line);font-size:11px}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#31c48d;margin-right:6px}
+@media(max-width:760px){body{overflow:auto}.app{min-height:100%;height:auto}.top{height:auto;min-height:58px;flex-wrap:wrap;padding:10px}.brand small{display:none}.actions .status{display:none}.workspace{display:flex;flex-direction:column;gap:10px;min-height:calc(100vh - 100px)}.pane{height:50vh;min-height:320px;border-radius:9px}.drag{display:none}.foot{position:sticky;bottom:0}}
+
+/* ===== Shared animated background + Girls Mode theme ===== */
+:root{
+  --panel:rgba(8,21,38,.44);
+  --panel-soft:rgba(255,255,255,.07);
+  --border:rgba(255,255,255,.18);
+  --text:#fff;
+  --muted:#dbeafe;
+  --primary1:#0ea5e9;
+  --primary2:#6366f1;
+  --success:#4ade80;
+}
+body{
+  font-family:"Poppins",system-ui,"Segoe UI",Arial,sans-serif;
+  background:linear-gradient(rgba(4,18,35,.20),rgba(4,18,35,.38)),
+    url("https://wallpapercave.com/wp/wp3284848.gif") center center/cover fixed no-repeat;
+  color:var(--text);
+}
+.top,.pane,.panehead,.helperbar,.foot{
+  background:var(--panel);
+  border-color:var(--border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+}
+.top{box-shadow:0 10px 35px rgba(0,0,0,.18)}
+.pane{box-shadow:0 18px 45px rgba(0,0,0,.22)}
+.logo{background:linear-gradient(135deg,var(--primary1),var(--primary2))}
+button{
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:12px;
+  background:linear-gradient(135deg,#475569,#334155);
+  color:#fff;
+  box-shadow:0 4px 0 rgba(15,23,42,.55);
+  transition:transform .2s,filter .2s,background .25s;
+}
+button:hover{border-color:rgba(125,211,252,.8);filter:brightness(1.08);transform:translateY(-1px)}
+button:active{transform:translateY(2px);box-shadow:none}
+button.primary{
+  background:linear-gradient(135deg,var(--primary1),var(--primary2));
+  border-color:transparent;
+  box-shadow:0 5px 0 rgba(30,64,175,.7);
+}
+.panehead{background:rgba(255,255,255,.06)}
+.tab.active{background:rgba(99,102,241,.25);color:#c9bdff;border-radius:9px}
+.drag:after{background:rgba(255,255,255,.4)}
+.modal{background:rgba(20,25,39,.96);border-color:var(--border);backdrop-filter:blur(16px)}
+.modalhead{background:linear-gradient(110deg,var(--primary2),var(--primary1))}
+.notice{background:rgba(0,0,0,.22);color:var(--muted)}
+.fieldrow label,.sub{color:var(--muted)}
+.fieldrow input[type=text],.hexinput,.colorline input[type=color]{
+  background:rgba(0,0,0,.25);color:#fff;border-color:var(--border)
+}
+.swatch{box-shadow:none}
+.theme-switch{
+  position:relative;width:62px;height:32px;flex:0 0 62px;padding:0;margin:0;
+  border:0;background:transparent;box-shadow:none;border-radius:999px;
+}
+.theme-switch:hover{border:0;filter:none;transform:none}
+.theme-slider{
+  position:absolute;inset:0;cursor:pointer;border-radius:999px;background:#0ea5e9;
+  border:1px solid rgba(255,255,255,.2);box-shadow:0 6px 18px rgba(14,165,233,.28);transition:.35s;
+}
+.theme-slider:before{
+  content:"💙";position:absolute;width:26px;height:26px;left:2px;top:2px;
+  display:flex;align-items:center;justify-content:center;border-radius:50%;background:#fff;
+  font-size:14px;transition:.35s;
+}
+.theme-switch.is-pink .theme-slider{background:#ff4da6;box-shadow:0 6px 18px rgba(255,77,166,.35)}
+.theme-switch.is-pink .theme-slider:before{transform:translateX(30px);content:"🎀"}
+/* Keep the code editor readable; the live preview itself remains unchanged. */
+.codearea,.numbers,textarea#code{background:rgba(5,10,20,.78)}
+.numbers{border-right-color:rgba(255,255,255,.12)}
+textarea#code{color:#eaf2ff}
+body.pink-mode{
+  --panel:rgba(58,12,49,.48);
+  --panel-soft:rgba(255,205,233,.10);
+  --border:rgba(255,190,225,.24);
+  --muted:#ffe5f4;
+  --primary1:#ff69b4;
+  --primary2:#e879f9;
+  background:linear-gradient(rgba(60,8,45,.20),rgba(60,8,45,.38)),
+    url("https://wallpaperaccess.com/full/12067286.gif") center center/cover fixed no-repeat;
+}
+body.pink-mode .logo{background:linear-gradient(135deg,#ff69b4,#e879f9)}
+body.pink-mode button.primary{background:linear-gradient(135deg,#ff69b4,#e879f9);box-shadow:0 5px 0 #be185d}
+body.pink-mode button:not(.primary):not(.theme-switch){background:linear-gradient(135deg,#a855f7,#ec4899)}
+body.pink-mode .tab.active{background:rgba(236,72,153,.25);color:#ffe5f4}
+body.pink-mode .theme-switch.is-pink .theme-slider{background:#ff4da6}
+@media(max-width:760px){
+  body{background-attachment:scroll}
+  body.pink-mode{background-attachment:scroll}
+  .actions{flex-wrap:wrap;justify-content:flex-end}
+}
+
+
+/* Shared theme switch: compact and aligned at the far right */
+.theme-switch{position:relative!important;width:54px!important;height:28px!important;min-width:54px!important;flex:0 0 54px!important;padding:0!important;margin:0 0 0 auto!important;border:0!important;border-radius:999px!important;background:transparent!important;box-shadow:none!important;transform:none!important}
+.theme-switch:hover{transform:none!important;filter:none!important;border:0!important}
+.theme-slider{position:absolute!important;inset:0!important;display:block!important;cursor:pointer!important;border-radius:999px!important;background:#0ea5e9!important;border:1px solid #ffffff35!important;box-shadow:0 4px 12px #0ea5e93b!important;transition:background .25s ease!important}
+.theme-slider:before{content:"💙"!important;position:absolute!important;width:23px!important;height:23px!important;left:2px!important;top:1.5px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:50%!important;background:#fff!important;font-size:12px!important;line-height:1!important;transition:transform .25s ease!important}
+.theme-switch.is-pink .theme-slider{background:#ec4899!important;box-shadow:0 4px 12px #ec489944!important}
+.theme-switch.is-pink .theme-slider:before{content:"🎀"!important;transform:translateX(25px)!important}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top">
+  <div class="brand"><div class="logo">&lt;/&gt;</div><div>Live Code Editor<small>HTML + CSS playground</small></div></div>
+  <div class="actions"><span class="status"><span class="dot"></span><span id="status">Live preview ready</span></span><button id="reset">Reset</button><button id="download" class="primary">Download HTML</button><button class="theme-switch" id="themeToggle" type="button" title="Switch theme" aria-label="Switch between normal and girls mode"><span class="theme-slider"></span></button></div>
+</header>
+<main class="workspace" id="workspace">
+<section class="pane editor" id="editorPane">
+  <div class="panehead"><b>Code</b><span class="sub">Edit and preview instantly</span><div class="tabs"><button class="tab active" data-tab="html">HTML</button></div><div class="mini"><button id="format">Clean</button><button id="copy">Copy</button></div></div>
+  <div class="codearea" id="codeBox"><div class="numbers" id="lineNums">1</div><textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>
+  <div class="helperbar">
+    <button id="colorTool" type="button">🎨 Color</button>
+    <button id="hrefTool" type="button">🔗 Href <span id="hrefCount" class="count">0</span></button>
+    <button id="srcTool" type="button">🖼 Src <span id="srcCount" class="count">0</span></button>
+    <span class="helperhint">Edit colors, links, and image sources in your HTML</span>
+  </div>
+</section>
+<div class="drag" id="drag" title="Drag to resize"></div>
+<section class="pane preview" id="previewPane">
+  <div class="panehead"><b>Preview</b><span class="sub">Output</span><div class="mini"><button id="refresh">Refresh</button><button id="open">Open preview</button></div></div>
+  <div class="framewrap"><iframe id="frame" title="Live preview" sandbox="allow-forms allow-modals allow-popups allow-scripts allow-downloads"></iframe></div>
+</section>
+</main>
+<div class="modalback" id="colorModal" role="dialog" aria-modal="true" aria-labelledby="colorTitle">
+  <div class="modal">
+    <div class="modalhead"><span id="colorTitle">🎨 CSS Color Picker</span><button type="button" data-close="colorModal" aria-label="Close">×</button></div>
+    <div class="modalbody">
+      <div class="notice">Choose any RGB color (over 16 million combinations), or enter a CSS color value such as <code>#000000</code>, <code>#ffffff</code>, <code>red</code>, or <code>rgba(0,0,0,.5)</code>. The selected value will be inserted at your cursor.</div>
+      <div class="colorline"><input id="colorPicker" type="color" value="#7c5cff" aria-label="Choose color"><input id="hexColor" class="hexinput" type="text" value="#7c5cff" spellcheck="false" aria-label="CSS color code"><button id="insertColor" class="primary" type="button">Insert color</button></div>
+      <div class="sub">Quick colors</div>
+      <div class="swatches" id="swatches"></div>
+    </div>
+    <div class="modalfoot"><button type="button" data-close="colorModal">Close</button></div>
+  </div>
+</div>
+<div class="modalback" id="hrefModal" role="dialog" aria-modal="true" aria-labelledby="hrefTitle">
+  <div class="modal">
+    <div class="modalhead"><span id="hrefTitle">🔗 Edit href</span><button type="button" data-close="hrefModal" aria-label="Close">×</button></div>
+    <div class="modalbody">
+      <div class="notice">Links are detected from <code>href="..."</code> attributes in the HTML editor. Edit a value and save to update the HTML. Other attributes and link text are preserved.</div>
+      <div id="hrefFields"></div>
+    </div>
+    <div class="modalfoot"><button type="button" data-close="hrefModal">Close</button><button id="saveHrefs" class="primary" type="button">Save changes</button></div>
+  </div>
+</div>
+<div class="modalback" id="srcModal" role="dialog" aria-modal="true" aria-labelledby="srcTitle">
+  <div class="modal">
+    <div class="modalhead"><span id="srcTitle">🖼 Edit image src</span><button type="button" data-close="srcModal" aria-label="Close">×</button></div>
+    <div class="modalbody">
+      <div class="notice">Image sources are detected from <code>src="..."</code> attributes on HTML elements. Duplicate source URLs are shown once; saving a change updates every matching occurrence. This tool edits the source URL only.</div>
+      <div id="srcFields"></div>
+    </div>
+    <div class="modalfoot"><button type="button" data-close="srcModal">Close</button><button id="saveSrcs" class="primary" type="button">Save changes</button></div>
+  </div>
+</div>
+<footer class="foot"><span><span class="dot"></span>Local preview · Code stays in this browser</span><span id="info">HTML · 1 line</span></footer>
+</div>
+<script>
+(() => {
+
+/* Shared theme across all pages on this GitHub Pages origin */
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+  const themeSlider = themeToggle.querySelector('.theme-slider');
+  function applySharedTheme(mode) {
+    const pink = mode === 'pink';
+    document.body.classList.toggle('pink-mode', pink);
+    themeToggle.classList.toggle('is-pink', pink);
+    if (themeSlider) themeSlider.setAttribute('aria-label', pink ? 'Girls mode' : 'Normal mode');
+  }
+  function readSharedTheme() {
+    try { return localStorage.getItem('theme') === 'pink' ? 'pink' : 'default'; }
+    catch (e) { return 'default'; }
+  }
+  applySharedTheme(readSharedTheme());
+  themeToggle.addEventListener('click', () => {
+    const next = document.body.classList.contains('pink-mode') ? 'default' : 'pink';
+    applySharedTheme(next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    // Keep other tabs/pages in sync immediately.
+    try { localStorage.setItem('theme-updated-at', String(Date.now())); } catch (e) {}
+  });
+  window.addEventListener('storage', event => {
+    if (event.key === 'theme' || event.key === 'theme-updated-at') {
+      applySharedTheme(readSharedTheme());
+    }
+  });
+}
+
+
+const starterHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Website</title>
+</head>
+<body>
+  <main class="card">
+    <span class="eyebrow">WELCOME</span>
+    <h1>Hello, world!</h1>
+    <p>Edit the HTML and CSS to build your page.</p>
+    <button onclick="this.textContent='It works!'">Click me</button>
+  </main>
+</body>
+</html>`;
+const starterCSS = `* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh; display: grid; place-items: center;
+  padding: 24px; font-family: Inter, Arial, sans-serif; color: #20243a;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+}
+.card {
+  width: min(100%, 520px); padding: 42px; border: 1px solid #e2e8f0;
+  border-radius: 22px; background: white; box-shadow: 0 24px 70px #24305b18;
+}
+.eyebrow { color: #6d5dfc; font-size: 12px; font-weight: 800; letter-spacing: 2px; }
+h1 { margin: 12px 0; font-size: clamp(32px, 6vw, 48px); }
+p { color: #64748b; line-height: 1.7; }
+button { margin-top: 12px; padding: 12px 18px; border: 0; border-radius: 10px; background: #6d5dfc; color: white; font-weight: 700; cursor: pointer; }`;
+
+const code = document.getElementById('code');
+const lineNums = document.getElementById('lineNums');
+const frame = document.getElementById('frame');
+const status = document.getElementById('status');
+const info = document.getElementById('info');
+let active = 'html';
+let htmlValue = starterHTML;
+let cssValue = starterCSS;
+let timer;
+
+code.value = htmlValue;
+
+function currentValue() {
+  return active === 'html' ? htmlValue : cssValue;
+}
+function setCurrentValue(value) {
+  if (active === 'html') htmlValue = value;
+  else cssValue = value;
+}
+function makeDocument() {
+  const safeCSS = cssValue.replace(/<\/style/gi, '<\\/style');
+  const style = '<style>\n' + safeCSS + '\n</style>';
+  let source = htmlValue;
+  if (/<\/head>/i.test(source)) {
+    source = source.replace(/<\/head>/i, style + '\n</head>');
+  } else if (/<html[\s>]/i.test(source)) {
+    source = source.replace(/<\/html>/i, '<head>' + style + '</head></html>');
+  } else {
+    source = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' + style + '</head><body>' + source + '</body></html>';
+  }
+  return source;
+}
+function updateLines() {
+  const value = code.value;
+  lineNums.textContent = Array.from(
+    {length: value.split('\n').length},
+    (_, i) => i + 1
+  ).join('\n');
+  info.textContent = active.toUpperCase() + ' · ' + value.split('\n').length + ' lines';
+}
+function render() {
+  frame.srcdoc = makeDocument();
+  status.textContent = 'Preview updated';
+}
+function update() {
+  setCurrentValue(code.value);
+  updateLines();
+  status.textContent = 'Updating preview…';
+  clearTimeout(timer);
+  timer = setTimeout(render, 220);
+}
+function setTab(tab) {
+  if (active === tab) return;
+  setCurrentValue(code.value);
+  active = tab;
+  code.value = currentValue();
+  document.querySelectorAll('.tab').forEach(button => {
+    button.classList.toggle('active', button.dataset.tab === tab);
+  });
+  updateLines();
+}
+document.querySelectorAll('.tab').forEach(button => {
+  button.addEventListener('click', () => setTab(button.dataset.tab));
+});
+code.addEventListener('input', update);
+code.addEventListener('scroll', () => { lineNums.scrollTop = code.scrollTop; });
+code.addEventListener('keydown', event => {
+  if (event.key === 'Tab') {
+    event.preventDefault();
+    code.setRangeText('  ', code.selectionStart, code.selectionEnd, 'end');
+    update();
+  }
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') {
+    event.preventDefault();
+    download();
+  }
+});
+document.getElementById('refresh').addEventListener('click', () => {
+  setCurrentValue(code.value);
+  render();
+});
+document.getElementById('reset').addEventListener('click', () => {
+  // Restore both HTML and CSS starter examples.
+  htmlValue = starterHTML;
+  cssValue = starterCSS;
+  code.value = currentValue();
+  updateLines();
+  render();
+  status.textContent = 'Editor reset to starter example';
+});
+async function copy() {
+  try {
+    await navigator.clipboard.writeText(code.value);
+  } catch {
+    code.select();
+    document.execCommand('copy');
+  }
+  status.textContent = active.toUpperCase() + ' copied';
+}
+document.getElementById('copy').addEventListener('click', copy);
+function download() {
+  setCurrentValue(code.value);
+  const blob = new Blob([makeDocument()], {type:'text/html;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'my-page.html';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  status.textContent = 'HTML downloaded';
+}
+document.getElementById('download').addEventListener('click', download);
+document.getElementById('open').addEventListener('click', () => {
+  setCurrentValue(code.value);
+  const w = window.open('', '_blank');
+  if (!w) { status.textContent = 'Allow pop-ups to open preview'; return; }
+  w.document.open();
+  w.document.write(makeDocument());
+  w.document.close();
+});
+document.getElementById('format').addEventListener('click', () => {
+  // Clear the entire currently visible code editor.
+  code.value = '';
+  setCurrentValue('');
+  updateLines();
+  render();
+  status.textContent = active.toUpperCase() + ' editor cleared';
+});
+let dragging = false;
+const workspace = document.getElementById('workspace');
+const drag = document.getElementById('drag');
+drag.addEventListener('mousedown', () => {
+  dragging = true;
+  document.body.style.cursor = 'col-resize';
+  document.body.style.userSelect = 'none';
+});
+window.addEventListener('mousemove', event => {
+  if (!dragging || innerWidth <= 760) return;
+  const rect = workspace.getBoundingClientRect();
+  const left = Math.max(260, Math.min(rect.width - 310, event.clientX - rect.left - 12));
+  const ratio = left / (rect.width - 24);
+  workspace.style.gridTemplateColumns = `${ratio}fr 6px ${1-ratio}fr`;
+});
+window.addEventListener('mouseup', () => {
+  dragging = false;
+  document.body.style.cursor = '';
+  document.body.style.userSelect = '';
+});
+// Color picker: supports the full browser RGB color range plus CSS named/functional values.
+const colorModal = document.getElementById('colorModal');
+const hrefModal = document.getElementById('hrefModal');
+const srcModal = document.getElementById('srcModal');
+const colorPicker = document.getElementById('colorPicker');
+const hexColor = document.getElementById('hexColor');
+const namedColors = [
+  '#000000','#ffffff','#ff0000','#00ff00','#0000ff','#ffff00','#00ffff','#ff00ff',
+  '#808080','#c0c0c0','#800000','#808000','#008000','#800080','#008080','#000080',
+  '#ffa500','#ffc0cb','#a52a2a','#f5f5dc','#7c5cff','#1e90ff','#32cd32','#ff6347',
+  '#4b0082','#f0e68c','#e6e6fa','#2f4f4f','#dc143c','#00ced1','#adff2f','#f4a460'
+];
+const swatches = document.getElementById('swatches');
+namedColors.forEach(value => {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'swatch';
+  button.style.background = value;
+  button.title = value;
+  button.setAttribute('aria-label', value);
+  button.addEventListener('click', () => {
+    colorPicker.value = value;
+    hexColor.value = value;
+  });
+  swatches.appendChild(button);
+});
+document.getElementById('colorTool').addEventListener('click', () => {
+  colorModal.classList.add('show');
+  hexColor.focus();
+});
+colorPicker.addEventListener('input', () => { hexColor.value = colorPicker.value; });
+hexColor.addEventListener('input', () => {
+  if (/^#[0-9a-f]{6}$/i.test(hexColor.value.trim())) colorPicker.value = hexColor.value.trim();
+});
+document.getElementById('insertColor').addEventListener('click', () => {
+  const value = hexColor.value.trim();
+  if (!value || !CSS.supports('color', value)) {
+    status.textContent = 'Enter a valid CSS color, e.g. #ffffff or red';
+    return;
+  }
+  const start = code.selectionStart;
+  const end = code.selectionEnd;
+  code.setRangeText(value, start, end, 'end');
+  code.focus();
+  update();
+  colorModal.classList.remove('show');
+  status.textContent = 'Color inserted';
+});
+
+let hrefEntries = [];
+function findHrefAttributes(source) {
+  const entries = [];
+  const regex = /\bhref\s*=\s*(["'])(.*?)\1/gi;
+  let match;
+  while ((match = regex.exec(source)) !== null) {
+    entries.push({ value: match[2], quote: match[1], index: match.index, valueStart: match.index + match[0].indexOf(match[2]) });
+  }
+  return entries;
+}
+function openHrefEditor() {
+  setCurrentValue(code.value);
+  // Collect href attributes, but show each distinct URL only once.
+  // Keep every original occurrence so saving a changed URL updates all duplicates.
+  const allHrefEntries = findHrefAttributes(htmlValue);
+  const uniqueMap = new Map();
+  allHrefEntries.forEach(entry => {
+    const key = entry.value.trim();
+    if (!uniqueMap.has(key)) uniqueMap.set(key, { value: entry.value, entries: [] });
+    uniqueMap.get(key).entries.push(entry);
+  });
+  hrefEntries = [...uniqueMap.values()];
+  const container = document.getElementById('hrefFields');
+  container.replaceChildren();
+  document.getElementById('hrefCount').textContent = hrefEntries.length;
+  if (!hrefEntries.length) {
+    const empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = 'No href attributes found in the current HTML code.';
+    container.appendChild(empty);
+  } else {
+    hrefEntries.forEach((group, index) => {
+      const row = document.createElement('div');
+      row.className = 'fieldrow';
+      const label = document.createElement('label');
+      label.htmlFor = 'hrefValue' + index;
+      label.textContent = 'Link ' + (index + 1) + (group.entries.length > 1 ? ' (' + group.entries.length + ' copies)' : '');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.id = 'hrefValue' + index;
+      input.value = group.value;
+      input.dataset.hrefIndex = String(index);
+      input.spellcheck = false;
+      row.append(label, input);
+      container.appendChild(row);
+    });
+  }
+  hrefModal.classList.add('show');
+}
+document.getElementById('hrefTool').addEventListener('click', openHrefEditor);
+document.getElementById('saveHrefs').addEventListener('click', () => {
+  let source = htmlValue;
+  const inputs = [...document.querySelectorAll('#hrefFields input[data-href-index]')];
+  // Replace right-to-left so edits don't shift the positions of earlier attributes.
+  const replacements = [];
+  inputs.forEach(input => {
+    const group = hrefEntries[Number(input.dataset.hrefIndex)];
+    group.entries.forEach(entry => replacements.push({
+      start: entry.valueStart,
+      oldLength: entry.value.length,
+      value: input.value
+    }));
+  });
+  replacements.sort((a, b) => b.start - a.start);
+  for (const item of replacements) {
+    const escaped = item.value.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    source = source.slice(0, item.start) + escaped + source.slice(item.start + item.oldLength);
+  }
+  htmlValue = source;
+  active = 'html';
+  document.querySelectorAll('.tab').forEach(button => button.classList.toggle('active', button.dataset.tab === 'html'));
+  code.value = htmlValue;
+  updateLines();
+  render();
+  hrefModal.classList.remove('show');
+  status.textContent = replacements.length + ' href link(s) updated';
+});
+document.querySelectorAll('[data-close]').forEach(button => {
+  button.addEventListener('click', () => document.getElementById(button.dataset.close).classList.remove('show'));
+});
+[colorModal, hrefModal, srcModal].forEach(modal => {
+  modal.addEventListener('click', event => {
+    if (event.target === modal) modal.classList.remove('show');
+  });
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    colorModal.classList.remove('show');
+    hrefModal.classList.remove('show');
+    srcModal.classList.remove('show');
+  }
+});
+
+// Image src editor: unique source URLs, with duplicate occurrences updated together.
+let srcEntries = [];
+function findAttributeValues(source, attributeName) {
+  const entries = [];
+  const regex = new RegExp("\\b" + attributeName + "\\s*=\\s*(['\"])(.*?)\\1", "gi");
+  let match;
+  while ((match = regex.exec(source)) !== null) {
+    const tagStart = source.lastIndexOf('<', match.index);
+    const tagEnd = source.indexOf('>', match.index);
+    const tag = tagStart >= 0 && tagEnd >= 0 ? source.slice(tagStart, tagEnd + 1) : '';
+    // Only treat src attributes on img tags as image sources.
+    if (attributeName.toLowerCase() === 'src' && !/^<img\b/i.test(tag.trim())) continue;
+    entries.push({
+      value: match[2],
+      valueStart: match.index + match[0].indexOf(match[2])
+    });
+  }
+  return entries;
+}
+function openSrcEditor() {
+  setCurrentValue(code.value);
+  const all = findAttributeValues(htmlValue, 'src');
+  const unique = new Map();
+  all.forEach(entry => {
+    const key = entry.value.trim();
+    if (!unique.has(key)) unique.set(key, {value: entry.value, entries: []});
+    unique.get(key).entries.push(entry);
+  });
+  srcEntries = [...unique.values()];
+  const container = document.getElementById('srcFields');
+  container.replaceChildren();
+  document.getElementById('srcCount').textContent = srcEntries.length;
+  if (!srcEntries.length) {
+    const empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = 'No src attributes found on <img> elements in the current HTML.';
+    container.appendChild(empty);
+  } else {
+    srcEntries.forEach((group, index) => {
+      const row = document.createElement('div');
+      row.className = 'fieldrow';
+      const label = document.createElement('label');
+      label.htmlFor = 'srcValue' + index;
+      label.textContent = 'Image ' + (index + 1) + (group.entries.length > 1 ? ' (' + group.entries.length + ' copies)' : '');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.id = 'srcValue' + index;
+      input.value = group.value;
+      input.dataset.srcIndex = String(index);
+      input.spellcheck = false;
+      row.append(label, input);
+      container.appendChild(row);
+    });
+  }
+  srcModal.classList.add('show');
+}
+document.getElementById('srcTool').addEventListener('click', openSrcEditor);
+document.getElementById('saveSrcs').addEventListener('click', () => {
+  let source = htmlValue;
+  const inputs = [...document.querySelectorAll('#srcFields input[data-src-index]')];
+  const replacements = [];
+  inputs.forEach(input => {
+    const group = srcEntries[Number(input.dataset.srcIndex)];
+    group.entries.forEach(entry => replacements.push({
+      start: entry.valueStart,
+      oldLength: entry.value.length,
+      value: input.value
+    }));
+  });
+  replacements.sort((a, b) => b.start - a.start);
+  for (const item of replacements) {
+    const escaped = item.value.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    source = source.slice(0, item.start) + escaped + source.slice(item.start + item.oldLength);
+  }
+  htmlValue = source;
+  active = 'html';
+  document.querySelectorAll('.tab').forEach(button => button.classList.toggle('active', button.dataset.tab === 'html'));
+  code.value = htmlValue;
+  updateLines();
+  render();
+  srcModal.classList.remove('show');
+  status.textContent = replacements.length + ' image src attribute(s) updated';
+});
+
+updateLines();
+render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clean Sub-Domains | MDToolsOne-style</title>
+<style>
+*{box-sizing:border-box}
+:root{
+ --panel:rgba(8,21,38,.44);--panel-soft:rgba(255,255,255,.07);
+ --border:rgba(255,255,255,.18);--text:#fff;--muted:#dbeafe;
+ --primary1:#0ea5e9;--primary2:#6366f1;--success:#4ade80;
+}
+html,body{min-height:100%;margin:0}
+body{min-height:100vh;font-family:"Poppins",Arial,sans-serif;color:var(--text);
+ background:linear-gradient(rgba(4,18,35,.16),rgba(4,18,35,.34)),url("https://wallpapercave.com/wp/wp3284848.gif") center center/cover fixed no-repeat;
+ padding:0 18px 32px;transition:background .35s ease}
+body.pink-mode{--panel:rgba(58,12,49,.44);--panel-soft:rgba(255,205,233,.10);--border:rgba(255,190,225,.22);--muted:#ffe5f4;
+ background:linear-gradient(rgba(60,8,45,.18),rgba(60,8,45,.34)),url("https://wallpaperaccess.com/full/12067286.gif") center center/cover fixed no-repeat}
+.top-bar{width:min(1140px,100%);min-height:58px;margin:0 auto 12px;display:flex;justify-content:space-between;align-items:center;gap:15px}
+.brand{font-size:18px;font-weight:700;letter-spacing:.3px;text-shadow:0 2px 10px #0006}
+.theme-switch{position:relative;width:62px;height:32px;flex:0 0 auto;padding:0;margin:0;border:0;background:transparent;box-shadow:none}
+.theme-slider{position:absolute;inset:0;cursor:pointer;border-radius:999px;background:#0ea5e9;border:1px solid #ffffff33;box-shadow:0 6px 18px #0ea5e947;transition:.35s}
+.theme-slider:before{content:"💙";position:absolute;width:26px;height:26px;left:2px;top:2px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#fff;font-size:14px;transition:.35s}
+.theme-switch.is-pink .theme-slider{background:#ff4da6;box-shadow:0 6px 18px #ff4da659}
+.theme-switch.is-pink .theme-slider:before{transform:translateX(30px);content:"🎀"}
+main{width:min(1140px,100%);margin:0 auto;padding:0 0 8px}
+.title-card,.tool-card{background:var(--panel);border:1px solid var(--border);box-shadow:0 18px 45px #0005;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:22px}
+.title-card{text-align:center;padding:22px 24px;margin-bottom:16px}
+.breadcrumb{color:#7dd3fc;font-size:12px;margin-bottom:9px}.breadcrumb a{color:inherit;text-decoration:none}.breadcrumb a:hover{text-decoration:underline;color:#fff}.breadcrumb span{color:#dbeafe}
+h1{font-size:clamp(25px,4vw,36px);margin:0 0 4px;font-weight:700}.subtitle{color:var(--muted);font-size:13px;letter-spacing:.2px}
+.tool-card{padding:22px}
+textarea{display:block;font:13px/1.55 Consolas,Monaco,monospace;color:#fff;background:rgba(0,0,0,.25);border:1px solid #ffffff29;border-top:2px solid #38bdf8;border-radius:14px;padding:13px 15px;outline:none;resize:vertical;width:100%;transition:.25s}
+textarea:focus{border-color:#38bdf8;box-shadow:0 0 0 3px #38bdf81f}
+textarea::placeholder{color:#ffffff88}
+#input{height:202px}#output{height:240px;border-top-color:#a78bfa;color:#a5f3fc}
+button{border:0;border-radius:12px;background:linear-gradient(135deg,var(--primary1),var(--primary2));color:white;padding:10px 15px;font:600 13px "Poppins",Arial,sans-serif;cursor:pointer;transition:.25s;box-shadow:0 5px 0 #1e40afaa}
+button:hover{filter:brightness(1.1);transform:translateY(-1px)}
+button:active{transform:translateY(3px);box-shadow:none}
+button.secondary{background:linear-gradient(135deg,#475569,#334155);border:1px solid #ffffff1f;box-shadow:0 5px 0 #0f172aaa}
+.actions{text-align:center;margin:18px 0 22px}
+.ext-head{display:flex;align-items:center;gap:9px;margin-bottom:8px}.ext-head strong{font-weight:600}.collapse{border-radius:20px;padding:3px 12px}
+.toolbar{display:flex;align-items:center;gap:9px;border:1px solid var(--border);border-radius:12px;background:var(--panel-soft);padding:8px 10px;margin-bottom:8px;backdrop-filter:blur(10px)}
+.toolbar input[type=search]{background:#0004;color:white;border:1px solid #ffffff2b;border-radius:9px;padding:8px 10px;min-width:0;flex:1;outline:none}
+.ext-list{height:132px;overflow:auto;margin-bottom:8px}.ext-row{display:flex;align-items:center;gap:8px;background:var(--panel-soft);border:1px solid #ffffff20;border-radius:9px;padding:5px 10px;margin-bottom:4px;min-height:29px}.ext-row .num{color:#cbd5e1;width:16px;text-align:right}.ext-row input{accent-color:#0ea5e9}.ext-row .count{color:#dbeafe;margin-left:auto}
+.hint,.stats{font-size:12px;color:var(--muted)}.stats{margin:22px 0 8px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.small-actions{display:flex;gap:7px}.small-actions button{padding:6px 10px;background:#ffffff12;color:#fff;border:1px solid #ffffff30;box-shadow:none}
+.status{color:var(--success);min-height:20px;margin-top:8px;font-size:12px}.note{color:var(--muted);font-size:12px;margin-top:10px;line-height:1.7}
+body.pink-mode button:not(.secondary){background:linear-gradient(135deg,#ff69b4,#e879f9);box-shadow:0 5px 0 #be185d}
+body.pink-mode button.secondary{background:linear-gradient(135deg,#a855f7,#ec4899);box-shadow:0 5px 0 #9333ea}
+body.pink-mode textarea{border-top-color:#ff69b4}body.pink-mode #output{color:#ffe4f3}body.pink-mode .breadcrumb{color:#f9a8d4}
+@media(max-width:600px){body{padding:0 10px 24px}.top-bar{min-height:56px}.brand{font-size:16px}.title-card{padding:19px 14px}.tool-card{padding:14px}h1{font-size:23px}.subtitle{font-size:12px}#input{height:180px}#output{height:220px}.stats{margin-top:18px}.toolbar{flex-wrap:wrap}}
+
+/* Compact shared switch, aligned at the far right */
+.theme-switch{position:relative!important;width:54px!important;height:28px!important;min-width:54px!important;flex:0 0 54px!important;padding:0!important;margin:0 0 0 auto!important;border:0!important;border-radius:999px!important;background:transparent!important;box-shadow:none!important;transform:none!important}
+.theme-switch:hover{transform:none!important;filter:none!important;border:0!important}
+.theme-slider{position:absolute!important;inset:0!important;display:block!important;cursor:pointer!important;border-radius:999px!important;background:#0ea5e9!important;border:1px solid #ffffff35!important;box-shadow:0 4px 12px #0ea5e93b!important;transition:background .25s ease!important}
+.theme-slider:before{content:"💙"!important;position:absolute!important;width:23px!important;height:23px!important;left:2px!important;top:1.5px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:50%!important;background:#fff!important;font-size:12px!important;line-height:1!important;transition:transform .25s ease!important}
+.theme-switch.is-pink .theme-slider{background:#ec4899!important;box-shadow:0 4px 12px #ec489944!important}
+.theme-switch.is-pink .theme-slider:before{content:"🎀"!important;transform:translateX(25px)!important}
+
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <div class="brand">Clean Sub-Domains</div>
+  <button class="theme-switch" id="themeToggle" type="button" title="Switch theme" aria-label="Switch between normal and girls mode"><span class="theme-slider"></span></button>
+</header>
+<main>
+  <section class="title-card">
+    <div class="breadcrumb"><a href="https://abdelagnaoui.github.io/tools/index.html">Tools</a> <span>/</span> Clean Sub-Domains</div>
+    <h1>Clean Sub-Domains</h1>
+    <div class="subtitle">Remove sub from domains</div>
+  </section>
+  <section class="tool-card">
+
+  <textarea id="input" spellcheck="false" aria-label="Input subdomains" placeholder="Paste subdomains here, one per line...">mail.example.com
+www.example.com
+api.example.com
+example.org
+shop.example.net
+www.example.com
+dev.test.co.uk
+blog.example.org
+</textarea>
+
+  <div class="actions"><button id="cleanBtn">Clean Sub-domains</button></div>
+
+  <section id="extensionsSection">
+    <div class="ext-head"><strong>Extensions List</strong><button class="collapse" id="collapseBtn" aria-expanded="true" title="Collapse extensions">‹</button></div>
+    <div id="extensionsBody">
+      <div class="toolbar">
+        <label style="white-space:nowrap;display:flex;align-items:center;gap:6px"><input type="checkbox" id="selectAll" checked> Select All</label>
+        <button class="secondary" id="copyExtBtn" title="Copy selected extensions">▢</button>
+        <input type="search" id="searchExt" placeholder="Search extensions...">
+      </div>
+      <div class="ext-list" id="extList"></div>
+      <div class="hint" id="extHint">Extensions are detected from your input.</div>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div id="statsText">Input lines: 0 | Duplicate lines: 0 | Output lines: 0</div>
+    <div class="small-actions"><button id="copyOutputBtn" title="Copy output">Copy</button><button id="downloadBtn" title="Download output as TXT">Download</button></div>
+  </div>
+  <textarea id="output" spellcheck="false" aria-label="Cleaned domains" placeholder="Cleaned output will appear here..."></textarea>
+  <div class="status" id="status" role="status"></div>
+</section>
+</main>
+<script>
+(() => {
+  const toggle = document.getElementById('themeToggle');
+  const slider = toggle.querySelector('.theme-slider');
+  function applyTheme(mode) {
+    const pink = mode === 'pink';
+    document.body.classList.toggle('pink-mode', pink);
+    toggle.classList.toggle('is-pink', pink);
+    slider.setAttribute('aria-label', pink ? 'Girls mode' : 'Normal mode');
+  }
+  let saved = 'default';
+  try { saved = localStorage.getItem('theme') || 'default'; } catch(e) {}
+  applyTheme(saved === 'pink' ? 'pink' : 'default');
+  toggle.addEventListener('click', () => {
+    const pink = !document.body.classList.contains('pink-mode');
+    const mode = pink ? 'pink' : 'default';
+    applyTheme(mode);
+    try { localStorage.setItem('theme', mode); } catch(e) {}
+  });
+  window.addEventListener('storage', event => {
+    if (event.key === 'theme') applyTheme(event.newValue === 'pink' ? 'pink' : 'default');
+  });
+})();
+
+(() => {
+  const input = document.getElementById('input');
+  const output = document.getElementById('output');
+  const extList = document.getElementById('extList');
+  const searchExt = document.getElementById('searchExt');
+  const selectAll = document.getElementById('selectAll');
+  const statsText = document.getElementById('statsText');
+  const status = document.getElementById('status');
+  let extensions = [];
+  let collapsed = false;
+
+  function getLines() {
+    return input.value.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+  }
+  function getExtension(domain) {
+    const clean = domain.replace(/^[*.\s]+/,'').replace(/^https?:\/\//i,'').split(/[/?#:\s]/)[0].replace(/^www\./i,'');
+    const parts = clean.split('.').filter(Boolean);
+    return parts.length > 1 ? '.' + parts[parts.length - 1].toLowerCase() : '(no extension)';
+  }
+  function detectExtensions() {
+    const counts = new Map();
+    getLines().forEach(line => {
+      const ext = getExtension(line);
+      counts.set(ext, (counts.get(ext) || 0) + 1);
+    });
+    extensions = [...counts.entries()].sort((a,b) => a[0].localeCompare(b[0])).map(([name,count]) => ({name,count,checked:true}));
+    renderExtensions();
+  }
+  function renderExtensions() {
+    const query = searchExt.value.trim().toLowerCase();
+    extList.innerHTML = '';
+    const shown = extensions.filter(e => e.name.toLowerCase().includes(query));
+    shown.forEach((e,i) => {
+      const row = document.createElement('label');
+      row.className = 'ext-row';
+      row.innerHTML = `<span class="num">${i+1}</span><input type="checkbox" ${e.checked?'checked':''}><span>${escapeHtml(e.name)}</span><span class="count">[${e.count}]</span>`;
+      row.querySelector('input').addEventListener('change', ev => {
+        e.checked = ev.target.checked;
+        updateSelectAll();
+      });
+      extList.appendChild(row);
+    });
+    selectAll.checked = extensions.length > 0 && extensions.every(e => e.checked);
+    document.getElementById('extHint').textContent = `${extensions.length} extensions — scroll to see more ↓`;
+  }
+  function updateSelectAll() {
+    selectAll.checked = extensions.length > 0 && extensions.every(e => e.checked);
+    selectAll.indeterminate = extensions.some(e => e.checked) && extensions.some(e => !e.checked);
+  }
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+  // Return the registrable/root domain, removing any subdomain prefix.
+  // Includes common multi-part public suffixes such as co.uk and com.au.
+  const MULTI_PART_SUFFIXES = new Set([
+    'co.uk','org.uk','ac.uk','gov.uk','com.au','net.au','org.au',
+    'co.nz','org.nz','co.jp','co.in','firm.in','net.in','org.in',
+    'com.br','com.mx','com.cn','com.sg','com.tr','com.my','co.za',
+    'com.ar','com.tw','com.hk','com.pk','com.bd','com.ng','com.eg',
+    'com.sa','com.ua','com.pl','com.de','com.fr','com.es','com.it'
+  ]);
+
+  function cleanDomain(line) {
+    let s = line.trim().replace(/^[*•.\s]+/, '');
+    s = s.replace(/^https?:\/\//i, '');
+    s = s.split(/[/?#\s]/)[0];
+    s = s.replace(/:\d+$/, '').replace(/\.$/, '').toLowerCase();
+    s = s.replace(/^www\./i, '');
+    if (!s || !s.includes('.')) return '';
+    const labels = s.split('.').filter(Boolean);
+    if (labels.length < 2) return '';
+    const lastTwo = labels.slice(-2).join('.');
+    const suffixLength = MULTI_PART_SUFFIXES.has(lastTwo) ? 2 : 1;
+    const rootLabelIndex = labels.length - suffixLength - 1;
+    if (rootLabelIndex < 0) return labels.join('.');
+    return labels.slice(rootLabelIndex).join('.');
+  }
+  function clean() {
+    const raw = getLines();
+    const allowed = new Set(extensions.filter(e => e.checked).map(e => e.name));
+    const seen = new Set();
+    const result = [];
+    let duplicates = 0;
+    raw.forEach(line => {
+      const domain = cleanDomain(line);
+      if (!domain) return;
+      if (!allowed.has(getExtension(domain))) return;
+      if (seen.has(domain)) { duplicates++; return; }
+      seen.add(domain);
+      result.push(domain);
+    });
+    output.value = result.join('\n');
+    statsText.textContent = `Input lines: ${raw.length} | Duplicate lines: ${duplicates} | Output lines: ${result.length}`;
+    status.textContent = `Done — ${result.length} unique domains.`;
+  }
+  document.getElementById('cleanBtn').addEventListener('click', clean);
+  input.addEventListener('input', detectExtensions);
+  searchExt.addEventListener('input', renderExtensions);
+  selectAll.addEventListener('change', () => {
+    extensions.forEach(e => e.checked = selectAll.checked);
+    renderExtensions();
+  });
+  document.getElementById('collapseBtn').addEventListener('click', () => {
+    collapsed = !collapsed;
+    document.getElementById('extensionsBody').hidden = collapsed;
+    document.getElementById('collapseBtn').textContent = collapsed ? '›' : '‹';
+    document.getElementById('collapseBtn').setAttribute('aria-expanded', String(!collapsed));
+  });
+  document.getElementById('copyExtBtn').addEventListener('click', async () => {
+    const selected = extensions.filter(e => e.checked).map(e => e.name).join('\n');
+    await copyText(selected);
+    status.textContent = 'Selected extensions copied.';
+  });
+  document.getElementById('copyOutputBtn').addEventListener('click', async () => {
+    await copyText(output.value);
+    status.textContent = 'Output copied.';
+  });
+  document.getElementById('downloadBtn').addEventListener('click', () => {
+    const blob = new Blob([output.value], {type:'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'clean-sub-domains.txt'; a.click();
+    URL.revokeObjectURL(url);
+  });
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const temp = document.createElement('textarea');
+      temp.value = text; document.body.appendChild(temp); temp.select();
+      document.execCommand('copy'); temp.remove();
+    }
+  }
+  detectExtensions();
+  clean();
+})();
+</script>
+</body>
+</html>

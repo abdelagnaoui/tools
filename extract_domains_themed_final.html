@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Extract Domains</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{--panel:rgba(8,21,38,.44);--panel-soft:rgba(255,255,255,.07);--border:rgba(255,255,255,.18);--text:#fff;--muted:#dbeafe;--primary1:#0ea5e9;--primary2:#6366f1;--success:#4ade80;--cyan:#80e5ff}
+html,body{min-height:100%;margin:0;font-family:"Poppins", "Segoe UI",Arial,sans-serif;color:var(--text)}
+body{min-height:100vh;background:linear-gradient(rgba(4,18,35,.16),rgba(4,18,35,.34)),url("https://wallpapercave.com/wp/wp3284848.gif") center center/cover fixed no-repeat;padding:22px 18px 36px;transition:background .35s ease}
+body.pink-mode{--panel:rgba(58,12,49,.44);--panel-soft:rgba(255,205,233,.10);--border:rgba(255,190,225,.22);--muted:#ffe5f4;--cyan:#f9a8d4;background:linear-gradient(rgba(60,8,45,.18),rgba(60,8,45,.34)),url("https://wallpaperaccess.com/full/12067286.gif") center center/cover fixed no-repeat}
+.top-bar{width:100%;margin:0 auto 18px;padding:0 2px;display:flex;justify-content:space-between;align-items:center;gap:15px}.brand{font-size:18px;font-weight:700;letter-spacing:.3px;text-shadow:0 2px 10px #0006}
+.theme-switch{position:relative;width:62px;height:32px;flex:0 0 auto;padding:0;margin:0;border:0;background:transparent;box-shadow:none}.theme-slider{position:absolute;inset:0;cursor:pointer;border-radius:999px;background:#0ea5e9;border:1px solid #ffffff33;box-shadow:0 6px 18px #0ea5e947;transition:.35s}.theme-slider:before{content:"💙";position:absolute;width:26px;height:26px;left:2px;top:2px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#fff;font-size:14px;transition:.35s}.theme-switch.is-pink .theme-slider{background:#ff4da6;box-shadow:0 6px 18px #ff4da659}.theme-switch.is-pink .theme-slider:before{transform:translateX(30px);content:"🎀"}
+main{width:min(900px,100%);margin:0 auto;padding:0}.breadcrumb{color:#7dd3fc;font-size:12px;margin-bottom:12px}.breadcrumb span{color:#fff9}.breadcrumb a{color:#7dd3fc;text-decoration:none;transition:color .2s}.breadcrumb a:hover{color:#fff;text-decoration:underline}
+h1{font-size:clamp(25px,4vw,38px);margin:0 0 5px;font-weight:700}.subtitle{color:var(--muted);font-size:13px;letter-spacing:.3px;margin-bottom:24px}
+main:before{content:"";display:block;position:absolute;pointer-events:none}
+textarea{display:block;font:13px/1.6 Consolas,Monaco,monospace;color:#fff;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.16);border-top:2px solid var(--primary1);border-radius:16px;padding:15px 16px;outline:none;resize:vertical;width:100%;transition:.25s;backdrop-filter:blur(8px)}textarea:focus{border-color:#38bdf8bf;box-shadow:0 0 0 3px #38bdf81f}textarea::placeholder{color:#ffffff88}#input{height:230px}#output{height:250px;border-top-color:#a5b4fc;color:var(--cyan)}
+.actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:17px 0 23px}button{border:0;border-radius:13px;color:#fff;font:600 14px "Poppins","Segoe UI",Arial,sans-serif;cursor:pointer;transition:.25s;padding:12px 18px;background:linear-gradient(135deg,var(--primary1),var(--primary2));box-shadow:0 6px 0 rgba(30,64,175,.72)}button:hover{transform:translateY(-2px);filter:brightness(1.08)}button:active{transform:translateY(3px);box-shadow:none}button.secondary{background:linear-gradient(135deg,#475569,#334155);box-shadow:0 6px 0 rgba(15,23,42,.72)}
+.stats{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:20px 0 8px;color:var(--muted);font-size:12px}.small-actions{display:flex;gap:7px}.small-actions button{padding:7px 10px;font-size:12px;background:var(--panel-soft);border:1px solid var(--border);box-shadow:none}.status{color:var(--success);min-height:22px;margin-top:8px;font-size:12px}.note{color:var(--muted);font-size:12px;line-height:1.7;margin-top:10px}
+body.pink-mode button:not(.theme-switch){background:linear-gradient(135deg,#ff69b4,#e879f9);box-shadow:0 6px 0 #be185d}body.pink-mode button.secondary,body.pink-mode .small-actions button{background:linear-gradient(135deg,#a855f7,#ec4899)}body.pink-mode #output{border-top-color:#f9a8d4;color:#ffe5f4}
+@media(max-width:600px){body{padding:16px 11px 28px}.brand{font-size:15px}h1{font-size:25px}#input{height:190px}#output{height:220px}.stats{align-items:flex-start}.small-actions{width:100%}.small-actions button{flex:1}}
+
+/* Shared theme switch: compact and aligned at the far right */
+.theme-switch{position:relative!important;width:54px!important;height:28px!important;min-width:54px!important;flex:0 0 54px!important;padding:0!important;margin:0 0 0 auto!important;border:0!important;border-radius:999px!important;background:transparent!important;box-shadow:none!important;transform:none!important}
+.theme-switch:hover{transform:none!important;filter:none!important;border:0!important}
+.theme-slider{position:absolute!important;inset:0!important;display:block!important;cursor:pointer!important;border-radius:999px!important;background:#0ea5e9!important;border:1px solid #ffffff35!important;box-shadow:0 4px 12px #0ea5e93b!important;transition:background .25s ease!important}
+.theme-slider:before{content:"💙"!important;position:absolute!important;width:23px!important;height:23px!important;left:2px!important;top:1.5px!important;display:flex!important;align-items:center!important;justify-content:center!important;border-radius:50%!important;background:#fff!important;font-size:12px!important;line-height:1!important;transition:transform .25s ease!important}
+.theme-switch.is-pink .theme-slider{background:#ec4899!important;box-shadow:0 4px 12px #ec489944!important}
+.theme-switch.is-pink .theme-slider:before{content:"🎀"!important;transform:translateX(25px)!important}
+
+</style>
+</head>
+<body>
+<header class="top-bar">
+  <div class="brand">Extract Domains</div>
+  <button class="theme-switch" id="themeToggle" type="button" title="Switch theme" aria-label="Switch between normal and girls mode"><span class="theme-slider"></span></button>
+</header>
+<main>
+  <div class="breadcrumb"><a href="https://abdelagnaoui.github.io/tools/index.html" title="Back to Tools">Tools</a> <span>/</span> Extract Domains</div>
+  <h1>Extract Domains</h1>
+  <div class="subtitle">Extract domain names from any text or list</div>
+  <textarea id="input" spellcheck="false" aria-label="Input text" placeholder="Paste text, URLs, email addresses, logs, or any content here..."></textarea>
+  <div class="actions">
+    <button id="extractBtn">Extract Domains</button>
+    <button class="secondary" id="clearBtn">Clear</button>
+  </div>
+  <div class="stats">
+    <span id="statsText">Input characters: 0 | Domains found: 0 | Unique domains: 0</span>
+    <div class="small-actions">
+      <button id="copyBtn">Copy</button>
+      <button id="downloadBtn">Download TXT</button>
+    </div>
+  </div>
+  <textarea id="output" spellcheck="false" aria-label="Extracted domains" placeholder="Extracted domains will appear here, one per line..."></textarea>
+  <div class="status" id="status" role="status"></div>
+  <div class="note">Runs locally in your browser. Duplicate domains are removed; subdomains are preserved (for example, mail.example.com remains mail.example.com).</div>
+</main>
+<script>
+(() => {
+  
+/* Shared theme across all pages on this GitHub Pages origin */
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+  const themeSlider = themeToggle.querySelector('.theme-slider');
+  function applySharedTheme(mode) {
+    const pink = mode === 'pink';
+    document.body.classList.toggle('pink-mode', pink);
+    themeToggle.classList.toggle('is-pink', pink);
+    if (themeSlider) themeSlider.setAttribute('aria-label', pink ? 'Girls mode' : 'Normal mode');
+  }
+  function readSharedTheme() {
+    try { return localStorage.getItem('theme') === 'pink' ? 'pink' : 'default'; }
+    catch (e) { return 'default'; }
+  }
+  applySharedTheme(readSharedTheme());
+  themeToggle.addEventListener('click', () => {
+    const next = document.body.classList.contains('pink-mode') ? 'default' : 'pink';
+    applySharedTheme(next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    // Keep other tabs/pages in sync immediately.
+    try { localStorage.setItem('theme-updated-at', String(Date.now())); } catch (e) {}
+  });
+  window.addEventListener('storage', event => {
+    if (event.key === 'theme' || event.key === 'theme-updated-at') {
+      applySharedTheme(readSharedTheme());
+    }
+  });
+}
+
+  const input = document.getElementById('input');
+  const output = document.getElementById('output');
+  const stats = document.getElementById('statsText');
+  const status = document.getElementById('status');
+
+  // Finds hostnames in URLs, plain text, and email addresses.
+  function extractDomains(text) {
+    const pattern = /(?:https?:\/\/)?(?:www\.)?(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}(?::\d{1,5})?(?:\/[^\s"'<>]*)?/gi;
+    const matches = text.match(pattern) || [];
+    const domains = [];
+    for (let match of matches) {
+      let value = match.trim();
+      value = value.replace(/^https?:\/\//i, '');
+      value = value.replace(/^www\./i, '');
+      value = value.split(/[/?#]/)[0].replace(/:\d+$/, '').replace(/[.,;:!?)\]}]+$/g, '');
+      // Avoid malformed trailing dots and invalid hostname labels.
+      value = value.toLowerCase().replace(/\.$/, '');
+      if (!value || !value.includes('.')) continue;
+      const labels = value.split('.');
+      if (labels.some(label => !label || label.length > 63 || label.startsWith('-') || label.endsWith('-'))) continue;
+      domains.push(value);
+    }
+    return domains;
+  }
+
+  function runExtraction() {
+    const found = extractDomains(input.value);
+    const unique = [...new Set(found)];
+    output.value = unique.join('\n');
+    stats.textContent = `Input characters: ${input.value.length} | Domains found: ${found.length} | Unique domains: ${unique.length}`;
+    status.textContent = unique.length ? `Done — extracted ${unique.length} unique domain(s).` : 'No domains found. Paste text containing domain names and try again.';
+  }
+  async function copyText(text) {
+    try { await navigator.clipboard.writeText(text); }
+    catch {
+      output.focus(); output.select(); document.execCommand('copy');
+    }
+  }
+  document.getElementById('extractBtn').addEventListener('click', runExtraction);
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    input.value = ''; output.value = '';
+    stats.textContent = 'Input characters: 0 | Domains found: 0 | Unique domains: 0';
+    status.textContent = '';
+    input.focus();
+  });
+  document.getElementById('copyBtn').addEventListener('click', async () => {
+    await copyText(output.value);
+    status.textContent = output.value ? 'Results copied.' : 'There are no results to copy.';
+  });
+  document.getElementById('downloadBtn').addEventListener('click', () => {
+    const blob = new Blob([output.value], {type:'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'extracted-domains.txt'; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+  input.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') runExtraction(); });
+})();
+</script>
+</body>
+</html>
