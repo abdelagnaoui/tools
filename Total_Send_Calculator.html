@@ -324,6 +324,93 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* ===== SHARED TOOLS MENU (added only) ===== */
+    .tools-navigation {
+      width: min(1100px, 100%);
+      margin: 0 auto 18px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: var(--panel);
+      box-shadow: 0 12px 30px rgba(0,0,0,.22);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      position: relative;
+      z-index: 20;
+    }
+    .tools-navigation .nav-home,
+    .tools-navigation .nav-menu-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: linear-gradient(135deg,var(--primary1),var(--primary2));
+      color: #fff;
+      text-decoration: none;
+      font: 600 13px "Poppins",sans-serif;
+      cursor: pointer;
+      box-shadow: 0 5px 14px rgba(0,0,0,.16);
+    }
+    .tools-navigation .nav-home:hover,
+    .tools-navigation .nav-menu-button:hover { filter: brightness(1.12); }
+    .tools-navigation .nav-menu-wrap { position: relative; }
+    .tools-navigation .nav-dropdown {
+      display: none;
+      position: absolute;
+      top: calc(100% + 9px);
+      right: 0;
+      width: min(300px, calc(100vw - 32px));
+      max-height: 65vh;
+      overflow-y: auto;
+      padding: 8px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(8,21,38,.97);
+      box-shadow: 0 16px 38px rgba(0,0,0,.35);
+    }
+    .tools-navigation .nav-dropdown.open { display: block; }
+    .tools-navigation .nav-dropdown a {
+      display: block;
+      padding: 10px 12px;
+      margin: 2px 0;
+      border-radius: 9px;
+      color: #f8fbff;
+      text-decoration: none;
+      font: 500 13px "Poppins",sans-serif;
+      overflow-wrap: anywhere;
+    }
+    .tools-navigation .nav-dropdown a:hover {
+      background: rgba(99,102,241,.28);
+    }
+    .tools-navigation .nav-dropdown .nav-category {
+      padding: 9px 11px 5px;
+      color: #93c5fd;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    body.pink-mode .tools-navigation .nav-dropdown {
+      background: rgba(58,12,49,.98);
+    }
+    body.pink-mode .tools-navigation .nav-dropdown .nav-category {
+      color: #f9a8d4;
+    }
+    @media(max-width:600px) {
+      .tools-navigation { padding: 10px; }
+      .tools-navigation .nav-home,
+      .tools-navigation .nav-menu-button { padding: 9px 11px; font-size: 12px; }
+    }
+
   </style>
 </head>
 
@@ -342,6 +429,39 @@
       <span class="theme-slider"></span>
     </button>
   </div>
+
+
+  <nav class="tools-navigation" aria-label="Tools navigation">
+    <a class="nav-home" href="index.html">🏠 Home</a>
+    <div class="nav-menu-wrap">
+      <button class="nav-menu-button" id="toolsNavButton" type="button"
+        aria-expanded="false" aria-controls="toolsNavDropdown">☰ Choose a Tool ▾</button>
+      <div class="nav-dropdown" id="toolsNavDropdown">
+        <div class="nav-category">Email Tools</div>
+        <a href="Boit_Gmail.html" target="_blank" rel="noopener">Boit Gmail for test Auto</a>
+        <a href="return-paths_Maker.html" target="_blank" rel="noopener">Return Paths Maker</a>
+        <a href="Spf_Dkim.html" target="_blank" rel="noopener">SPF &amp; DKIM</a>
+        <div class="nav-category">Server Tools</div>
+        <a href="Server_Manager.html" target="_blank" rel="noopener">Server Manager</a>
+        <a href="Server_Splitter.html" target="_blank" rel="noopener">Server Splitter</a>
+        <a href="Total_Send_Calculator.html" target="_blank" rel="noopener">Total Send Calculator</a>
+        <a href="remove_RPS_BOUNCE.html" target="_blank" rel="noopener">Remove RPS Bounce</a>
+        <div class="nav-category">Utilities</div>
+        <a href="clean_sub_domains_themed_final.html" target="_blank" rel="noopener">Clean Sub-Domains</a>
+        <a href="extract_domains_themed_final.html" target="_blank" rel="noopener">Extract Domains</a>
+        <a href="Domains_Checker.html" target="_blank" rel="noopener">Domains Checker</a>
+        <a href="SubsGenerator.html" target="_blank" rel="noopener">Subs Generator</a>
+        <a href="List_Spliter.html" target="_blank" rel="noopener">List Splitter</a>
+        <a href="Link_Opener.html" target="_blank" rel="noopener">Link Opener</a>
+        <a href="cnam_checker.html" target="_blank" rel="noopener">Cnam Checker</a>
+        <a href="decode.html" target="_blank" rel="noopener">Base64 Encode/Decode</a>
+        <div class="nav-category">Developer Tools</div>
+        <a href="html_css_live_editor_themed_final.html" target="_blank" rel="noopener">HTML &amp; CSS Live Editor</a>
+        <a href="offers_.html" target="_blank" rel="noopener">Offer Manager</a>
+        <a href="https://lagnaoui.great-site.net/page/?i=1" target="_blank" rel="noopener">Test Link Speed</a>
+      </div>
+    </div>
+  </nav>
 
   <main class="page">
 
@@ -503,6 +623,33 @@
       document.getElementById('xDelayResult').textContent =
         `To send ${dataAmount.toLocaleString()} units in ${hours} hour(s) using ${servers} server(s), required x-delay is approx: ${xDelay.toLocaleString()} ms.`;
     }
+
+    /* ===== TOOLS MENU INTERACTION (added only) ===== */
+    (() => {
+      const button = document.getElementById("toolsNavButton");
+      const dropdown = document.getElementById("toolsNavDropdown");
+      if (!button || !dropdown) return;
+
+      button.addEventListener("click", () => {
+        const open = dropdown.classList.toggle("open");
+        button.setAttribute("aria-expanded", String(open));
+      });
+
+      document.addEventListener("click", (event) => {
+        if (!event.target.closest(".nav-menu-wrap")) {
+          dropdown.classList.remove("open");
+          button.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          dropdown.classList.remove("open");
+          button.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+
   </script>
 
 </body>
