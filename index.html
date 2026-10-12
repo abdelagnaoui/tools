@@ -554,14 +554,6 @@ body.pink-mode .more-tool-link{background:linear-gradient(135deg,#ff4da6,#ff66cc
 .tool-icon{width:26px;height:26px;object-fit:contain;display:inline-block;vertical-align:-3px;margin-right:3px}
 
 
-/* Same-page slide view: added without changing the existing dashboard design */
-#toolPageOverlay{position:fixed;inset:0;z-index:1000000;background:rgba(2,6,23,.88);backdrop-filter:blur(10px);display:none;overflow:hidden}
-#toolPageOverlay.is-open{display:block}
-#toolPageFrame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;transform:translateX(-100%);transition:transform .38s cubic-bezier(.22,.8,.25,1)}
-#toolPageOverlay.is-open #toolPageFrame{transform:translateX(0)}
-#toolPageBack{position:absolute;top:14px;left:14px;z-index:2;padding:10px 16px;border:1px solid rgba(255,255,255,.3);border-radius:12px;background:rgba(15,23,42,.92);color:#fff;font:500 14px Poppins,sans-serif;cursor:pointer;box-shadow:0 5px 18px rgba(0,0,0,.25)}
-body.pink-mode #toolPageBack{background:#c02678}
-#toolPageBack:hover{transform:translateX(-2px)}
 #dashboardName{width:160px;max-width:75vw;min-width:0;text-align:right;background:transparent;border:0;border-bottom:1px solid transparent;border-radius:0;padding:2px 4px;color:white;font:inherit;font-size:inherit;font-weight:inherit;outline:none;box-shadow:none;transition:border-color .2s,opacity .2s}
 #dashboardName::placeholder{color:rgba(255,255,255,.48);opacity:1;font-size:15px;font-weight:400}
 #dashboardName:focus{border-bottom-color:rgba(255,255,255,.55)!important}
@@ -617,20 +609,20 @@ body.pink-mode #toolPageBack{background:#c02678}
 	  </div>
 
       <div class="more-tools-menu more-tools-always-visible" aria-label="Additional tools">
-        <a class="more-tool-link" href="clean_sub_domains_themed_final.html"><img src="images/domaine-web.png" alt="CSS3" class="tool-icon"> Clean Sub-Domains</a>
-        <a class="more-tool-link" href="extract_domains_themed_final.html"><img src="images/extraxt.png" alt="CSS3" class="tool-icon"> Extract Domains</a>
-        <a class="more-tool-link" href="html_css_live_editor_themed_final.html"><img src="images/css3-alt.png" alt="CSS3" class="tool-icon"> HTML &amp; CSS Live Editor</a>
+        <a class="more-tool-link" href="clean_sub_domains_themed_final.html" target="_blank" rel="noopener noreferrer"><img src="images/domaine-web.png" alt="CSS3" class="tool-icon"> Clean Sub-Domains</a>
+        <a class="more-tool-link" href="extract_domains_themed_final.html" target="_blank" rel="noopener noreferrer"><img src="images/extraxt.png" alt="CSS3" class="tool-icon"> Extract Domains</a>
+        <a class="more-tool-link" href="html_css_live_editor_themed_final.html" target="_blank" rel="noopener noreferrer"><img src="images/css3-alt.png" alt="CSS3" class="tool-icon"> HTML &amp; CSS Live Editor</a>
       </div>
 
 	  <div class="container">
 		<div class="category" id="email-tools">
 		  <h2>📧 Email Tools</h2>
 		  <ul>
-			<li class="tool-item"><a class="tool-button" href="return-paths_Maker.html"><img src="images/dns.png" alt="CSS3" class="tool-icon">  Return Paths Maker</a></li>
+			<li class="tool-item"><a class="tool-button" href="return-paths_Maker.html" target="_blank" rel="noopener noreferrer"><img src="images/dns.png" alt="CSS3" class="tool-icon">  Return Paths Maker</a></li>
 
-			<li class="tool-item"><a class="tool-button" href="Total_Send_Calculator.html"><img src="images/calculatrice.png" alt="CSS3" class="tool-icon">  Total Send Calculator</a></li>
-			<li class="tool-item"><a class="tool-button" href="remove_RPS_BOUNCE.html"><img src="images/supprimer-le-fichier.png" alt="CSS3" class="tool-icon">  Remove Rps Bounce</a></li>
-            	<li class="tool-item"><a class="tool-button" href="decode.html"><img src="images/navigateur.png" alt="CSS3" class="tool-icon"> Base64 Encode/Decode</a></li>
+			<li class="tool-item"><a class="tool-button" href="Total_Send_Calculator.html" target="_blank" rel="noopener noreferrer"><img src="images/calculatrice.png" alt="CSS3" class="tool-icon">  Total Send Calculator</a></li>
+			<li class="tool-item"><a class="tool-button" href="remove_RPS_BOUNCE.html" target="_blank" rel="noopener noreferrer"><img src="images/supprimer-le-fichier.png" alt="CSS3" class="tool-icon">  Remove Rps Bounce</a></li>
+            	<li class="tool-item"><a class="tool-button" href="decode.html" target="_blank" rel="noopener noreferrer"><img src="images/navigateur.png" alt="CSS3" class="tool-icon"> Base64 Encode/Decode</a></li>
             	<!--<li class="tool-item"><a class="tool-button" href="https://lagnaoui.great-site.net/page/?i=1" target="_blank">⚡Test Link Speed </a></li>-->
 		  </ul>
 		</div>
@@ -638,22 +630,22 @@ body.pink-mode #toolPageBack{background:#c02678}
 		<div class="category" id="server-tools">
 		  <h2>💻 Server Tools</h2>
 		  <ul>
-		  <li class="tool-item"><a class="tool-button" href="Spf_Dkim.html"><img src="images/protection.png" alt="CSS3" class="tool-icon"> SPF & DKIM</a></li>
-			<li class="tool-item"><a class="tool-button" href="Server_Manager.html"><img src="images/serveur-dedie.png" alt="CSS3" class="tool-icon"> Server Manager</a></li>
-			<li class="tool-item"><a class="tool-button" href="Server_Splitter.html"><img src="images/dive.png" alt="CSS3" class="tool-icon">  Server Splitter</a></li>
-		 <li class="tool-item"><a class="tool-button" href="cnam_checker.html">🛰Cnam Checker</a></li>
-		<li class="tool-item"><a class="tool-button" href="Domains_Checker.html">🛒Domains Checker</a></li>
+		  <li class="tool-item"><a class="tool-button" href="Spf_Dkim.html" target="_blank" rel="noopener noreferrer"><img src="images/protection.png" alt="CSS3" class="tool-icon"> SPF & DKIM</a></li>
+			<li class="tool-item"><a class="tool-button" href="Server_Manager.html" target="_blank" rel="noopener noreferrer"><img src="images/serveur-dedie.png" alt="CSS3" class="tool-icon"> Server Manager</a></li>
+			<li class="tool-item"><a class="tool-button" href="Server_Splitter.html" target="_blank" rel="noopener noreferrer"><img src="images/dive.png" alt="CSS3" class="tool-icon">  Server Splitter</a></li>
+		 <li class="tool-item"><a class="tool-button" href="cnam_checker.html" target="_blank" rel="noopener noreferrer">🛰Cnam Checker</a></li>
+		<li class="tool-item"><a class="tool-button" href="Domains_Checker.html" target="_blank" rel="noopener noreferrer">🛒Domains Checker</a></li>
 		  </ul>
 		</div>
 
 		<div class="category" id="utilities-tools">
 		  <h2>👾 Utilities</h2>
 		  <ul>
-			 <li class="tool-item"><a class="tool-button" href="SubsGenerator.html"><img src="images/parametres.png" alt="CSS3" class="tool-icon"> Subs Generator</a></li>
-			 <li class="tool-item"><a class="tool-button" href="Boit_Gmail.html"><img src="images/alerte-de-spam.png" alt="CSS3" class="tool-icon"> Boit Gmail for test Auto</a></li>
-			<li class="tool-item"><a class="tool-button" href="List_Spliter.html"><img src="images/diviser.png" alt="CSS3" class="tool-icon"> List Splitter</a></li>
-			<li class="tool-item"><a class="tool-button" href="Link_Opener.html"><img src="images/open-source.png" alt="CSS3" class="tool-icon">  Link Opener</a></li>
-			<li class="tool-item"><a class="tool-button" href="offers_.html"><img src="images/etiquette-de-prix.png" alt="CSS3" class="tool-icon"> Offer Manager</a></li>
+			 <li class="tool-item"><a class="tool-button" href="SubsGenerator.html" target="_blank" rel="noopener noreferrer"><img src="images/parametres.png" alt="CSS3" class="tool-icon"> Subs Generator</a></li>
+			 <li class="tool-item"><a class="tool-button" href="Boit_Gmail.html" target="_blank" rel="noopener noreferrer"><img src="images/alerte-de-spam.png" alt="CSS3" class="tool-icon"> Boit Gmail for test Auto</a></li>
+			<li class="tool-item"><a class="tool-button" href="List_Spliter.html" target="_blank" rel="noopener noreferrer"><img src="images/diviser.png" alt="CSS3" class="tool-icon"> List Splitter</a></li>
+			<li class="tool-item"><a class="tool-button" href="Link_Opener.html" target="_blank" rel="noopener noreferrer"><img src="images/open-source.png" alt="CSS3" class="tool-icon">  Link Opener</a></li>
+			<li class="tool-item"><a class="tool-button" href="offers_.html" target="_blank" rel="noopener noreferrer"><img src="images/etiquette-de-prix.png" alt="CSS3" class="tool-icon"> Offer Manager</a></li>
 		  </ul>
 		</div>
 
@@ -3870,130 +3862,48 @@ setInterval(updateClock, 1000);
 
 
 
-<!-- Same-page tool viewer -->
-<div id="toolPageOverlay" aria-hidden="true">
-  <button id="toolPageBack" type="button">← Back</button>
-  <iframe id="toolPageFrame" title="Tool page" allow="clipboard-read; clipboard-write"></iframe>
-</div>
 <script>
+/* Dashboard name: save once and prevent duplicate Welcome prefixes. */
 (function(){
-  const overlay = document.getElementById('toolPageOverlay');
-  const frame = document.getElementById('toolPageFrame');
-  const back = document.getElementById('toolPageBack');
-  let previousFocus = null;
-
-  function applyThemeToTool(){
-    try {
-      const doc = frame.contentDocument;
-      if (!doc || !doc.body) return;
-      const pink = localStorage.getItem('theme') === 'pink';
-      doc.body.classList.toggle('pink-mode', pink);
-      const childToggle = doc.getElementById('toggleTheme');
-      if (childToggle && childToggle.checked !== pink) {
-        childToggle.checked = pink;
-        childToggle.dispatchEvent(new Event('change', {bubbles:true}));
-      }
-    } catch(e) {
-      // Cross-origin pages cannot be styled from the dashboard.
-    }
-  }
-  function openTool(url){
-    previousFocus = document.activeElement;
-    overlay.classList.add('is-open');
-    overlay.setAttribute('aria-hidden','false');
-    document.body.style.overflow = 'hidden';
-    frame.src = url;
-    back.focus();
-  }
-  function closeTool(){
-    overlay.classList.remove('is-open');
-    overlay.setAttribute('aria-hidden','true');
-    document.body.style.overflow = '';
-    frame.src = 'about:blank';
-    if(previousFocus && previousFocus.focus) previousFocus.focus();
-  }
-  frame.addEventListener('load', applyThemeToTool);
-  back.addEventListener('click', closeTool);
-  document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && overlay.classList.contains('is-open')) closeTool();
-  });
-  // Intercept local HTML tool links in CAPTURE phase so other page handlers
-  // cannot open them in a new tab before this handler runs.
-  document.addEventListener('click', function(e){
-    const target = e.target;
-    const a = target && target.closest ? target.closest('a[href]') : null;
-    if(!a || e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
-    if(a.closest('#toolPageOverlay')) return;
-    const raw = a.getAttribute('href');
-    if(!raw || raw.trim().startsWith('#') || /^(https?:|mailto:|tel:|javascript:|data:|blob:)/i.test(raw.trim())) return;
-    let url;
-    try { url = new URL(raw, document.baseURI); } catch(_) { return; }
-    // Only local HTML pages on this GitHub Pages site are opened in the overlay.
-    if(url.origin !== location.origin || !/\.html?$/i.test(url.pathname)) return;
-    e.preventDefault();
-    e.stopPropagation();
-    if(typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
-    openTool(url.href);
-  }, true);
-
-  // Keep the opened local page in sync if the dashboard's theme changes.
-  const themeToggle = document.getElementById('toggleTheme');
-  if(themeToggle) themeToggle.addEventListener('change', function(){
-    if(overlay.classList.contains('is-open')) applyThemeToTool();
-  });
-  window.addEventListener('storage', function(e){
-    if(e.key === 'theme' && overlay.classList.contains('is-open')) applyThemeToTool();
-  });
-
-  // Dashboard name: enter it, confirm with the check icon, and keep it after refresh.
   const nameInput = document.getElementById('dashboardName');
   const saveNameButton = document.getElementById('saveDashboardName');
-  if(nameInput && saveNameButton){
-    // Normalize older saved values too, so "Welcome" is never stored twice.
-    function cleanDashboardName(value){
-      return String(value || '').trim().replace(/^(?:welcome\s+)+/i, '').trim();
-    }
-    const savedName = cleanDashboardName(localStorage.getItem('dashboard_custom_name'));
-    if(savedName){
-      localStorage.setItem('dashboard_custom_name', savedName);
-      nameInput.value = 'Welcome ' + savedName;
-      nameInput.classList.add('is-saved');
-      nameInput.readOnly = true;
-    } else {
-      nameInput.value = '';
-      nameInput.placeholder = 'Tap your name';
-    }
-    function confirmDashboardName(){
-      // Ignore extra clicks on the checkmark once the name is already saved.
-      if(nameInput.readOnly) return;
-      const value = cleanDashboardName(nameInput.value);
-      if(!value){
-        nameInput.focus();
-        return;
-      }
-      localStorage.setItem('dashboard_custom_name', value);
-      nameInput.value = 'Welcome ' + value;
-      nameInput.classList.add('is-saved');
-      nameInput.readOnly = true;
-      nameInput.blur();
-    }
-    saveNameButton.addEventListener('click', confirmDashboardName);
-    nameInput.addEventListener('keydown', function(e){
-      if(e.key === 'Enter'){
-        e.preventDefault();
-        confirmDashboardName();
-      }
-    });
-    nameInput.addEventListener('click', function(){
-      if(nameInput.readOnly){
-        nameInput.value = localStorage.getItem('dashboard_custom_name') || '';
-        nameInput.readOnly = false;
-        nameInput.classList.remove('is-saved');
-        nameInput.focus();
-        nameInput.select();
-      }
-    });
+  if (!nameInput || !saveNameButton) return;
+  function cleanDashboardName(value) {
+    return String(value || '').trim().replace(/^(?:welcome\s+)+/i, '').trim();
   }
+  const savedName = cleanDashboardName(localStorage.getItem('dashboard_custom_name'));
+  if (savedName) {
+    localStorage.setItem('dashboard_custom_name', savedName);
+    nameInput.value = 'Welcome ' + savedName;
+    nameInput.classList.add('is-saved');
+    nameInput.readOnly = true;
+  } else {
+    nameInput.value = '';
+    nameInput.placeholder = 'Tap your name';
+  }
+  function confirmDashboardName() {
+    if (nameInput.readOnly) return;
+    const value = cleanDashboardName(nameInput.value);
+    if (!value) { nameInput.focus(); return; }
+    localStorage.setItem('dashboard_custom_name', value);
+    nameInput.value = 'Welcome ' + value;
+    nameInput.classList.add('is-saved');
+    nameInput.readOnly = true;
+    nameInput.blur();
+  }
+  saveNameButton.addEventListener('click', confirmDashboardName);
+  nameInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); confirmDashboardName(); }
+  });
+  nameInput.addEventListener('click', function() {
+    if (nameInput.readOnly) {
+      nameInput.value = localStorage.getItem('dashboard_custom_name') || '';
+      nameInput.readOnly = false;
+      nameInput.classList.remove('is-saved');
+      nameInput.focus();
+      nameInput.select();
+    }
+  });
 })();
 </script>
 
