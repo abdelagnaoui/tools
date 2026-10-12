@@ -65,7 +65,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 20px;
+      gap: 12px;
     }
 
     .brand {
@@ -310,6 +310,15 @@
 
       .top-bar {
         padding: 0 12px;
+        gap: 8px;
+      }
+      .tools-navigation {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+      }
+      .tools-navigation .nav-home,
+      .tools-navigation .nav-menu-button {
+        white-space: nowrap;
       }
 
       .brand {
@@ -327,9 +336,11 @@
 
     /* ===== SHARED TOOLS MENU (added only) ===== */
     .tools-navigation {
-      width: min(1100px, 100%);
-      margin: 0 auto 18px;
-      padding: 12px 14px;
+      width: auto;
+      flex: 1 1 auto;
+      min-width: 0;
+      margin: 0;
+      padding: 8px 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -419,18 +430,6 @@
   <div class="top-bar">
     <div class="brand"></div>
 
-    <button
-      class="theme-switch"
-      id="themeToggle"
-      type="button"
-      title="Switch theme"
-      aria-label="Switch between normal and girls mode"
-    >
-      <span class="theme-slider"></span>
-    </button>
-  </div>
-
-
   <nav class="tools-navigation" aria-label="Tools navigation">
     <a class="nav-home" href="index.html">🏠 Home</a>
     <div class="nav-menu-wrap">
@@ -454,14 +453,27 @@
         <a href="List_Spliter.html" target="_blank" rel="noopener">List Splitter</a>
         <a href="Link_Opener.html" target="_blank" rel="noopener">Link Opener</a>
         <a href="cnam_checker.html" target="_blank" rel="noopener">Cnam Checker</a>
-        <a href="decode.html" target="_blank" rel="noopener">Base64 Encode/Decode</a>
         <div class="nav-category">Developer Tools</div>
+        <a href="decode.html" target="_blank" rel="noopener">Base64 Encode/Decode</a>
         <a href="html_css_live_editor_themed_final.html" target="_blank" rel="noopener">HTML &amp; CSS Live Editor</a>
         <a href="offers_.html" target="_blank" rel="noopener">Offer Manager</a>
-        <a href="https://lagnaoui.great-site.net/page/?i=1" target="_blank" rel="noopener">Test Link Speed</a>
       </div>
     </div>
   </nav>
+
+    <button
+      class="theme-switch"
+      id="themeToggle"
+      type="button"
+      title="Switch theme"
+      aria-label="Switch between normal and girls mode"
+    >
+      <span class="theme-slider"></span>
+    </button>
+  </div>
+
+
+
 
   <main class="page">
 
