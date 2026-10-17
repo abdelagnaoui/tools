@@ -42,21 +42,24 @@
   #existingList::-webkit-scrollbar-thumb, #newList::-webkit-scrollbar-thumb { background-color: #1abc9c88; border-radius: 3px; }
 
   /* ADDED: navigation only */
-  .tools-nav { position:relative; z-index:1000; display:flex; justify-content:space-between; align-items:center; gap:12px; width:100%; margin:0 auto 28px; padding:13px 16px; border:1px solid rgba(255,255,255,.2); border-radius:16px; background:rgba(12,25,48,.92); color:#fff; box-shadow:0 8px 24px rgba(0,0,0,.18); backdrop-filter:blur(14px); }
-  .tools-nav a,.tools-nav button { display:inline-flex; align-items:center; justify-content:center; gap:7px; margin:0; padding:10px 14px; border:1px solid rgba(255,255,255,.18); border-radius:10px; background:linear-gradient(135deg,#0ea5e9,#6366f1); color:#fff; font:600 14px 'Segoe UI',sans-serif; text-decoration:none; cursor:pointer; box-shadow:none; }
-  .tools-nav a:hover,.tools-nav button:hover { filter:brightness(1.12); transform:translateY(-1px); }
+  .tools-nav { position:relative; z-index:1000; display:flex; justify-content:space-between; align-items:center; gap:12px; width:100%; margin:0 auto 28px; padding:0; border:0; border-radius:0; background:transparent; color:#fff; box-shadow:none; }
+  .tools-nav a,.tools-nav button { display:inline-flex; align-items:center; justify-content:center; gap:7px; margin:0; padding:10px 14px; border:1px solid transparent; border-radius:10px; background:transparent; color:inherit; font:600 14px 'Segoe UI',sans-serif; text-decoration:none; cursor:pointer; box-shadow:none; }
+  .tools-nav a:hover,.tools-nav button:hover { background:rgba(255,255,255,.12); }
   .tools-nav .nav-menu-wrap { position:relative; }
-  .tools-nav .nav-dropdown { display:none; position:absolute; top:calc(100% + 8px); right:0; width:min(310px,85vw); max-height:65vh; overflow-y:auto; padding:8px; border:1px solid rgba(255,255,255,.18); border-radius:13px; background:rgba(12,25,48,.98); box-shadow:0 14px 35px rgba(0,0,0,.35); }
+  .nav-right { display:flex; align-items:center; gap:8px; margin-left:auto; }
+  .nav-shortcuts { display:flex; align-items:center; justify-content:flex-end; gap:8px; flex-wrap:wrap; margin:0 0 28px; }
+  .nav-shortcuts a { display:inline-flex; align-items:center; justify-content:center; padding:10px 14px; border:1px solid rgba(255,255,255,.2); border-radius:10px; background:linear-gradient(135deg,#0ea5e9,#6366f1); color:#fff; font:600 14px 'Segoe UI',sans-serif; text-decoration:none; box-shadow:none; }
+  .nav-shortcuts a:hover { filter:brightness(1.1); }
+  body.pink-mode .nav-shortcuts a { background:linear-gradient(135deg,#ec4899,#a855f7); }
+  @media(max-width:600px) { .nav-right { gap:4px; } .nav-shortcuts { justify-content:center; } .nav-shortcuts a { padding:8px 10px; font-size:12px; } }
+  .tools-nav .nav-dropdown { display:none; position:absolute; top:calc(100% + 8px); right:0; width:min(330px,85vw); max-height:75vh; overflow-y:auto; padding:10px; border:1px solid rgba(255,255,255,.22); border-radius:13px; background:rgba(12,25,48,.96); box-shadow:0 14px 35px rgba(0,0,0,.25); backdrop-filter:blur(14px); }
   .tools-nav .nav-dropdown.open { display:block; }
-  .tools-nav .nav-dropdown a { display:flex; justify-content:flex-start; width:100%; margin:3px 0; border:0; background:transparent; box-shadow:none; text-align:left; }
+  .tools-nav .nav-dropdown a { display:flex; justify-content:flex-start; width:100%; margin:2px 0; border:0; background:transparent; box-shadow:none; text-align:left; }
   .tools-nav .nav-dropdown a:hover { background:rgba(99,102,241,.28); }
-  .tools-nav .nav-current { padding:8px 12px; color:#cbd5e1; font-size:13px; }
-  body.pink-mode .tools-nav { background:rgba(65,12,53,.93); border-color:rgba(255,170,220,.3); }
-  body.pink-mode .tools-nav a,body.pink-mode .tools-nav button { background:linear-gradient(135deg,#ec4899,#a855f7); }
-  body.pink-mode .tools-nav .nav-dropdown { background:rgba(55,10,45,.98); border-color:rgba(255,170,220,.3); }
-  body.pink-mode .tools-nav .nav-dropdown a { background:transparent; }
-  body.pink-mode .tools-nav .nav-dropdown a:hover { background:rgba(236,72,153,.22); }
-  @media(max-width:600px) { .tools-nav { padding:10px; } .tools-nav a,.tools-nav button { padding:9px 11px; font-size:13px; } }
+  .tools-nav .nav-category { padding:9px 10px 5px; margin-top:5px; color:#93c5fd; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; border-bottom:1px solid rgba(255,255,255,.14); }
+  body.pink-mode .tools-nav .nav-dropdown { background:rgba(55,10,45,.97); border-color:rgba(255,190,225,.25); }
+  body.pink-mode .tools-nav .nav-category { color:#f9a8d4; }
+  @media(max-width:600px) { .tools-nav a,.tools-nav button { padding:9px 10px; font-size:13px; } }
 
 
   /* ===== MATCH THE REST OF THE TOOLS DASHBOARD: STYLE ONLY ===== */
@@ -167,9 +170,11 @@
 <body>
 <nav class="tools-nav" aria-label="Tools navigation">
   <a href="https://abdelagnaoui.github.io/tools/index.html" target="_top">🏠 Home</a>
-  <div class="nav-menu-wrap">
-    <button type="button" id="toolsMenuButton" aria-expanded="false" aria-controls="toolsDropdown">☰ Choose a Tool ▾</button>
-    <div class="nav-dropdown" id="toolsDropdown"><div class="nav-current">Loading tools...</div></div>
+  <div class="nav-right">
+    <div class="nav-menu-wrap">
+      <button type="button" id="toolsMenuButton" aria-expanded="false" aria-controls="toolsDropdown">☰ Choose a Tool ▾</button>
+      <div class="nav-dropdown" id="toolsDropdown"></div>
+    </div>
   </div>
 </nav>
   <h1>Subdomain Extractor</h1>
@@ -278,67 +283,46 @@
       button.setAttribute('aria-expanded', 'false');
     }
   });
-  function collectLinksFromDocument(doc, baseUrl) {
-    const links = [...doc.querySelectorAll('a[href]')];
-    const seen = new Set();
-    const found = [];
-    links.forEach(link => {
-      const href = link.getAttribute('href');
-      const label = (link.innerText || link.textContent || '').trim().replace(/\s+/g, ' ');
-      if (!href || !label || href.startsWith('#') || /^(javascript:|mailto:|tel:)/i.test(href)) return;
-      let url;
-      try { url = new URL(href, baseUrl); } catch (_) { return; }
-      if (url.origin !== location.origin || !/\.html?$/i.test(url.pathname)) return;
-      if (url.pathname === new URL(indexUrl).pathname || url.pathname === location.pathname || seen.has(url.href)) return;
-      seen.add(url.href);
-      found.push({url: url.href, label});
-    });
-    return found;
-  }
-
-  function renderLinks(found) {
-    dropdown.replaceChildren();
-    if (!found.length) {
-      dropdown.innerHTML = '<div class="nav-current">No tool links found. Open the dashboard first.</div>';
-      return;
-    }
-    found.forEach(entry => {
+  const groups = [
+    { title: 'Email Tools', links: [
+      ['Return Paths Maker', 'return-paths_Maker.html'],
+      ['Total Send Calculator', 'Total_Send_Calculator.html'],
+      ['Remove Rps Bounce', 'remove_RPS_BOUNCE.html'],
+      ['Base64 Encode/Decode', 'decode.html']
+    ]},
+    { title: 'Server Tools', links: [
+      ['SPF & DKIM', 'Spf_Dkim.html'],
+      ['Server Manager', 'Server_Manager.html'],
+      ['Server Splitter', 'Server_Splitter.html'],
+      ['Cnam Checker', 'cnam_checker.html'],
+      ['Domains Checker', 'Domains_Checker.html']
+    ]},
+    { title: 'Utilities', links: [
+      ['Clean Sub-Domains', 'clean_sub_domains_themed_final.html'],
+      ['Extract Domains', 'extract_domains_themed_final.html'],
+      ['HTML & CSS Live Editor', 'html_css_live_editor_themed_final.html'],
+      ['Subs Generator', 'SubsGenerator.html'],
+      ['Boit Gmail for test Auto', 'Boit_Gmail.html'],
+      ['List Splitter', 'List_Spliter.html'],
+      ['Link Opener', 'Link_Opener.html'],
+      ['Offer Manager', 'offers_.html']
+    ]}
+  ];
+  dropdown.replaceChildren();
+  groups.forEach(group => {
+    const heading = document.createElement('div');
+    heading.className = 'nav-category';
+    heading.textContent = group.title;
+    dropdown.appendChild(heading);
+    group.links.forEach(([label, href]) => {
       const item = document.createElement('a');
-      item.href = entry.url;
+      item.href = new URL(href, indexUrl).href;
       item.target = '_top';
-      item.textContent = entry.label;
+      item.rel = 'noopener';
+      item.textContent = label;
       dropdown.appendChild(item);
     });
-  }
-
-  // When opened inside the dashboard iframe, read the actual dashboard links
-  // directly. This avoids fetch restrictions and preserves the real tool URLs.
-  let parentLinks = [];
-  try {
-    if (window.parent && window.parent !== window) {
-      const parentDoc = window.parent.document;
-      parentLinks = collectLinksFromDocument(parentDoc, window.parent.location.href);
-    }
-  } catch (_) {
-    // Cross-origin parent: fall back to fetching index.html below.
-  }
-
-  if (parentLinks.length) {
-    renderLinks(parentLinks);
-  } else {
-    fetch(indexUrl, { cache: 'no-store' })
-      .then(response => {
-        if (!response.ok) throw new Error('Could not load tools list');
-        return response.text();
-      })
-      .then(html => {
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        renderLinks(collectLinksFromDocument(doc, indexUrl));
-      })
-      .catch(() => {
-        dropdown.innerHTML = '<div class="nav-current">Could not load tools list. Open this tool from the main dashboard, or check the dashboard URL.</div>';
-      });
-  }
+  });
 })();
 </script>
 </body>
