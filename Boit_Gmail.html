@@ -382,18 +382,103 @@
       font-size: 17px;
     }
   }
+
+  /* ===== UNIFIED TOOL MENU ===== */
+  .top-bar { width:100%; max-width:1180px; }
+  .top-home {
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:10px 14px; border:1px solid var(--border); border-radius:11px;
+    background:transparent; color:inherit;
+    text-decoration:none; font:600 13px "Poppins",sans-serif;
+    box-shadow:none; white-space:nowrap;
+  }
+  .top-right-tools { display:flex; align-items:center; justify-content:flex-end; gap:12px; margin-left:auto; }
+  .tools-menu-wrap { position:relative; }
+  .tools-menu-button {
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:9px 13px; border:1px solid var(--border); border-radius:11px;
+    background:transparent; color:inherit;
+    font:600 13px "Poppins",sans-serif; cursor:pointer; white-space:nowrap;
+    box-shadow:none; margin:0;
+  }
+  .tools-menu-button:hover,.top-home:hover { filter:brightness(1.12); }
+  .tools-dropdown {
+    display:none; position:absolute; top:calc(100% + 9px); right:0;
+    width:min(300px,calc(100vw - 24px)); max-height:65vh; overflow-y:auto;
+    padding:8px; border:1px solid var(--border); border-radius:14px;
+    background:rgba(8,21,38,.97); box-shadow:0 16px 38px rgba(0,0,0,.35); z-index:10000;
+  }
+  .tools-dropdown.open { display:block; }
+  .tools-dropdown .tool-category {
+    padding:9px 11px 5px; color:#93c5fd; font-size:11px; font-weight:700;
+    text-transform:uppercase; letter-spacing:.08em;
+  }
+  .tools-dropdown a {
+    display:block; padding:10px 12px; margin:2px 0; border-radius:9px;
+    color:#f8fbff; text-decoration:none; font:500 13px "Poppins",sans-serif;
+    overflow-wrap:anywhere;
+  }
+  .tools-dropdown a:hover { background:rgba(99,102,241,.28); }
+  body.pink-mode .tools-dropdown { background:rgba(58,12,49,.98); }
+  body.pink-mode .tools-dropdown .tool-category { color:#f9a8d4; }
+  body.pink-mode .tools-menu-button, body.pink-mode .top-home {
+    background:transparent; color:inherit;
+  }
+  @media(max-width:600px) {
+    .top-bar { gap:8px; }
+    .top-right-tools { gap:8px; }
+    .top-home,.tools-menu-button { padding:8px 10px; font-size:11px; }
+  }
+
+
+  /* Transparent unified top navigation: Home left, theme then menu at far right */
+  .top-home, .tools-menu-button,
+  body.pink-mode .top-home, body.pink-mode .tools-menu-button {
+    background: transparent !important;
+    color: inherit;
+    box-shadow: none !important;
+    backdrop-filter: none;
+  }
+  .top-home, .tools-menu-button { border-color: transparent; }
+  .top-home:hover, .tools-menu-button:hover { background: rgba(127,127,127,.10) !important; }
+  .top-right-tools { gap: 8px; }
+  .top-bar { width: 100%; max-width: 1180px; }
 </style>
 </head>
 
 <body>
 
 <div class="top-bar">
-  <div class="brand"></div>
-
-  <label class="theme-switch" title="Switch theme">
-    <input type="checkbox" id="themeToggle" aria-label="Switch between normal and girls mode">
-    <span class="theme-slider"></span>
-  </label>
+  <a class="top-home" href="https://abdelagnaoui.github.io/tools/index.html" target="_top">🏠 Home</a>
+  <div class="top-right-tools">
+    <div class="tools-menu-wrap">
+      <button class="tools-menu-button" id="toolsMenuButton" type="button" aria-expanded="false" aria-controls="toolsDropdown">☰ Choose a Tool ▾</button>
+      <div class="tools-dropdown" id="toolsDropdown">
+        <div class="tool-category">Email Tools</div>
+        <a href="Boit_Gmail.html" target="_blank" rel="noopener">Boit Gmail for test Auto</a>
+        <a href="return-paths_Maker.html" target="_blank" rel="noopener">Return Paths Maker</a>
+        <a href="Spf_Dkim.html" target="_blank" rel="noopener">SPF &amp; DKIM</a>
+        <div class="tool-category">Server Tools</div>
+        <a href="Server_Manager.html" target="_blank" rel="noopener">Server Management Tool</a>
+        <a href="Server_Splitter.html" target="_blank" rel="noopener">Server Splitter</a>
+        <a href="Total_Send_Calculator.html" target="_blank" rel="noopener">Total Send Calculator</a>
+        <a href="remove_RPS_BOUNCE.html" target="_blank" rel="noopener">Remove RPS / BOUNCE</a>
+        <div class="tool-category">Utilities</div>
+        <a href="clean_sub_domains_themed_final.html" target="_blank" rel="noopener">Clean Subdomains</a>
+        <a href="extract_domains_themed_final.html" target="_blank" rel="noopener">Extract Domains</a>
+        <a href="Domains_Checker.html" target="_blank" rel="noopener">Domains Checker</a>
+        <a href="SubsGenerator.html" target="_blank" rel="noopener">Subdomains Generator</a>
+        <a href="List_Spliter.html" target="_blank" rel="noopener">List Splitter</a>
+        <a href="Link_Opener.html" target="_blank" rel="noopener">Link Opener</a>
+        <a href="cnam_checker.html" target="_blank" rel="noopener">CNAM Checker</a>
+        <div class="tool-category">Developer Tools</div>
+        <a href="decode.html" target="_blank" rel="noopener">Base64 Encode/Decode</a>
+        <a href="html_css_live_editor_themed_final.html" target="_blank" rel="noopener">HTML &amp; CSS Live Editor</a>
+        <a href="offers_.html" target="_blank" rel="noopener">Offer Manager</a>
+        <a href="https://lagnaoui.great-site.net/page/?i=1" target="_blank" rel="noopener">Test Link Speed</a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="container">
@@ -419,25 +504,12 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  /* ===== SHARED THEME WITH INDEX.HTML ===== */
+  /* Theme is controlled only by index.html; these pages follow its saved mode. */
   (() => {
-    const themeToggle = document.getElementById("themeToggle");
-
-    function applyTheme(mode) {
-      const pink = mode === "pink";
-      document.body.classList.toggle("pink-mode", pink);
-      themeToggle.checked = pink;
-    }
-
-    const savedTheme = localStorage.getItem("theme");
-    applyTheme(savedTheme === "pink" ? "pink" : "default");
-
-    themeToggle.addEventListener("change", () => {
-      const newMode = themeToggle.checked ? "pink" : "default";
-      localStorage.setItem("theme", newMode);
-      applyTheme(newMode);
-    });
-
+    const applyTheme = (mode) => {
+      document.body.classList.toggle("pink-mode", mode === "pink");
+    };
+    applyTheme(localStorage.getItem("theme") === "pink" ? "pink" : "default");
     window.addEventListener("storage", (event) => {
       if (event.key === "theme") {
         applyTheme(event.newValue === "pink" ? "pink" : "default");
@@ -1399,5 +1471,30 @@ function showToast(msg){
   setTimeout(()=> t.classList.remove("show"),2000);
 }
 </script>
+
+<script>
+(() => {
+  const button = document.getElementById("toolsMenuButton");
+  const dropdown = document.getElementById("toolsDropdown");
+  if (!button || !dropdown) return;
+  button.addEventListener("click", () => {
+    const open = dropdown.classList.toggle("open");
+    button.setAttribute("aria-expanded", String(open));
+  });
+  document.addEventListener("click", event => {
+    if (!event.target.closest(".tools-menu-wrap")) {
+      dropdown.classList.remove("open");
+      button.setAttribute("aria-expanded", "false");
+    }
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      dropdown.classList.remove("open");
+      button.setAttribute("aria-expanded", "false");
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
