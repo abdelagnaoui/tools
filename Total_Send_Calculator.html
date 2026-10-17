@@ -422,63 +422,100 @@
       .tools-navigation .nav-menu-button { padding: 9px 11px; font-size: 12px; }
     }
 
-  </style>
+  
+    /* Navigation-only adjustments: transparent, Home left, menu right */
+    .top-bar {
+      width: 100%;
+      margin: 0 0 18px;
+      padding: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .top-bar > .nav-home {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      margin: 0;
+      border: 1px solid transparent;
+      border-radius: 11px;
+      background: transparent;
+      color: #fff;
+      text-decoration: none;
+      font: 600 13px "Poppins", sans-serif;
+      box-shadow: none;
+      white-space: nowrap;
+    }
+    .tools-navigation {
+      flex: 0 0 auto;
+      width: auto;
+      margin-left: auto;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      justify-content: flex-end;
+    }
+    .tools-navigation .nav-menu-button {
+      background: transparent;
+      border-color: transparent;
+      box-shadow: none;
+    }
+    body.pink-mode .top-bar > .nav-home,
+    body.pink-mode .tools-navigation .nav-menu-button {
+      background: transparent;
+      border-color: transparent;
+    }
+    .tools-navigation .nav-dropdown .nav-category { display:block; }
+</style>
 </head>
 
 <body>
 
   <div class="top-bar">
-    <div class="brand"></div>
-
-  <nav class="tools-navigation" aria-label="Tools navigation">
-    <a class="nav-home" href="index.html">🏠 Home</a>
-    <div class="nav-menu-wrap">
-      <button class="nav-menu-button" id="toolsNavButton" type="button"
-        aria-expanded="false" aria-controls="toolsNavDropdown">☰ Choose a Tool ▾</button>
-      <div class="nav-dropdown" id="toolsNavDropdown">
-        <div class="nav-category">Email Tools</div>
-        <a href="Boit_Gmail.html" target="_blank" rel="noopener">Boit Gmail for test Auto</a>
-        <a href="return-paths_Maker.html" target="_blank" rel="noopener">Return Paths Maker</a>
-        <a href="Spf_Dkim.html" target="_blank" rel="noopener">SPF &amp; DKIM</a>
-        <div class="nav-category">Server Tools</div>
-        <a href="Server_Manager.html" target="_blank" rel="noopener">Server Manager</a>
-        <a href="Server_Splitter.html" target="_blank" rel="noopener">Server Splitter</a>
-        <a href="Total_Send_Calculator.html" target="_blank" rel="noopener">Total Send Calculator</a>
-        <a href="remove_RPS_BOUNCE.html" target="_blank" rel="noopener">Remove RPS Bounce</a>
-        <div class="nav-category">Utilities</div>
-        <a href="clean_sub_domains_themed_final.html" target="_blank" rel="noopener">Clean Sub-Domains</a>
-        <a href="extract_domains_themed_final.html" target="_blank" rel="noopener">Extract Domains</a>
-        <a href="Domains_Checker.html" target="_blank" rel="noopener">Domains Checker</a>
-        <a href="SubsGenerator.html" target="_blank" rel="noopener">Subs Generator</a>
-        <a href="List_Spliter.html" target="_blank" rel="noopener">List Splitter</a>
-        <a href="Link_Opener.html" target="_blank" rel="noopener">Link Opener</a>
-        <a href="cnam_checker.html" target="_blank" rel="noopener">Cnam Checker</a>
-        <div class="nav-category">Developer Tools</div>
-        <a href="decode.html" target="_blank" rel="noopener">Base64 Encode/Decode</a>
-        <a href="html_css_live_editor_themed_final.html" target="_blank" rel="noopener">HTML &amp; CSS Live Editor</a>
-        <a href="offers_.html" target="_blank" rel="noopener">Offer Manager</a>
+    <a class="nav-home" href="https://abdelagnaoui.github.io/tools/index.html" target="_top"> Home</a>
+    <nav class="tools-navigation" aria-label="Tools navigation">
+      <div class="nav-menu-wrap">
+        <button class="nav-menu-button" id="toolsNavButton" type="button"
+          aria-expanded="false" aria-controls="toolsNavDropdown">☰ Choose a Tool ▾</button>
+        <div class="nav-dropdown" id="toolsNavDropdown">
+          <div class="nav-category">Email Tools</div>
+          <a href="Boit_Gmail.html" target="_blank" rel="noopener">Boit Gmail for test Auto</a>
+          <a href="return-paths_Maker.html" target="_blank" rel="noopener">Return Paths Maker</a>
+          <a href="Spf_Dkim.html" target="_blank" rel="noopener">SPF &amp; DKIM</a>
+          <div class="nav-category">Server Tools</div>
+          <a href="Server_Manager.html" target="_blank" rel="noopener">Server Manager</a>
+          <a href="Server_Splitter.html" target="_blank" rel="noopener">Server Splitter</a>
+          <a href="Total_Send_Calculator.html" target="_blank" rel="noopener">Total Send Calculator</a>
+          <a href="remove_RPS_BOUNCE.html" target="_blank" rel="noopener">Remove RPS Bounce</a>
+          <div class="nav-category">Utilities</div>
+          <a href="clean_sub_domains_themed_final.html" target="_blank" rel="noopener">Clean Sub-Domains</a>
+          <a href="extract_domains_themed_final.html" target="_blank" rel="noopener">Extract Domains</a>
+          <a href="Domains_Checker.html" target="_blank" rel="noopener">Domains Checker</a>
+          <a href="SubsGenerator.html" target="_blank" rel="noopener">Subs Generator</a>
+          <a href="List_Spliter.html" target="_blank" rel="noopener">List Splitter</a>
+          <a href="Link_Opener.html" target="_blank" rel="noopener">Link Opener</a>
+          <a href="cnam_checker.html" target="_blank" rel="noopener">Cnam Checker</a>
+          <a href="decode.html" target="_blank" rel="noopener">Base64 Encode/Decode</a>
+          <a href="html_css_live_editor_themed_final.html" target="_blank" rel="noopener">HTML &amp; CSS Live Editor</a>
+          <a href="offers_.html" target="_blank" rel="noopener">Offer Manager</a>
+        </div>
       </div>
-    </div>
-  </nav>
-
-    <button
-      class="theme-switch"
-      id="themeToggle"
-      type="button"
-      title="Switch theme"
-      aria-label="Switch between normal and girls mode"
-    >
-      <span class="theme-slider"></span>
-    </button>
+    </nav>
   </div>
-
 
 
 
   <main class="page">
 
     <section class="title-card">
-      <h1>📬 Total Send & X-Delay Calculator</h1>
+      <h1> Total Send & X-Delay Calculator</h1>
       <p>Calculate total sending capacity and required x-delay.</p>
     </section>
 
@@ -553,47 +590,18 @@
   </main>
 
   <script>
-    /* ===== SHARED THEME WITH INDEX.HTML ===== */
+    /* ===== FOLLOW THE THEME SELECTED IN INDEX.HTML ===== */
     (() => {
-      const themeToggle = document.getElementById("themeToggle");
-      const slider = themeToggle.querySelector(".theme-slider");
-
-      function applyTheme(mode) {
-        const pink = mode === "pink";
-
-        document.body.classList.toggle("pink-mode", pink);
-        themeToggle.classList.toggle("is-pink", pink);
-        slider.setAttribute("aria-label", pink ? "Girls mode" : "Normal mode");
+      function applyTheme() {
+        let mode = "default";
+        try { mode = localStorage.getItem("theme") || "default"; } catch (_) {}
+        document.body.classList.toggle("pink-mode", mode === "pink");
       }
-
-      let savedTheme = "default";
-
-      try {
-        savedTheme = localStorage.getItem("theme") || "default";
-      } catch (error) {
-        savedTheme = "default";
-      }
-
-      applyTheme(savedTheme === "pink" ? "pink" : "default");
-
-      themeToggle.addEventListener("click", () => {
-        const isPink = document.body.classList.toggle("pink-mode");
-        const newMode = isPink ? "pink" : "default";
-
-        themeToggle.classList.toggle("is-pink", isPink);
-
-        try {
-          localStorage.setItem("theme", newMode);
-        } catch (error) {
-          // Theme still works visually if storage is unavailable.
-        }
+      applyTheme();
+      window.addEventListener("storage", event => {
+        if (event.key === "theme") applyTheme();
       });
-
-      window.addEventListener("storage", (event) => {
-        if (event.key === "theme") {
-          applyTheme(event.newValue === "pink" ? "pink" : "default");
-        }
-      });
+      window.addEventListener("pageshow", applyTheme);
     })();
 
     /* ===== ORIGINAL LOGIC ===== */
