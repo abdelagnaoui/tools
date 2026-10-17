@@ -430,17 +430,120 @@
           grid-template-columns: 1fr;
         }
       }
+
+      /* ===== SHARED NAVIGATION MENU ===== */
+      .top-bar { justify-content: space-between; }
+      .nav-home,
+      .tools-menu-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 9px 12px;
+        color: #fff;
+        text-decoration: none;
+        font: 600 13px "Poppins", sans-serif;
+        background: transparent !important;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        box-shadow: none !important;
+        text-shadow: 0 1px 5px rgba(0,0,0,.25);
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background .2s, border-color .2s;
+      }
+      .nav-home:hover,
+      .tools-menu-button:hover,
+      .nav-home:focus-visible,
+      .tools-menu-button:focus-visible {
+        background: rgba(255,255,255,.10) !important;
+        border-color: rgba(255,255,255,.20);
+        outline: none;
+      }
+      .tools-menu-wrap { position: relative; margin-left: auto; }
+      .tools-dropdown {
+        display: none;
+        position: absolute;
+        top: calc(100% + 9px);
+        right: 0;
+        z-index: 9999;
+        width: min(300px, calc(100vw - 28px));
+        max-height: min(72vh, 620px);
+        overflow-y: auto;
+        padding: 10px;
+        border: 1px solid rgba(255,255,255,.2);
+        border-radius: 14px;
+        background: rgba(8, 21, 38, .96);
+        box-shadow: 0 16px 40px rgba(0,0,0,.30);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+      }
+      .tools-dropdown.open { display: block; }
+      .tools-category {
+        padding: 9px 10px 5px;
+        color: #7dd3fc;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .7px;
+      }
+      .tools-dropdown a {
+        display: block;
+        padding: 8px 10px;
+        border-radius: 8px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 12px;
+        line-height: 1.4;
+      }
+      .tools-dropdown a:hover { background: rgba(255,255,255,.12); }
+      body.pink-mode .tools-dropdown {
+        background: rgba(58, 12, 49, .97);
+        border-color: rgba(255,190,225,.25);
+      }
+      body.pink-mode .tools-category { color: #f9a8d4; }
+      @media (max-width: 480px) {
+        .top-bar { gap: 6px; }
+        .nav-home, .tools-menu-button { padding: 8px 9px; font-size: 12px; }
+      }
+
     </style>
 </head>
 
 <body>
 
   <div class="top-bar">
-    <div class="brand"></div>
+    <a class="nav-home" href="https://abdelagnaoui.github.io/tools/index.html" target="_top" aria-label="Home">⌂ Home</a>
 
-    <button class="theme-switch" id="themeToggle" type="button" title="Switch theme" aria-label="Switch between normal and girls mode">
-      <span class="theme-slider"></span>
-    </button>
+    <div class="tools-menu-wrap">
+      <button class="tools-menu-button" id="toolsMenuButton" type="button" aria-expanded="false" aria-controls="toolsDropdown">
+        Choose a Tool <span aria-hidden="true">▾</span>
+      </button>
+      <nav class="tools-dropdown" id="toolsDropdown" aria-label="Choose a tool">
+        <div class="tools-category">Email Tools</div>
+        <a href="Boit_Gmail.html" target="_blank" rel="noopener">Boit Gmail for test Auto</a>
+        <a href="return-paths_Maker.html" target="_blank" rel="noopener">Return Paths Maker</a>
+        <a href="Spf_Dkim.html" target="_blank" rel="noopener">SPF &amp; DKIM</a>
+        <div class="tools-category">Server Tools</div>
+        <a href="Server_Manager.html" target="_blank" rel="noopener">Server Manager</a>
+        <a href="Server_Splitter.html" target="_blank" rel="noopener">Server Splitter</a>
+        <a href="Total_Send_Calculator.html" target="_blank" rel="noopener">Total Send Calculator</a>
+        <a href="remove_RPS_BOUNCE.html" target="_blank" rel="noopener">Remove RPS / Bounce</a>
+        <div class="tools-category">Utilities</div>
+        <a href="clean_sub_domains_themed_final.html" target="_blank" rel="noopener">Clean Subdomains</a>
+        <a href="extract_domains_themed_final.html" target="_blank" rel="noopener">Extract Domains</a>
+        <a href="Domains_Checker.html" target="_blank" rel="noopener">Domains Checker</a>
+        <a href="SubsGenerator.html" target="_blank" rel="noopener">Subdomain Generator</a>
+        <a href="List_Spliter.html" target="_blank" rel="noopener">List Splitter</a>
+        <a href="Link_Opener.html" target="_blank" rel="noopener">Link Opener</a>
+        <a href="cnam_checker.html" target="_blank" rel="noopener">CNAM Checker</a>
+        <div class="tools-category">Developer Tools</div>
+        <a href="decode.html" target="_blank" rel="noopener">Base64 Encode/Decode</a>
+        <a href="html_css_live_editor_themed_final.html" target="_blank" rel="noopener">HTML/CSS Live Editor</a>
+        <a href="offers_.html" target="_blank" rel="noopener">Offers</a>
+        <a href="https://lagnaoui.great-site.net/page/?i=1" target="_blank" rel="noopener">Test Link Speed</a>
+      </nav>
+    </div>
   </div>
 
   <main class="page">
@@ -494,44 +597,49 @@
   </main>
 
     <script>
-      /* ===== SHARED THEME WITH INDEX.HTML ===== */
+      /* ===== THEME READ FROM INDEX.HTML; NO LOCAL SWITCH ===== */
       (() => {
-        const themeToggle = document.getElementById("themeToggle");
-        const slider = themeToggle.querySelector(".theme-slider");
-
         function applyTheme(mode) {
-          const pink = mode === "pink";
-          document.body.classList.toggle("pink-mode", pink);
-          themeToggle.classList.toggle("is-pink", pink);
-          slider.setAttribute("aria-label", pink ? "Girls mode" : "Normal mode");
+          document.body.classList.toggle("pink-mode", mode === "pink");
         }
 
-        let savedTheme = "default";
-
-        try {
-          savedTheme = localStorage.getItem("theme") || "default";
-        } catch (error) {
-          savedTheme = "default";
-        }
-
-        applyTheme(savedTheme === "pink" ? "pink" : "default");
-
-        themeToggle.addEventListener("click", () => {
-          const isPink = document.body.classList.toggle("pink-mode");
-          const newMode = isPink ? "pink" : "default";
-
-          themeToggle.classList.toggle("is-pink", isPink);
-
+        function readTheme() {
           try {
-            localStorage.setItem("theme", newMode);
+            return localStorage.getItem("theme") === "pink" ? "pink" : "default";
           } catch (error) {
-            // Theme still works visually even when storage is unavailable.
+            return "default";
+          }
+        }
+
+        applyTheme(readTheme());
+        window.addEventListener("storage", (event) => {
+          if (event.key === "theme") applyTheme(event.newValue === "pink" ? "pink" : "default");
+        });
+      })();
+
+      /* ===== UNIFIED TOOL MENU ===== */
+      (() => {
+        const button = document.getElementById("toolsMenuButton");
+        const dropdown = document.getElementById("toolsDropdown");
+        if (!button || !dropdown) return;
+
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const isOpen = dropdown.classList.toggle("open");
+          button.setAttribute("aria-expanded", String(isOpen));
+        });
+
+        document.addEventListener("click", (event) => {
+          if (!event.target.closest(".tools-menu-wrap")) {
+            dropdown.classList.remove("open");
+            button.setAttribute("aria-expanded", "false");
           }
         });
 
-        window.addEventListener("storage", (event) => {
-          if (event.key === "theme") {
-            applyTheme(event.newValue === "pink" ? "pink" : "default");
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            dropdown.classList.remove("open");
+            button.setAttribute("aria-expanded", "false");
           }
         });
       })();
