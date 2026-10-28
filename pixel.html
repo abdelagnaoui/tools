@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Pixel Logo Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+
+        :root {
+            --panel: rgba(8, 21, 38, 0.44);
+            --panel-soft: rgba(255, 255, 255, 0.07);
+            --border: rgba(255, 255, 255, 0.18);
+            --text: #ffffff;
+            --muted: #dbeafe;
+            --primary1: #0ea5e9;
+            --primary2: #6366f1;
+        }
+
+        html, body {
+            min-height: 100%;
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            color: var(--text);
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 26px 18px 40px;
+            background:
+                linear-gradient(rgba(4, 18, 35, 0.16), rgba(4, 18, 35, 0.34)),
+                url("https://wallpapercave.com/wp/wp3284848.gif") center center / cover fixed no-repeat;
+            transition: background 0.35s ease;
+        }
+
+        body.pink-mode {
+            --panel: rgba(58, 12, 49, 0.44);
+            --panel-soft: rgba(255, 205, 233, 0.10);
+            --border: rgba(255, 190, 225, 0.22);
+            --muted: #ffe5f4;
+            background:
+                linear-gradient(rgba(60, 8, 45, 0.18), rgba(60, 8, 45, 0.34)),
+                url("https://wallpaperaccess.com/full/12067286.gif") center center / cover fixed no-repeat;
+        }
+
+        /* Same navigation layout as the reference page */
+        .top-bar {
+            width: 100%;
+            margin: 0 0 18px;
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-home {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 14px;
+            margin: 0;
+            border: 1px solid transparent;
+            border-radius: 11px;
+            background: transparent;
+            color: #fff;
+            text-decoration: none;
+            font: 600 13px "Poppins", sans-serif;
+            box-shadow: none;
+            white-space: nowrap;
+        }
+
+        .tools-navigation {
+            flex: 0 0 auto;
+            width: auto;
+            margin-left: auto;
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            position: relative;
+            z-index: 20;
+        }
+
+        .nav-menu-wrap { position: relative; }
+
+        .tools-navigation .nav-menu-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border: 1px solid transparent;
+            border-radius: 11px;
+            background: transparent;
+            color: #fff;
+            text-decoration: none;
+            font: 600 13px "Poppins", sans-serif;
+            cursor: pointer;
+            box-shadow: none;
+            white-space: nowrap;
+        }
+
+        .nav-home:hover, .tools-navigation .nav-menu-button:hover {
+            background: rgba(255,255,255,.08);
+        }
+
+        .nav-dropdown {
+            display: none;
+            position: absolute;
+            top: calc(100% + 9px);
+            right: 0;
+            width: min(300px, calc(100vw - 32px));
+            max-height: 65vh;
+            overflow-y: auto;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: rgba(8,21,38,.97);
+            box-shadow: 0 16px 38px rgba(0,0,0,.35);
+        }
+
+        .nav-dropdown.open { display: block; }
+
+        .nav-dropdown a {
+            display: block;
+            padding: 10px 12px;
+            margin: 2px 0;
+            border-radius: 9px;
+            color: #f8fbff;
+            text-decoration: none;
+            font: 500 13px "Poppins", sans-serif;
+            overflow-wrap: anywhere;
+        }
+
+        .nav-dropdown a:hover { background: rgba(99,102,241,.28); }
+
+        .nav-category {
+            display: block;
+            padding: 9px 11px 5px;
+            color: #93c5fd;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        body.pink-mode .nav-dropdown { background: rgba(58,12,49,.98); }
+        body.pink-mode .nav-category { color: #f9a8d4; }
+
+        /* Generator layout, styled to match the reference page */
+        .container {
+            width: min(900px, 100%);
+            margin: 0 auto;
+        }
+
+        .title-card, .tool-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .title-card {
+            border-radius: 24px;
+            padding: 26px;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+
+        .title-card h1 {
+            margin: 0;
+            font-size: clamp(25px, 4vw, 38px);
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+        .title-card p {
+            margin: 8px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .tool-card {
+            border-radius: 24px;
+            padding: 24px;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .control-group { display: flex; flex-direction: column; min-width: 0; }
+        .dimension-controls { display: flex; gap: 10px; min-width: 0; }
+        .dimension-controls .control-group { flex: 1; width: 50%; }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #f8fbff;
+            user-select: none;
+        }
+
+        input[type="number"], input[type="file"], select, textarea {
+            width: 100%;
+            min-width: 0;
+            border-radius: 13px;
+            border: 1px solid rgba(255,255,255,.16);
+            background: rgba(0,0,0,.25);
+            color: #fff;
+            font: 500 13px "Poppins", sans-serif;
+            outline: none;
+            transition: .25s;
+        }
+
+        input[type="number"], select, input[type="file"] { min-height: 47px; padding: 11px 12px; }
+        input[type="file"] { padding: 10px; }
+        select option { background: #102033; color: #fff; }
+        input[type="number"]:focus, input[type="file"]:focus, select:focus, textarea:focus {
+            border-color: rgba(56,189,248,.75);
+            box-shadow: 0 0 0 3px rgba(56,189,248,.12);
+        }
+
+        input[type="color"] {
+            width: 100%;
+            height: 47px;
+            padding: 5px;
+            border-radius: 13px;
+            border: 1px solid rgba(255,255,255,.16);
+            background: rgba(0,0,0,.25);
+            cursor: pointer;
+        }
+
+        .action-btn {
+            width: 100%;
+            margin-top: 10px;
+            padding: 13px 16px;
+            border: 0;
+            border-radius: 13px;
+            cursor: pointer;
+            color: #fff;
+            background: linear-gradient(135deg, var(--primary1), var(--primary2));
+            font: 600 14px "Poppins", sans-serif;
+            box-shadow: 0 7px 0 rgba(30,64,175,.65);
+            transition: .25s;
+        }
+
+        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(56,189,248,.28); }
+        .action-btn:active { transform: translateY(3px); box-shadow: none; }
+        .copy-btn { margin-top: 12px; }
+
+        .subheading {
+            margin: 24px 0 10px;
+            font-size: 17px;
+            font-weight: 700;
+        }
+
+        #pixelPreview {
+            margin: 20px 0;
+            padding: 14px;
+            min-height: 40px;
+            overflow-x: auto;
+            text-align: center;
+            border-radius: 14px;
+            background: var(--panel-soft);
+            border: 1px solid rgba(255,255,255,.12);
+        }
+
+        #pixelPreview table { margin: 0 auto; }
+        textarea {
+            display: block;
+            min-height: 260px;
+            padding: 14px;
+            margin-top: 10px;
+            resize: vertical;
+            line-height: 1.5;
+            background: rgba(0,0,0,.3);
+            font-family: Consolas, monospace;
+            font-size: 12px;
+        }
+
+        .footer {
+            margin-top: 18px;
+            text-align: center;
+            font-size: 11px;
+            color: rgba(255,255,255,.65);
+        }
+
+        @media (max-width: 700px) {
+            body { padding: 18px 12px 28px; }
+            .top-bar { gap: 8px; }
+            .nav-home, .tools-navigation .nav-menu-button { padding: 9px 11px; font-size: 12px; }
+            .tool-card { padding: 16px; }
+            .controls { grid-template-columns: 1fr; }
+            .dimension-controls { gap: 10px; }
+            .title-card { padding: 20px 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <a class="nav-home" href="https://abdelagnaoui.github.io/tools/index.html" target="_top">Home</a>
+        <nav class="tools-navigation" aria-label="Tools navigation">
+            <div class="nav-menu-wrap">
+                <button class="nav-menu-button" id="toolsNavButton" type="button" aria-expanded="false" aria-controls="toolsNavDropdown">☰ Choose a Tool ▾</button>
+                <div class="nav-dropdown" id="toolsNavDropdown">
+                    <div class="nav-category">Email Tools</div>
+                    <a href="Boit_Gmail.html" target="_blank" rel="noopener">Boit Gmail for test Auto</a>
+                    <a href="return-paths_Maker.html" target="_blank" rel="noopener">Return Paths Maker</a>
+                    <a href="Spf_Dkim.html" target="_blank" rel="noopener">SPF &amp; DKIM</a>
+                    <div class="nav-category">Server Tools</div>
+                    <a href="Server_Manager.html" target="_blank" rel="noopener">Server Manager</a>
+                    <a href="Server_Splitter.html" target="_blank" rel="noopener">Server Splitter</a>
+                    <a href="Total_Send_Calculator.html" target="_blank" rel="noopener">Total Send Calculator</a>
+                    <a href="remove_RPS_BOUNCE.html" target="_blank" rel="noopener">Remove RPS Bounce</a>
+                    <div class="nav-category">Utilities</div>
+                    <a href="clean_sub_domains_themed_final.html" target="_blank" rel="noopener">Clean Sub-Domains</a>
+                    <a href="extract_domains_themed_final.html" target="_blank" rel="noopener">Extract Domains</a>
+                    <a href="Domains_Checker.html" target="_blank" rel="noopener">Domains Checker</a>
+                    <a href="SubsGenerator.html" target="_blank" rel="noopener">Subs Generator</a>
+                    <a href="List_Spliter.html" target="_blank" rel="noopener">List Splitter</a>
+                    <a href="Link_Opener.html" target="_blank" rel="noopener">Link Opener</a>
+                    <a href="cnam_checker.html" target="_blank" rel="noopener">Cnam Checker</a>
+                    <a href="decode.html" target="_blank" rel="noopener">Base64 Encode/Decode</a>
+                    <a href="html_css_live_editor_themed_final.html" target="_blank" rel="noopener">HTML &amp; CSS Live Editor</a>
+                    <a href="offers_.html" target="_blank" rel="noopener">Offer Manager</a>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <main class="container">
+        <section class="title-card">
+            <h1>Email Pixel Logo Generator</h1>
+            <p>Create a pixel-style logo and generate HTML for email use.</p>
+        </section>
+
+        <section class="tool-card">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="imageUpload">Upload Logo:</label>
+                    <input type="file" id="imageUpload" accept="image/*">
+                </div>
+
+                <div class="dimension-controls">
+                    <div class="control-group">
+                        <label for="outputWidth">Width (px):</label>
+                        <input type="number" id="outputWidth" value="92" min="10" max="300">
+                    </div>
+                    <div class="control-group">
+                        <label for="outputHeight">Height (px):</label>
+                        <input type="number" id="outputHeight" value="40" min="10" max="300">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="pixelDensity">Pixel Density:</label>
+                    <select id="pixelDensity">
+                        <option value="1">1px (High)</option>
+                        <option value="2">2px (Medium)</option>
+                        <option value="3">3px (Low)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="bgColor">Background Color:</label>
+                    <input type="color" id="bgColor" value="#000000">
+                </div>
+            </div>
+
+            <button class="action-btn" id="generateBtn">Generate Email Code</button>
+
+            <div id="pixelPreview"></div>
+
+            <h3 class="subheading">Email HTML Code:</h3>
+            <textarea id="codeOutput" readonly></textarea>
+            <button class="action-btn copy-btn" id="copyBtn">Copy Code</button>
+        </section>
+
+        <div class="footer">Email Pixel Logo Generator • Runs locally in your browser</div>
+    </main>
+
+    <script>
+        /* Follow the theme selected in the main index page */
+        (() => {
+            function applyTheme() {
+                let mode = "default";
+                try { mode = localStorage.getItem("theme") || "default"; } catch (_) {}
+                document.body.classList.toggle("pink-mode", mode === "pink");
+            }
+            applyTheme();
+            window.addEventListener("storage", event => {
+                if (event.key === "theme") applyTheme();
+            });
+            window.addEventListener("pageshow", applyTheme);
+        })();
+
+        /* Shared tools menu interaction */
+        (() => {
+            const button = document.getElementById("toolsNavButton");
+            const dropdown = document.getElementById("toolsNavDropdown");
+            if (!button || !dropdown) return;
+
+            button.addEventListener("click", () => {
+                const open = dropdown.classList.toggle("open");
+                button.setAttribute("aria-expanded", String(open));
+            });
+
+            document.addEventListener("click", event => {
+                if (!event.target.closest(".nav-menu-wrap")) {
+                    dropdown.classList.remove("open");
+                    button.setAttribute("aria-expanded", "false");
+                }
+            });
+
+            document.addEventListener("keydown", event => {
+                if (event.key === "Escape") {
+                    dropdown.classList.remove("open");
+                    button.setAttribute("aria-expanded", "false");
+                }
+            });
+        })();
+
+        /* Original generator logic preserved */
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = {
+                upload: document.getElementById('imageUpload'),
+                width: document.getElementById('outputWidth'),
+                height: document.getElementById('outputHeight'),
+                density: document.getElementById('pixelDensity'),
+                bgColor: document.getElementById('bgColor'),
+                generateBtn: document.getElementById('generateBtn'),
+                preview: document.getElementById('pixelPreview'),
+                output: document.getElementById('codeOutput'),
+                copyBtn: document.getElementById('copyBtn')
+            };
+
+            let canvas = document.createElement('canvas');
+            let ctx = canvas.getContext('2d');
+            let aspectRatio = 1;
+
+            elements.generateBtn.addEventListener('click', generatePixelArt);
+            elements.copyBtn.addEventListener('click', () => {
+                elements.output.select();
+                document.execCommand('copy');
+                alert('Code copied to clipboard!');
+            });
+
+            elements.upload.addEventListener('change', function(e) {
+                if (e.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = new Image();
+                        img.onload = function() {
+                            aspectRatio = img.width / img.height;
+                            elements.height.value = Math.round(elements.width.value / aspectRatio);
+                        };
+                        img.src = e.target.result;
+                    };
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+
+            function generatePixelArt() {
+                if (!elements.upload.files[0]) {
+                    alert('Please upload an image first');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        processImage(img);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(elements.upload.files[0]);
+            }
+
+            function processImage(img) {
+                const density = parseInt(elements.density.value);
+                const bgColor = elements.bgColor.value;
+                let width = parseInt(elements.width.value);
+                let height = parseInt(elements.height.value);
+
+                height = Math.round(width / aspectRatio);
+                elements.height.value = height;
+
+                const pixelRows = Math.ceil(height / density);
+
+                canvas.width = width;
+                canvas.height = height;
+                ctx.imageSmoothingEnabled = false;
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const imageData = ctx.getImageData(0, 0, width, height);
+                const data = imageData.data;
+
+                let htmlRows = [];
+                let emailCode = [];
+
+                emailCode.push(`<!-- Hidden preview text -->`);
+                emailCode.push(`<div style="display:none;font-size:1px;color:#ffffff;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">`);
+                emailCode.push(`   Your pixel logo - View in email client for full display`);
+                emailCode.push(`</div>\n`);
+                emailCode.push(`<!-- Pixel Logo Table -->`);
+                emailCode.push(`<table cellpadding="0" cellspacing="0" border="0" style="margin:0 auto;">`);
+
+                for (let y = 0; y < pixelRows; y++) {
+                    const rowColors = [];
+                    const actualY = Math.min(y * density, height - 1);
+
+                    for (let x = 0; x < width; x++) {
+                        const i = (actualY * width + x) * 4;
+                        const r = data[i];
+                        const g = data[i + 1];
+                        const b = data[i + 2];
+                        const a = data[i + 3] / 255;
+
+                        rowColors.push(a < 0.1 ? bgColor : rgbToHex(r, g, b));
+                    }
+
+                    const rowHtml = `<tr><td height="${density}px" style="width:${width}px; background: linear-gradient(to right, ${rowColors.join(',')});"></td></tr>`;
+                    htmlRows.push(rowHtml);
+                    emailCode.push(`    ${rowHtml}`);
+                }
+
+                emailCode.push(`</table>`);
+
+                elements.preview.innerHTML = `<table cellpadding="0" cellspacing="0" border="0">${htmlRows.join('')}</table>`;
+
+                elements.output.value = [
+                    `<!DOCTYPE html>`,
+                    `<html>`,
+                    `<head>`,
+                    `    <meta charset="utf-8">`,
+                    `    <meta name="viewport" content="width=device-width, initial-scale=1.0">`,
+                    `</head>`,
+                    `<body style="margin:0; padding:10px; background-color:#ffffff;">`,
+                    ``,
+                    ...emailCode,
+                    ``,
+                    `</body>`,
+                    `</html>`
+                ].join('\n');
+            }
+
+            function rgbToHex(r, g, b) {
+                return "#" + [r, g, b].map(x => {
+                    const hex = x.toString(16);
+                    return hex.length === 1 ? "0" + hex : hex;
+                }).join('');
+            }
+        });
+    </script>
+</body>
+</html>
