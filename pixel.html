@@ -206,6 +206,33 @@
 
         .control-group { display: flex; flex-direction: column; min-width: 0; }
         .dimension-controls { display: flex; gap: 10px; min-width: 0; }
+        .paste-hint {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.6;
+        }
+        .paste-hint kbd {
+            display: inline-block;
+            padding: 1px 5px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            background: rgba(0,0,0,.22);
+            color: #fff;
+            font: inherit;
+        }
+        .paste-status {
+            display: none;
+            margin-top: 12px;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--panel-soft);
+            color: var(--muted);
+            font-size: 12px;
+        }
+        .paste-status.visible { display: block; }
+        .paste-status.error { color: #fca5a5; }
         .dimension-controls .control-group { flex: 1; width: 50%; }
 
         label {
@@ -354,8 +381,9 @@
         <section class="tool-card">
             <div class="controls">
                 <div class="control-group">
-                    <label for="imageUpload">Upload Logo:</label>
+                    <label for="imageUpload">Upload Logo or Paste Image:</label>
                     <input type="file" id="imageUpload" accept="image/*">
+                    <div class="paste-hint">You can also copy an image and press <kbd>Ctrl</kbd> + <kbd>V</kbd> anywhere on this page.</div>
                 </div>
 
                 <div class="dimension-controls">
@@ -384,6 +412,7 @@
                 </div>
             </div>
 
+            <div id="pasteStatus" class="paste-status" role="status" aria-live="polite"></div>
             <button class="action-btn" id="generateBtn">Generate Email Code</button>
 
             <div id="pixelPreview"></div>
@@ -454,6 +483,76 @@
             let canvas = document.createElement('canvas');
             let ctx = canvas.getContext('2d');
             let aspectRatio = 1;
+            let pastedImageFile = null;
+            const pasteStatus = document.getElementById('pasteStatus');
+
+            function showPasteStatus(message, isError = false) {
+                pasteStatus.textContent = message;
+                pasteStatus.classList.add('visible');
+                pasteStatus.classList.toggle('error', isError);
+            }
+
+            function loadImageFile(file) {
+                if (!file || !file.type || !file.type.startsWith('image/')) {
+                    showPasteStatus('Please choose or paste a valid image.', true);
+                    return;
+                }
+
+                pastedImageFile = file;
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = new Image();
+                    img.onload = function() {
+                        aspectRatio = img.width / img.height;
+                        elements.height.value = Math.round(Number(elements.width.value || 92) / aspectRatio);
+                        elements.preview.innerHTML = '';
+                        const previewImage = document.createElement('img');
+                        previewImage.src = event.target.result;
+                        previewImage.alt = 'Selected logo preview';
+                        previewImage.style.maxWidth = '100%';
+                        previewImage.style.maxHeight = '180px';
+                        previewImage.style.objectFit = 'contain';
+                        previewImage.style.borderRadius = '8px';
+                        elements.preview.appendChild(previewImage);
+                        showPasteStatus('Image ready. Click “Generate Email Code” to continue.');
+                    };
+                    img.onerror = function() {
+                        showPasteStatus('Could not read this image. Try another image.', true);
+                    };
+                    img.src = event.target.result;
+                };
+                reader.onerror = function() {
+                    showPasteStatus('Could not load the image. Try again.', true);
+                };
+                reader.readAsDataURL(file);
+            }
+
+            elements.upload.addEventListener('change', function(e) {
+                const file = e.target.files && e.target.files[0];
+                if (file) {
+                    pastedImageFile = null;
+                    loadImageFile(file);
+                }
+            });
+
+            document.addEventListener('paste', function(event) {
+                const items = event.clipboardData && event.clipboardData.items;
+                if (!items) return;
+
+                for (const item of items) {
+                    if (item.type && item.type.startsWith('image/')) {
+                        const file = item.getAsFile();
+                        if (file) {
+                            pastedImageFile = file;
+                            loadImageFile(file);
+                            event.preventDefault();
+                            return;
+                        }
+                    }
+                }
+
+                showPasteStatus('Clipboard has no image. Copy an image first, then press Ctrl+V.', true);
+            });
 
             elements.generateBtn.addEventListener('click', generatePixelArt);
             elements.copyBtn.addEventListener('click', () => {
@@ -462,24 +561,10 @@
                 alert('Code copied to clipboard!');
             });
 
-            elements.upload.addEventListener('change', function(e) {
-                if (e.target.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const img = new Image();
-                        img.onload = function() {
-                            aspectRatio = img.width / img.height;
-                            elements.height.value = Math.round(elements.width.value / aspectRatio);
-                        };
-                        img.src = e.target.result;
-                    };
-                    reader.readAsDataURL(e.target.files[0]);
-                }
-            });
-
             function generatePixelArt() {
-                if (!elements.upload.files[0]) {
-                    alert('Please upload an image first');
+                const file = pastedImageFile || (elements.upload.files && elements.upload.files[0]);
+                if (!file) {
+                    showPasteStatus('Please upload a logo or copy an image and press Ctrl+V first.', true);
                     return;
                 }
 
@@ -487,11 +572,18 @@
                 reader.onload = function(e) {
                     const img = new Image();
                     img.onload = function() {
+                        aspectRatio = img.width / img.height;
                         processImage(img);
+                    };
+                    img.onerror = function() {
+                        showPasteStatus('Could not process this image. Please try another one.', true);
                     };
                     img.src = e.target.result;
                 };
-                reader.readAsDataURL(elements.upload.files[0]);
+                reader.onerror = function() {
+                    showPasteStatus('Could not read the selected image.', true);
+                };
+                reader.readAsDataURL(file);
             }
 
             function processImage(img) {
